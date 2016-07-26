@@ -18,6 +18,7 @@ import com.mengshitech.colorrun.fragment.history.HistoryFragment;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
 import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.fragment.show.showFragment;
+import com.mengshitech.colorrun.utils.Utility;
 
 
 /**
@@ -78,7 +79,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void initFragment() {
         //一开始先初始到lerunFragment
         fm = getSupportFragmentManager();
-        //Utility.replace2MainFragment(fm, new LerunFragment());
+        Utility.replace2MainFragment(fm, new LerunFragment());
     }
 
     @Override
@@ -93,7 +94,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 } else {
                     transaction.show(lerunFragment);
                 }
-                //Utility.replace2MainFragment(fm, new LerunFragment());
+//                Utility.replace2MainFragment(fm, new LerunFragment());
                 break;
             case R.id.rbShow:
                 if (mShowFragment == null) {

@@ -1,6 +1,5 @@
 package com.mengshitech.colorrun.fragment.show;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -8,11 +7,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
-import com.mengshitech.colorrun.utils.Utility;
 import com.mengshitech.colorrun.view.MyListView;
 
 import java.util.ArrayList;
@@ -37,13 +34,13 @@ public class showDetailFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        showDetailView = View.inflate(getActivity(), R.layout.fragment_showdetail, null);
+        showDetailView = View.inflate(getActivity(), R.layout.show_detail, null);
 //        findById();
 //        initDatas();
         return showDetailView;
     }
 
-//
+
 //    private void findById() {
 //        mBottomView = showDetailView.findViewById(R.id.rlShowBottom);
 //        ivShow_UserHead = (ImageView) showDetailView.findViewById(R.id.ivShow_UserHead);//头像
@@ -55,7 +52,7 @@ public class showDetailFragment extends BaseFragment {
 //        ivSendComment = (TextView) showDetailView.findViewById(R.id.ivSendComment);
 //        rlShowDetail = (RelativeLayout) showDetailView.findViewById(R.id.rlShowDetail);
 //    }
-
+//
 //    private void initDatas() {
 //        initComment();
 //        mShowEntity = (ShowEntity) getArguments().getSerializable("mShowEntity");

@@ -30,22 +30,10 @@ public class popFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        initEntity();
-        popView = View.inflate(mActivity, R.layout.fragment_pop, null);
+        popView = View.inflate(mActivity, R.layout.history_pop, null);
         findById();
         return popView;
     }
-
-    private void initEntity() {
-        // 模仿外部数据源
-        mHistoryList = new ArrayList<HistoryEntity>();
-        HistoryEntity mHistoryEntity1 = new HistoryEntity();
-        mHistoryEntity1.setImageid(R.mipmap.historybackground);
-        mHistoryEntity1.setActivityTitle("市政卡乐跑");
-        mHistoryEntity1.setActivityTime("2016年7月11日14时");
-        mHistoryEntity1.setActivityLoc("江西省奥体中心");
-        mHistoryList.add(mHistoryEntity1);
-}
 
     private void findById() {
         lvPopFragment = (ListView) popView.findViewById(R.id.lvPopFragment);
@@ -53,9 +41,9 @@ public class popFragment extends BaseFragment {
     }
 
     private void initDatas() {
-        HistoryAdapter mHistoryAdapter = new HistoryAdapter(mActivity,
-                mHistoryList, lvPopFragment);
-        lvPopFragment.setAdapter(mHistoryAdapter);
+//        HistoryAdapter mHistoryAdapter = new HistoryAdapter(mActivity,
+//                mHistoryList, lvPopFragment);
+//        lvPopFragment.setAdapter(mHistoryAdapter);
     }
 
 }

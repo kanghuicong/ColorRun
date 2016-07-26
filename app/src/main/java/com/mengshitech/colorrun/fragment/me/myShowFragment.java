@@ -17,8 +17,7 @@ public class myShowFragment extends BaseFragment {
     @Override
     public View initView() {
         mActivity = getActivity();
-        mShowlView = View.inflate(mActivity, R.layout.fragment_mylerun, null);
-
+        mShowlView = View.inflate(mActivity, R.layout.me_myshow, null);
 
 
         return mShowlView;

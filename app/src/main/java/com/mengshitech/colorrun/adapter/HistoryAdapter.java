@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,31 +53,23 @@ public class HistoryAdapter extends BaseAdapter {
 		HistoryEntity mHistoryEntity = getItem(position);
 		// 上面是该了getItem的方法，让她返回一个HistoryEntity类型的对象
 		// HistoryEntity mHistoryEntity = mHistotyList.get(position);
-		Log.d("atenklsy",
-				"mHistoryEntity的内容" + mHistoryEntity.getActivityTitle()
-						+ mHistoryEntity.getActivityTime()
-						+ mHistoryEntity.getActivityLoc());
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = View.inflate(mActivity,
-					R.layout.item_history_listview, null);
+			convertView = View.inflate(mActivity, R.layout.history_listview, null);
 			holder = new ViewHolder();
-			holder.imgBackground = (ImageView) convertView
-					.findViewById(R.id.ivHistoryBackground);
-			holder.tvActivityTitle = (TextView) convertView
-					.findViewById(R.id.tvActivityTitle);
-			holder.tvActivityTime = (TextView) convertView
-					.findViewById(R.id.tvActivityTime);
-			holder.tvActivityLoc = (TextView) convertView
-					.findViewById(R.id.tvActivityLoc);
+			holder.ll_history = (LinearLayout) convertView
+					.findViewById(R.id.ll_hisrory);
+			holder.history_name = (TextView) convertView
+					.findViewById(R.id.tv_history_name);
+			holder.history_time = (TextView) convertView
+					.findViewById(R.id.tv_history_time);
+			holder.history_address = (TextView) convertView
+					.findViewById(R.id.tv_history_address);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.imgBackground.setImageResource(mHistoryEntity.getImageid());
-		holder.tvActivityTitle.setText(mHistoryEntity.getActivityTitle());
-		holder.tvActivityTime.setText(mHistoryEntity.getActivityTime());
-		holder.tvActivityLoc.setText(mHistoryEntity.getActivityLoc());
+
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -89,10 +82,10 @@ public class HistoryAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
-		ImageView imgBackground;
-		TextView tvActivityTitle;
-		TextView tvActivityTime;
-		TextView tvActivityLoc;
+		LinearLayout ll_history;
+		TextView history_name;
+		TextView history_time;
+		TextView history_address;
 	}
 
 }

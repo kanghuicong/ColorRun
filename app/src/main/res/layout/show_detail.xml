@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/item_show_listview" />
+            <include layout="@layout/show_listview" />
 
             <View
                 android:layout_width="match_parent"

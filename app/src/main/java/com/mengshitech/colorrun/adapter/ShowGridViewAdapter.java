@@ -65,10 +65,10 @@ public class ShowGridViewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String header_path = imagepath.get(position);
-        Log.i("header_path:",header_path);
+        String image_path = imagepath.get(position);
+        Log.i("header_path:",image_path);
 
-        Glide.with(context).load(header_path).into(holder.grid_image);
+        Glide.with(context).load(image_path).into(holder.grid_image);
         return convertView;
     }
 

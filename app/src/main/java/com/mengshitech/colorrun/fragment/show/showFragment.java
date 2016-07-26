@@ -62,16 +62,6 @@ public class showFragment extends Fragment implements View.OnClickListener {
 
     }
 
-
-//    /**
-//     * 加载数据
-//     */
-//    private void initDatas() {
-//        fm = getActivity().getSupportFragmentManager();
-//        lvShowContent.setAdapter(new ShowAdapter(mActivity, mShowList, lvShowContent, fm));
-//        ivShow_CreateShow.setOnClickListener(this);
-//    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -101,7 +91,6 @@ public class showFragment extends Fragment implements View.OnClickListener {
                     .show();
         }
     }
-
 
     Runnable runnable = new Runnable() {
 

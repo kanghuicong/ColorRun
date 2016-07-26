@@ -25,7 +25,7 @@ public class UserDao {
     public void add(String user_id, String user_pwd) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("insert into user (user_id,user_pwd) values(?,?)",
-                new Object[]{user_id, user_pwd,});
+                new Object[]{user_id, user_pwd});
         db.close();
     }
 

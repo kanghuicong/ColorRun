@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.UserEntiy;
-import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -37,7 +36,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View initView() {
         mActivity = getActivity();
-        mDeatilView = View.inflate(mActivity, R.layout.fragment_mydetail, null);
+        mDeatilView = View.inflate(mActivity, R.layout.me_detail, null);
         MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager(),0);
         FindId();
         Click();

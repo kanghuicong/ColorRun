@@ -76,6 +76,7 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 
     @Override
     public int getCount() {
+        Log.i("123", "getCount: "+count);
         return count;
     }
     public int getChildCount(int childCount){
@@ -94,6 +95,7 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.i("456", "getView: "+imagepath.size());
         mShowEntity = mShowList.get(position);
         holder = null;
         if (convertView == null) {
@@ -138,11 +140,12 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 
         try {
             ImageList = JsonTools.getImageInfo(result);
+            imagepath = new ArrayList<String>();
             for (int i = 0; i < ImageList.size(); i++) {
-                String Imagepath = ImageList.get(i);
+                String paths = ImageList.get(i);
                 System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
-                String path = Imagepath;
-                imagepath.add(path);
+//                String path = Imagepath;
+                imagepath.add(paths);
                 ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,imagepath,imagepath.size());
                 System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
                 holder.show_image.setAdapter(adapter);

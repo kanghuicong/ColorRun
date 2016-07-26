@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,6 +18,15 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.utils.HttpUtils;
+import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.JsonTools;
+
+import org.json.JSONException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * atenklsy
@@ -23,6 +35,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     EditText etUserId, etUserPwd;
     Button btnLogin, btnRegister;
     SharedPreferences spAccount;
+    String userId;
+    String userPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +50,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 
         spAccount = getSharedPreferences("sp_account", MODE_PRIVATE);
         // sharedpreferences
-        etUserId = (EditText) findViewById(R.id.etUserId);
+        etUserId = (EditText) findViewById(R.id.et_name);
         // 用户名输入框
-        etUserPwd = (EditText) findViewById(R.id.etUserpwd);
+        etUserPwd = (EditText) findViewById(R.id.et_pwd);
         // 密码输入框
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin = (Button) findViewById(R.id.btn_login);
         // 登录按钮
         btnLogin.setOnClickListener(this);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnRegister = (Button) findViewById(R.id.btn_register);
         // 注册按钮
         btnRegister.setOnClickListener(this);
     }
@@ -51,31 +65,32 @@ public class LoginActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnLogin:
+            case R.id.btn_login:
                 // 登录按钮的点击事件
-                String userId = etUserId.getText().toString();
-                String userPwd = etUserPwd.getText().toString();
+                userId = etUserId.getText().toString();
+                userPwd = etUserPwd.getText().toString();
                 setAccount2SP(userId, userPwd);
                 // 将账号密码存入sharedpreferences
                 if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(userPwd)) {
                     // 账号或密码为空
-                    Toast.makeText(LoginActivity.this, "请输入正确的账号和密码",
-                            Toast.LENGTH_SHORT);
+                    Toast.makeText(LoginActivity.this, "请输入正确的账号和密码", Toast.LENGTH_SHORT).show();
                     etUserId.setText("");
                     etUserPwd.setText("");
                     etUserId.setFocusable(true);
                 } else {
                     // 否则跳转到主页面，并且将用户名传入
-                    Intent turn2mainIntent = new Intent(LoginActivity.this,
+                    Intent inetnt = new Intent(LoginActivity.this,
                             MainActivity.class);
-                    turn2mainIntent.putExtra("userId", userId);
+                    inetnt.putExtra("userId", userId);
                     // turn2mainIntent.putExtra("userPwd", userPwd);
-                    startActivity(turn2mainIntent);
+                    startActivity(inetnt);
                     finish();
+
+//                    new Thread(runnable).start();
                 }
 
                 break;
-            case R.id.btnRegister:
+            case R.id.btn_register:
                 // 注册按钮的点击事件
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 break;
@@ -93,4 +108,46 @@ public class LoginActivity extends Activity implements OnClickListener {
         editor.commit();
     }
 
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = IPAddress.PATH;
+            Map<String,String> map= new HashMap<String,String>();
+            map.put("flag","user");
+            map.put("index","1");
+            map.put("user_id",userId);
+            map.put("user_pwd",userPwd);
+
+            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            Message msg = new Message();
+            msg.obj = result;
+            handler.sendMessage(msg);
+
+        }
+    };
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
+                Toast.makeText(LoginActivity.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+            } else {
+                switch (result) {
+                    case "0":
+                        Toast.makeText(LoginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "1":
+                        Intent inetnt = new Intent(LoginActivity.this,
+                                MainActivity.class);
+                        inetnt.putExtra("userId", userId);
+                        // turn2mainIntent.putExtra("userPwd", userPwd);
+                        startActivity(inetnt);
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
 }

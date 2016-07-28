@@ -2,4 +2,18 @@
     <string name="app_name">ColorRun</string>
     <string name="ShowWord">"#爱上乐跑#本期跑者Vinglu，他完成了“为爱同行”2016南昌乐跑公益活动，感慨道，“跑了就懂，只要坚持，蜗牛也是牛！”。"</string>
     <string name="tvShow_username">我是卡乐跑</string>
+    <string-array name="card_type">
+        <item>请选择</item>
+        <item>身份证</item>
+        <item>护照</item>
+        <item>台胞证</item>
+        <item>港澳居民身份证</item>
+    </string-array>
+
+    <string-array name="ID">
+        <item>请选择</item>
+        <item>本校学生</item>
+        <item>其他</item>
+    </string-array>
+
 </resources>

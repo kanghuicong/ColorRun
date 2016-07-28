@@ -21,7 +21,7 @@ public class HistoryFragment extends BaseFragment{
     List<Fragment> fragmentList = new ArrayList<Fragment>();
     List<String>   titleList    = new ArrayList<String>();
     View historyview;
-Context context;
+    Context context;
 
     @Override
     public View initView() {

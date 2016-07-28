@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
 
 			@Override
 			public boolean handleMessage(Message arg0) {
-				//
+
 				if (!ToolKits
 						.fetchBooble(SplashActivity.this, IS_FIRST, false)) {
 					startActivity(new Intent(SplashActivity.this,
@@ -99,7 +99,6 @@ public class SplashActivity extends Activity {
 		/**
 		 * 1、判断是否有网络
 		 */
-
 	}
 
 }

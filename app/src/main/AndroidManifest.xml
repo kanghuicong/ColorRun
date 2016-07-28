@@ -45,8 +45,8 @@
         <activity android:name=".activity.RegisterSuccess" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".activity.GuideActivity"/>
+        <activity android:name=".fragment.lerun.IntoLeRunEnroll"/>
+        <activity android:name=".activity.GuideActivity"/>
     </application>
 
 </manifest>

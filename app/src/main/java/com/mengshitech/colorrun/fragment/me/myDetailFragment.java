@@ -37,7 +37,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     public View initView() {
         mActivity = getActivity();
         mDeatilView = View.inflate(mActivity, R.layout.me_detail, null);
-        MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager(),0);
+        MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
         FindId();
         Click();
         new Thread(runnable).start();

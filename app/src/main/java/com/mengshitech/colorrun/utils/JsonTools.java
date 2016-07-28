@@ -1,6 +1,8 @@
 package com.mengshitech.colorrun.utils;
 
 import android.util.Log;
+
+import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
@@ -17,6 +19,30 @@ import java.util.List;
  * 515849594@qq.com
  */
 public class JsonTools {
+
+
+    //解析返回的状态码
+    public static int getState(String key, String jsonString) throws JSONException {
+        JSONObject object = new JSONObject(jsonString);
+        int state = object.getInt(key);
+        return state;
+    }
+
+
+    //解析返回的数据
+    public static String getDatas(String jsonString) throws JSONException {
+        String result;
+        int state = getState("state", jsonString);
+        if (state == 1) {
+            JSONObject object = new JSONObject(jsonString);
+            result = object.getString("datas");
+        } else {
+            result = null;
+        }
+
+        return result;
+    }
+
 
     public static UserEntiy getUserInfo(String key, String jsonString)
             throws JSONException {
@@ -45,8 +71,8 @@ public class JsonTools {
         List<OrderEntity> list = new ArrayList<OrderEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
 
-        JSONArray jsonArray=jsonObject.getJSONArray(key);
-        for(int i=0;i<jsonArray.length();i++){
+        JSONArray jsonArray = jsonObject.getJSONArray(key);
+        for (int i = 0; i < jsonArray.length(); i++) {
             OrderEntity info = new OrderEntity();
             JSONObject orderObject = jsonArray.getJSONObject(i);
 
@@ -64,16 +90,15 @@ public class JsonTools {
     }
 
 
-
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
-        Log.i("jsonString",jsonString);
+        Log.i("jsonString", jsonString);
         List<ShowEntity> list = new ArrayList<ShowEntity>();
 
         JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray jsonArray=jsonObject.getJSONArray("datas");
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
 
-        for(int i=0;i<jsonArray.length();i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             ShowEntity info = new ShowEntity();
             JSONObject showObject = jsonArray.getJSONObject(i);
             info.setUser_id(showObject.getString("user_id"));
@@ -88,26 +113,43 @@ public class JsonTools {
 
             list.add(info);
         }
-        Log.i("list的大小",list.size()+"");
+        Log.i("list的大小", list.size() + "");
         return list;
     }
 
     public static List<String> getImageInfo(String jsonString)
             throws JSONException {
-//        JSONObject jsonObject = new JSONObject(jsonString);
-        Log.i("jsonString:",jsonString);
 
-        JSONArray jsonArray=new JSONArray(jsonString);
+        Log.i("jsonString:", jsonString);
 
-        List<String> list=new ArrayList<>();
-        for(int i=0;i<jsonArray.length();i++){
+        JSONArray jsonArray = new JSONArray(jsonString);
 
-            JSONObject jsonObject=jsonArray.getJSONObject(i);
-            String imagePath=jsonObject.getString("imagePath");
-            list.add(IPAddress.path+imagePath);
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String imagePath = jsonObject.getString("imagePath");
+            list.add(IPAddress.path + imagePath);
         }
-        Log.i("listdaixao:",list.size()+"");
+        Log.i("listdaixao:", list.size() + "");
         return list;
     }
+
+
+    //获取轮播图u
+    public static List<LunBoEntity> getLunboImageInfo(String key, String jsonString)
+            throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        List<LunBoEntity> lunbolist = new ArrayList<LunBoEntity>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            LunBoEntity info = new LunBoEntity();
+            JSONObject showObject = jsonArray.getJSONObject(i);
+            info.setLunbo_image(showObject.getString("lunbo_image"));
+            lunbolist.add(info);
+        }
+        return lunbolist;
+    }
+
 
 }

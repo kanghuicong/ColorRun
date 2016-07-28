@@ -47,9 +47,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:background="@color/white"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp">
 
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/temp_icon"
+                    android:drawableTop="@mipmap/icon_activity"
                     android:gravity="center_horizontal"
                     android:text="活动" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/temp_icon"
+                    android:drawableTop="@mipmap/icon_theme"
                     android:gravity="center_horizontal"
                     android:text="主题" />
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/temp_icon"
+                    android:drawableTop="@mipmap/icon_footer"
                     android:gravity="center_horizontal"
                     android:text="足迹" />
 
@@ -85,40 +85,53 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/temp_icon"
+                    android:drawableTop="@mipmap/icon_sign"
                     android:gravity="center_horizontal"
                     android:text="签到" />
             </LinearLayout>
 
-
-
-            <TextView
-                android:id="@+id/tvHotActivity"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginTop="5dp"
-                android:padding="3dp"
-                android:text="热门活动>>" />
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tvHotActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="热门活动"
+
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
 
             <GridView
                 android:id="@+id/gvHotActivity"
                 android:layout_width="match_parent"
-                android:background="@color/white"
                 android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+                android:background="@color/white"
                 android:gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
                 android:numColumns="2" />
 
-
-
-            <TextView
-                android:id="@+id/tvHotVideo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="3dp"
-                android:text="热门视频>>" />
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tvHotVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:background="@color/white"
+                    android:padding="3dp"
+                    android:text="热门视频" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/ivHotView"

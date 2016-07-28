@@ -93,7 +93,7 @@ public class Utility {
      * @param width
      * @param height
      */
-    public static void changeDrawableSize(TextView textView, int Rdrawable, int width, int height) {
+    public static void changeTopDrawableSize(TextView textView, int Rdrawable, int width, int height) {
 
         Drawable drawable = mContext.getResources().getDrawable(Rdrawable);
         drawable.setBounds(0, 0, width, height); //前两个参数是距上面、左边的距离。后面两个参数是drawable的宽度和高度
@@ -101,6 +101,23 @@ public class Utility {
 
 
     }
+    /**
+     * 用来改变TextView的drawableRight等图片的大小及大小，方向固定为Top，大小可以指定。
+     *
+     * @param textView
+     * @param Rdrawable
+     * @param width
+     * @param height
+     */
+    public static void changeRightDrawableSize(TextView textView, int Rdrawable, int width, int height) {
+
+        Drawable drawable = mContext.getResources().getDrawable(Rdrawable);
+        drawable.setBounds(0, 0, width, height); //前两个参数是距上面、左边的距离。后面两个参数是drawable的宽度和高度
+        textView.setCompoundDrawables(null, null, drawable, null);//画在右边
+
+
+    }
+
 
     /**
      * 左边滑动关闭页面的方法，参数是一个布局

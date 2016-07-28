@@ -73,7 +73,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         rbMe.setOnClickListener(this);
         rbRun.setOnClickListener(this);
         rbShow.setOnClickListener(this);
-
     }
 
     private void initFragment() {

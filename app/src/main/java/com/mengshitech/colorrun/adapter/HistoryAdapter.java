@@ -35,12 +35,12 @@ public class HistoryAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mHistotyList.size();
+		return 10;
 	}
 
 	@Override
-	public HistoryEntity getItem(int position) {
-		return mHistotyList.get(position);
+	public Object getItem(int position) {
+		return position;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class HistoryAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		HistoryEntity mHistoryEntity = getItem(position);
+//		HistoryEntity mHistoryEntity = getItem(position);
 		// 上面是该了getItem的方法，让她返回一个HistoryEntity类型的对象
 		// HistoryEntity mHistoryEntity = mHistotyList.get(position);
 		ViewHolder holder = null;

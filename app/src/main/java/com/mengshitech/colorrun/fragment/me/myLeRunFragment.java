@@ -53,7 +53,7 @@ public class myLeRunFragment extends BaseFragment {
 //            getActivity().getWindow().addFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        }
 
-        MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager(),1);
+        MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager());
         find();
 //        loadData();
         new Thread(runnable).start();

@@ -14,7 +14,15 @@ public class LeRunEntity implements Serializable {
     // 活动地点
     private String LeRunTime;
     // 活动时间
+    private String hotImagePath;
 
+    public String getHotImagePath() {
+        return hotImagePath;
+    }
+
+    public void setHotImagePath(String hotImagePath) {
+        this.hotImagePath = hotImagePath;
+    }
 
     public int getLeRunBackgroundId() {
         return LeRunBackgroundId;

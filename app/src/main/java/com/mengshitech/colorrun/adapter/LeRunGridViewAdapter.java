@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.lerunDetailFragment;
@@ -27,10 +28,17 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     GridView mLeRunGridView;
     Activity mActivity;
     LeRunEntity mLeRunEntity;
+    List<String> gideviewlist;//测试用的
 
-    public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> leRunEntityList, FragmentManager fm, GridView gridView) {
+//    public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> leRunEntityList, FragmentManager fm, GridView gridView) {
+//        mActivity = activity;
+//        mLeRunList = leRunEntityList;
+//        mFragmentManagr = fm;
+//        mLeRunGridView = gridView;
+//    }
+    public LeRunGridViewAdapter(Activity activity, List<String> gideviewlist, FragmentManager fm, GridView gridView) {
         mActivity = activity;
-        mLeRunList = leRunEntityList;
+        this.gideviewlist = gideviewlist;
         mFragmentManagr = fm;
         mLeRunGridView = gridView;
     }
@@ -53,7 +61,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        LeRunEntity mLeRunEntity = getItem(position);
+//        LeRunEntity mLeRunEntity = getItem(position);
         if (convertView == null) {
             convertView = View.inflate(mActivity, R.layout.item_lerun_gridview, null);
             holder = new ViewHolder();
@@ -62,21 +70,22 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
+//        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
+        Glide.with(mActivity).load(gideviewlist.get(position)).into(holder.ivBackground);
         mLeRunGridView.setOnItemClickListener(this);
         return convertView;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int clickPosition, long id) {
-        LeRunEntity mclickLeRunEntity = getItem(clickPosition);
-        //这个clickPosition才是被点击那个
-        lerunDetailFragment mLeRunFragment = new lerunDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("mclickLeRunEntity", mclickLeRunEntity);
-        bundle.putInt("clickPosition", clickPosition);
-        mLeRunFragment.setArguments(bundle);
-        Utility.replace2DetailFragment(mFragmentManagr, mLeRunFragment);
+//        LeRunEntity mclickLeRunEntity = getItem(clickPosition);
+//        //这个clickPosition才是被点击那个
+//        lerunDetailFragment mLeRunFragment = new lerunDetailFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("mclickLeRunEntity", mclickLeRunEntity);
+//        bundle.putInt("clickPosition", clickPosition);
+//        mLeRunFragment.setArguments(bundle);
+//        Utility.replace2DetailFragment(mFragmentManagr, mLeRunFragment);
     }
 
     class ViewHolder {

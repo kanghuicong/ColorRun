@@ -1,26 +1,17 @@
 package com.mengshitech.colorrun.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.bean.ImageEntity;
-import com.mengshitech.colorrun.bean.LeRunEntity;
-import com.mengshitech.colorrun.utils.IPAddress;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/7/25  13:41.

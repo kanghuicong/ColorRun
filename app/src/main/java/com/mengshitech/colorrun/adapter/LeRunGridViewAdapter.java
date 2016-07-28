@@ -1,7 +1,6 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
-import com.mengshitech.colorrun.fragment.lerun.lerunDetailFragment;
-import com.mengshitech.colorrun.utils.Utility;
+import com.mengshitech.colorrun.utils.IPAddress;
 
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder = (ViewHolder) convertView.getTag();
         }
 //        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
-        Glide.with(mActivity).load(gideviewlist.get(position)).into(holder.ivBackground);
+        Glide.with(mActivity).load(IPAddress.path+gideviewlist.get(position)).into(holder.ivBackground);
         mLeRunGridView.setOnItemClickListener(this);
         return convertView;
     }

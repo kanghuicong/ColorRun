@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="95dp"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="10dp">
 
     <ImageView
@@ -13,31 +13,72 @@
         android:scaleType="fitXY"
         android:src="@mipmap/jxnu" />
 
-    <TextView
-        android:id="@+id/tvLeRunName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ivLeRunBackground"
-        android:text="卡乐泡泡跑"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="95dp">
 
-    <TextView
-        android:id="@+id/tvLeRunTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@+id/ivLeRunBackground"
-        android:text="07月11日"
-        android:textStyle="bold" />
+        <TextView
 
-    <TextView
-        android:id="@+id/tvLeRunLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/ivLeRunBackground"
-        android:text="上海浦东外高桥森兰绿地"
-        android:textStyle="bold" />
+            android:id="@+id/tvLeRunName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:text="卡乐泡泡跑"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivLeRunBackground"
+                android:src="@mipmap/lerun_clock" />
 
 
-</RelativeLayout>
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tvLeRunTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/ivLeRunBackground"
+                android:text="07月11日"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivLeRunBackground"
+                android:src="@mipmap/lerun_location" />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tvLeRunLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:text="奥体中心"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

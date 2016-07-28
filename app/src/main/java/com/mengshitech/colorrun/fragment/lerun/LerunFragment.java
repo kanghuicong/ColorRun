@@ -2,15 +2,14 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +34,7 @@ import com.mengshitech.colorrun.adapter.LeRunListViewAdapter;
 import com.mengshitech.colorrun.adapter.LeRunVpAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
-import com.mengshitech.colorrun.utils.GsonTools;
+import com.mengshitech.colorrun.bean.VideoEntity;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -45,7 +44,12 @@ import com.mengshitech.colorrun.view.MyListView;
 import org.json.JSONException;
 
 
-public class LerunFragment extends Fragment implements OnClickListener{
+public class LerunFragment extends Fragment implements OnClickListener {
+
+    //热播视频的图片
+    ImageView hotImage;
+    //热播视频的url
+    String video_url;
 
     ImageView img_hotfire;
     View lerunView;
@@ -82,6 +86,9 @@ public class LerunFragment extends Fragment implements OnClickListener{
 
     private void findById() {
 
+        //热门视频图片
+        hotImage = (ImageView) lerunView.findViewById(R.id.ivHotView);
+
         vpLeRunAd = (ViewPager) lerunView.findViewById(R.id.vpLeRunAd);
         // 顶部ViewPager滚动栏
         tvLeRunActivity = (TextView) lerunView.findViewById(R.id.tvLeRunActivity);
@@ -112,6 +119,9 @@ public class LerunFragment extends Fragment implements OnClickListener{
         // 初始化listView数据
         fm = getFragmentManager();
         //初始化fm给ListView、GridView用
+//热播图片的点击事件
+        hotImage.setOnClickListener(this);
+
         tvLeRunActivity.setOnClickListener(this);
         Utility.changeTopDrawableSize(tvLeRunActivity, R.mipmap.icon_activity, 80, 80);
         tvLeRunTheme.setOnClickListener(this);
@@ -125,51 +135,29 @@ public class LerunFragment extends Fragment implements OnClickListener{
         Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
 
 
-        // 为广告位ViewPager加入数据源、viewpager、是否自动滚动
-        lvLerun.setAdapter(new LeRunListViewAdapter(mActivity, mLeRunList, fm,
-                lvLerun));
         // 为活动ListView加入数据源、ListView
-        gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
+
         // 为活动GridView加入数据源、GridView
 
 
     }
+//
+    private void initImgList() {
+        new Thread(getLunBOimageRunnable).start();
+        new Thread(getLeRunRunnable).start();
+        new Thread(videoRunnable).start();
+    }
 
     private void initLeRunList() {
         // 模拟初始化活动ListView的数据源
-        mLeRunList = new ArrayList<LeRunEntity>();
-        LeRunEntity mLeRunEntity1 = new LeRunEntity();
-        mLeRunEntity1.setLeRunBackgroundId(R.mipmap.poprun);
-        mLeRunEntity1.setLeRunLocation("上海浦东外高桥森兰绿地");
-        mLeRunEntity1.setLeRunName("泡泡跑");
-        mLeRunEntity1.setLeRunTime("08月19日");
-        mLeRunList.add(mLeRunEntity1);
-        LeRunEntity mLeRunEntity2 = new LeRunEntity();
-        mLeRunEntity2.setLeRunBackgroundId(R.mipmap.jxnu);
-        mLeRunEntity2.setLeRunLocation("北京朝阳芳草地");
-        mLeRunEntity2.setLeRunName("荧光跑");
-        mLeRunEntity2.setLeRunTime("09月25日");
-        mLeRunList.add(mLeRunEntity2);
-        LeRunEntity mLeRunEntity3 = new LeRunEntity();
-        mLeRunEntity3.setLeRunBackgroundId(R.mipmap.colorrun);
-        mLeRunEntity3.setLeRunLocation("广州海珠广州塔");
-        mLeRunEntity3.setLeRunName("卡乐跑");
-        mLeRunEntity3.setLeRunTime("11月12日");
-        mLeRunList.add(mLeRunEntity3);
+
 
         //测试热门活动
-        gideviewlist = new ArrayList<String>();
-        gideviewlist.add("http://news.qingdaonews.com/images/attachement/jpg/site1/20150606/70f1a1e0059416dd218f0a.jpg");
-        gideviewlist.add("http://www.k618.cn/wlsj/299/201506/W020150614338908200476.jpg");
+
 
     }
 
-    private void initImgList() {
-        // 模拟初始化广告栏的数据源
 
-        new Thread(getLunBOimageRunnable).start();
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -193,6 +181,11 @@ public class LerunFragment extends Fragment implements OnClickListener{
                 break;
             case R.id.tvleRunCity:
                 // 城市选择按钮
+                break;
+            case R.id.ivHotView:
+                Uri uri = Uri.parse(video_url);
+                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                mActivity.startActivity(it);
                 break;
 
             default:
@@ -225,7 +218,6 @@ public class LerunFragment extends Fragment implements OnClickListener{
             }
 
 
-
         }
     };
     //
@@ -245,7 +237,7 @@ public class LerunFragment extends Fragment implements OnClickListener{
             }
 
             vpLeRunAd
-                    .setAdapter(new LeRunVpAdapter(mActivity,imgList, vpLeRunAd, AutoRunning));
+                    .setAdapter(new LeRunVpAdapter(mActivity, imgList, vpLeRunAd, AutoRunning));
 
         }
     };
@@ -254,16 +246,92 @@ public class LerunFragment extends Fragment implements OnClickListener{
     Runnable getLeRunRunnable = new Runnable() {
         @Override
         public void run() {
-            String Path=IPAddress.PATH;
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("flag","lerun");
-            map.put("index","0");
-            String result=HttpUtils.sendHttpClientPost(Path,map,"utf-8");
+            String Path = IPAddress.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "lerun");
+            map.put("index", "0");
+            String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
+            Log.i("获取主题信息:", result);
+            try {
+                List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
+                Log.i("解析后的主题信息:", lerunlist.size() + "");
+                Message msg = new Message();
+                msg.obj = lerunlist;
+                LerunInfohandler.sendMessage(msg);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
         }
     };
 
+    Handler LerunInfohandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            List<LeRunEntity> lerunlist = (List<LeRunEntity>) msg.obj;
+            Log.i("lerunlist的东西:", lerunlist.size() + "");
 
+            lvLerun.setAdapter(new LeRunListViewAdapter(mActivity, lerunlist, fm,
+                    lvLerun));
+
+            gideviewlist = new ArrayList<String>();
+            for (int i=0;i<2;i++){
+                LeRunEntity entity=lerunlist.get(i);
+                gideviewlist.add(entity.getLerun_poster());
+            }
+            Log.i("gridlist的大小:",gideviewlist.size()+"");
+            gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
+
+        }
+    };
+
+
+    //获取热门视频信息的线程
+
+    Runnable videoRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String Path = IPAddress.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "lunbo");
+            map.put("index", "1");
+            String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
+            Log.i("result信息", result);
+            Message msg = new Message();
+            msg.obj = result;
+            videoHandler.sendMessage(msg);
+
+        }
+    };
+
+    Handler videoHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
+                Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    Log.i("videoImagezhixingle", "内容");
+                    List<VideoEntity> list = JsonTools.getVideoInfo(result);
+
+                    VideoEntity entity = list.get(0);
+                    Log.i("图片地址", entity.getVideo_url());
+                    Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
+                    video_url = entity.getVideo_url();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
+    };
 
 }

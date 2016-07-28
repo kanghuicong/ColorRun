@@ -18,7 +18,7 @@ import com.mengshitech.colorrun.utils.Utility;
 
 /**
  * Created by kanghuicong on 2016/7/15  16:12.
- * 515849594@qq.com
+ *
  */
 public class LerunEventListView extends BaseFragment{
     ListView lerun_listView;

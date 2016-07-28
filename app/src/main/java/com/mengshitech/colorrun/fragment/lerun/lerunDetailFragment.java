@@ -33,7 +33,7 @@ public class lerunDetailFragment extends BaseFragment {
         LeRunEntity mLeRunEntity = (LeRunEntity) getArguments().getSerializable("mclickLeRunEntity");
         int clickPosition = getArguments().getInt("clickPosition");
         Log.d("atenklsy", "得到的结果"
-                + mLeRunEntity.getLeRunName());
-        tvLeRunDetailContent.setText(clickPosition + mLeRunEntity.getLeRunName());
+                + mLeRunEntity.getLerun_title());
+        tvLeRunDetailContent.setText(clickPosition + mLeRunEntity.getLerun_title());
     }
 }

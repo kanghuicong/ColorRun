@@ -9,12 +9,12 @@
         android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_gv"
-        android:padding="5.0dip">
+        >
 
         <ImageView
             android:id="@+id/ivBackground"
             android:layout_width="wrap_content"
-            android:layout_height="95dp"
+            android:layout_height="115dp"
             android:scaleType="fitXY"
 
             />

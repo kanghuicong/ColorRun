@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.MainBackUtility;
@@ -35,7 +35,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     @Override
     public View initView() {
         into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
-        MainBackUtility.MainBack(into_lerun_view,"活动详情",getFragmentManager(),0);
+        MainBackUtility.MainBack(into_lerun_view,"活动详情",getFragmentManager());
 
         find();
         click();// 点击事件
@@ -74,7 +74,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     // 倒计时
     private void time() {
         //获取活动结束时间time
-        String time = "2016年7月20日11时00分00秒";
+        String time = "2016年8月1日11时00分00秒";
 
         String time_finish = getTime(time);
         long time_now = new Date().getTime();
@@ -134,21 +134,25 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bt_into_lerun_entry:
-                Toast.makeText(getActivity(), "报名成功！！",Toast.LENGTH_SHORT).show();
-                number.setText(Integer.valueOf(number.getText().toString()) - 1
-                        + "");
+                Intent intent = new Intent(getActivity(),IntoLeRunEnroll.class);
+                getActivity().startActivity(intent);
 
-
-                //先用SharedPreferences存储报名状态，后面改成从服务器读取状态
-                SharedPreferences mySharedPreferences = getActivity()
-                        .getSharedPreferences("entry_type", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = mySharedPreferences.edit();
-                editor.putString("type", "success");
-                editor.putString("number",
-                        Integer.valueOf(number.getText().toString()) + "");
-                editor.commit();
-
-                entry_type();
+//                Toast.makeText(getActivity(), "报名成功！！",Toast.LENGTH_SHORT).show();
+//
+//                number.setText(Integer.valueOf(number.getText().toString()) - 1
+//                        + "");
+//
+//
+//                //先用SharedPreferences存储报名状态，后面改成从服务器读取状态
+//                SharedPreferences mySharedPreferences = getActivity()
+//                        .getSharedPreferences("entry_type", Activity.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = mySharedPreferences.edit();
+//                editor.putString("type", "success");
+//                editor.putString("number",
+//                        Integer.valueOf(number.getText().toString()) + "");
+//                editor.commit();
+//
+//                entry_type();
                 break;
             case R.id.into_lerun_map:
                 //点击地图放大

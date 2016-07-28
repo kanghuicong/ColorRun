@@ -35,7 +35,7 @@ public class SplashActivity extends Activity {
 			public void run() {
 				initData();
 				// 判断是否有网络
-				judgeHandler.sendEmptyMessageDelayed(0, 2000);
+				judgeHandler.sendEmptyMessageDelayed(0, 1);
 			}
 		}).start();
 

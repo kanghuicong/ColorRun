@@ -20,7 +20,6 @@ public class HistoryFragment extends BaseFragment{
     List<String>   titleList    = new ArrayList<String>();
     View historyview;
 
-
     @Override
     public View initView() {
         historyview = View.inflate(getActivity(), R.layout.history_fragment, null);

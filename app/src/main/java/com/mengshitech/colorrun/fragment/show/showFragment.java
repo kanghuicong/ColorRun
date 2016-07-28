@@ -126,6 +126,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
                 try {
 
                     mShowList = JsonTools.getShowInfo("result",result);
+                    Log.i("mshowlist",mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(),getFragmentManager(),mShowList,lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
 

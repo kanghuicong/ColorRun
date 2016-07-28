@@ -2,11 +2,13 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ import com.mengshitech.colorrun.view.MyListView;
 import org.json.JSONException;
 
 
-public class LerunFragment extends Fragment implements OnClickListener {
+public class LerunFragment extends Fragment implements OnClickListener{
 
     ImageView img_hotfire;
     View lerunView;
@@ -65,6 +67,8 @@ public class LerunFragment extends Fragment implements OnClickListener {
     // 广告栏是否自动滑动
 
     List<String> gideviewlist;
+
+    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,7 +158,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
         mLeRunList.add(mLeRunEntity3);
 
         //测试热门活动
-        gideviewlist =new ArrayList<String>();
+        gideviewlist = new ArrayList<String>();
         gideviewlist.add("http://news.qingdaonews.com/images/attachement/jpg/site1/20150606/70f1a1e0059416dd218f0a.jpg");
         gideviewlist.add("http://www.k618.cn/wlsj/299/201506/W020150614338908200476.jpg");
 
@@ -162,20 +166,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
 
     private void initImgList() {
         // 模拟初始化广告栏的数据源
-//        imgList = new ArrayList<ImageView>();
-//        ImageView img1 = new ImageView(mActivity);
-//        img1.setScaleType(ScaleType.FIT_XY);
-//        // 将照片拉伸
-//        img1.setBackgroundResource(R.mipmap.lerun_ad_a);
-//        imgList.add(img1);
-//        ImageView img2 = new ImageView(mActivity);
-//        img2.setScaleType(ScaleType.FIT_XY);
-//        img2.setBackgroundResource(R.mipmap.lerun_ad_b);
-//        imgList.add(img2);
-//        ImageView img3 = new ImageView(mActivity);
-//        img3.setScaleType(ScaleType.FIT_XY);
-//        img3.setBackgroundResource(R.mipmap.lerun_ad_c);
-//        imgList.add(img3);
+
         new Thread(getLunBOimageRunnable).start();
 
     }
@@ -211,7 +202,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
 
 
     //获取轮播照片
-    Runnable getLunBOimageRunnable=new Runnable() {
+    Runnable getLunBOimageRunnable = new Runnable() {
         @Override
         public void run() {
             String path = IPAddress.PATH;
@@ -222,20 +213,16 @@ public class LerunFragment extends Fragment implements OnClickListener {
             String jsonString = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Log.i("jsonString:", jsonString);
 
-                try {
-                    List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
-                    Log.i("list的数据22:",result.toString()+"");
-                    Message msg = new Message();
-                    msg.obj = result;
+            try {
+                List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
+                Log.i("list的数据22:", result.toString() + "");
+                Message msg = new Message();
+                msg.obj = result;
 
-                    LunBOhandler.sendMessage(msg);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-//                String result=JsonTools.getDatas(jsonString);
-//              if(result!=null){
-//                  List<LunBoEntity> list= GsonTools.getListEntity(result,LunBoEntity.class);
-//                  Message msg=new Message();
+                LunBOhandler.sendMessage(msg);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
 
 
 
@@ -245,11 +232,11 @@ public class LerunFragment extends Fragment implements OnClickListener {
     Handler LunBOhandler = new Handler() {
 
         public void handleMessage(Message msg) {
-            List<LunBoEntity> list= (List<LunBoEntity>) msg.obj;
-            Log.i("list的数据:",list.toString()+"");
+            List<LunBoEntity> list = (List<LunBoEntity>) msg.obj;
+            Log.i("list的数据:", list.toString() + "");
             imgList = new ArrayList<ImageView>();
-            for(int i=0;i<list.size()-1;i++){
-                LunBoEntity entity=list.get(i);
+            for (int i = 0; i < list.size(); i++) {
+                LunBoEntity entity = list.get(i);
                 ImageView img = new ImageView(mActivity);
                 img.setScaleType(ScaleType.FIT_XY);
                 Glide.with(mActivity).load(entity.getLunbo_image()).into(img);
@@ -258,20 +245,24 @@ public class LerunFragment extends Fragment implements OnClickListener {
             }
 
             vpLeRunAd
-                    .setAdapter(new LeRunVpAdapter(imgList, vpLeRunAd, AutoRunning));
+                    .setAdapter(new LeRunVpAdapter(mActivity,imgList, vpLeRunAd, AutoRunning));
 
         }
     };
 
     //获取lerun主题信息
-    Runnable getLeRunRunnable=new Runnable() {
+    Runnable getLeRunRunnable = new Runnable() {
         @Override
         public void run() {
+            String Path=IPAddress.PATH;
+            Map<String,String> map=new HashMap<String,String>();
+            map.put("flag","lerun");
+            map.put("index","0");
+            String result=HttpUtils.sendHttpClientPost(Path,map,"utf-8");
+
 
         }
     };
-
-
 
 
 

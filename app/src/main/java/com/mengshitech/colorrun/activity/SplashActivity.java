@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
 
 			@Override
 			public boolean handleMessage(Message arg0) {
-				// TODO �Զ���ɵķ������
+				//
 				if (!ToolKits
 						.fetchBooble(SplashActivity.this, IS_FIRST, false)) {
 					startActivity(new Intent(SplashActivity.this,

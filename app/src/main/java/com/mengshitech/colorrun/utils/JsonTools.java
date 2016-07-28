@@ -136,7 +136,7 @@ public class JsonTools {
     }
 
 
-    //获取轮播图u
+    //获取轮播
     public static List<LunBoEntity> getLunboImageInfo(String key, String jsonString)
             throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
@@ -146,10 +146,15 @@ public class JsonTools {
             LunBoEntity info = new LunBoEntity();
             JSONObject showObject = jsonArray.getJSONObject(i);
             info.setLunbo_image(showObject.getString("lunbo_image"));
+            info.setLunbo_url(showObject.getString("lunbo_url"));
             lunbolist.add(info);
         }
         return lunbolist;
     }
+
+    //获取所有的主题信息
+
+
 
 
 }

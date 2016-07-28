@@ -1,6 +1,9 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -17,12 +20,14 @@ public class LeRunVpAdapter extends PagerAdapter {
 	private List<ImageView> mImgList;
 	private ViewPager mViewPager;
 	private boolean isRunning = false;
+	private Context context;
 	int CurrentItem = -1;
 
-	public LeRunVpAdapter(List<ImageView> ImgList, ViewPager viewPager,
+	public LeRunVpAdapter(Context context,List<ImageView> ImgList, ViewPager viewPager,
 			Boolean istrue) {
 		mImgList = ImgList;
 		mViewPager = viewPager;
+		this.context=context;
 		if (istrue.equals(true)) {
 			mAutoHandler.sendEmptyMessage(0);
 		}
@@ -41,12 +46,22 @@ public class LeRunVpAdapter extends PagerAdapter {
 	@SuppressLint("HandlerLeak")
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		container.addView(mImgList.get(position));
+		ImageView imageView=mImgList.get(position);
+		container.addView(imageView);
+		imageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse("http://www.jxkuafu.com");
+				 Intent it = new Intent(Intent.ACTION_VIEW, uri);
+				context.startActivity(it);
+			}
+		});
 		return mImgList.get(position);
 	}
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
+
 		container.removeView(mImgList.get(position));
 	}
 

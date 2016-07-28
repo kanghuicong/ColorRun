@@ -11,6 +11,7 @@ import android.view.Window;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.utils.ToolKits;
 
 /**
  * atenklsy
@@ -19,6 +20,8 @@ public class SplashActivity extends Activity {
 	/**
 	 * 3秒闪屏页，用来判断网络、初始化数据、确认用户名是否登录等
 	 */
+	public static final String IS_FIRST = "is_first";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,15 +32,38 @@ public class SplashActivity extends Activity {
 
 	private void initView() {
 
-		new Thread(new Runnable() {
+
+		new Handler(new Handler.Callback() {
 
 			@Override
-			public void run() {
-				initData();
-				// 判断是否有网络
-				judgeHandler.sendEmptyMessageDelayed(0, 2000);
+			public boolean handleMessage(Message arg0) {
+				// TODO �Զ���ɵķ������
+				if (!ToolKits
+						.fetchBooble(SplashActivity.this, IS_FIRST, false)) {
+					startActivity(new Intent(SplashActivity.this,
+							GuideActivity.class));
+					ToolKits.putBooble(SplashActivity.this, IS_FIRST, true);
+					finish();
+				} else {
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							initData();
+							// 判断是否有网络
+							judgeHandler.sendEmptyMessageDelayed(0,0);
+						}
+					}).start();
+					finish();
+				}
+				ToolKits.putBooble(SplashActivity.this, IS_FIRST, true);
+				return true;
+
 			}
-		}).start();
+		}).sendEmptyMessageDelayed(0, 2000);
+
+
+
 
 	}
 

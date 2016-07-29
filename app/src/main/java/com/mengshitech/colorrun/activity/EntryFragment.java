@@ -1,6 +1,8 @@
 package com.mengshitech.colorrun.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,10 @@ public class EntryFragment extends Fragment{
             public void onClick(View v) {
 //                GuideActivity activity = (GuideActivity) getActivity();
 //                activity.entryApp();
+                SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                editor.putString("user_type", "0");
+                editor.commit();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 getActivity().finish();

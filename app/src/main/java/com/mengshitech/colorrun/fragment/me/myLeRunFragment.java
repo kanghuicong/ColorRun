@@ -1,5 +1,7 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -40,20 +42,17 @@ public class myLeRunFragment extends BaseFragment {
     OrderEntity order_info;
     MyListView myshow_listview;
     MyLerunListViewAdapter adapter;
-    String userid = "12345";
+    String userid;
 
     @Override
     public View initView() {
         mActivity = getActivity();
         mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-//        {
-//            // 透明状态栏
-//            getActivity().getWindow().addFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }
-
         MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager());
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+        userid = sharedPreferences.getString("user_id", "");
         find();
 //        loadData();
         new Thread(runnable).start();
@@ -63,26 +62,25 @@ public class myLeRunFragment extends BaseFragment {
 
     private void find() {
         myshow_listview = (MyListView) mLeRunView.findViewById(R.id.lv_me_myshow);
-
     }
 
-    private void loadData() {
-
-        int count = adapter.getCount();
-        int length = order_list.size() / entry_number;
-        System.out.println("list" + order_list.size());
-        System.out.println("length" + length);
-        // 判断有没有数据
-        if (count < length * entry_number) {
-            adapter.addItem(count + entry_number);
-        } else if (length * entry_number < count + 1
-                && count + 1 < order_list.size() + 1) {
-            adapter.addItem(order_list.size());
-        } else {
-            Toast.makeText(getActivity(), "没有更多活动了", Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
+//    private void loadData() {
+//
+//        int count = adapter.getCount();
+//        int length = order_list.size() / entry_number;
+//        System.out.println("list" + order_list.size());
+//        System.out.println("length" + length);
+//        // 判断有没有数据
+//        if (count < length * entry_number) {
+//            adapter.addItem(count + entry_number);
+//        } else if (length * entry_number < count + 1
+//                && count + 1 < order_list.size() + 1) {
+//            adapter.addItem(order_list.size());
+//        } else {
+//            Toast.makeText(getActivity(), "没有更多活动了", Toast.LENGTH_SHORT)
+//                    .show();
+//        }
+//    }
 
     Runnable runnable = new Runnable() {
 
@@ -91,7 +89,7 @@ public class myLeRunFragment extends BaseFragment {
             String path = IPAddress.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
-            map.put("user_id", "12345");
+            map.put("user_id", userid);
             map.put("index", "6");
 
             String result = HttpUtils.sendHttpClientPost(path, map,

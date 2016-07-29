@@ -1,6 +1,9 @@
 package com.mengshitech.colorrun.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,7 +42,7 @@ import java.util.Map;
 /**
  * atenklsy
  */
-public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
     FragmentManager fm;
     ViewHolder holder;
     View view;
@@ -48,9 +51,17 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
     ListView mListView;
     ShowEntity mShowEntity;
     List<ShowEntity> mShowList;
+    String header_path;
+    CallBack callBack;
 
     private Context context;
     int count;
+
+    public interface CallBack{
+        public void returnInfo(String user_name,String show_content,String show_time,String show_comment_num,
+                               String show_like_num,String user_header,String show_image);
+
+    }
 
     private static class ViewHolder {
         private ImageView user_header;
@@ -144,7 +155,6 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
             for (int i = 0; i < ImageList.size(); i++) {
                 String paths = ImageList.get(i);
                 System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
-//                String path = Imagepath;
                 imagepath.add(paths);
                 ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,imagepath,imagepath.size());
                 System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
@@ -157,21 +167,12 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
         /**
          * 改变drawable的大小
          */
-        mListView.setOnItemClickListener(this);
         holder.show_like.setOnClickListener(this);
         holder.show_comment.setOnClickListener(this);
         holder.show_share.setOnClickListener(this);
         return view;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showDetailFragment mShowDetailFragment = new showDetailFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("mShowEntity", mShowEntity);
-        mShowDetailFragment.setArguments(args);
-        Utility.replace2DetailFragment(fm, mShowDetailFragment);
-    }
     public void addItem(int item) {
         count = item;
     }
@@ -181,6 +182,7 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
         switch (v.getId()) {
             case R.id.im_show_like:
                 Toast.makeText(context, "like", Toast.LENGTH_SHORT).show();
+                new Thread(like_runnable).start();
                 break;
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
@@ -192,5 +194,39 @@ public class ShowAdapter extends BaseAdapter implements AdapterView.OnItemClickL
                 break;
         }
     }
+
+    Runnable like_runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = IPAddress.PATH;
+            SharedPreferences sharedPreferences = context
+                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+            String id = sharedPreferences.getString("user_id", "");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "show");
+            map.put("index", "8");
+            map.put("user_id",id);
+            map.put("likeuer_id",mShowEntity.getUser_id());
+            map.put("show_id",mShowEntity.getShow_id());
+
+            String result = HttpUtils.sendHttpClientPost(path, map,
+                    "utf-8");
+            Log.i("result", result);
+            Message msg = new Message();
+            msg.obj = result;
+            like_handler.sendMessage(msg);
+        }
+    };
+    Handler like_handler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
+            } else {
+
+            }
+        }
+    };
 
 }

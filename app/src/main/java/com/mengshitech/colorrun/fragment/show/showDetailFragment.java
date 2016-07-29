@@ -1,16 +1,26 @@
 package com.mengshitech.colorrun.fragment.show;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.view.MyListView;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,80 +29,59 @@ import java.util.List;
  * Created by atenklsy on 2016/7/14 22:03.
  * E-address:atenk@qq.com.
  */
-public class showDetailFragment extends BaseFragment {
-    View showDetailView;
-    //整体布局
-    View mBottomView;
-    //底部点赞、评论、时间，在这里隐藏
-    TextView tvShow_UserName, tvWordContent, ivSendComment;
-    ImageView ivShow_UserHead, ivShowPic;
-    MyListView lvShowDetail_Comment;//展示评论的ListView
-    List<CommentEntity> mCommentList;//评论列表
-    EditText etSendComment;//评论的编辑
-    ShowEntity mShowEntity;//show的实体内容
-    RelativeLayout rlShowDetail;
+public class showDetailFragment extends Activity {
+    ImageView showdetail_hear,showdetail_like,showdetail_comment,showdetail_share;
+    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_like_num,showdetail_comment_num;
+    GridView showdetail_image;
+    List<String> ImageList;
+    List<String> imagepath = new ArrayList<String>();
 
-    @Override
-    public View initView() {
-        showDetailView = View.inflate(getActivity(), R.layout.show_detail, null);
-//        findById();
-//        initDatas();
-        return showDetailView;
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.show_detail);
+
+        FindId();
+        GetData();
+
     }
 
+    private void GetData() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        showdetail_username.setText(bundle.getString("user_name"));
+        showdetail_content.setText(bundle.getString("show_content"));
+        showdetail_time.setText(bundle.getString("show_time"));
+        showdetail_like_num.setText(bundle.getString("show_like_num"));
+        showdetail_comment_num.setText(bundle.getString("show_comment_num"));
+        String show_hear = bundle.getString("user_header");
+        String show_Image = bundle.getString("show_image");
+        String header_path = IPAddress.path+show_hear;
+        Glide.with(showDetailFragment.this).load(header_path).into(showdetail_hear);
+        try {
+            ImageList = JsonTools.getImageInfo(show_Image);
+            imagepath = new ArrayList<String>();
+            for (int i = 0; i < ImageList.size(); i++) {
+                String paths = ImageList.get(i);
+                imagepath.add(paths);
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(showDetailFragment.this,imagepath,imagepath.size());
+                showdetail_image.setAdapter(adapter);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-//    private void findById() {
-//        mBottomView = showDetailView.findViewById(R.id.rlShowBottom);
-//        ivShow_UserHead = (ImageView) showDetailView.findViewById(R.id.ivShow_UserHead);//头像
-//        tvShow_UserName = (TextView) showDetailView.findViewById(R.id.tvShow_UserName);//昵称
-//        ivShowPic = (ImageView) showDetailView.findViewById(R.id.ivShowPic);//图片内容
-//        tvWordContent = (TextView) showDetailView.findViewById(R.id.tvWordContent);//文字内容
-//        lvShowDetail_Comment = (MyListView) showDetailView.findViewById(R.id.lvShowDetail_Comment);
-//        etSendComment = (EditText) showDetailView.findViewById(R.id.etSendComment);//
-//        ivSendComment = (TextView) showDetailView.findViewById(R.id.ivSendComment);
-//        rlShowDetail = (RelativeLayout) showDetailView.findViewById(R.id.rlShowDetail);
-//    }
-//
-//    private void initDatas() {
-//        initComment();
-//        mShowEntity = (ShowEntity) getArguments().getSerializable("mShowEntity");
-//        Log.d("atenklsy", "mShowEntity的数据" + mShowEntity.getTvShow_UserName());
-//        mBottomView.setVisibility(View.GONE);//将底部的点赞、评论、分享隐藏
-//        ivShow_UserHead.setImageResource(mShowEntity.getIvUserHead());
-//        tvShow_UserName.setText(mShowEntity.getTvShow_UserName());
-//        ivShowPic.setImageResource(mShowEntity.getIvShowPic());
-//        tvWordContent.setText(mShowEntity.getTvWordContent());
-//        lvShowDetail_Comment.setAdapter(new ShowDetailCommentAdpter(mActivity, mCommentList, lvShowDetail_Comment));
-//        Utility.changeDrawableDirection(ivSendComment, R.mipmap.comment_send, 3);
-//        Utility.back2Father(rlShowDetail, mActivity);
-//    }
-
-
-    /**
-     * 模拟评论数据，暂时用
-     */
-    private void initComment() {
-        mCommentList = new ArrayList<CommentEntity>();
-        CommentEntity mCommentEntity1 = new CommentEntity();
-        mCommentEntity1
-                .setIvUserHead(R.mipmap.image_head);
-        mCommentEntity1.setTvUserName("小灰灰");
-        mCommentEntity1.setTvCommentContent("干得漂亮！");
-        mCommentEntity1.setTvSendTime("2016-07-12 09:12");
-        mCommentList.add(mCommentEntity1);
-        CommentEntity mCommentEntity2 = new CommentEntity();
-        mCommentEntity2
-                .setIvUserHead(R.mipmap.image_head);
-        mCommentEntity2.setTvUserName("陈永银");
-        mCommentEntity2.setTvCommentContent("就知道你这么厉害！");
-        mCommentEntity2.setTvSendTime("2016-07-12 09:19");
-        mCommentList.add(mCommentEntity2);
-        CommentEntity mCommentEntity3 = new CommentEntity();
-        mCommentEntity3
-                .setIvUserHead(R.mipmap.image_head);
-        mCommentEntity3.setTvUserName("康惠聪");
-        mCommentEntity3.setTvCommentContent("哎哟不错哦！");
-        mCommentEntity3.setTvSendTime("2016-07-12 11:42");
-        mCommentList.add(mCommentEntity3);
+    private void FindId() {
+        showdetail_hear = (ImageView)findViewById(R.id.im_show_userhear);
+        showdetail_username = (TextView)findViewById(R.id.tv_show_username);
+        showdetail_content = (TextView)findViewById(R.id.tv_show_content);
+        showdetail_image = (GridView)findViewById(R.id.gv_show_image);
+        showdetail_like = (ImageView)findViewById(R.id.im_show_like);
+        showdetail_like_num = (TextView)findViewById(R.id.tv_show_like_num);
+        showdetail_comment = (ImageView)findViewById(R.id.im_show_comment);
+        showdetail_comment_num = (TextView)findViewById(R.id.tv_show_comment_num);
+        showdetail_share = (ImageView)findViewById(R.id.im_show_share);
+        showdetail_time = (TextView)findViewById(R.id.tv_show_time);
     }
 }

@@ -22,6 +22,7 @@ import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
@@ -69,24 +70,13 @@ public class LoginActivity extends Activity implements OnClickListener {
                 // 登录按钮的点击事件
                 userId = etUserId.getText().toString();
                 userPwd = etUserPwd.getText().toString();
-                setAccount2SP(userId, userPwd);
-                // 将账号密码存入sharedpreferences
                 if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(userPwd)) {
                     // 账号或密码为空
                     Toast.makeText(LoginActivity.this, "请输入正确的账号和密码", Toast.LENGTH_SHORT).show();
                     etUserId.setText("");
                     etUserPwd.setText("");
-                    etUserId.setFocusable(true);
                 } else {
-                    // 否则跳转到主页面，并且将用户名传入
-                    Intent inetnt = new Intent(LoginActivity.this,
-                            MainActivity.class);
-                    inetnt.putExtra("userId", userId);
-                    // turn2mainIntent.putExtra("userPwd", userPwd);
-                    startActivity(inetnt);
-                    finish();
-
-//                    new Thread(runnable).start();
+                    new Thread(runnable).start();
                 }
 
                 break;
@@ -137,10 +127,12 @@ public class LoginActivity extends Activity implements OnClickListener {
                         Toast.makeText(LoginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
                         break;
                     case "1":
-                        Intent inetnt = new Intent(LoginActivity.this,
-                                MainActivity.class);
-                        inetnt.putExtra("userId", userId);
-                        // turn2mainIntent.putExtra("userPwd", userPwd);
+                        SharedPreferences mySharedPreferences = getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = mySharedPreferences.edit();
+                        editor.putString("user_type", "1");
+                        editor.putString("user_id",userId);
+                        editor.commit();
+                        Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(inetnt);
                         finish();
                         break;

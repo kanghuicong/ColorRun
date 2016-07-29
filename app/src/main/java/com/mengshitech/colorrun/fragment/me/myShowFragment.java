@@ -20,6 +20,8 @@ public class myShowFragment extends BaseFragment {
         mShowlView = View.inflate(mActivity, R.layout.me_myshow, null);
 
 
+
+
         return mShowlView;
     }
 }

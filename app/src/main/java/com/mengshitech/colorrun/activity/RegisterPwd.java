@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,7 +28,7 @@ public class RegisterPwd extends Activity {
     private EditText pwd, repwd;
     private Button commit;
     private TextView tvnumber;
-    private String password, repassword, name;
+    private String password, repassword, number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class RegisterPwd extends Activity {
         pwd = (EditText) findViewById(R.id.et_registered3_pwd);
         repwd = (EditText) findViewById(R.id.et_registered3_repwd);
         commit = (Button) findViewById(R.id.btn_registered3_commit);
-        name = bundle.getString("number");
+        number = bundle.getString("number");
 
         // 为提交按钮设置监听事件
         commit.setOnClickListener(new OnClickListener() {
@@ -74,9 +75,10 @@ public class RegisterPwd extends Activity {
         public void run() {
             String path = IPAddress.PATH;
             Map<String, String> map = new HashMap<String, String>();
-            map.put("user_id", tvnumber.getText().toString());
+            map.put("user_id", number);
             map.put("user_pwd",repassword);
             map.put("index", "0");
+            map.put("flag","user");
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
             Message msg = new Message();
@@ -90,18 +92,22 @@ public class RegisterPwd extends Activity {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
+            Log.i("result",result);
             // 判断从服务器端返回来的值是否为1，如果为1则注册成功，同时将用户信息存入sqlite数据库并跳转到注册成功页面
-            if (result == "timeout"){
+            if (result.equals("timeout")){
                 Toast.makeText(RegisterPwd.this, "连接服务器失败！",
                         Toast.LENGTH_SHORT).show();
-            }else if(result == "0") {
+            }else if(result.equals("0")) {
                 Toast.makeText(RegisterPwd.this, "注册失败！",
                         Toast.LENGTH_SHORT).show();
-            } else if (result == "1") {
-                startActivity(new Intent(RegisterPwd.this,
-                        RegisterSuccess.class));
+            }else if(result.equals("1")) {
+                Intent intent = new Intent(RegisterPwd.this,RegisterSuccess.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",number);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 finish();
-            } else if (result == "2") {
+            }else if(result.equals("2")) {
                 Toast.makeText(RegisterPwd.this, "用户已经存在！",
                         Toast.LENGTH_SHORT).show();
             }
@@ -115,5 +121,4 @@ public class RegisterPwd extends Activity {
             boolean result = Pattern.matches(pwdPattern, pwd);
             return result;
         }
-
 }

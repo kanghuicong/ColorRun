@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -46,6 +47,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private showFragment mShowFragment;
     private HistoryFragment mHistoryFragment;
     private meFragment mMeFragment;
+    private long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +165,5 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //            System.exit(0);
 //        }
 //    }
-
-
 
 }

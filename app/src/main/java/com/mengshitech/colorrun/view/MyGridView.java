@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 
@@ -10,6 +11,7 @@ import android.widget.GridView;
  * 515849594@qq.com
  */
 public class MyGridView extends GridView {
+
     public MyGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

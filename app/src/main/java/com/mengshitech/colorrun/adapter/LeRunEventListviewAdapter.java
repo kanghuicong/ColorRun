@@ -55,11 +55,10 @@ public class LeRunEventListviewAdapter extends BaseAdapter{
         return view;
     }
 
-
     class Holder{
-            TextView lerun_event_name;
-            TextView lerun_envent_type;
-            TextView lerun_envent_state;
-            TextView lerun_event_address;
-        }
+        TextView lerun_event_name;
+        TextView lerun_envent_type;
+        TextView lerun_envent_state;
+        TextView lerun_event_address;
+    }
 }

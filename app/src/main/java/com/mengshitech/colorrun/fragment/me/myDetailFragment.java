@@ -1,14 +1,18 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.fragment.BaseFragment;
@@ -16,9 +20,7 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
-
 import org.json.JSONException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,15 +31,19 @@ import java.util.Map;
 public class myDetailFragment extends BaseFragment implements View.OnClickListener{
     View mDeatilView;
     FragmentManager fm;
+    ImageView iv_head;
     LinearLayout me_head,me_nickname,me_phone,me_email,me_sex,me_height,me_weight,me_address,me_sign;
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
-    String userid = "1234";
+    String userid ;
 
     @Override
     public View initView() {
         mActivity = getActivity();
         mDeatilView = View.inflate(mActivity, R.layout.me_detail, null);
         MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+        userid = sharedPreferences.getString("user_id", "");
         FindId();
         Click();
         new Thread(runnable).start();
@@ -75,6 +81,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
 
     private void FindId() {
         me_head = (LinearLayout)mDeatilView.findViewById(R.id.ll_me_head);
+        iv_head = (ImageView)mDeatilView.findViewById(R.id.iv_me_head);
         me_nickname = (LinearLayout)mDeatilView.findViewById(R.id.ll_me_nickname);
         tv_nickname = (TextView)mDeatilView.findViewById(R.id.tv_me_nickname);
         me_phone = (LinearLayout)mDeatilView.findViewById(R.id.ll_me_phone);
@@ -169,7 +176,10 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_weight.setText(userEntiy.getUser_weight()+"kg");
                     tv_address.setText(userEntiy.getUser_address());
                     tv_sign.setText(userEntiy.getUser_sign());
-
+                    if (userEntiy.getUser_header()!=null){
+                        String header_path = IPAddress.PATH+userEntiy.getUser_header();
+                        Glide.with(getActivity()).load(header_path).into(iv_head);
+                    }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

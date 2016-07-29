@@ -49,22 +49,15 @@ public class SplashActivity extends Activity {
 
 						@Override
 						public void run() {
-							initData();
-							// 判断是否有网络
-							judgeHandler.sendEmptyMessageDelayed(0,0);
+							judgeHandler.sendEmptyMessageDelayed(0,2000);
 						}
 					}).start();
 					finish();
 				}
 				ToolKits.putBooble(SplashActivity.this, IS_FIRST, true);
 				return true;
-
 			}
 		}).sendEmptyMessageDelayed(0, 2000);
-
-
-
-
 	}
 
 	private Handler judgeHandler = new Handler() {
@@ -72,33 +65,13 @@ public class SplashActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			/**
-			 * 2、判断是否在sp中是否有账号密码
-			 */
 
-			SharedPreferences spAccount = getSharedPreferences("sp_account",
-					MODE_PRIVATE);
-			String userId = spAccount.getString("userId", null);
-			String userPwd = spAccount.getString("userPwd", null);
 			// 从sp中取账号密码，没取到则为null
-			if (!TextUtils.isEmpty(userId) || !TextUtils.isEmpty(userPwd)) {
-				// 如果账号和密码都不为空，则跳转到主页面
+			if (1==1) {
 				startActivity(new Intent(SplashActivity.this,
 						MainActivity.class));
 				finish();
-			} else {
-				// 否则跳转到登录界面
-				startActivity(new Intent(SplashActivity.this,
-						LoginActivity.class));
-				finish();
-			}
+			} else {}
 		}
 	};
-
-	private void initData() {
-		/**
-		 * 1、判断是否有网络
-		 */
-	}
-
 }

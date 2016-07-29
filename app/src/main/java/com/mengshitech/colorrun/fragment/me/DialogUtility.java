@@ -1,7 +1,9 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -297,6 +299,35 @@ public class DialogUtility {
                 });
                 break;
         }
+    }
+
+    public static void DialogCancel(final Context context){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final Dialog dialog = new AlertDialog.Builder(context).create();
+
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_cancel, null);
+        Button bt_cancel_yes = (Button)layout.findViewById(R.id.bt_cancel_yes);
+        Button bt_cancel_no = (Button)layout.findViewById(R.id.bt_cancel_no);
+        addDialog(dialog, layout);
+
+        bt_cancel_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        bt_cancel_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                editor.putString("user_type", "0");
+                editor.putString("user_id","");
+                editor.commit();
+                dialog.dismiss();
+            }
+        });
     }
 
     //添加窗口

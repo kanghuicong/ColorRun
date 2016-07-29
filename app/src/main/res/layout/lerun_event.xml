@@ -5,9 +5,9 @@
 
     <include layout="@layout/main_back"></include>
 
-    <ListView
+    <com.mengshitech.colorrun.customcontrols.XListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/lerun_listView" />
 
 </LinearLayout>

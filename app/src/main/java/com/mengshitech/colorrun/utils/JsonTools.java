@@ -1,16 +1,21 @@
 package com.mengshitech.colorrun.utils;
 
+import android.provider.MediaStore;
 import android.util.Log;
 
+import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.bean.VideoEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,7 +142,7 @@ public class JsonTools {
     }
 
 
-    //获取轮播图u
+    //获取轮播
     public static List<LunBoEntity> getLunboImageInfo(String key, String jsonString)
             throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonString);
@@ -147,9 +152,58 @@ public class JsonTools {
             LunBoEntity info = new LunBoEntity();
             JSONObject showObject = jsonArray.getJSONObject(i);
             info.setLunbo_image(showObject.getString("lunbo_image"));
+            info.setLunbo_url(showObject.getString("lunbo_url"));
             lunbolist.add(info);
         }
         return lunbolist;
+    }
+
+    //获取所有的主题信息
+    public static List<LeRunEntity> getLerunInfo(String key, String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray(key);
+        List<LeRunEntity> list = new ArrayList<LeRunEntity>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            LeRunEntity entity = new LeRunEntity();
+            JSONObject object = jsonArray.getJSONObject(i);
+            entity.setLerun_id(Integer.parseInt(object.getString("lerun_id")));
+            entity.setLerun_title(object.getString("lerun_title"));
+            entity.setLerun_poster(object.getString("lerun_poster"));
+            entity.setLerun_time(object.getString("lerun_time"));
+            entity.setLerun_address(object.getString("lerun_address"));
+            entity.setLerun_state(Integer.parseInt(object.getString("lerun_state")));
+            list.add(entity);
+        }
+
+
+        return list;
+    }
+
+    //解析热门视频信息
+    public static  List<VideoEntity> getVideoInfo(String jsonString) throws JSONException {
+        Log.i("json解析得到的数据",jsonString);
+
+//        JSONObject jsonObject=new JSONObject(jsonString);
+//        JSONObject object=jsonObject.getJSONObject("datas");
+
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray=jsonObject.getJSONArray("datas");
+        List<VideoEntity> list=new ArrayList<VideoEntity>();
+        for(int i=0;i<jsonArray.length();i++){
+            VideoEntity entity=new VideoEntity();
+            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+            entity.setVideo_id(jsonObject1.getInt("video_id"));
+            entity.setVideo_image(jsonObject1.getString("video_image"));
+            entity.setVideo_title(jsonObject1.getString("video_title"));
+            entity.setVideo_url(jsonObject1.getString("video_url"));
+            list.add(entity);
+            return list;
+        }
+
+
+
+        return list;
+
     }
 
 

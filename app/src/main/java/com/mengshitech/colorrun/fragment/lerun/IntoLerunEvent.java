@@ -37,6 +37,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
         MainBackUtility.MainBack(into_lerun_view,"活动详情",getFragmentManager());
 
+        int lerun_id = getArguments().getInt("lerun_id");
+        Log.i("lerun_id",lerun_id+"");
+
         find();
         click();// 点击事件
         entry_type();// 查看报名的状态

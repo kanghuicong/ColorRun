@@ -3,6 +3,7 @@ package com.mengshitech.colorrun.adapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,10 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
-import com.mengshitech.colorrun.fragment.lerun.lerunDetailFragment;
+import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
@@ -34,6 +36,8 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         mLeRunList = leRunList;
         mListView = listView;
         mFragmentManager = fm;
+
+        Log.i("mLeRunList.size():",mLeRunList.size()+"");
     }
 
     @Override
@@ -71,11 +75,10 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.ivLeRunBackground.setImageResource(mLeRunEntity
-                .getLeRunBackgroundId());
-        holder.tvLeRunName.setText(mLeRunEntity.getLeRunName());
-        holder.tvLeRunLocation.setText(mLeRunEntity.getLeRunLocation());
-        holder.tvLeRunTime.setText(mLeRunEntity.getLeRunTime());
+       Glide.with(mActivity).load(IPAddress.path+mLeRunEntity.getLerun_poster()).into( holder.ivLeRunBackground);
+        holder.tvLeRunName.setText(mLeRunEntity.getLerun_title());
+        holder.tvLeRunLocation.setText(mLeRunEntity.getLerun_address());
+        holder.tvLeRunTime.setText(mLeRunEntity.getLerun_time());
         mListView.setOnItemClickListener(this);
         return convertView;
     }
@@ -85,8 +88,8 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
 //        lerunDetailFragment mLeRunFragment = new lerunDetailFragment();
         LeRunEntity mclickLeRunEntity = getItem(clickPosition);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("mclickLeRunEntity", mclickLeRunEntity);
-        bundle.putInt("clickPosition",clickPosition);
+        bundle.putInt("lerun_id",mclickLeRunEntity.getLerun_id());
+
 //        mLeRunFragment.setArguments(bundle);
         IntoLerunEvent mIntoLerunEvent = new IntoLerunEvent();
         mIntoLerunEvent.setArguments(bundle);

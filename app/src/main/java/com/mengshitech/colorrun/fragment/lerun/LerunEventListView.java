@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,6 +52,7 @@ public class LerunEventListView extends BaseFragment implements AdapterView.OnIt
     private XListView lerun_listView;
     Timer timer;
     TimerTask task;
+
 
     @Override
     public View initView() {
@@ -169,7 +171,7 @@ public class LerunEventListView extends BaseFragment implements AdapterView.OnIt
     @Override
     public void onLoadMore() {
 
-        Toast.makeText(context,"没有更多内容了",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "没有更多内容了", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -183,6 +185,8 @@ public class LerunEventListView extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int lerun_id = (int) parent.getItemIdAtPosition(position);
+
 
     }
 

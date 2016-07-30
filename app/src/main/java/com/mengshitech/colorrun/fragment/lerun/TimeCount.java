@@ -30,7 +30,7 @@ public class TimeCount extends DigitalClock {
     private Runnable mTicker;
     private Handler mHandler;
     private long endTime;
-    LinearLayout layout;
+    Button layout;
     TextView tv;
     public static long distanceTime;
     private ClockListener mClockListener;
@@ -163,7 +163,7 @@ public class TimeCount extends DigitalClock {
      *
      * @param endTime
      */
-    public void setEndTime(long endTime, LinearLayout layout, TextView tv) {
+    public void setEndTime(long endTime, Button layout, TextView tv) {
         this.endTime = endTime;
         this.layout = layout;
         this.tv = tv;

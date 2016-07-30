@@ -149,8 +149,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
                     Log.i("mshowlist",mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(),getFragmentManager(),mShowList,lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
-
-                } catch (JSONException e) {
+                    } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }

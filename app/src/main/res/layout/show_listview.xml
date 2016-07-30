@@ -68,7 +68,7 @@
             android:id="@+id/im_show_like"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/show_heart"
+            android:background="@mipmap/show_heart_no"
             android:layout_gravity="center"/>
 
         <TextView

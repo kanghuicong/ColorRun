@@ -47,8 +47,7 @@ public class JsonTools {
 
         return result;
     }
-
-
+    //用户信息
     public static UserEntiy getUserInfo(String key, String jsonString)
             throws JSONException {
         UserEntiy info = new UserEntiy();
@@ -70,8 +69,7 @@ public class JsonTools {
 
         return info;
     }
-
-
+    //查看我的乐跑
     public static List<OrderEntity> getOrderInfo(String key, String jsonString)
             throws JSONException {
         List<OrderEntity> list = new ArrayList<OrderEntity>();
@@ -94,8 +92,7 @@ public class JsonTools {
 
         return list;
     }
-
-
+    //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
         Log.i("jsonString", jsonString);
@@ -108,6 +105,7 @@ public class JsonTools {
             ShowEntity info = new ShowEntity();
             JSONObject showObject = jsonArray.getJSONObject(i);
             info.setUser_id(showObject.getString("user_id"));
+            info.setLike_state(showObject.getString("like_state"));
             info.setUser_name(showObject.getString("user_name"));
             info.setShow_id(showObject.getString("show_id"));
             info.setUser_header(showObject.getString("user_header"));
@@ -123,6 +121,7 @@ public class JsonTools {
         return list;
     }
 
+    //图片
     public static List<String> getImageInfo(String jsonString)
             throws JSONException {
 

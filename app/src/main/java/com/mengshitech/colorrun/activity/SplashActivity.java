@@ -49,7 +49,7 @@ public class SplashActivity extends Activity {
 
 						@Override
 						public void run() {
-							judgeHandler.sendEmptyMessageDelayed(0,2000);
+							judgeHandler.sendEmptyMessageDelayed(0,0);
 						}
 					}).start();
 					finish();

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,14 +15,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.utils.HttpUtils;
+import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
+
+import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/7/15.
@@ -29,23 +43,23 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     View into_lerun_view;
     TimeCount countdown;
     ImageView poster, map;
-    TextView  address, name, origin, time, process, rule, price,
-            number, tx_entry;
+    TextView  address, name, lerun_time, price, number, tx_entry,end_tiem,start_time,hold_time;
     Button ll_entry;
+    String time;
+    int lerun_id;
 
     @Override
     public View initView() {
         into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
         MainBackUtility.MainBack(into_lerun_view,"活动详情",getFragmentManager());
-
-        int lerun_id = getArguments().getInt("lerun_id");
+        lerun_id = getArguments().getInt("lerun_id");
         Log.i("lerun_id",lerun_id+"");
 
+        new Thread(runnable).start();
         find();
         click();// 点击事件
-        entry_type();// 查看报名的状态
+//        entry_type();// 查看报名的状态
         number_type();// 查看人数状态
-        time();// 倒计时
         return into_lerun_view;
     }
 
@@ -76,12 +90,15 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     }
 
     // 倒计时
-    private void time() {
+    private void Time(String time) {
         //获取活动结束时间time
-        String time = "2016年8月1日11时00分00秒";
+        String Countdown = time + ":00";
+        Log.i("Countdown",Countdown);
 
-        String time_finish = getTime(time);
+        String time_finish = getTime(Countdown);
+        Log.i("time_finish1111",time_finish);
         long time_now = new Date().getTime();
+        Log.i("time_finish",time_finish);
 
         int Time_finish = Integer.valueOf(time_finish) * 1000;
         int Time_now = (int) time_now;
@@ -91,14 +108,14 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         Log.i("Time_finish", Time_finish + "");
 
         countdown.setEndTime(System.currentTimeMillis()
-                + (Time_finish - Time_now),ll_entry,tx_entry);
-    }
+                + (Time_finish - Time_now));
 
+    }
     // 活动结束时间转成时间戳
     public static String getTime(String time) {
 
         String re_time = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d;
         try {
             d = sdf.parse(time);
@@ -119,18 +136,17 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
     private void find() {
         poster = (ImageView) into_lerun_view.findViewById(R.id.into_lerun_poster);// 活动海报
-        map = (ImageView) into_lerun_view.findViewById(R.id.into_lerun_map);// 活动路线地图
-        address = (TextView) into_lerun_view.findViewById(R.id.into_lerun_address);// 活动地点
-//        name = (TextView) into_lerun_view.findViewById(R.id.into_lerun_name);// 活动名字
-        origin = (TextView) into_lerun_view.findViewById(R.id.into_lerun_origin);// 起点（与地点一样）
-        time = (TextView) into_lerun_view.findViewById(R.id.into_lerun_time);// 活动时间
-//        process = (TextView) into_lerun_view.findViewById(R.id.into_lerun_process);// 活动流程
-//        rule = (TextView) into_lerun_view.findViewById(R.id.into_lerun_rule);// 活动规则
         price = (TextView) into_lerun_view.findViewById(R.id.into_lerun_price);// 活动费用
         number = (TextView) into_lerun_view.findViewById(R.id.into_lerun_number);// 剩余名额
+        map = (ImageView) into_lerun_view.findViewById(R.id.into_lerun_map);// 活动路线地图
+        address = (TextView) into_lerun_view.findViewById(R.id.into_lerun_address);// 活动地点
+        name = (TextView) into_lerun_view.findViewById(R.id.into_lerun_title);// 活动名字
+        lerun_time = (TextView) into_lerun_view.findViewById(R.id.into_lerun_time);// 活动时间
+        end_tiem = (TextView) into_lerun_view.findViewById(R.id.end_time);//报名截止时间
+        start_time = (TextView) into_lerun_view.findViewById(R.id.start_time);//报名开始时间
+        hold_time = (TextView) into_lerun_view.findViewById(R.id.hold_time);
         countdown = (TimeCount) into_lerun_view.findViewById(R.id.into_lerun_countdown);// 剩余时间
         ll_entry = (Button) into_lerun_view.findViewById(R.id.bt_into_lerun_entry);// 报名按钮
-//        tx_entry = (TextView) into_lerun_view.findViewById(R.id.tx_into_lerun_entry);// 立即报名
     }
 
     @Override
@@ -165,4 +181,55 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 break;
         }
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = IPAddress.PATH;
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("flag","lerun");
+            map.put("index","1");
+            map.put("lerun_id",lerun_id+"");
+            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            Log.i("result1",result);
+            Message msg = new Message();
+            msg.obj = result;
+            handler.sendMessage(msg);
+        }
+    };
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+            Log.i("result2",result);
+            if (result.equals("timeout")) {
+//                progressDialog.dismiss();
+                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+            }else {
+                try {
+                    LeRunEntity leRunEntity = JsonTools.getLerunEvent("result",result);
+                    Log.i("LeRunEntity",leRunEntity+"");
+                    price.setText(String.valueOf(leRunEntity.getCharge_common()));
+                    Log.i("Charge_common",leRunEntity.getCharge_common()+"");
+                    number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
+                    time = leRunEntity.getLerun_endtime();
+                    Log.i("Lerun_endtime",leRunEntity.getLerun_endtime());
+                    address.setText(leRunEntity.getLerun_address());
+                    lerun_time.setText(leRunEntity.getLerun_time());
+                    name.setText(leRunEntity.getLerun_title());
+                    start_time.setText(leRunEntity.getLerun_begintime());
+                    end_tiem.setText(leRunEntity.getLerun_endtime());
+                    hold_time.setText(leRunEntity.getLerun_time());
+                    String poster_path = IPAddress.path+leRunEntity.getLerun_poster();
+                    Log.i("poster_path",poster_path);
+                    String map_path = IPAddress.path+leRunEntity.getLerun_map();
+                    Glide.with(getActivity()).load(poster_path).into(poster);
+                    Glide.with(getActivity()).load(map_path).into(map);
+                    Time(time);// 倒计时
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 }

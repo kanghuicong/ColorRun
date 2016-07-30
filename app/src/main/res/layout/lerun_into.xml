@@ -30,7 +30,7 @@
                     <ImageView
                         android:id="@+id/into_lerun_poster"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="300dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/splash1" />
 
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="2dp"
-                        android:text="1天23小时50分12秒"
+                        android:text=""
                         android:textColor="@color/purple"
                         android:textSize="15sp" />
                     </LinearLayout>
@@ -208,7 +208,7 @@
                     <ImageView
                         android:id="@+id/into_lerun_map"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
                         android:padding="10dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/into_lerun_map" />
@@ -313,7 +313,6 @@
                             android:textSize="18dp" />
 
                         <TextView
-                            android:id="@+id/into_lerun_origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -550,7 +549,6 @@
         </ScrollView>
 
         <Button
-
             android:id="@+id/bt_into_lerun_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

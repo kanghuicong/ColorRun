@@ -37,7 +37,6 @@ public class LeRunEntity {
 	private String pay_money;
 	private String insurance_money;
 	private String insurancecompany_name;
-	
 	//剩余
 	private int lerun_surplus;
 

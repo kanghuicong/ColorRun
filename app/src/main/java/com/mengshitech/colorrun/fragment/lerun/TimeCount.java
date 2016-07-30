@@ -12,10 +12,9 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.DigitalClock;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * Created by kanghuicong on 2016/7/15.
@@ -30,8 +29,6 @@ public class TimeCount extends DigitalClock {
     private Runnable mTicker;
     private Handler mHandler;
     private long endTime;
-    Button layout;
-    TextView tv;
     public static long distanceTime;
     private ClockListener mClockListener;
     private static boolean isFirst;
@@ -69,22 +66,19 @@ public class TimeCount extends DigitalClock {
                 if (mTickerStopped)
                     return;
                 long currentTime = System.currentTimeMillis();
+                Log.i("currentTime",currentTime+"");
                 if (currentTime / 1000 == endTime / 1000 - 5 * 60) {
                     mClockListener.remainFiveMinutes();
                 }
-                distanceTime = endTime - currentTime;
+                Log.i("endTime",endTime+"");
+                distanceTime =  endTime - currentTime;
                 distanceTime /= 1000;
+                Log.i("distanceTime",distanceTime+"");
                 if (distanceTime == 0) {
                     setText("00:00:00");
-                    layout.setBackgroundColor(Color.parseColor("#cccccc"));
-                    tv.setText("报名结束啦");
-                    layout.setEnabled(false);
                     onDetachedFromWindow();
                 } else if (distanceTime < 0) {
                     setText("00:00:00");
-                    layout.setBackgroundColor(Color.parseColor("#cccccc"));
-                    tv.setText("报名结束啦");
-                    layout.setEnabled(false);
                     onDetachedFromWindow();
                 } else {
                     setText(dealTime(distanceTime));
@@ -163,11 +157,10 @@ public class TimeCount extends DigitalClock {
      *
      * @param endTime
      */
-    public void setEndTime(long endTime, Button layout, TextView tv) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
-        this.layout = layout;
-        this.tv = tv;
-
+        onAttachedToWindow();
+        Log.i("EndTime",endTime+"");
     }
     /**
      * Pulls 12/24 mode from system settings

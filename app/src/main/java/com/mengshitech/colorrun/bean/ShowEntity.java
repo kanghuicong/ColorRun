@@ -16,9 +16,10 @@ public class ShowEntity implements Serializable {
     String show_image;
     String show_time;
     String comment_num;
+    String like_state;
     String like_num;
 
-    public ShowEntity(String show_id, String like_num, String comment_num, String show_time, String show_image, String show_content, String user_id, String user_name,String user_header) {
+    public ShowEntity(String show_id, String like_num, String comment_num, String show_time, String show_image, String show_content, String user_id, String user_name,String user_header,String like_state) {
         this.show_id = show_id;
         this.like_num = like_num;
         this.comment_num = comment_num;
@@ -28,6 +29,15 @@ public class ShowEntity implements Serializable {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_header = user_header;
+        this.like_state = like_state;
+    }
+
+    public String getLike_state() {
+        return like_state;
+    }
+
+    public void setLike_state(String like_state) {
+        this.like_state = like_state;
     }
 
     public String getUser_header() {

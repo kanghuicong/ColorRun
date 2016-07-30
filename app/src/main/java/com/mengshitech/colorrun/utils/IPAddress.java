@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
  * 515849594@qq.com
  */
 public class IPAddress {
-    public static final String PATH="http://192.168.0.19:8080/LeRun/servlet/LeRunServlet";
+//    192.168.0.19:8080
 
-    public static final String ImagePath ="http://192.168.0.19:8080/LeRun/servlet/UploadServlet";
+    public static final String PATH="http://192.168.168.245/LeRun/servlet/LeRunServlet";
 
-    public static final String path="http://192.168.0.19:8080/LeRun/";
+    public static final String ImagePath ="http://192.168.168.245/LeRun/servlet/UploadServlet";
+
+    public static final String path="http://192.168.168.245/LeRun/";
 
 }

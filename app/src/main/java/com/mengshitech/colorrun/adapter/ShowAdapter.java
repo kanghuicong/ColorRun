@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -42,7 +44,7 @@ import java.util.Map;
 /**
  * atenklsy
  */
-public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
+public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     FragmentManager fm;
     ViewHolder holder;
     View view;
@@ -51,17 +53,10 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
     ListView mListView;
     ShowEntity mShowEntity;
     List<ShowEntity> mShowList;
-    String header_path;
-    CallBack callBack;
+    String like_state;
 
     private Context context;
     int count;
-
-    public interface CallBack{
-        public void returnInfo(String user_name,String show_content,String show_time,String show_comment_num,
-                               String show_like_num,String user_header,String show_image);
-
-    }
 
     private static class ViewHolder {
         private ImageView user_header;
@@ -76,7 +71,7 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
         private ImageView show_share;
     }
 
-    public ShowAdapter(int count,Context context,FragmentManager fm, List<ShowEntity> showList,
+    public ShowAdapter(int count, Context context, FragmentManager fm, List<ShowEntity> showList,
                        ListView mListView) {
         this.count = count;
         this.context = context;
@@ -87,12 +82,14 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
 
     @Override
     public int getCount() {
-        Log.i("123", "getCount: "+count);
+        Log.i("123", "getCount: " + count);
         return count;
     }
-    public int getChildCount(int childCount){
+
+    public int getChildCount(int childCount) {
         return 1;
     }
+
     @Override
     public ShowEntity getItem(int position) {
         return mShowList.get(position);
@@ -105,13 +102,13 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("456", "getView: "+imagepath.size());
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
         holder = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.show_listview,null);
+            view = inflater.inflate(R.layout.show_listview, null);
 
             holder = new ViewHolder();
             holder.user_header = (ImageView) view
@@ -128,17 +125,18 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
                     .findViewById(R.id.tv_show_like_num);
             holder.show_comment_num = (TextView) view
                     .findViewById(R.id.tv_show_comment_num);
-            holder.show_comment = (ImageView)view.findViewById(R.id.im_show_comment);
-            holder.show_like = (ImageView)view.findViewById(R.id.im_show_like);
-            holder.show_share = (ImageView)view.findViewById(R.id.im_show_share) ;
+            holder.show_comment = (ImageView) view.findViewById(R.id.im_show_comment);
+            holder.show_like = (ImageView) view.findViewById(R.id.im_show_like);
+            holder.show_share = (ImageView) view.findViewById(R.id.im_show_share);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
 
-        String header_path = IPAddress.path+mShowEntity.getUser_header();
-        Log.i("header_path:",header_path);
+
+        String header_path = IPAddress.path + mShowEntity.getUser_header();
+        Log.i("header_path:", header_path);
         Glide.with(context).load(header_path).into(holder.user_header);
 
         holder.user_name.setText(mShowEntity.getUser_name());
@@ -156,7 +154,7 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
                 String paths = ImageList.get(i);
                 System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
                 imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,imagepath,imagepath.size());
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context, imagepath, imagepath.size());
                 System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
                 holder.show_image.setAdapter(adapter);
             }
@@ -173,6 +171,7 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
         return view;
     }
 
+
     public void addItem(int item) {
         count = item;
     }
@@ -182,7 +181,12 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
         switch (v.getId()) {
             case R.id.im_show_like:
                 Toast.makeText(context, "like", Toast.LENGTH_SHORT).show();
-                new Thread(like_runnable).start();
+                like_state = mShowEntity.getLike_state();
+                if (like_state.equals("0")) {
+                    new Thread(like_runnable).start();
+                } else if (like_state.equals("1")) {
+                    new Thread(cancellike_runnable).start();
+                }
                 break;
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
@@ -205,9 +209,9 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
             map.put("index", "8");
-            map.put("user_id",id);
-            map.put("likeuer_id",mShowEntity.getUser_id());
-            map.put("show_id",mShowEntity.getShow_id());
+            map.put("user_id", id);
+            map.put("like_userid", mShowEntity.getUser_id());
+            map.put("show_id", mShowEntity.getShow_id());
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -216,17 +220,83 @@ public class ShowAdapter extends BaseAdapter implements  View.OnClickListener {
             msg.obj = result;
             like_handler.sendMessage(msg);
         }
+
     };
-    Handler like_handler = new Handler() {
+
+        Handler like_handler = new Handler() {
+
+            public void handleMessage(Message msg) {
+                String result = (String) msg.obj;
+
+                Log.i("result111", result);
+                if (result.equals("timeout")) {
+//                progressDialog.dismiss();
+                    Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                } else {
+//                progressDialog.dismiss();
+                    try {
+                        int state = JsonTools.getState("state",result);
+                        like_state = state+"";
+                        Log.i("state", state+"");
+                        holder.show_like.setImageResource(R.mipmap.show_heart);
+                        holder.show_like_num.setText(Integer.valueOf(holder.show_like_num.getText().toString()) + 1 + "");
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+
+
+
+    Runnable cancellike_runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = IPAddress.PATH;
+            SharedPreferences sharedPreferences = context
+                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+            String id = sharedPreferences.getString("user_id", "");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "show");
+            map.put("index", "6");
+            map.put("user_id", id);
+            map.put("show_id", mShowEntity.getShow_id());
+
+            String result = HttpUtils.sendHttpClientPost(path, map,
+                    "utf-8");
+            Log.i("result", result);
+            Message msg = new Message();
+            msg.obj = result;
+            cancellike_handler.sendMessage(msg);
+        }
+
+    };
+
+    Handler cancellike_handler = new Handler() {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
+
+            Log.i("result111", result);
             if (result.equals("timeout")) {
+//                progressDialog.dismiss();
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-
+//                progressDialog.dismiss();
+                try {
+                    int state = JsonTools.getState("state",result);
+                    like_state = state+"";
+                    Log.i("like_state", state+"");
+                    holder.show_like.setImageResource(R.mipmap.show_heart_no);
+                    holder.show_like_num.setText(Integer.valueOf(holder.show_like_num.getText().toString()) - 1 + "");
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
     };
-
 }
+

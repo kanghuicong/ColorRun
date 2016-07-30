@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     ImageView poster, map;
     TextView  address, name, origin, time, process, rule, price,
             number, tx_entry;
-    LinearLayout ll_entry;
+    Button ll_entry;
 
     @Override
     public View initView() {
@@ -120,16 +121,16 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         poster = (ImageView) into_lerun_view.findViewById(R.id.into_lerun_poster);// 活动海报
         map = (ImageView) into_lerun_view.findViewById(R.id.into_lerun_map);// 活动路线地图
         address = (TextView) into_lerun_view.findViewById(R.id.into_lerun_address);// 活动地点
-        name = (TextView) into_lerun_view.findViewById(R.id.into_lerun_name);// 活动名字
+//        name = (TextView) into_lerun_view.findViewById(R.id.into_lerun_name);// 活动名字
         origin = (TextView) into_lerun_view.findViewById(R.id.into_lerun_origin);// 起点（与地点一样）
         time = (TextView) into_lerun_view.findViewById(R.id.into_lerun_time);// 活动时间
-        process = (TextView) into_lerun_view.findViewById(R.id.into_lerun_process);// 活动流程
-        rule = (TextView) into_lerun_view.findViewById(R.id.into_lerun_rule);// 活动规则
+//        process = (TextView) into_lerun_view.findViewById(R.id.into_lerun_process);// 活动流程
+//        rule = (TextView) into_lerun_view.findViewById(R.id.into_lerun_rule);// 活动规则
         price = (TextView) into_lerun_view.findViewById(R.id.into_lerun_price);// 活动费用
         number = (TextView) into_lerun_view.findViewById(R.id.into_lerun_number);// 剩余名额
         countdown = (TimeCount) into_lerun_view.findViewById(R.id.into_lerun_countdown);// 剩余时间
-        ll_entry = (LinearLayout) into_lerun_view.findViewById(R.id.bt_into_lerun_entry);// 报名按钮
-        tx_entry = (TextView) into_lerun_view.findViewById(R.id.tx_into_lerun_entry);// 立即报名
+        ll_entry = (Button) into_lerun_view.findViewById(R.id.bt_into_lerun_entry);// 报名按钮
+//        tx_entry = (TextView) into_lerun_view.findViewById(R.id.tx_into_lerun_entry);// 立即报名
     }
 
     @Override

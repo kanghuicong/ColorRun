@@ -63,6 +63,8 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         return into_lerun_view;
     }
 
+
+
     // 人数状态
     private void number_type() {
         // TODO Auto-generated method stub
@@ -154,7 +156,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bt_into_lerun_entry:
-                Intent intent = new Intent(getActivity(),IntoLeRunEnroll.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(),IntoLeRunEnroll.class);
                 getActivity().startActivity(intent);
 
 //                Toast.makeText(getActivity(), "报名成功！！",Toast.LENGTH_SHORT).show();

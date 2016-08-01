@@ -69,7 +69,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
     //图片上传成功后返回的图片路径
     String ScuessImagePath;
     String user_id;
-    int lerun_id;
+    String lerun_id;
 
 
     @Override
@@ -78,6 +78,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.lerun_event_enroll);
         MainBackUtility.MainBackActivity(IntoLeRunEnroll.this, "报名");
+
         FindId();
         EnrollClick();
 

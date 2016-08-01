@@ -174,8 +174,50 @@ public class JsonTools {
             list.add(entity);
         }
 
-
         return list;
+    }
+
+    //活动详情
+    public static LeRunEntity getLerunEvent(String key, String jsonString) throws JSONException {
+        LeRunEntity entity = new LeRunEntity();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject object = jsonObject.getJSONObject(key);
+        Log.i("jsonString_mdzz",jsonString);
+
+        entity.setLerun_address(object.getString("lerun_address"));
+        entity.setLerun_begintime(object.getString("lerun_begintime"));
+        entity.setCharge_id(Integer.parseInt(object.getString("charge_id")));
+        entity.setLerun_city(object.getString("lerun_city"));
+        entity.setLerun_content(object.getString("lerun_content"));
+        entity.setLerun_dimage(object.getString("lerun_dimage"));
+        entity.setLerun_endtime(object.getString("lerun_endtime"));
+        entity.setLerun_host(object.getString("lerun_host"));
+        entity.setLerun_id(Integer.parseInt(object.getString("lerun_id")));
+        entity.setLerun_map(object.getString("lerun_map"));
+        entity.setLerun_maxuser(Integer.parseInt(object.getString("lerun_maxuser")));
+        entity.setLerun_poster(object.getString("lerun_poster"));
+        entity.setLerun_process(object.getString("lerun_process"));
+        entity.setLerun_routine(object.getString("lerun_routine"));
+        entity.setLerun_ruler(object.getString("lerun_ruler"));
+        entity.setLerun_sponsor(object.getString("lerun_sponsor"));
+        entity.setLerun_state(Integer.parseInt(object.getString("lerun_state")));
+        entity.setLerun_time(object.getString("lerun_time"));
+        entity.setLerun_title(object.getString("lerun_title"));
+        entity.setLerun_type(object.getString("lerun_type"));
+        entity.setLerun_video(object.getString("lerun_video"));
+        entity.setFreecharge_number(Integer.parseInt(object.getString("freecharge_number")));
+        entity.setCharge_mode(Integer.parseInt(object.getString("charge_mode")));
+        entity.setInsurance_id(Integer.parseInt(object.getString("insurance_id")));
+        entity.setCharge_free(Integer.parseInt(object.getString("charge_free")));
+        entity.setCharge_common(Integer.parseInt(object.getString("charge_common")));
+        entity.setCharge_vip(Integer.parseInt(object.getString("charge_vip")));
+        entity.setFree_equipment(object.getString("free_equipment"));
+        entity.setCommon_equipment(object.getString("common_equipment"));
+        entity.setVip_eqeuipment(object.getString("vip_equipment"));
+        entity.setLerun_surplus(Integer.parseInt(object.getString("lerun_surplus")));
+
+        Log.i("mdzz",entity+"");
+        return entity;
     }
 
     //解析热门视频信息

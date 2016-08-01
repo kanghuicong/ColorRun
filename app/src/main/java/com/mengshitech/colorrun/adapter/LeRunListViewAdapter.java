@@ -85,16 +85,12 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int clickPosition, long id) {
-//        lerunDetailFragment mLeRunFragment = new lerunDetailFragment();
         LeRunEntity mclickLeRunEntity = getItem(clickPosition);
         Bundle bundle = new Bundle();
         bundle.putInt("lerun_id",mclickLeRunEntity.getLerun_id());
-
-//        mLeRunFragment.setArguments(bundle);
         IntoLerunEvent mIntoLerunEvent = new IntoLerunEvent();
         mIntoLerunEvent.setArguments(bundle);
         Utility.replace2DetailFragment(mFragmentManager, mIntoLerunEvent);
-
     }
 
     class ViewHolder {

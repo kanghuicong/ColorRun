@@ -177,7 +177,4 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
 
         }
     };
-
-
-
 }

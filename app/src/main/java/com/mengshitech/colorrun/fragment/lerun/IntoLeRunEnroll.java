@@ -14,10 +14,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -51,7 +55,7 @@ import java.util.Map;
  * Created by kanghuicong on 2016/7/27  17:58.
  * 515849594@qq.com
  */
-public class IntoLeRunEnroll extends AppCompatActivity implements android.view.View.OnClickListener {
+public class IntoLeRunEnroll extends Fragment implements android.view.View.OnClickListener {
     TextView enroll_name, enroll_time, enroll_address;
     EditText user_name, card_number, enroll_unit, enroll_number;
     RadioGroup rg_enroll_sex, rg_enroll_size;
@@ -60,7 +64,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
     ListView enroll_price;
     RadioButton enroll_agree, rb_sex_man, rb_sex_woman, rb_size_s, rb_size_m, rb_size_l, rb_size_xl, rb_size_2xl, rb_size_3xl;
     Button bt_enroll_agree;
-    String sex="男";
+    String sex = "男";
     String size;
     ImageView image;
     ChoseImageDiaLog dialog;
@@ -69,49 +73,52 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
     //图片上传成功后返回的图片路径
     String ScuessImagePath;
     String user_id;
-    String lerun_id;
+    View enroll_view;
+    int lerun_id;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.lerun_event_enroll);
-        MainBackUtility.MainBackActivity(IntoLeRunEnroll.this, "报名");
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
+        MainBackUtility.MainBack(enroll_view, "报名", getFragmentManager());
 
         FindId();
+        lerun_id = getArguments().getInt("lerun_id");
+        enroll_name.setText(getArguments().getString("title"));
+        enroll_time.setText(getArguments().getString("time"));
+        enroll_address.setText(getArguments().getString("address"));
         EnrollClick();
+
+        return enroll_view;
 
     }
 
     private void FindId() {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         user_id = sharedPreferences.getString("user_id", "");
 
-
-        enroll_name = (TextView) findViewById(R.id.tv_enroll_university);
-        enroll_time = (TextView) findViewById(R.id.tv_enroll_time);
-        enroll_address = (TextView) findViewById(R.id.tv_enroll_add);
-        user_name = (EditText) findViewById(R.id.et_enroll_name);
-        rg_enroll_sex = (RadioGroup) findViewById(R.id.rg_enroll_sex);
-        rb_sex_man = (RadioButton) findViewById(R.id.rb_sex_man);
-        rb_sex_woman = (RadioButton) findViewById(R.id.rb_sex_woman);
-        enroll_spinner_card = (Spinner) findViewById(R.id.Spinner_enroll_card);
-        card_number = (EditText) findViewById(R.id.et_card_number);
-        rg_enroll_size = (RadioGroup) findViewById(R.id.rg_enroll_size);
-        rb_size_s = (RadioButton) findViewById(R.id.rb_size_s);
-        rb_size_m = (RadioButton) findViewById(R.id.rb_size_m);
-        rb_size_l = (RadioButton) findViewById(R.id.rb_size_l);
-        rb_size_xl = (RadioButton) findViewById(R.id.rb_size_xl);
-        rb_size_2xl = (RadioButton) findViewById(R.id.rb_size_2xl);
-        rb_size_3xl = (RadioButton) findViewById(R.id.rb_size_3xl);
-        enroll_spinner_id = (Spinner) findViewById(R.id.Spinner_enroll_id);
-        enroll_unit = (EditText) findViewById(R.id.et_enroll_unit);
-        enroll_number = (EditText) findViewById(R.id.et_contact_number);
-        enroll_authentication = (ImageView) findViewById(R.id.iv_enroll_authentication);
-        enroll_agree = (RadioButton) findViewById(R.id.rb_enroll_agree);
-        bt_enroll_agree = (Button) findViewById(R.id.bt_enroll_agree);
+        enroll_name = (TextView) enroll_view.findViewById(R.id.tv_enroll_university);
+        enroll_time = (TextView) enroll_view.findViewById(R.id.tv_enroll_time);
+        enroll_address = (TextView) enroll_view.findViewById(R.id.tv_enroll_add);
+        user_name = (EditText) enroll_view.findViewById(R.id.et_enroll_name);
+        rg_enroll_sex = (RadioGroup) enroll_view.findViewById(R.id.rg_enroll_sex);
+        rb_sex_man = (RadioButton) enroll_view.findViewById(R.id.rb_sex_man);
+        rb_sex_woman = (RadioButton) enroll_view.findViewById(R.id.rb_sex_woman);
+        enroll_spinner_card = (Spinner) enroll_view.findViewById(R.id.Spinner_enroll_card);
+        card_number = (EditText) enroll_view.findViewById(R.id.et_card_number);
+        rg_enroll_size = (RadioGroup) enroll_view.findViewById(R.id.rg_enroll_size);
+        rb_size_s = (RadioButton) enroll_view.findViewById(R.id.rb_size_s);
+        rb_size_m = (RadioButton) enroll_view.findViewById(R.id.rb_size_m);
+        rb_size_l = (RadioButton) enroll_view.findViewById(R.id.rb_size_l);
+        rb_size_xl = (RadioButton) enroll_view.findViewById(R.id.rb_size_xl);
+        rb_size_2xl = (RadioButton) enroll_view.findViewById(R.id.rb_size_2xl);
+        rb_size_3xl = (RadioButton) enroll_view.findViewById(R.id.rb_size_3xl);
+        enroll_spinner_id = (Spinner) enroll_view.findViewById(R.id.Spinner_enroll_id);
+        enroll_unit = (EditText) enroll_view.findViewById(R.id.et_enroll_unit);
+        enroll_number = (EditText) enroll_view.findViewById(R.id.et_contact_number);
+        enroll_authentication = (ImageView) enroll_view.findViewById(R.id.iv_enroll_authentication);
+        enroll_agree = (RadioButton) enroll_view.findViewById(R.id.rb_enroll_agree);
+        bt_enroll_agree = (Button) enroll_view.findViewById(R.id.bt_enroll_agree);
 
         enroll_authentication.setOnClickListener(this);
     }
@@ -126,13 +133,13 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
                                                            "".equals(enroll_number.getText().toString()) ||
                                                            "请选择".equals(enroll_spinner_card.getSelectedItem().toString()) ||
                                                            "请选择".equals(enroll_spinner_id.getSelectedItem().toString())) {
-                                                       Toast.makeText(IntoLeRunEnroll.this, "请将信息填写完整！", Toast.LENGTH_SHORT).show();
+                                                       Toast.makeText(getActivity(), "请将信息填写完整！", Toast.LENGTH_SHORT).show();
                                                    } else {
                                                        if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString())) {
 
                                                            if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
                                                                if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()))
-                                                                   Toast.makeText(IntoLeRunEnroll.this, "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
+                                                                   Toast.makeText(getActivity(), "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
                                                            } else {
 
                                                            }
@@ -176,7 +183,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
             map.put("flag", "lerun");
             map.put("index", "4");
             map.put("user_id", user_id);
-            map.put("lerun_id", "999");
+            map.put("lerun_id", lerun_id + "");
             map.put("user_telphone", enroll_number.getText().toString());
             map.put("lerun_title", enroll_name.getText().toString());
             map.put("signin_type", signin_type);
@@ -189,7 +196,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
             map.put("dress_size", size);
             map.put("payment", "69");
             map.put("certificate_image", ScuessImagePath);
-            map.put("user_sex",sex );
+            map.put("user_sex", sex);
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -207,14 +214,14 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
             Log.i("result", result);
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(IntoLeRunEnroll.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else if (result.equals("0")) {
-                Toast.makeText(IntoLeRunEnroll.this, "报名失败...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "报名失败...", Toast.LENGTH_SHORT).show();
             } else if (result.equals("1")) {
-                Toast.makeText(IntoLeRunEnroll.this, "您已经报过名啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "您已经报过名啦", Toast.LENGTH_SHORT).show();
             } else if (result.equals("2")) {
-                Toast.makeText(IntoLeRunEnroll.this, "报名成功，等待审核通过", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(getActivity(), "报名成功，等待审核通过", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
 
         }
@@ -237,7 +244,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
             super.handleMessage(msg);
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
-                Toast.makeText(IntoLeRunEnroll.this, "图片上传失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
                 new Thread(runnable).start();
             }
@@ -259,7 +266,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
     }
 
     public void showDailog() {
-        dialog = new ChoseImageDiaLog(IntoLeRunEnroll.this, R.layout.dialog_choseimage,
+        dialog = new ChoseImageDiaLog(getActivity(), R.layout.dialog_choseimage,
                 R.style.dialog, new ChoseImageDiaLog.LeaveMyDialogListener() {
 
             @Override
@@ -316,8 +323,6 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -338,7 +343,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
                 options.inSampleSize = 2;
 
                 // 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
-                ContentResolver resolver = getContentResolver();
+                ContentResolver resolver = getActivity().getContentResolver();
 
 
                 if (data != null) {
@@ -356,7 +361,7 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
 
                     // 好像是android多媒体数据库的封装接口，具体的看Android文档
                     @SuppressWarnings("deprecation")
-                    Cursor cursor = managedQuery(originalUri, proj, null, null,
+                    Cursor cursor = getActivity().managedQuery(originalUri, proj, null, null,
                             null);
                     // 按我个人理解 这个是获得用户选择的图片的索引值
                     int column_index = cursor
@@ -372,7 +377,6 @@ public class IntoLeRunEnroll extends AppCompatActivity implements android.view.V
 
                     System.out.println(imageFilePath);
                 }
-
 
                 break;
         }

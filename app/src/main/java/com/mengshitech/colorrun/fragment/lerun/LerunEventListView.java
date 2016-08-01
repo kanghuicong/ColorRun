@@ -187,8 +187,5 @@ public class LerunEventListView extends BaseFragment implements AdapterView.OnIt
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         int lerun_id = (int) parent.getItemIdAtPosition(position);
 
-
     }
-
-
 }

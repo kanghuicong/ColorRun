@@ -12,6 +12,7 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.DigitalClock;
 import android.widget.LinearLayout;
@@ -69,11 +70,15 @@ public class TimeCount extends DigitalClock {
                 if (mTickerStopped)
                     return;
                 long currentTime = System.currentTimeMillis();
+                Log.i("Runnable的时间",endTime+"");
+                Log.i("currentTime的时间",currentTime+"");
                 if (currentTime / 1000 == endTime / 1000 - 5 * 60) {
                     mClockListener.remainFiveMinutes();
+                    Log.i("mClockListener","ss");
                 }
                 distanceTime = endTime - currentTime;
                 distanceTime /= 1000;
+                Log.i("distanceTime的时间",distanceTime+"");
                 if (distanceTime == 0) {
                     setText("00:00:00");
                     layout.setBackgroundColor(Color.parseColor("#cccccc"));
@@ -82,9 +87,9 @@ public class TimeCount extends DigitalClock {
                     onDetachedFromWindow();
                 } else if (distanceTime < 0) {
                     setText("00:00:00");
-                    layout.setBackgroundColor(Color.parseColor("#cccccc"));
-                    tv.setText("报名结束啦");
-                    layout.setEnabled(false);
+//                    layout.setBackgroundColor(Color.parseColor("#cccccc"));
+//                    tv.setText("报名结束啦");
+//                    layout.setEnabled(false);
                     onDetachedFromWindow();
                 } else {
                     setText(dealTime(distanceTime));
@@ -167,6 +172,8 @@ public class TimeCount extends DigitalClock {
         this.endTime = endTime;
         this.layout = layout;
         this.tv = tv;
+
+        Log.i("传进来的时间",endTime+"");
 
     }
     /**

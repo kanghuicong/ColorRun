@@ -22,9 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
-
 import com.mengshitech.colorrun.R;
-
 public class XListView extends ListView implements OnScrollListener {
 
 	private float mLastY = -1; // save event y

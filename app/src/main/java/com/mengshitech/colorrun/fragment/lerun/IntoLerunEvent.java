@@ -156,9 +156,15 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bt_into_lerun_entry:
-                Intent intent = new Intent(getActivity().getApplicationContext(),IntoLeRunEnroll.class);
-                getActivity().startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putInt("lerun_id",lerun_id);
+                bundle.putString("title",name.getText().toString());
+                bundle.putString("time",start_time.getText().toString());
+                bundle.putString("address",address.getText().toString());
 
+                IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
+                mIntoLerunEnroll.setArguments(bundle);
+                Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
 //                Toast.makeText(getActivity(), "报名成功！！",Toast.LENGTH_SHORT).show();
 //
 //                number.setText(Integer.valueOf(number.getText().toString()) - 1

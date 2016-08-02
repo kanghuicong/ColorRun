@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -70,16 +71,24 @@ public class LerunFragment extends Fragment implements OnClickListener {
     Activity mActivity;
     // 广告栏是否自动滑动
 
-    List<String> gideviewlist;
+    List<LeRunEntity> gideviewlist;
 
     Context context;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //使用缓存 使fragment保持原有状态
         mActivity = getActivity();
-        lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
-        findById();
+        if (lerunView == null) {
+            lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
+            findById();
+        }
+        ViewGroup parent = (ViewGroup) lerunView.getParent();
+        if (parent != null) {
+            parent.removeView(lerunView);
+        }
         return lerunView;
 
     }
@@ -114,9 +123,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
 
     private void initView() {
         initImgList();
-        // 初始化ViewPager的图片
-        initLeRunList();
-        // 初始化listView数据
+
         fm = getFragmentManager();
         //初始化fm给ListView、GridView用
 //热播图片的点击事件
@@ -135,28 +142,14 @@ public class LerunFragment extends Fragment implements OnClickListener {
         Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
 
 
-        // 为活动ListView加入数据源、ListView
-
-        // 为活动GridView加入数据源、GridView
-
-
     }
-//
+
+    //
     private void initImgList() {
         new Thread(getLunBOimageRunnable).start();
         new Thread(getLeRunRunnable).start();
         new Thread(videoRunnable).start();
     }
-
-    private void initLeRunList() {
-        // 模拟初始化活动ListView的数据源
-
-
-        //测试热门活动
-
-
-    }
-
 
 
     @Override
@@ -164,7 +157,6 @@ public class LerunFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.tvLeRunActivity:
                 // 活动按钮
-                Toast.makeText(mActivity, "活动", Toast.LENGTH_SHORT).show();
                 Utility.replace2DetailFragment(fm, new LerunEventListView());
                 break;
             case R.id.tvLeRunTheme:
@@ -276,14 +268,16 @@ public class LerunFragment extends Fragment implements OnClickListener {
 
             lvLerun.setAdapter(new LeRunListViewAdapter(mActivity, lerunlist, fm,
                     lvLerun));
+//热门活动gridview
+            gideviewlist = new ArrayList<LeRunEntity>();
+            for (int i = 0; i < 2; i++) {
+                LeRunEntity entity = lerunlist.get(i);
 
-            gideviewlist = new ArrayList<String>();
-            for (int i=0;i<2;i++){
-                LeRunEntity entity=lerunlist.get(i);
-                gideviewlist.add(entity.getLerun_poster());
+                gideviewlist.add(entity);
             }
-            Log.i("gridlist的大小:",gideviewlist.size()+"");
+            Log.i("gridlist的大小:", gideviewlist.size() + "");
             gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
+
 
         }
     };
@@ -328,7 +322,6 @@ public class LerunFragment extends Fragment implements OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
             }
         }

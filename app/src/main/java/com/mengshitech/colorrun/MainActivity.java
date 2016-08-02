@@ -1,6 +1,12 @@
 package com.mengshitech.colorrun;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +21,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.mengshitech.colorrun.activity.AdvertisementActivity;
+import com.mengshitech.colorrun.activity.SplashActivity;
+import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.history.HistoryFragment;
+import com.mengshitech.colorrun.fragment.lerun.LerunEventListView;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
 import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.fragment.show.showFragment;
@@ -48,11 +58,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private HistoryFragment mHistoryFragment;
     private meFragment mMeFragment;
     private long mExitTime;
+    private ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
         initView();
     }
@@ -80,7 +92,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void initFragment() {
         //一开始先初始到lerunFragment
         fm = getSupportFragmentManager();
-        Utility.replace2MainFragment(fm, new LerunFragment());
+      Utility.replace2MainFragment(fm, new LerunFragment());
+
     }
 
     @Override
@@ -144,6 +157,45 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             transaction.hide(mMeFragment);
         }
     }
+//检测是否有网络连接
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+    @Override
+    public void onReceive(Context arg0, Intent arg1) {
+        NetworkInfo phoneinfo = connectivityManager
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifiinfo = connectivityManager
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (!(phoneinfo.isConnected()) && !(wifiinfo.isConnected())) {
+           Toast.makeText(MainActivity.this,"无网络连接，内容加载失败",Toast.LENGTH_SHORT).show();
+        }
+    }
+};
+
+    // 动态注册广播
+    protected void onResume() {
+
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+    };
+
+    // 动态注销广播
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        if (broadcastReceiver != null) {
+            unregisterReceiver(broadcastReceiver);
+        }
+    }
+
+
+
+
 
 //    @Override
 //    public void onBackPressed() {

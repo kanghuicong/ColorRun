@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,13 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
+import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
+import com.mengshitech.colorrun.fragment.lerun.lerunDetailFragment;
 import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by atenklsy on 2016/7/15 10:55.
@@ -26,7 +31,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     GridView mLeRunGridView;
     Activity mActivity;
     LeRunEntity mLeRunEntity;
-    List<String> gideviewlist;//测试用的
+    List<LeRunEntity> gideviewlist;//测试用的
 
 //    public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> leRunEntityList, FragmentManager fm, GridView gridView) {
 //        mActivity = activity;
@@ -34,7 +39,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
 //        mFragmentManagr = fm;
 //        mLeRunGridView = gridView;
 //    }
-    public LeRunGridViewAdapter(Activity activity, List<String> gideviewlist, FragmentManager fm, GridView gridView) {
+    public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> gideviewlist, FragmentManager fm, GridView gridView) {
         mActivity = activity;
         this.gideviewlist = gideviewlist;
         mFragmentManagr = fm;
@@ -43,12 +48,13 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public int getCount() {
-        return 2;
+        return gideviewlist.size();
     }
 
     @Override
-    public LeRunEntity getItem(int position) {
-        return mLeRunList.get(position);
+    public Object getItem(int position) {
+
+        return position;
     }
 
     @Override
@@ -59,7 +65,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-//        LeRunEntity mLeRunEntity = getItem(position);
+        LeRunEntity entity=gideviewlist.get(position);
         if (convertView == null) {
             convertView = View.inflate(mActivity, R.layout.item_lerun_gridview, null);
             holder = new ViewHolder();
@@ -69,21 +75,21 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder = (ViewHolder) convertView.getTag();
         }
 //        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
-        Glide.with(mActivity).load(IPAddress.path+gideviewlist.get(position)).into(holder.ivBackground);
+        Glide.with(mActivity).load(IPAddress.path+entity.getLerun_poster()).into(holder.ivBackground);
         mLeRunGridView.setOnItemClickListener(this);
         return convertView;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int clickPosition, long id) {
-//        LeRunEntity mclickLeRunEntity = getItem(clickPosition);
-//        //这个clickPosition才是被点击那个
-//        lerunDetailFragment mLeRunFragment = new lerunDetailFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("mclickLeRunEntity", mclickLeRunEntity);
-//        bundle.putInt("clickPosition", clickPosition);
-//        mLeRunFragment.setArguments(bundle);
-//        Utility.replace2DetailFragment(mFragmentManagr, mLeRunFragment);
+        LeRunEntity mclickLeRunEntity = gideviewlist.get(clickPosition);
+
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("lerun_id", mclickLeRunEntity.getLerun_id());
+        IntoLerunEvent mIntoLerunEvent = new IntoLerunEvent();
+        mIntoLerunEvent.setArguments(bundle);
+        Utility.replace2DetailFragment(mFragmentManagr, mIntoLerunEvent);
     }
 
     class ViewHolder {

@@ -158,8 +158,8 @@ public class HttpUtils {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setRequestMethod("GET");
-            conn.setConnectTimeout(8000);
-            conn.setReadTimeout(8000);
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
             conn.connect();
             if (conn.getResponseCode() == 200) {
                 InputStream is = conn.getInputStream();

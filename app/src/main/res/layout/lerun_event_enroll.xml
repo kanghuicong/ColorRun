@@ -26,7 +26,8 @@
                 android:layout_marginTop="20dp"
                 android:text="U-Run2016吉林大学校园马拉松"
                 android:textColor="#000"
-                android:textSize="25sp" />
+                android:textSize="20sp"
+                android:textStyle="italic" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,18 +76,18 @@
                     android:id="@+id/tv_enroll_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 姓名:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_enroll_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -99,7 +100,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5" />
+                    android:layout_weight="1.7" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -122,11 +123,11 @@
                     android:id="@+id/tv_enroll_sex"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
-                    android:text="* 性别:"
-                    android:textColor="#000"
+                    android:text="*性别:"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <RadioGroup
@@ -134,6 +135,7 @@
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="5"
+                    android:layout_marginRight="20dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -143,7 +145,8 @@
                         android:checked="true"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="男" />
+                        android:text="男"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_sex_woman"
@@ -151,7 +154,8 @@
                         android:layout_height="match_parent"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="女" />
+                        android:text="女"
+                        android:textColor="#444444" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -166,20 +170,21 @@
                     android:id="@+id/tv_card_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 证件类型:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <Spinner
                     android:id="@+id/Spinner_enroll_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
-                    android:entries="@array/card_type" />
+                    android:entries="@array/card_type"
+                    android:textColor="#444444" />
             </LinearLayout>
 
             <LinearLayout
@@ -193,18 +198,18 @@
                     android:id="@+id/tv_card_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 证件号码:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_card_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -217,7 +222,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5" />
+                    android:layout_weight="1.7" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -240,11 +245,11 @@
                     android:id="@+id/tv_cloth_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 衣服尺码:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <RadioGroup
@@ -252,6 +257,7 @@
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="5"
+                    android:layout_marginRight="20dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -260,18 +266,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="S" />
+                        android:text="S"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_size_m"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.04"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="M" />
+                        android:text="M"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_size_l"
@@ -279,7 +287,8 @@
                         android:layout_height="wrap_content"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="L" />
+                        android:text="L"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_size_xl"
@@ -287,7 +296,8 @@
                         android:layout_height="wrap_content"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="XL" />
+                        android:text="XL"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_size_2xl"
@@ -295,7 +305,8 @@
                         android:layout_height="wrap_content"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="2XL" />
+                        android:text="2XL"
+                        android:textColor="#444444" />
 
                     <RadioButton
                         android:id="@+id/rb_size_3xl"
@@ -303,7 +314,8 @@
                         android:layout_height="wrap_content"
                         android:scaleX="1"
                         android:scaleY="1"
-                        android:text="3XL" />
+                        android:text="3XL"
+                        android:textColor="#444444" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -318,20 +330,21 @@
                     android:id="@+id/tv_enroll_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 身份:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <Spinner
                     android:id="@+id/Spinner_enroll_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
-                    android:entries="@array/ID" />
+                    android:entries="@array/ID"
+                    android:textColor="#444444" />
             </LinearLayout>
 
             <LinearLayout
@@ -345,18 +358,18 @@
                     android:id="@+id/tv_enroll_unit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 来源单位:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_enroll_unit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -372,18 +385,18 @@
                     android:id="@+id/tv_contact_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.7"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 联系电话:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/et_contact_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et"
                     android:inputType="number" />
@@ -397,7 +410,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5" />
+                    android:layout_weight="1.7" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -418,24 +431,30 @@
 
                 <TextView
                     android:id="@+id/tv_enroll_authentication"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-
-                    android:gravity="top|left"
+                    android:layout_weight="1.7"
+                    android:gravity="top|right"
                     android:paddingRight="10dp"
                     android:text="身份认证:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
                     android:textSize="15sp" />
 
 
                 <ImageView
                     android:id="@+id/iv_enroll_authentication"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
                     android:layout_height="70dp"
+                    android:layout_weight="1.5"
+                    android:gravity="top|left"
                     android:inputType="number"
                     android:scaleType="fitXY"
                     android:src="@mipmap/enroll_add_image" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.5" />
 
             </LinearLayout>
 
@@ -450,11 +469,21 @@
                     android:id="@+id/tv_activity_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:gravity="top"
+                    android:layout_weight="1.7"
+                    android:gravity="top|right"
                     android:paddingRight="10dp"
                     android:text="活动价格:"
-                    android:textColor="#000"
+                    android:textColor="#444444"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_price_explain"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="top"
+                    android:text="(所有人免费)"
+                    android:textColor="#728ea3"
                     android:textSize="15sp" />
 
                 <!--<com.mengshitech.colorrun.view.MyListView-->
@@ -465,11 +494,41 @@
                 <!--</com.mengshitech.colorrun.view.MyListView>-->
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
+                    android:orientation="vertical">
+
+                    <com.mengshitech.colorrun.view.MyListView
+                        android:id="@+id/lv_enroll_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:background="@android:drawable/editbox_background_normal">
+                    </com.mengshitech.colorrun.view.MyListView>
+                </LinearLayout>
+
+            </LinearLayout>
+
             <RadioButton
                 android:id="@+id/rb_enroll_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
                 android:button="@drawable/enroll_rb_agree"
                 android:checked="true"
                 android:text="同意购买保险"

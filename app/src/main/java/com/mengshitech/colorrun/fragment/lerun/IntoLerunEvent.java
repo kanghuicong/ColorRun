@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -32,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +47,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     ImageView poster, map;
     TextView  address, name, lerun_time, price, number, tx_entry,end_tiem,start_time,hold_time;
     Button ll_entry;
-    String time;
-    int lerun_id;
+    String time,free_equipment,common_equipment,vip_equipment;
+    int lerun_id,charge_mode,free_price,common_price,vip_price;
+    List<EnrollEntity> list;
 
     @Override
     public View initView() {
@@ -162,6 +165,14 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 bundle.putString("time",start_time.getText().toString());
                 bundle.putString("address",address.getText().toString());
 
+                bundle.putInt("charge_mode",charge_mode);
+                bundle.putInt("free_price",free_price);
+                bundle.putInt("common_price",common_price);
+                bundle.putInt("vip_price",vip_price);
+                bundle.putString("free_equipment",free_equipment);
+                bundle.putString("common_equipment",common_equipment);
+                bundle.getString("vip_equipment",vip_equipment);
+
                 IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
                 mIntoLerunEnroll.setArguments(bundle);
                 Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
@@ -228,6 +239,15 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                     start_time.setText(leRunEntity.getLerun_begintime());
                     end_tiem.setText(leRunEntity.getLerun_endtime());
                     hold_time.setText(leRunEntity.getLerun_time());
+
+                    charge_mode = leRunEntity.getCharge_mode();
+                    free_price = leRunEntity.getCharge_free();
+                    common_price = leRunEntity.getCharge_common();
+                    vip_price = leRunEntity.getCharge_vip();
+                    free_equipment = leRunEntity.getFree_equipment();
+                    common_equipment = leRunEntity.getCommon_equipment();
+                    vip_equipment = leRunEntity.getVip_eqeuipment();
+
                     String poster_path = IPAddress.path+leRunEntity.getLerun_poster();
                     Log.i("poster_path",poster_path);
                     String map_path = IPAddress.path+leRunEntity.getLerun_map();

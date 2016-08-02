@@ -1,8 +1,10 @@
-package com.mengshitech.colorrun.fragment.history;
+package com.mengshitech.colorrun.fragment.lerun;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyPagerAdapter;
 import com.mengshitech.colorrun.fragment.BaseFragment;
@@ -10,29 +12,26 @@ import com.mengshitech.colorrun.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.View;
-
 /**
- * Created by kanghuicong on 2016/7/20  16:35.
- * 515849594@qq.com
+ * Created by kanghuicong on 2016/8/2  19:26.
  */
-public class HistoryFragment extends BaseFragment{
+public class LeRunThemePager extends BaseFragment {
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
-    List<String>   titleList    = new ArrayList<String>();
+    List<String> titleList = new ArrayList<String>();
     View historyview;
     Context context;
 
     @Override
     public View initView() {
-        historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
-        ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
-        context=getActivity();
-        fragmentList.add(new HistoryTheme(getActivity(),"pop"));
-        fragmentList.add(new HistoryTheme(getActivity(),"color"));
-        fragmentList.add(new HistoryTheme(getActivity(),"marathon"));
-        fragmentList.add(new HistoryTheme(getActivity(),"rainbow"));
-        fragmentList.add(new HistoryTheme(getActivity(),"light"));
+        historyview = View.inflate(getActivity(), R.layout.lerun_theme, null);
+        ViewPager vp = (ViewPager) historyview.findViewById(R.id.viewPager);
+        context = getActivity();
+        fragmentList.add(new LeRunTheme(getActivity(),"pop"));
+        fragmentList.add(new LeRunTheme(getActivity(),"color"));
+        fragmentList.add(new LeRunTheme(getActivity(),"marathon"));
+        fragmentList.add(new LeRunTheme(getActivity(),"rainbow"));
+        fragmentList.add(new LeRunTheme(getActivity(),"light"));
         titleList.add("卡乐泡泡跑");
         titleList.add("卡乐彩色跑");
         titleList.add("卡乐马拉松");
@@ -41,6 +40,4 @@ public class HistoryFragment extends BaseFragment{
         vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
         return historyview;
     }
-
-
 }

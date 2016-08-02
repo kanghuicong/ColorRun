@@ -10,6 +10,6 @@
         android:layout_height="100dp"
         android:scaleType="fitXY"
         android:id="@+id/iv_show_gridview"
-        android:background="@mipmap/dog"/>
+        android:background="@mipmap/defaut_error_square"/>
 
 </LinearLayout>

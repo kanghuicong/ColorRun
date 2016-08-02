@@ -166,43 +166,25 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.bt_into_lerun_entry:
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("lerun_id",lerun_id);
-                bundle.putString("title",name.getText().toString());
-                bundle.putString("time",start_time.getText().toString());
-                bundle.putString("address",address.getText().toString());
-
-                bundle.putInt("charge_mode",charge_mode);
-                bundle.putInt("free_price",free_price);
-                bundle.putInt("common_price",common_price);
-                bundle.putInt("vip_price",vip_price);
-                bundle.putString("free_equipment",free_equipment);
-                bundle.putString("common_equipment",common_equipment);
-                bundle.getString("vip_equipment",vip_equipment);
-
-                IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
-                mIntoLerunEnroll.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
-//                Toast.makeText(getActivity(), "报名成功！！",Toast.LENGTH_SHORT).show();
-//
-//                number.setText(Integer.valueOf(number.getText().toString()) - 1
-//                        + "");
-//
-//
-//                SharedPreferences sharedPreferences = getActivity()
-//                        .getSharedPreferences("entry_type", Activity.MODE_PRIVATE);
-//                String type = sharedPreferences.getString("type", "");
-
                 if (IPAddress.login_state.equals("1")) {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putInt("lerun_id", lerun_id);
-                    bundle1.putString("title", name.getText().toString());
-                    bundle1.putString("time", start_time.getText().toString());
-                    bundle1.putString("address", address.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("type",1);
+                    bundle.putInt("lerun_id", lerun_id);
+                    bundle.putString("title", name.getText().toString());
+                    bundle.putString("time", start_time.getText().toString());
+                    bundle.putString("address", address.getText().toString());
 
-                    IntoLeRunEnroll mIntoLerunEnroll1 = new IntoLeRunEnroll();
-                    mIntoLerunEnroll1.setArguments(bundle1);
-                    Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll1);
+                    bundle.putInt("charge_mode",charge_mode);
+                    bundle.putInt("free_price",free_price);
+                    bundle.putInt("common_price",common_price);
+                    bundle.putInt("vip_price",vip_price);
+                    bundle.putString("free_equipment",free_equipment);
+                    bundle.putString("common_equipment",common_equipment);
+                    bundle.putString("vip_equipment",vip_equipment);
+
+                    IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
+                    mIntoLerunEnroll.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
                 } else {
                     Toast.makeText(context,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(context, LoginActivity.class);

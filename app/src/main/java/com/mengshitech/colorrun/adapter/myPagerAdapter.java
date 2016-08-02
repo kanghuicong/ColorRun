@@ -1,4 +1,4 @@
-package com.mengshitech.colorrun.fragment.history;
+package com.mengshitech.colorrun.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,12 +10,12 @@ import java.util.List;
  * Created by kanghuicong on 2016/7/20  17:01.
  * 515849594@qq.com
  */
-public class myPagerAdapter extends FragmentPagerAdapter {
+public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
     private List<String>   titleList;
 
-    public myPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titleList){
+    public MyPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titleList){
         super(fm);
         this.fragmentList = fragmentList;
         this.titleList = titleList;

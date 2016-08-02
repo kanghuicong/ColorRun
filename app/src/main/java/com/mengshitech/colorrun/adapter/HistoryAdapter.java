@@ -1,7 +1,6 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.HistoryEntity;
-import com.mengshitech.colorrun.fragment.history.mHistoryDetailFragment;
 import com.mengshitech.colorrun.utils.IPAddress;
 
 import java.util.List;
@@ -81,7 +79,6 @@ public class HistoryAdapter extends BaseAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                mHistoryDetailFragment HistoryDetailFragment = new mHistoryDetailFragment();
             }
         });
         return convertView;

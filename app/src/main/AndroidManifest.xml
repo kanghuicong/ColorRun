@@ -45,9 +45,10 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.RegisterPwd" />
         <activity android:name=".activity.RegisterSuccess" />
+        <activity android:name=".activity.AdvertisementActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".fragment.lerun.IntoLeRunEnroll"/>
+
         <activity android:name=".activity.GuideActivity"/>
         <activity android:name=".fragment.show.showDetailFragment"/>
     </application>

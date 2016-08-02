@@ -95,6 +95,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         SharedPreferences.Editor editor = spAccount.edit();
         editor.putString("userId", userId);
         editor.putString("userPwd", userPwd);
+
         editor.commit();
     }
 
@@ -131,6 +132,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         editor.putString("user_type", "1");
                         editor.putString("user_id",userId);
+                        IPAddress.login_state="1";
                         editor.commit();
                         Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(inetnt);

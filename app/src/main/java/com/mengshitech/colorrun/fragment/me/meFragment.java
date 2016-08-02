@@ -52,6 +52,8 @@ public class meFragment extends Fragment implements OnClickListener {
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         type = sharedPreferences.getString("user_type", "");
         id = sharedPreferences.getString("user_id", "");
+
+
         mActivity = getActivity();
         initView();
         new Thread(runnable).start();
@@ -96,14 +98,29 @@ public class meFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.llMyLeRun:
-                // 点击我的乐跑事件
-                Utility.replace2DetailFragment(fm, new myLeRunFragment());
+                Log.i("登陆状态",type);
+                if (IPAddress.login_state.equals("1")){
+                    Utility.replace2DetailFragment(fm, new myLeRunFragment());
 //                turn2Fragment(new myLeRunFragment());
+                }else{
+                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录"+IPAddress.login_state,Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                    mActivity.startActivity(intent);
+                }
+                // 点击我的乐跑事件
+
                 break;
             case R.id.llMyShow:
-                // 点击我的秀事件
-                Utility.replace2DetailFragment(fm, new myShowFragment());
+                if (IPAddress.login_state.equals("1")){
+                    Utility.replace2DetailFragment(fm, new myShowFragment());
 //                turn2Fragment(new myShowFragment());
+                }else{
+                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                    mActivity.startActivity(intent);
+                }
+                // 点击我的秀事件
+
                 break;
             case R.id.llAboutUs:
                 // 点击关于我们事件
@@ -111,7 +128,15 @@ public class meFragment extends Fragment implements OnClickListener {
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:
-                DialogUtility.DialogCancel(getActivity());
+                if (IPAddress.login_state.equals("1")){
+                    DialogUtility.DialogCancel(getActivity());
+
+                }else{
+                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                    mActivity.startActivity(intent);
+                }
+
 
                 break;
 
@@ -174,4 +199,28 @@ public class meFragment extends Fragment implements OnClickListener {
             }
         }
     };
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        //监听返回按钮
+//        exit();
+//    }
+//
+//    private void exit() {
+//        if (!isExit) {
+//            isExit = true;
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+//                    Toast.LENGTH_SHORT).show();
+//            // 利用handler延迟发送更改状态信息
+//            mHandler.sendEmptyMessageDelayed(0, 2000);
+//            //如果2秒内没有退出，则变成false。重新按两次才能退出。
+//        } else {
+//            finish();
+//            System.exit(0);
+//        }
+//    }
+
+
+
 }

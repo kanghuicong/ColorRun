@@ -51,7 +51,7 @@ public class Utility {
      * @param fragment
      */
     public static void replace2MainFragment(FragmentManager fragmentManager, Fragment fragment) {
-        fragmentManager.beginTransaction().replace(R.id.flMain, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit();
     }
 
     /**

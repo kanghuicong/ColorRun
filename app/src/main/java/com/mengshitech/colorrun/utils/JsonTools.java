@@ -4,6 +4,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
@@ -240,11 +241,24 @@ public class JsonTools {
             list.add(entity);
             return list;
         }
+        return list;
+    }
 
-
+    public static List<HistoryEntity> getHistoryInfo(String key, String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray(key);
+        List<HistoryEntity> list = new ArrayList<HistoryEntity>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            HistoryEntity entity = new HistoryEntity();
+            JSONObject object = jsonArray.getJSONObject(i);
+            entity.setActivityLoc(object.getString("lerun_host"));
+            entity.setActivityTime(object.getString("lerun_time"));
+            entity.setActivityTitle(object.getString("lerun_title"));
+            entity.setImageposter(object.getString("lerun_poster"));
+            list.add(entity);
+        }
 
         return list;
-
     }
 
 

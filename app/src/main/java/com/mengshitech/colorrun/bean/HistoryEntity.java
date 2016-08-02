@@ -9,6 +9,7 @@ public class HistoryEntity implements Serializable {
 	private String ActivityTitle;
 	private String ActivityTime;
 	private String ActivityLoc;
+	private String imageposter;
 
 	public int getImageid() {
 		return Imageid;
@@ -42,4 +43,11 @@ public class HistoryEntity implements Serializable {
 		ActivityLoc = activityLoc;
 	}
 
+	public String getImageposter() {
+		return imageposter;
+	}
+
+	public void setImageposter(String imageposter) {
+		this.imageposter = imageposter;
+	}
 }

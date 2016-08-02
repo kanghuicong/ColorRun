@@ -16,4 +16,6 @@ public class IPAddress {
 
     public static final String path="http://192.168.0.19:8080/LeRun/";
 
+    public static String login_state=null;
+
 }

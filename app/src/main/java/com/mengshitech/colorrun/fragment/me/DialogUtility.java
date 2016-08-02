@@ -214,10 +214,10 @@ public class DialogUtility {
                         update_type = "user_email";
                         update_values = email;
                         Context = context;
-                        if (email.isEmpty()) {
-                            Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT)
-                                    .show();
-                        } else if (email == "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$") {
+                        String strPattern = "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
+                        Pattern p = Pattern.compile(strPattern);
+                        Matcher m = p.matcher(email);
+                        if (m.matches()) {
                             tv_conent.setText(email);
                             new Thread(runnable).start();
 //                            UserDao dao = new UserDao(context);

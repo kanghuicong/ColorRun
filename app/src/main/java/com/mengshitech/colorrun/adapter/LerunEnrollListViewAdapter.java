@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
+import android.content.pm.LauncherApps;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.utils.IPAddress;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,12 +29,21 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
     List<EnrollEntity> mEnrollList;
     ListView listView;
     Holder holder = null;
-               int flag = 0;
+    private HashMap<String, Object> map;
+    int []tags ={0,0,0};
+    CallBack callback;
 
-    public LerunEnrollListViewAdapter(Context context, List<EnrollEntity> mEnrollList, ListView listView) {
+    public LerunEnrollListViewAdapter(Context context, List<EnrollEntity> mEnrollList, ListView listView, CallBack callback) {
         this.context = context;
         this.mEnrollList = mEnrollList;
         this.listView = listView;
+        map = new HashMap<String, Object>();
+        this.callback = callback;
+    }
+
+    public interface CallBack{
+        public void returnInfo(int price);
+
     }
 
     @Override
@@ -71,10 +82,29 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
 
         holder.equipment.setText(mEnrollEntity.getEnroll_equipment());
 
+        map.put("" + position, holder.image);
+
+        if (tags[position] == 0) {
+            holder.image.setBackgroundResource(R.mipmap.selected_no);
+        } else {
+            holder.image.setBackgroundResource(R.mipmap.selected_yes);
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                holder.image.setImageResource(R.mipmap.selected_yes);
+                resetBackGround();
+                ((ImageView) (map.get("" + position))).setBackgroundResource(R.mipmap.selected_yes);
+                tags[position] = 1;
+                EnrollEntity mEnrollEntity = getItem(position);
+                callback.returnInfo(mEnrollEntity.getPrice());
+                Log.i("1EnrollEntity",mEnrollEntity.getPrice()+"");
+            }
+            public void resetBackGround() {
+                for (int i = 0; i < map.size(); i++) {
+                    ((ImageView) (map.get("" + i))).setBackgroundResource(R.mipmap.selected_no);
+                    tags[i] = 0;
+                }
             }
         });
 

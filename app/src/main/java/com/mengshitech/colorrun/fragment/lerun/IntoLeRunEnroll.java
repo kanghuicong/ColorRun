@@ -51,17 +51,20 @@ import android.view.View.OnClickListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by kanghuicong on 2016/7/27  17:58.
  * 515849594@qq.com
  */
 public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
-    TextView enroll_name, enroll_time, enroll_address,enroll_explain;
+    TextView enroll_name, enroll_time, enroll_address, enroll_explain;
     EditText user_name, card_number, enroll_unit, enroll_number;
     RadioGroup rg_enroll_sex, rg_enroll_size;
     Spinner enroll_spinner_card, enroll_spinner_id;
@@ -79,21 +82,29 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     String ScuessImagePath;
     String user_id;
     View enroll_view;
-    int lerun_id, charge_mode, free_price, common_price, vip_price;
-    String free_equipment,common_equipment,vip_equipment;
+    int lerun_id, charge_mode, free_price, common_price, vip_price, choose_price=-2,type;
+    String free_equipment, common_equipment, vip_equipment;
     LerunEnrollListViewAdapter adapter;
     List<EnrollEntity> list = new ArrayList<EnrollEntity>();
-
+    protected WeakReference<View> mRootView;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
-        MainBackUtility.MainBack(enroll_view, "报名", getFragmentManager());
+        if (mRootView == null || mRootView.get() == null) {
 
-        FindId();
-        GetData();
-        EnrollClick();
-        return enroll_view;
+            enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
+            MainBackUtility.MainBack(enroll_view, "报名", getFragmentManager());
+            FindId();
+            GetData();
+            EnrollClick();
 
+            mRootView = new WeakReference<View>(enroll_view);
+        } else {
+            ViewGroup parent = (ViewGroup) mRootView.get().getParent();
+            if (parent != null) {
+                parent.removeView(mRootView.get());
+            }
+        }
+        return mRootView.get();
     }
 
     private void GetData() {
@@ -109,14 +120,13 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         common_equipment = getArguments().getString("common_equipment");
         vip_equipment = getArguments().getString("vip_equipment");
 
-
-        if (charge_mode == 1){
+        if (charge_mode == 1) {
             enroll_explain.setText("所有人免费");
         }
-        if (charge_mode == 2){
+        if (charge_mode == 2) {
             enroll_explain.setText("只有本校学生且上传学生证照片方可免费");
         }
-        if (charge_mode == 3){
+        if (charge_mode == 3) {
             enroll_explain.setText("请选择价格");
         }
 
@@ -140,7 +150,13 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             entity.setEnroll_equipment(vip_equipment);
             list.add(entity);
         }
-        adapter = new LerunEnrollListViewAdapter(getActivity(),list,enroll_listview);
+        adapter = new LerunEnrollListViewAdapter(getActivity(), list, enroll_listview, new LerunEnrollListViewAdapter.CallBack() {
+            @Override
+            public void returnInfo(int price) {
+                choose_price = price;
+                Log.i("choose_price", choose_price + "");
+            }
+        });
         enroll_listview.setAdapter(adapter);
     }
 
@@ -181,40 +197,88 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         bt_enroll_agree.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
-                                                   if ("".equals(user_name.getText().toString()) ||
-                                                           "".equals(card_number.getText().toString()) ||
-                                                           "".equals(enroll_unit.getText().toString()) ||
-                                                           "".equals(enroll_number.getText().toString()) ||
-                                                           "请选择".equals(enroll_spinner_card.getSelectedItem().toString()) ||
-                                                           "请选择".equals(enroll_spinner_id.getSelectedItem().toString())) {
-                                                       Toast.makeText(getActivity(), "请将信息填写完整！", Toast.LENGTH_SHORT).show();
-                                                   } else {
-                                                       if (charge_mode == 2) {
-                                                           if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString())) {
-                                                               if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
-                                                                   Toast.makeText(getActivity(), "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
+                                                   Log.i("1choose_price",choose_price+"");
+                                                   if (!"".equals(user_name.getText().toString()) &&
+                                                           !"".equals(card_number.getText().toString()) &&
+                                                           !"".equals(enroll_unit.getText().toString()) &&
+                                                           !"".equals(enroll_number.getText().toString()) &&
+                                                           !"请选择".equals(enroll_spinner_card.getSelectedItem().toString()) &&
+                                                           !"请选择".equals(enroll_spinner_id.getSelectedItem().toString()) &&
+                                                           choose_price>=0) {
+                                                       if (user_name.getText().toString().length() <= 10) {
+                                                           if (enroll_number.getText().toString().length() == 11) {
+                                                               if (charge_mode == 2) {
+                                                                   if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price==0) {
+                                                                       if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
+                                                                           Toast.makeText(getActivity(), "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
+                                                                       } else {
+                                                                           if (rb_sex_man.isChecked()) {
+                                                                               sex = "男";
+                                                                           } else if (rb_sex_woman.isChecked()) {
+                                                                               sex = "女";
+                                                                           } else if (rb_size_s.isChecked()) {
+                                                                               size = "S";
+                                                                           } else if (rb_size_m.isChecked()) {
+                                                                               size = "M";
+                                                                           } else if (rb_size_l.isChecked()) {
+                                                                               size = "L";
+                                                                           } else if (rb_size_xl.isChecked()) {
+                                                                               size = "XL";
+                                                                           } else if (rb_size_2xl.isChecked()) {
+                                                                               size = "2XL";
+                                                                           } else if (rb_size_3xl.isChecked()) {
+                                                                               size = "3XL";
+                                                                           } new Thread(runnable).start();
+                                                                       }
+                                                                   } else {
+                                                                       if (rb_sex_man.isChecked()) {
+                                                                           sex = "男";
+                                                                       } else if (rb_sex_woman.isChecked()) {
+                                                                           sex = "女";
+                                                                       } else if (rb_size_s.isChecked()) {
+                                                                           size = "S";
+                                                                       } else if (rb_size_m.isChecked()) {
+                                                                           size = "M";
+                                                                       } else if (rb_size_l.isChecked()) {
+                                                                           size = "L";
+                                                                       } else if (rb_size_xl.isChecked()) {
+                                                                           size = "XL";
+                                                                       } else if (rb_size_2xl.isChecked()) {
+                                                                           size = "2XL";
+                                                                       } else if (rb_size_3xl.isChecked()) {
+                                                                           size = "3XL";
+                                                                       } new Thread(runnable).start();
+                                                                   }
+                                                               } else {
+                                                                   if (rb_sex_man.isChecked()) {
+                                                                       sex = "男";
+                                                                   } else if (rb_sex_woman.isChecked()) {
+                                                                       sex = "女";
+                                                                   } else if (rb_size_s.isChecked()) {
+                                                                       size = "S";
+                                                                   } else if (rb_size_m.isChecked()) {
+                                                                       size = "M";
+                                                                   } else if (rb_size_l.isChecked()) {
+                                                                       size = "L";
+                                                                   } else if (rb_size_xl.isChecked()) {
+                                                                       size = "XL";
+                                                                   } else if (rb_size_2xl.isChecked()) {
+                                                                       size = "2XL";
+                                                                   } else if (rb_size_3xl.isChecked()) {
+                                                                       size = "3XL";
+                                                                   }
+                                                                   new Thread(runnable).start();
                                                                }
+                                                           } else {
+                                                               Toast.makeText(getActivity(), "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                                                               enroll_number.setText("");
                                                            }
+                                                       } else {
+                                                           Toast.makeText(getActivity(), "请输入正确的姓名!", Toast.LENGTH_SHORT).show();
+                                                           user_name.setText("");
                                                        }
-
-                                                       if (rb_sex_man.isChecked()) {
-                                                           sex = "男";
-                                                       } else if (rb_sex_woman.isChecked()) {
-                                                           sex = "女";
-                                                       } else if (rb_size_s.isChecked()) {
-                                                           size = "S";
-                                                       } else if (rb_size_m.isChecked()) {
-                                                           size = "M";
-                                                       } else if (rb_size_l.isChecked()) {
-                                                           size = "L";
-                                                       } else if (rb_size_xl.isChecked()) {
-                                                           size = "XL";
-                                                       } else if (rb_size_2xl.isChecked()) {
-                                                           size = "2XL";
-                                                       } else if (rb_size_3xl.isChecked()) {
-                                                           size = "3XL";
-                                                       }
-                                                       new Thread(uploadRunnable).start();
+                                                   } else {
+                                                       Toast.makeText(getActivity(), "请将信息填写完整！", Toast.LENGTH_SHORT).show();
                                                    }
                                                }
                                            }
@@ -242,14 +306,12 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             map.put("user_telphone", enroll_number.getText().toString());
             map.put("lerun_title", enroll_name.getText().toString());
             map.put("signin_type", signin_type);
-
             map.put("personal_name", user_name.getText().toString());
             map.put("company_name", enroll_unit.getText().toString());
-//            map.put("certificate_image",enroll_authentication);
             map.put("identity_type", enroll_spinner_card.getSelectedItem().toString());
             map.put("identity_card", card_number.getText().toString());
             map.put("dress_size", size);
-            map.put("payment", "69");
+            map.put("payment", choose_price + "");
             map.put("certificate_image", ScuessImagePath);
             map.put("user_sex", sex);
 
@@ -275,10 +337,15 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else if (result.equals("1")) {
                 Toast.makeText(getActivity(), "您已经报过名啦", Toast.LENGTH_SHORT).show();
             } else if (result.equals("2")) {
-                Toast.makeText(getActivity(), "报名成功，等待审核通过", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
+                Bundle bundle = new Bundle();
+                bundle.putString("user_name",user_name.getText().toString());
+                bundle.putString("lerun_title",enroll_name.getText().toString());
+                bundle.putInt("lerun_price",choose_price);
+                Log.i("1Payment",user_name.getText().toString()+enroll_name.getText().toString()+choose_price);
+                LeRunPayment leRunPayment = new LeRunPayment();
+                leRunPayment.setArguments(bundle);
+                Utility.replace2DetailFragment(getFragmentManager(), leRunPayment);
             }
-
         }
     };
     //执行上传证件照的线程

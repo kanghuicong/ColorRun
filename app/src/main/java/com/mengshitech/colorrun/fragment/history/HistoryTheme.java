@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.HistoryAdapter;
-import com.mengshitech.colorrun.adapter.LeRunEventListviewAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
-import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -23,7 +21,6 @@ import com.mengshitech.colorrun.utils.JsonTools;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,14 +29,16 @@ import java.util.Map;
  * atenklsy
  */
 @SuppressLint("ValidFragment")
-public class rainbowFragment extends BaseFragment {
+public class HistoryTheme extends BaseFragment {
 	private Activity mActivity;
 	List<HistoryEntity> mHistoryList;
-	ListView lvRainbowFragment;
+	ListView theme_listview;
 	FragmentManager mFragmentManagr;
+	String type;
 
-	public rainbowFragment(Activity activity) {
+	public HistoryTheme(Activity activity, String type) {
 		mActivity = activity;
+		this.type = type;
 		// TODO Auto-generated constructor stub
 		initView();
 	}
@@ -47,14 +46,14 @@ public class rainbowFragment extends BaseFragment {
 
 	@Override
 	public View initView() {
-		rainbowView = View.inflate(mActivity, R.layout.history_rainbow, null);
+		rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
 		findById();
 		return rainbowView;
 	}
 
 	private void findById() {
-		lvRainbowFragment = (ListView) rainbowView
-				.findViewById(R.id.lvRainbowFragment);
+		theme_listview = (ListView) rainbowView
+				.findViewById(R.id.history_theme_listview);
 		mFragmentManagr=getFragmentManager();
 		initDatas();
 	}
@@ -98,7 +97,7 @@ public class rainbowFragment extends BaseFragment {
 				try {
 					List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("result", result);
 //                    count=lerunlist.size();
-					lvRainbowFragment.setAdapter(new HistoryAdapter(mActivity,lerunlist,lvRainbowFragment));
+					theme_listview.setAdapter(new HistoryAdapter(mActivity,lerunlist,theme_listview));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

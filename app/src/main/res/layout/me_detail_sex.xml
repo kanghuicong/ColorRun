@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
 
     <TextView android:layout_width="wrap_content"
@@ -13,13 +12,14 @@
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
         android:text="请选择您的性别"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
     <RadioGroup
         android:id="@+id/chosesex_radiogroup"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:weightSum="1"
         android:orientation="vertical" >
 
         <RadioButton
@@ -29,14 +29,15 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/darkgrey"
             android:text="男"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
-        <TextView
+        <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@color/lightgrey" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/grey" />
 
         <RadioButton
             android:id="@+id/rbtn_nv"

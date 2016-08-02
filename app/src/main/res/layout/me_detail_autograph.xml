@@ -9,7 +9,9 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_height="wrap_content">
 
     <TextView
@@ -20,7 +22,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
         android:text="个性签名"
-        android:textSize="20dp" />
+        android:textSize="18dp" />
 
     <include layout="@layout/mian_splitter" />
 
@@ -33,16 +35,17 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:cursorVisible="true"
-        android:background="@drawable/pane" />
+        android:background="@android:drawable/editbox_background_normal" />
 
     <Button
         android:id="@+id/bt_autograph_conservation"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center"
+        android:background="@drawable/loginshape"
         android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="10dp"
         android:text="保存" />
 

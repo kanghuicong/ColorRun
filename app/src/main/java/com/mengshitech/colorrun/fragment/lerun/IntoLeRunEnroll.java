@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,8 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
+import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -48,25 +51,27 @@ import android.view.View.OnClickListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by kanghuicong on 2016/7/27  17:58.
  * 515849594@qq.com
  */
-public class IntoLeRunEnroll extends Fragment implements android.view.View.OnClickListener {
-    TextView enroll_name, enroll_time, enroll_address;
+public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
+    TextView enroll_name, enroll_time, enroll_address,enroll_explain;
     EditText user_name, card_number, enroll_unit, enroll_number;
     RadioGroup rg_enroll_sex, rg_enroll_size;
     Spinner enroll_spinner_card, enroll_spinner_id;
     ImageView enroll_authentication;
-    ListView enroll_price;
+    ListView enroll_listview;
     RadioButton enroll_agree, rb_sex_man, rb_sex_woman, rb_size_s, rb_size_m, rb_size_l, rb_size_xl, rb_size_2xl, rb_size_3xl;
     Button bt_enroll_agree;
     String sex = "男";
-    String size;
-    ImageView image;
+    String size = "S";
+    ImageView enroll_image;
     ChoseImageDiaLog dialog;
     String imageFilePath;
     File temp;
@@ -74,7 +79,10 @@ public class IntoLeRunEnroll extends Fragment implements android.view.View.OnCli
     String ScuessImagePath;
     String user_id;
     View enroll_view;
-    int lerun_id;
+    int lerun_id, charge_mode, free_price, common_price, vip_price;
+    String free_equipment,common_equipment,vip_equipment;
+    LerunEnrollListViewAdapter adapter;
+    List<EnrollEntity> list = new ArrayList<EnrollEntity>();
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,14 +90,58 @@ public class IntoLeRunEnroll extends Fragment implements android.view.View.OnCli
         MainBackUtility.MainBack(enroll_view, "报名", getFragmentManager());
 
         FindId();
+        GetData();
+        EnrollClick();
+        return enroll_view;
+
+    }
+
+    private void GetData() {
         lerun_id = getArguments().getInt("lerun_id");
         enroll_name.setText(getArguments().getString("title"));
         enroll_time.setText(getArguments().getString("time"));
         enroll_address.setText(getArguments().getString("address"));
-        EnrollClick();
+        charge_mode = getArguments().getInt("charge_mode");
+        free_price = getArguments().getInt("free_price");
+        common_price = getArguments().getInt("common_price");
+        vip_price = getArguments().getInt("vip_price");
+        free_equipment = getArguments().getString("free_equipment");
+        common_equipment = getArguments().getString("common_equipment");
+        vip_equipment = getArguments().getString("vip_equipment");
 
-        return enroll_view;
 
+        if (charge_mode == 1){
+            enroll_explain.setText("所有人免费");
+        }
+        if (charge_mode == 2){
+            enroll_explain.setText("只有本校学生且上传学生证照片方可免费");
+        }
+        if (charge_mode == 3){
+            enroll_explain.setText("请选择价格");
+        }
+
+
+        if (free_price >= 0) {
+            EnrollEntity entity = new EnrollEntity();
+            entity.setPrice(free_price);
+            entity.setEnroll_equipment(free_equipment);
+            Log.i("free_price", free_price + "");
+            list.add(entity);
+        }
+        if (common_price >= 0) {
+            EnrollEntity entity = new EnrollEntity();
+            entity.setPrice(common_price);
+            entity.setEnroll_equipment(common_equipment);
+            list.add(entity);
+        }
+        if (vip_price >= 0) {
+            EnrollEntity entity = new EnrollEntity();
+            entity.setPrice(vip_price);
+            entity.setEnroll_equipment(vip_equipment);
+            list.add(entity);
+        }
+        adapter = new LerunEnrollListViewAdapter(getActivity(),list,enroll_listview);
+        enroll_listview.setAdapter(adapter);
     }
 
     private void FindId() {
@@ -119,7 +171,9 @@ public class IntoLeRunEnroll extends Fragment implements android.view.View.OnCli
         enroll_authentication = (ImageView) enroll_view.findViewById(R.id.iv_enroll_authentication);
         enroll_agree = (RadioButton) enroll_view.findViewById(R.id.rb_enroll_agree);
         bt_enroll_agree = (Button) enroll_view.findViewById(R.id.bt_enroll_agree);
-
+        enroll_listview = (ListView) enroll_view.findViewById(R.id.lv_enroll_listview);
+        enroll_image = (ImageView) enroll_view.findViewById(R.id.iv_enroll_image);
+        enroll_explain = (TextView) enroll_view.findViewById(R.id.tv_price_explain);
         enroll_authentication.setOnClickListener(this);
     }
 
@@ -135,15 +189,15 @@ public class IntoLeRunEnroll extends Fragment implements android.view.View.OnCli
                                                            "请选择".equals(enroll_spinner_id.getSelectedItem().toString())) {
                                                        Toast.makeText(getActivity(), "请将信息填写完整！", Toast.LENGTH_SHORT).show();
                                                    } else {
-                                                       if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString())) {
-
-                                                           if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
-                                                               if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()))
+                                                       if (charge_mode == 2) {
+                                                           if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString())) {
+                                                               if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
                                                                    Toast.makeText(getActivity(), "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
-                                                           } else {
-
+                                                               }
                                                            }
-                                                       } else if (rb_sex_man.isChecked()) {
+                                                       }
+
+                                                       if (rb_sex_man.isChecked()) {
                                                            sex = "男";
                                                        } else if (rb_sex_woman.isChecked()) {
                                                            sex = "女";
@@ -167,6 +221,7 @@ public class IntoLeRunEnroll extends Fragment implements android.view.View.OnCli
 
         );
     }
+
 
     //执行报名的请求的线程
     Runnable runnable = new Runnable() {

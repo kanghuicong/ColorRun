@@ -103,7 +103,6 @@ public class LoginActivity extends Activity implements OnClickListener {
         SharedPreferences.Editor editor = spAccount.edit();
         editor.putString("userId", userId);
         editor.putString("userPwd", userPwd);
-
         editor.commit();
     }
 

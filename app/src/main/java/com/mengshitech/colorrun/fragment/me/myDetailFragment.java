@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import org.json.JSONException;
+
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,38 +42,26 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
     String header_path;
+    protected WeakReference<View> mRootView;
     @Override
     public View initView() {
-        mActivity = getActivity();
-        mDeatilView = View.inflate(mActivity, R.layout.me_detail, null);
-        MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
-        SharedPreferences sharedPreferences = getActivity()
-                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-        userid = sharedPreferences.getString("user_id", "");
-        FindId();
-        Click();
-        new Thread(runnable).start();
-//        FindData();
+        if (mDeatilView == null) {
+            mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
+            MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
+            SharedPreferences sharedPreferences = getActivity()
+                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+            userid = sharedPreferences.getString("user_id", "");
+            FindId();
+            Click();
+            new Thread(runnable).start();
+        }
+        ViewGroup parent = (ViewGroup) mDeatilView.getParent();
+        if (parent != null) {
+            parent.removeView(mDeatilView);
+        }
         return mDeatilView;
-    }
 
-//    private void FindData() {
-//
-//        UserDao dao=new UserDao(getActivity());
-//        UserEntiy user=dao.find(userid);
-//        if (user != null) {
-//            tv_nickname.setText(user.getUser_name());
-//            tv_phone.setText(user.getUser_phone());
-//            tv_email.setText(user.getUser_email());
-//            tv_sex.setText(user.getUser_sex());
-//            tv_height.setText(user.getUser_height());
-//            tv_weight.setText(user.getUser_weight());
-//            tv_address.setText(user.getUser_address());
-//            tv_sign.setText(user.getUser_sign());
-//        }else {
-//
-//        }
-//    }
+    }
 
     private void Click() {
         me_nickname.setOnClickListener(this);
@@ -79,6 +70,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         me_email.setOnClickListener(this);
         me_height.setOnClickListener(this);
         me_weight.setOnClickListener(this);
+        me_address.setOnClickListener(this);
         me_sign.setOnClickListener(this);
         me_head.setOnClickListener(this);
     }
@@ -141,7 +133,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                 DialogUtility.DialogPhysique("weight",getActivity(),tv_weight,userid);
                 break;
             case R.id.ll_me_land:
-
+                DialogUtility.DialogAutograph("address",getActivity(),tv_address,userid);
                 break;
             case R.id.ll_me_autograph:
                 DialogUtility.DialogAutograph("sign",getActivity(),tv_sign,userid);

@@ -12,8 +12,10 @@ import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -50,6 +52,8 @@ public class DialogUtility {
     public static void DialogPhone(final Context context, final TextView tv_phone, final String user_id) {
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_phone, null);
         final EditText et_inputnumber = (EditText) layout.findViewById(R.id.et_inputnumber);
@@ -102,7 +106,8 @@ public class DialogUtility {
     public static void DialogSex(final Context context, final TextView tv_sex, final String user_id) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        final Dialog dialog = new AlertDialog.Builder(context).create();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_sex, null);
         RadioGroup radioGroup = (RadioGroup) layout.findViewById(R.id.chosesex_radiogroup);
@@ -135,7 +140,8 @@ public class DialogUtility {
     //修改昵称
     public static void DialogNickname(final Context context, final TextView tv_nickname, final String user_id) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        final Dialog dialog = new AlertDialog.Builder(context).create();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_nickname, null);
         final EditText revise_nickname = (EditText) layout.findViewById(R.id.et_me_revise_nickname);
@@ -165,13 +171,13 @@ public class DialogUtility {
                 }
             }
         });
-
     }
 
-    //修改个性签名和邮箱
+    //修改地区、个性签名和邮箱
     public static void DialogAutograph(String type, final Context context, final TextView tv_conent, final String user_id) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        final Dialog dialog = new AlertDialog.Builder(context).create();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_autograph, null);
         final EditText revise_content = (EditText) layout.findViewById(R.id.et_autograph);
@@ -214,8 +220,8 @@ public class DialogUtility {
                         update_type = "user_email";
                         update_values = email;
                         Context = context;
-                        String strPattern = "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
-                        Pattern p = Pattern.compile(strPattern);
+                        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+                        Pattern p = Pattern.compile(str);
                         Matcher m = p.matcher(email);
                         if (m.matches()) {
                             tv_conent.setText(email);
@@ -230,7 +236,28 @@ public class DialogUtility {
                     }
                 });
                 break;
-
+            case ("address"):
+                revise_content.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                title_content.setText("地区");
+                bt_content_conservation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String address = revise_content.getText().toString();
+                        userid = user_id;
+                        update_type = "user_address";
+                        update_values = address;
+                        Context = context;
+                        if (address.isEmpty()) {
+                            Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            tv_conent.setText(address);
+                            new Thread(runnable).start();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                break;
         }
 
     }
@@ -238,7 +265,8 @@ public class DialogUtility {
     //修改体重和身高
     public static void DialogPhysique(String type, final Context context, final TextView tv_physique, final String user_id) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        final Dialog dialog = new AlertDialog.Builder(context).create();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_physique, null);
         TextView title = (TextView) layout.findViewById(R.id.tv_physique_title);
@@ -301,7 +329,7 @@ public class DialogUtility {
         }
     }
 
-    public static void DialogCancel(final Context context){
+    public static void DialogCancel(final Context context, final ImageView header, final TextView name){
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
@@ -325,6 +353,9 @@ public class DialogUtility {
                 editor.putString("user_type", "0");
                 editor.putString("user_id","");
                 editor.commit();
+                IPAddress.login_state="0";
+                header.setImageResource(R.mipmap.default_avtar);
+                name.setText("未登录");
                 dialog.dismiss();
             }
         });

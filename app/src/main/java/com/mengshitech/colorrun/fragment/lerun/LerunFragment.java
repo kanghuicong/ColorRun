@@ -178,9 +178,7 @@ new Thread(getQrCodeRunnable).start();
                 // 城市选择按钮
                 break;
             case R.id.ivHotView:
-                Uri uri = Uri.parse(video_url);
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                mActivity.startActivity(it);
+                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(),video_url));
                 break;
 
             default:

@@ -192,5 +192,5 @@
         android:layout_height="60dp"
         android:background="#f00"
         android:layout_alignParentBottom="true"
-        android:text="确认支付 ￥111"/>
+        android:text="确认支付"/>
 </RelativeLayout>

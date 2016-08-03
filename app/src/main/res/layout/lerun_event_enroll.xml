@@ -76,7 +76,7 @@
                     android:id="@+id/tv_enroll_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 姓名:"
@@ -88,6 +88,7 @@
                     android:paddingLeft="10dp"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
+                    android:maxLength="15"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/enroll_bg_et"
                     android:layout_weight="5">
@@ -102,7 +103,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7" />
+                    android:layout_weight="2" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -125,7 +126,7 @@
                     android:id="@+id/tv_enroll_sex"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="*性别:"
@@ -135,7 +136,7 @@
                 <RadioGroup
                     android:id="@+id/rg_enroll_sex"
                     android:layout_width="0dp"
-                    android:layout_height="20dp"
+                    android:layout_height="25dp"
                     android:layout_weight="5"
                     android:layout_marginRight="20dp"
                     android:orientation="horizontal">
@@ -172,8 +173,9 @@
                     android:id="@+id/tv_card_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
+                    android:singleLine="true"
                     android:paddingRight="10dp"
                     android:text="* 证件类型:"
                     android:textColor="#444444"
@@ -201,7 +203,7 @@
                     android:id="@+id/tv_card_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 证件号码:"
@@ -214,6 +216,7 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="20dp"
+                    android:maxLength="20"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -226,7 +229,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7" />
+                    android:layout_weight="2" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -249,7 +252,7 @@
                     android:id="@+id/tv_cloth_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 衣服尺码:"
@@ -259,7 +262,7 @@
                 <RadioGroup
                     android:id="@+id/rg_enroll_size"
                     android:layout_width="0dp"
-                    android:layout_height="20dp"
+                    android:layout_height="25dp"
                     android:layout_weight="5"
                     android:layout_marginRight="20dp"
                     android:orientation="horizontal"
@@ -270,8 +273,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="S"
                         android:textColor="#444444" />
 
@@ -279,8 +282,8 @@
                         android:id="@+id/rb_size_m"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="M"
                         android:textColor="#444444" />
 
@@ -288,8 +291,8 @@
                         android:id="@+id/rb_size_l"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="L"
                         android:textColor="#444444" />
 
@@ -297,8 +300,8 @@
                         android:id="@+id/rb_size_xl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="XL"
                         android:textColor="#444444" />
 
@@ -306,8 +309,8 @@
                         android:id="@+id/rb_size_2xl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="2XL"
                         android:textColor="#444444" />
 
@@ -315,8 +318,8 @@
                         android:id="@+id/rb_size_3xl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
                         android:text="3XL"
                         android:textColor="#444444" />
                 </RadioGroup>
@@ -333,7 +336,7 @@
                     android:id="@+id/tv_enroll_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 身份:"
@@ -362,7 +365,7 @@
                     android:id="@+id/tv_enroll_unit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 来源单位:"
@@ -375,6 +378,7 @@
                     android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:paddingLeft="10dp"
+                    android:maxLength="30"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -390,7 +394,7 @@
                     android:id="@+id/tv_contact_number"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="right|bottom"
                     android:paddingRight="10dp"
                     android:text="* 联系电话:"
@@ -402,6 +406,9 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="20dp"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:paddingLeft="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
@@ -415,7 +422,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7" />
+                    android:layout_weight="2" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -438,7 +445,7 @@
                     android:id="@+id/tv_enroll_authentication"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
                     android:text="* 身份认证:"
@@ -473,7 +480,7 @@
                     android:id="@+id/tv_activity_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
                     android:text="* 活动价格:"
@@ -513,7 +520,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <com.mengshitech.colorrun.view.MyListView

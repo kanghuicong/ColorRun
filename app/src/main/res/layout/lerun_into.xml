@@ -66,7 +66,7 @@
                                 android:id="@+id/into_lerun_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="69"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="50dp" />
                         </LinearLayout>
@@ -89,7 +89,6 @@
                                 android:id="@+id/into_lerun_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100"
                                 android:textColor="@color/white"
                                 android:textSize="25dp" />
                         </LinearLayout>
@@ -113,14 +112,15 @@
                             android:textSize="17sp" />
 
                         <com.mengshitech.colorrun.fragment.lerun.TimeCount
-                        android:id="@+id/into_lerun_countdown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="2dp"
-                        android:text=""
-                        android:textColor="@color/purple"
-                        android:textSize="15sp" />
+                            android:id="@+id/into_lerun_countdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="2dp"
+                            android:text=""
+                            android:textColor="@color/purple"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -537,15 +537,16 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="30dp"
                                 android:text="@string/youmust" />
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp" />
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </LinearLayout>
             </LinearLayout>
-
         </ScrollView>
 
         <Button

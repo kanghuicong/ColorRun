@@ -42,7 +42,7 @@
                     android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/jxnu"
+                    android:src="@mipmap/default_avtar"
                     android:padding="10dp" />
             </LinearLayout>
 

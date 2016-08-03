@@ -29,6 +29,7 @@ import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,16 +54,21 @@ public class meFragment extends Fragment implements OnClickListener {
         type = sharedPreferences.getString("user_type", "");
         id = sharedPreferences.getString("user_id", "");
 
-
-        mActivity = getActivity();
-        initView();
-        new Thread(runnable).start();
+        if (meView == null) {
+            mActivity = getActivity();
+            meView = View.inflate(getActivity(), R.layout.fragment_me, null);
+            initView();
+            new Thread(runnable).start();
+        }
+        ViewGroup parent = (ViewGroup) meView.getParent();
+        if (parent != null) {
+            parent.removeView(meView);
+        }
         return meView;
-
     }
 
     private void initView() {
-        meView = View.inflate(mActivity, R.layout.fragment_me, null);
+        meView = View.inflate(getActivity(), R.layout.fragment_me, null);
         llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
         ivUserHead = (ImageView)meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView)meView.findViewById(R.id.tvUserName);
@@ -89,10 +95,10 @@ public class meFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.llUserHead:
                 //点击头像事件
-                if (type.equals("0")){
+                if (IPAddress.login_state.equals("0")){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
-                }else if (type.equals("1")){
+                }else if (IPAddress.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myDetailFragment());
                 }
                 break;
@@ -124,7 +130,7 @@ public class meFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.llCancel:
                 if (IPAddress.login_state.equals("1")){
-                    DialogUtility.DialogCancel(getActivity());
+                    DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName);
 
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
@@ -146,8 +152,6 @@ public class meFragment extends Fragment implements OnClickListener {
             initView();
         }
     };
-
-
 
 
     Runnable runnable = new Runnable() {

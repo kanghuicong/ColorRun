@@ -28,7 +28,6 @@ public class LeRunTheme extends BaseFragment {
     @Override
     public View initView() {
         lerun_theme_view = View.inflate(mActivity, R.layout.lerun_theme_type, null);
-        MainBackUtility.MainBack(lerun_theme_view,"主题",getFragmentManager());
         browser=(WebView)lerun_theme_view.findViewById(R.id.web_type);
         switch (type){
             case "pop":

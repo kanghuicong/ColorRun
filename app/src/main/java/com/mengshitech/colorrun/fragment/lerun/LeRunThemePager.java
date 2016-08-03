@@ -8,6 +8,7 @@ import android.view.View;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyPagerAdapter;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.utils.MainBackUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class LeRunThemePager extends BaseFragment {
     @Override
     public View initView() {
         historyview = View.inflate(getActivity(), R.layout.lerun_theme, null);
+        MainBackUtility.MainBack(historyview,"主题",getFragmentManager());
         ViewPager vp = (ViewPager) historyview.findViewById(R.id.viewPager);
         context = getActivity();
         fragmentList.add(new LeRunTheme(getActivity(),"pop"));

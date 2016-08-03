@@ -147,12 +147,7 @@ public class meFragment extends Fragment implements OnClickListener {
         }
     };
 
-    public void onResume() {
-        super.onResume();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("user_type");
-        getActivity().registerReceiver(receiver, filter);
-    };
+
 
 
     Runnable runnable = new Runnable() {

@@ -111,7 +111,7 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
                 break;
         }
 
-        lerun_id = Integer.parseInt(info.getLerun_id());
+
 
         mylerun_listview.setOnItemClickListener(this);
 
@@ -121,7 +121,8 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        OrderEntity info = list.get(position);
+        lerun_id = Integer.parseInt(info.getLerun_id());
         Bundle bundle = new Bundle();
         bundle.putInt("lerun_id",lerun_id);
         MyLeRunFragmentInTo myLeRunFragmentInTo = new MyLeRunFragmentInTo();

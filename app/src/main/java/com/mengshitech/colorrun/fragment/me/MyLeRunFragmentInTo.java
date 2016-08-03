@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyLerunInToListViewAdapter;
 import com.mengshitech.colorrun.adapter.MyLerunListViewAdapter;
@@ -62,7 +63,10 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
         lerun_id = getArguments().getInt("lerun_id");
         mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
         context=getActivity();
-        MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager());
+        MainActivity.rgMainBottom.setVisibility(View.GONE);
+
+
+        MainBackUtility.MainBack(mLeRunView,"乐跑详情",getFragmentManager());
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");

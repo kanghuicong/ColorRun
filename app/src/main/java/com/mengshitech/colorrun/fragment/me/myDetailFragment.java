@@ -1,10 +1,12 @@
 package com.mengshitech.colorrun.fragment.me;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.UserLogActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -35,7 +38,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     LinearLayout me_head,me_nickname,me_phone,me_email,me_sex,me_height,me_weight,me_address,me_sign;
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
-
+    String header_path;
     @Override
     public View initView() {
         mActivity = getActivity();
@@ -77,6 +80,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         me_height.setOnClickListener(this);
         me_weight.setOnClickListener(this);
         me_sign.setOnClickListener(this);
+        me_head.setOnClickListener(this);
     }
 
     private void FindId() {
@@ -98,6 +102,10 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         tv_address = (TextView)mDeatilView.findViewById(R.id.tv_me_land);
         me_sign = (LinearLayout)mDeatilView.findViewById(R.id.ll_me_autograph);
         tv_sign = (TextView) mDeatilView.findViewById(R.id.tv_me_autograph);
+
+
+
+
     }
 
     @Override
@@ -105,7 +113,14 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         fm =getFragmentManager();
         switch (v.getId()){
             case R.id.ll_me_head:
+                getActivity().startActivity(new Intent(getActivity(), UserLogActivity.class));
 
+
+//                Intent intent = new Intent();
+//                intent.putExtra("user_log", header_path);
+//                intent.setAction("UserLog_ImagePath");
+//                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+//                getActivity().finish();
                 break;
             case R.id.ll_me_nickname:
                 DialogUtility.DialogNickname(getActivity(),tv_nickname,userid);
@@ -176,8 +191,10 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_weight.setText(userEntiy.getUser_weight()+"kg");
                     tv_address.setText(userEntiy.getUser_address());
                     tv_sign.setText(userEntiy.getUser_sign());
+                    Log.i("用户头像地址",userEntiy.getUser_header());
                     if (userEntiy.getUser_header()!=null){
-                        String header_path = IPAddress.PATH+userEntiy.getUser_header();
+                       header_path = IPAddress.path+userEntiy.getUser_header();
+                        IPAddress.user_log=header_path;
                         Glide.with(getActivity()).load(header_path).into(iv_head);
                     }
                 } catch (JSONException e) {

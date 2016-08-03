@@ -36,6 +36,7 @@ import com.mengshitech.colorrun.adapter.LeRunVpAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.VideoEntity;
+import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -51,7 +52,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
     ImageView hotImage;
     //热播视频的url
     String video_url;
-
+    QrcodeDialog dialog;
     ImageView img_hotfire;
     View lerunView;
     ViewPager vpLeRunAd;
@@ -168,8 +169,10 @@ public class LerunFragment extends Fragment implements OnClickListener {
                 Toast.makeText(mActivity, "足迹", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLeRunSignUp:
+new Thread(getQrCodeRunnable).start();
+
                 // 签到按钮
-                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvleRunCity:
                 // 城市选择按钮
@@ -325,4 +328,46 @@ public class LerunFragment extends Fragment implements OnClickListener {
         }
     };
 
+
+    //获取二维码
+    Runnable getQrCodeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String user_id = IPAddress.user_id;
+            String Path = IPAddress.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "lerun");
+            map.put("index", "10");
+            map.put("user_id", user_id);
+            map.put("user_telphone", user_id);
+            String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
+            Log.i("result信息", result);
+            Message msg = new Message();
+            msg.obj = result;
+            QrcodeHanler.sendMessage(msg);
+
+        }
+    };
+
+    Handler QrcodeHanler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String result = (String) msg.obj;
+            try {
+                String qr_image = JsonTools.getDatas(result);
+
+                dialog = new QrcodeDialog(mActivity, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                }, qr_image);
+                dialog.show();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }

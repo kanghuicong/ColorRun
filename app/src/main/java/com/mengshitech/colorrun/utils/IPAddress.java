@@ -18,5 +18,6 @@ public class IPAddress {
 
     public static String login_state=null;
     public static String user_id=null;
+    public  static String user_log=null;
 
 }

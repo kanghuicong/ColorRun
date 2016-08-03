@@ -87,6 +87,8 @@ public class SplashActivity extends Activity {
             SharedPreferences sharedPreferences =getSharedPreferences("user_type", Activity.MODE_PRIVATE);
             String type = sharedPreferences.getString("user_type", "");
 
+            IPAddress.user_id= sharedPreferences.getString("user_id", "");
+
             Log.i("登陆状态",type+"");
             IPAddress.login_state = type;
 

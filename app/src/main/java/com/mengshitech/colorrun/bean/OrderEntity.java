@@ -11,11 +11,11 @@ public class OrderEntity implements Serializable {
     private String lerun_title;
     private String lerun_poster;
     private String lerun_type;
-    private String lerun_state;
+    private int lerun_state;
     private String lerun_time;
     private String lerun_address;
 
-    public OrderEntity(String lerun_id, String lerun_title, String lerun_poster, String lerun_type, String lerun_time, String lerun_state,String lerun_address) {
+    public OrderEntity(String lerun_id, String lerun_title, String lerun_poster, String lerun_type, String lerun_time, int lerun_state,String lerun_address) {
         this.lerun_id = lerun_id;
         this.lerun_title = lerun_title;
         this.lerun_poster = lerun_poster;
@@ -71,11 +71,11 @@ public class OrderEntity implements Serializable {
         this.lerun_type = lerun_type;
     }
 
-    public String getLerun_state() {
+    public int getLerun_state() {
         return lerun_state;
     }
 
-    public void setLerun_state(String lerun_state) {
+    public void setLerun_state(int lerun_state) {
         this.lerun_state = lerun_state;
     }
 

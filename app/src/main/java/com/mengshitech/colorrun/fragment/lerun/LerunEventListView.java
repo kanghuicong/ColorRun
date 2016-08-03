@@ -18,6 +18,8 @@ import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LeRunEventListviewAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
+import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -46,7 +48,8 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     Timer timer;
     TimerTask task;
     FragmentManager mFragmentManagr;
-    private SwipeRefreshLayout mSwipeLayout;
+    private AutoSwipeRefreshLayout mSwipeLayout;
+    private ProgressDialog progressDialog;
 
     int count;//用来标记是否有新的数据
 
@@ -59,20 +62,18 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
 
         MainActivity.rgMainBottom.setVisibility(View.GONE);
         MainBackUtility.MainBack(lerunevent, "活动", getFragmentManager());
-
         init();
-        mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         return lerunevent;
     }
 
     private void init() {
+
         lerun_listView = (ListView) lerunevent.findViewById(R.id.lerun_listView);
-        mSwipeLayout = (SwipeRefreshLayout)lerunevent.findViewById(R.id.id_swipe_ly);
+        mSwipeLayout=new AutoSwipeRefreshLayout(mActivity);
+        mSwipeLayout= (AutoSwipeRefreshLayout) lerunevent.findViewById(R.id.id_swipe_ly);
+        mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));//设置刷新的颜色
-        new Thread(getLeRunRunnable).start();
-
-
+        mSwipeLayout.autoRefresh();
 
     }
 
@@ -107,9 +108,11 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
             String result = (String) msg.obj;
 
             if (result.equals("timeout")) {
+                mSwipeLayout.setRefreshing(false);
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    mSwipeLayout.setRefreshing(false);
                     List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
                     count=lerunlist.size();
                     lerun_listView.setAdapter(new LeRunEventListviewAdapter(context, lerunlist,mFragmentManagr));
@@ -123,58 +126,8 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     //下拉刷新
     @Override
     public void onRefresh() {
-        timer = new Timer();
-        if (task != null) {
-            task.cancel();
-        }
-        task = new TimerTask() {
-            public void run() {
-                new Thread(RefreshRunnable).start();
-            }
-        };
-        timer.schedule(task, 1000);
+        new Thread(getLeRunRunnable).start();
     }
 
-    //下拉刷新执行的线程
-    Runnable RefreshRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Log.i("onLoad1", "执行了");
-            String result = getData();
-            if (!result.equals("timeout")) {
-                List<LeRunEntity> lerunlist = null;
-                try {
-                    lerunlist = JsonTools.getLerunInfo("result", result);
-                    Log.i("刷新线程得到的数据", lerunlist.size() + "");
 
-                    Message msg = new Message();
-                    msg.obj = lerunlist;
-                    RefreshHandler.sendMessage(msg);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }
-    };
-    //下拉刷新执行的handler
-    Handler RefreshHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            List<LeRunEntity> lerunlist = (List<LeRunEntity>) msg.obj;
-            if(lerunlist.size()==count){
-//                Toast.makeText(context,"没有更多数据",Toast.LENGTH_SHORT).show();
-                mSwipeLayout.setRefreshing(false);
-            }else{
-                lerun_listView.setAdapter(new LeRunEventListviewAdapter(context, lerunlist,mFragmentManagr));
-//                Toast.makeText(context,"加载成功",Toast.LENGTH_SHORT).show();
-                mSwipeLayout.setRefreshing(false);
-            }
-
-
-        }
-    };
 }

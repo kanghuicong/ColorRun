@@ -16,6 +16,7 @@ import com.mengshitech.colorrun.adapter.HistoryAdapter;
 import com.mengshitech.colorrun.adapter.LeRunEventListviewAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -38,6 +39,7 @@ public class popFragment extends BaseFragment {
     View popView;
     private Activity mActivity;
     FragmentManager mFragmentManagr;
+    private ProgressDialog dialog;
 
     public popFragment(Activity activity) {
         mActivity = activity;
@@ -46,6 +48,8 @@ public class popFragment extends BaseFragment {
 
     @Override
     public View initView() {
+        dialog=ProgressDialog.show(mActivity,"正在加载数据");
+//        dialog.show();
         popView = View.inflate(mActivity, R.layout.history_pop, null);
         findById();
         return popView;
@@ -91,9 +95,11 @@ public class popFragment extends BaseFragment {
             String result = (String) msg.obj;
 
             if (result.equals("timeout")) {
+                dialog.dismiss();
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    dialog.dismiss();
                     List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("result", result);
 //                    count=lerunlist.size();
                     lvPopFragment.setAdapter(new HistoryAdapter(mActivity, lerunlist,lvPopFragment));

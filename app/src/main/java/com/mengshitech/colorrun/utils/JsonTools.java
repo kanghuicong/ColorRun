@@ -8,6 +8,7 @@ import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
+import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.bean.VideoEntity;
@@ -85,7 +86,7 @@ public class JsonTools {
             info.setLerun_time(orderObject.getString("lerun_time"));
             info.setLerun_type(orderObject.getString("lerun_type"));
             info.setLerun_poster(orderObject.getString("lerun_poster"));
-            info.setLerun_state(orderObject.getString("lerun_state"));
+            info.setLerun_state(orderObject.getInt("lerun_state"));
             info.setLerun_id(orderObject.getString("lerun_id"));
             info.setLerun_address(orderObject.getString("lerun_address"));
             list.add(info);
@@ -261,5 +262,25 @@ public class JsonTools {
         return list;
     }
 
+    //解析二维码信息
+    public static List<QrcodeBean> getQrCodeInfo(String jsonString) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        List<QrcodeBean> list = new ArrayList<QrcodeBean>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            QrcodeBean entity = new QrcodeBean();
+            JSONObject object = jsonArray.getJSONObject(i);
+
+            entity.setLerun_title(object.getString("lerun_title"));
+            entity.setImagePath(object.getString("imagePath"));
+            entity.setPersonal_name(object.getString("personal_name"));
+            entity.setSign_state(object.getInt("sign_state"));
+            entity.setCharge_state(object.getInt("charge_state"));
+            entity.setPayment(object.getInt("payment"));
+            list.add(entity);
+        }
+
+        return list;
+    }
 
 }

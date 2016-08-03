@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
-import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
+import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.fragment.me.MyLeRunFragmentInTo;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.Utility;
@@ -28,25 +28,25 @@ import java.util.Map;
  * Created by kanghuicong on 2016/7/21  9:16.
  * 515849594@qq.com
  */
-public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
+public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
     View view;
     int count;
     private static Map<Integer, View> map = new HashMap<Integer, View>();
     Context context;
     ImageEntity Ibm;
-    List<OrderEntity> list;
+    List<QrcodeBean> list;
     ListView mylerun_listview;
     int lerun_id;
     String user_id;
     FragmentManager mFragmentManager;
 
-    public MyLerunListViewAdapter(Context context) {
+    public MyLerunInToListViewAdapter(Context context) {
         this.context = context;
     }
 
-    public MyLerunListViewAdapter(int count, Context context, List<OrderEntity> list, ListView mylerun_listview,FragmentManager mFragmentManager) {
+    public MyLerunInToListViewAdapter( Context context, List<QrcodeBean> list, ListView mylerun_listview, FragmentManager mFragmentManager) {
         super();
-        this.count = count;
+
         this.context = context;
         this.list = list;
         this.mylerun_listview = mylerun_listview;
@@ -61,8 +61,8 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
 
     @Override
     public Object getItem(int position) {
-        OrderEntity info = list.get(position);
-        return info.getLerun_id();
+        QrcodeBean info = list.get(position);
+        return position;
     }
 
     @Override
@@ -72,48 +72,43 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        OrderEntity info = list.get(position);
+        QrcodeBean info = list.get(position);
 
         Holder holder = null;
         if (convertView == null) {
-            view = View.inflate(context, R.layout.me_mylerun_listview,
+            view = View.inflate(context, R.layout.me_myleruninto_listview,
                     null);
             holder = new Holder();
-            holder.mylerun_poster = (ImageView) view.findViewById(R.id.iv_mylerun_poster);
-            holder.mylerun_name = (TextView) view.findViewById(R.id.tv_mylerun_title);
-            holder.mylerun_state = (TextView) view.findViewById(R.id.lerun_state);
+            holder.mylerun_qrcode = (ImageView) view.findViewById(R.id.iv_mylerun_qrcode);
+            holder.mylerun_username = (TextView) view.findViewById(R.id.tv_mylerun_username);
+            holder.charge_state = (TextView) view.findViewById(R.id.charge_state);
 
-            holder.mylerun_time = (TextView) view.findViewById(R.id.tv_mylerun_time);
-            holder.mylerun_address = (TextView) view.findViewById(R.id.tv_mylerun_location);
+            holder.mylerun_title = (TextView) view.findViewById(R.id.tv_mylerun_title);
+            holder.mylerun_payment = (TextView) view.findViewById(R.id.tv_mylerun_payment);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(IPAddress.path + info.getLerun_poster()).into(holder.mylerun_poster);
-        holder.mylerun_name.setText(info.getLerun_title());
-        holder.mylerun_time.setText(info.getLerun_time());
-        holder.mylerun_address.setText(info.getLerun_address());
-        switch (info.getLerun_state()) {
+        Glide.with(context).load(IPAddress.path + info.getImagePath()).into(holder.mylerun_qrcode);
+        holder.mylerun_username.setText(info.getPersonal_name());
+        holder.mylerun_title.setText(info.getLerun_title());
+        holder.mylerun_payment.setText(info.getPayment()+"");
+        switch (info.getCharge_state()) {
             case 0:
-                holder.mylerun_state.setText("活动报名中");
+                holder.charge_state.setText("未付款");
                 break;
             case 1:
-                holder.mylerun_state.setText("报名截止");
+                holder.charge_state.setText("已付款");
                 break;
-            case 2:
-                holder.mylerun_state.setText("活动进行中");
-                break;
-            case 3:
-                holder.mylerun_state.setText("已结束");
-                break;
+
             default:
                 break;
         }
 
-        lerun_id = Integer.parseInt(info.getLerun_id());
+//        lerun_id = Integer.parseInt(info.get);
 
-        mylerun_listview.setOnItemClickListener(this);
+//        mylerun_listview.setOnItemClickListener(this);
 
 
         return view;
@@ -131,11 +126,11 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
 
 
     class Holder {
-        ImageView mylerun_poster;
-        TextView mylerun_state;
-        TextView mylerun_name;
+        ImageView mylerun_qrcode;
+        TextView charge_state;
+        TextView mylerun_username;
         TextView mylerun_type;
-        TextView mylerun_time;
-        TextView mylerun_address;
+        TextView mylerun_title;
+        TextView mylerun_payment;
     }
 }

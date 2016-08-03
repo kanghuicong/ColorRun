@@ -6,7 +6,7 @@
 
     <include layout="@layout/main_back"></include>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
         android:id="@+id/id_swipe_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,6 +15,6 @@
             android:id="@+id/lerun_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout>
 
 </LinearLayout>

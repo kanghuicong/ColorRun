@@ -10,16 +10,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.adapter.MyLerunInToListViewAdapter;
 import com.mengshitech.colorrun.adapter.MyLerunListViewAdapter;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
-import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
@@ -27,7 +26,6 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
-import com.mengshitech.colorrun.view.MyListView;
 
 import org.json.JSONException;
 
@@ -35,39 +33,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * 作者：wschenyongyin on 2016/8/2 19:11
  * 说明: 我的乐跑
  */
-public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     private int entry_number = 3;
     View mLeRunView;
-    List<OrderEntity> order_list;
+    List<QrcodeBean> qrcode_list;
     final List<ImageEntity> bmlist = new ArrayList<ImageEntity>();
-
-
+    private  Bitmap bm;
+    private  ImageEntity ib = null;
     private  OrderEntity order_info;
     private ProgressDialog progressDialog;
     private ListView mylerun_listview;
-    private  MyLerunListViewAdapter adapter;
+    private MyLerunInToListViewAdapter adapter;
     private String userid;
     private Context context;
-    private AutoSwipeRefreshLayout autoSwipeRefreshLayout;
     FragmentManager mFragmentManager;
+    private int lerun_id;
+    private AutoSwipeRefreshLayout autoSwipeRefreshLayout;
 
     @Override
     public View initView() {
 
         mActivity = getActivity();
-        mFragmentManager=getFragmentManager();
+        lerun_id = getArguments().getInt("lerun_id");
         mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
-        MainActivity.rgMainBottom.setVisibility(View.GONE);
         context=getActivity();
         MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager());
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
+        mFragmentManager=getFragmentManager();
         find();
+
+
+
         return mLeRunView;
     }
 
@@ -93,8 +96,8 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("user_id", userid);
-
-            map.put("index", "6");
+            map.put("lerun_id",lerun_id+"");
+            map.put("index", "8");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -112,16 +115,14 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
 
             Log.i("result111", result);
             if (result.equals("timeout")) {
-
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);
-                    order_list = JsonTools.getOrderInfo("result",result);
-                    adapter = new MyLerunListViewAdapter(entry_number, getActivity(), order_list,mylerun_listview,mFragmentManager);
-
+                    qrcode_list = JsonTools.getQrCodeInfo(result);
+                    adapter=new MyLerunInToListViewAdapter(context,qrcode_list,mylerun_listview,mFragmentManager);
                     mylerun_listview.setAdapter(adapter);
-
+//
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block

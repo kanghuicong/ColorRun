@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.HistoryAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -34,6 +35,7 @@ public class HistoryTheme extends BaseFragment {
 	List<HistoryEntity> mHistoryList;
 	ListView theme_listview;
 	FragmentManager mFragmentManagr;
+	private ProgressDialog dialog;
 	String type;
 
 	public HistoryTheme(Activity activity, String type) {
@@ -46,6 +48,8 @@ public class HistoryTheme extends BaseFragment {
 
 	@Override
 	public View initView() {
+		dialog= ProgressDialog.show(mActivity,"正在加载数据");
+//		dialog.show();
 		rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
 		findById();
 		return rainbowView;
@@ -92,9 +96,11 @@ public class HistoryTheme extends BaseFragment {
 			String result = (String) msg.obj;
 
 			if (result.equals("timeout")) {
+				dialog.dismiss();
 				Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
 			} else {
 				try {
+					dialog.dismiss();
 					List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("result", result);
 //                    count=lerunlist.size();
 					theme_listview.setAdapter(new HistoryAdapter(mActivity,lerunlist,theme_listview));

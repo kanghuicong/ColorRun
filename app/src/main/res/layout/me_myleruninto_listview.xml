@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/iv_mylerun_poster"
+        android:id="@+id/iv_mylerun_qrcode"
         android:layout_width="150dp"
         android:layout_height="95dp"
         android:layout_marginRight="10dp"
@@ -27,21 +27,21 @@
                 android:id="@+id/tv_mylerun_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:text="卡乐泡泡跑"
+                android:text="师大卡乐跑"
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/lerun_state"
+                android:id="@+id/charge_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:text="报名中"
+                android:text="未付款"
 
                 android:textColor="@color/red" />
         </LinearLayout>
@@ -58,17 +58,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
-                android:src="@mipmap/lerun_clock" />
+                android:src="@mipmap/user_namelog" />
 
 
             <TextView
-                android:id="@+id/tv_mylerun_time"
+                android:id="@+id/tv_mylerun_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
-                android:text="07月11日"
+                android:text="张山"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -84,16 +84,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
-                android:src="@mipmap/lerun_location" />
+                android:src="@mipmap/icon_money" />
 
             <TextView
-                android:id="@+id/tv_mylerun_location"
+                android:id="@+id/tv_mylerun_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
 
-
-                android:text="奥体中心"
+                android:text="68"
                 android:textColor="@color/black" />
         </LinearLayout>
     </RelativeLayout>

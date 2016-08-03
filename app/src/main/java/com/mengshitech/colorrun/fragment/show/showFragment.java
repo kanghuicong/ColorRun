@@ -45,13 +45,19 @@ public class showFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mActivity = getActivity();
-        showView = View.inflate(mActivity, R.layout.fragment_show, null);
-        findById();
 
-//        initDatas();
-        new Thread(runnable).start();
-        lvShowContent.setOnItemClickListener(new ItemClickListener());
+        if (showView == null) {
+            showView = View.inflate(mActivity, R.layout.fragment_show, null);
+            findById();
+            new Thread(runnable).start();
+            lvShowContent.setOnItemClickListener(new ItemClickListener());
+        }
+        ViewGroup parent = (ViewGroup) showView.getParent();
+        if (parent != null) {
+            parent.removeView(showView);
+        }
         return showView;
+
     }
 
     // 获取点击事件

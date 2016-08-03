@@ -12,7 +12,7 @@
         android:layout_height="95dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/jxnu" />
+        android:src="@mipmap/defaut_error_long" />
 
     <RelativeLayout
         android:layout_width="match_parent"

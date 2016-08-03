@@ -66,7 +66,7 @@
                                 android:id="@+id/into_lerun_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="69"
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="50dp" />
                         </LinearLayout>
@@ -89,7 +89,6 @@
                                 android:id="@+id/into_lerun_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100"
                                 android:textColor="@color/white"
                                 android:textSize="25dp" />
                         </LinearLayout>
@@ -538,7 +537,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="50dp"
+                                android:layout_marginRight="30dp"
                                 android:text="@string/youmust" />
 
                             <View

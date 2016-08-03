@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/image_background"
-        android:src="@mipmap/splash1"
+        android:src="@mipmap/defaut_error_long"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

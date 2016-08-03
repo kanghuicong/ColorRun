@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by kanghuicong on 2016/7/20  16:35.
@@ -25,20 +26,26 @@ public class HistoryFragment extends BaseFragment{
 
     @Override
     public View initView() {
-        historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
-        ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
-        context=getActivity();
-        fragmentList.add(new HistoryTheme(getActivity(),"pop"));
-        fragmentList.add(new HistoryTheme(getActivity(),"color"));
-        fragmentList.add(new HistoryTheme(getActivity(),"marathon"));
-        fragmentList.add(new HistoryTheme(getActivity(),"rainbow"));
-        fragmentList.add(new HistoryTheme(getActivity(),"light"));
-        titleList.add("卡乐泡泡跑");
-        titleList.add("卡乐彩色跑");
-        titleList.add("卡乐马拉松");
-        titleList.add("卡乐水枪跑");
-        titleList.add("卡乐荧光跑");
-        vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
+        if (historyview == null) {
+            historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
+            ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
+            context=getActivity();
+            fragmentList.add(new HistoryTheme(getActivity(),"pop"));
+            fragmentList.add(new HistoryTheme(getActivity(),"color"));
+            fragmentList.add(new HistoryTheme(getActivity(),"marathon"));
+            fragmentList.add(new HistoryTheme(getActivity(),"rainbow"));
+            fragmentList.add(new HistoryTheme(getActivity(),"light"));
+            titleList.add("卡乐泡泡跑");
+            titleList.add("卡乐彩色跑");
+            titleList.add("卡乐马拉松");
+            titleList.add("卡乐水枪跑");
+            titleList.add("卡乐荧光跑");
+            vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
+        }
+        ViewGroup parent = (ViewGroup) historyview.getParent();
+        if (parent != null) {
+            parent.removeView(historyview);
+        }
         return historyview;
     }
 

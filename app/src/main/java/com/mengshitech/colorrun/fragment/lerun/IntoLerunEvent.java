@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,23 +55,45 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     int charge_mode,free_price,common_price,vip_price;
     List<EnrollEntity> list;
     String time;
+    String map_path;
     int lerun_id;
     Context context;
+    protected WeakReference<View> mRootView;
 
     @Override
     public View initView() {
-        into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
-        MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
-        lerun_id = getArguments().getInt("lerun_id");
-        Log.i("lerun_id", lerun_id + "");
-        context=getActivity();
 
-        new Thread(runnable).start();
-        find();
-        click();// 点击事件
-//        entry_type();// 查看报名的状态
-        number_type();// 查看人数状态
-        return into_lerun_view;
+        if (mRootView == null || mRootView.get() == null) {
+            into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
+            MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
+            lerun_id = getArguments().getInt("lerun_id");
+            Log.i("lerun_id", lerun_id + "");
+            context=getActivity();
+
+            new Thread(runnable).start();
+            find();
+            click();
+            mRootView = new WeakReference<View>(into_lerun_view);
+        } else {
+            ViewGroup parent = (ViewGroup) mRootView.get().getParent();
+            if (parent != null) {
+                parent.removeView(mRootView.get());
+            }
+        }
+        return mRootView.get();
+
+//        into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
+//        MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
+//        lerun_id = getArguments().getInt("lerun_id");
+//        Log.i("lerun_id", lerun_id + "");
+//        context=getActivity();
+//
+//        new Thread(runnable).start();
+//        find();
+//        click();// 点击事件
+////        entry_type();// 查看报名的状态
+////        number_type();// 查看人数状态
+//        return into_lerun_view;
     }
 
 
@@ -77,7 +101,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     private void number_type() {
         // TODO Auto-generated method stub
         if (Integer.valueOf(number.getText().toString()) == 0) {
-            tx_entry.setText("报名人数已满");
+            ll_entry.setText("报名人数已满");
             ll_entry.setEnabled(false);
         }
     }
@@ -94,7 +118,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         if (type == "success") {
             number.setText(num + "");
             ll_entry.setBackgroundColor(Color.parseColor("#cccccc"));
-            tx_entry.setText("已报名");
+            ll_entry.setText("已报名");
             ll_entry.setEnabled(false);
         }
     }
@@ -195,7 +219,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 break;
             case R.id.into_lerun_map:
                 //点击地图放大
-                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap());
+                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap(getActivity(),map_path));
             default:
                 break;
         }
@@ -262,7 +286,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                     String poster_path = IPAddress.path+leRunEntity.getLerun_poster();
                     Log.i("poster_path",poster_path);
-                    String map_path = IPAddress.path+leRunEntity.getLerun_map();
+                    map_path = IPAddress.path+leRunEntity.getLerun_map();
                     Glide.with(getActivity()).load(poster_path).into(poster);
                     Glide.with(getActivity()).load(map_path).into(map);
                     Time(time);// 倒计时

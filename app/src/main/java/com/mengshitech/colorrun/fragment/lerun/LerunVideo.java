@@ -3,12 +3,14 @@ package com.mengshitech.colorrun.fragment.lerun;
 import android.app.Activity;
 import android.net.Uri;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.utils.MainBackUtility;
 
 /**
  * Created by kanghuicong on 2016/8/3  11:54.
@@ -27,8 +29,15 @@ public class LerunVideo extends BaseFragment {
 
     @Override
     public View initView() {
-        lerun_theme_view = View.inflate(mActivity, R.layout.lerun_hotvideo, null);
-        init();
+        if (lerun_theme_view == null) {
+            lerun_theme_view = View.inflate(mActivity, R.layout.lerun_hotvideo, null);
+            MainBackUtility.MainBack(lerun_theme_view, "热门视频", getFragmentManager());
+            init();
+        }
+        ViewGroup parent = (ViewGroup) lerun_theme_view.getParent();
+        if (parent != null) {
+            parent.removeView(lerun_theme_view);
+        }
         return lerun_theme_view;
     }
 
@@ -47,5 +56,4 @@ public class LerunVideo extends BaseFragment {
             }
         });
     }
-
 }

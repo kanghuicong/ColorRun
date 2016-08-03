@@ -37,7 +37,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:text="确定注销账号吗？"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

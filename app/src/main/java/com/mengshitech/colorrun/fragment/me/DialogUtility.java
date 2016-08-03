@@ -49,7 +49,7 @@ public class DialogUtility {
     //修改电话号码
     public static void DialogPhone(final Context context, final TextView tv_phone, final String user_id) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        final Dialog dialog = new AlertDialog.Builder(context).create();
+        final Dialog dialog = new Dialog(context);
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_phone, null);
         final EditText et_inputnumber = (EditText) layout.findViewById(R.id.et_inputnumber);

@@ -50,6 +50,7 @@
         <activity android:name=".MainActivity" />
 
         <activity android:name=".activity.GuideActivity"/>
+        <activity android:name=".activity.UserLogActivity"/>
         <activity android:name=".fragment.show.showDetailFragment"/>
     </application>
 

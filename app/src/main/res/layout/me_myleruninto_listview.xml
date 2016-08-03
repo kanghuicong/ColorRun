@@ -8,19 +8,21 @@
 
     <ImageView
         android:id="@+id/iv_mylerun_qrcode"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="95dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/jxnu" />
+        android:src="@mipmap/defaut_error_square" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp">
+        android:layout_height="100dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <TextView
 
@@ -28,8 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
+
                 android:layout_weight="1"
+
                 android:text="师大卡乐跑"
                 android:textColor="@color/black" />
 
@@ -39,8 +42,8 @@
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="right|center_vertical"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
+
+
                 android:text="未付款"
 
                 android:textColor="@color/red" />
@@ -57,6 +60,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
                 android:src="@mipmap/user_namelog" />
 
@@ -83,6 +87,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
                 android:src="@mipmap/icon_money" />
 
@@ -96,7 +101,7 @@
                 android:text="68"
                 android:textColor="@color/black" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

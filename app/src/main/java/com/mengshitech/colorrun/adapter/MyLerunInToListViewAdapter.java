@@ -3,6 +3,7 @@ package com.mengshitech.colorrun.adapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,8 +17,11 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
+import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
+import com.mengshitech.colorrun.fragment.lerun.LeRunPayment;
 import com.mengshitech.colorrun.fragment.me.MyLeRunFragmentInTo;
 import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.HashMap;
@@ -39,18 +43,19 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
     int lerun_id;
     String user_id;
     FragmentManager mFragmentManager;
+    private QrcodeDialog dialog;
 
     public MyLerunInToListViewAdapter(Context context) {
         this.context = context;
     }
 
-    public MyLerunInToListViewAdapter( Context context, List<QrcodeBean> list, ListView mylerun_listview, FragmentManager mFragmentManager) {
+    public MyLerunInToListViewAdapter(Context context, List<QrcodeBean> list, ListView mylerun_listview, FragmentManager mFragmentManager) {
         super();
 
         this.context = context;
         this.list = list;
         this.mylerun_listview = mylerun_listview;
-        this.mFragmentManager=mFragmentManager;
+        this.mFragmentManager = mFragmentManager;
 
     }
 
@@ -90,10 +95,12 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(IPAddress.path + info.getImagePath()).into(holder.mylerun_qrcode);
+        if (info.getImagePath() != null && !info.getImagePath().equals("")) {
+            Glide.with(context).load(IPAddress.path + info.getImagePath()).into(holder.mylerun_qrcode);
+        }
         holder.mylerun_username.setText(info.getPersonal_name());
         holder.mylerun_title.setText(info.getLerun_title());
-        holder.mylerun_payment.setText(info.getPayment()+"");
+        holder.mylerun_payment.setText(info.getPayment() + "");
         switch (info.getCharge_state()) {
             case 0:
                 holder.charge_state.setText("未付款");
@@ -108,7 +115,7 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
 
 //        lerun_id = Integer.parseInt(info.get);
 
-//        mylerun_listview.setOnItemClickListener(this);
+        mylerun_listview.setOnItemClickListener(this);
 
 
         return view;
@@ -116,12 +123,32 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        QrcodeBean info = list.get(position);
+        int state = info.getCharge_state();
+        Log.i("charge_state", info.getCharge_state() + "");
+        if (state == 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString("user_name", info.getPersonal_name());
+            bundle.putString("lerun_title", info.getLerun_title());
+            bundle.putInt("lerun_price", info.getPayment());
+            Log.i("user_name", info.getPersonal_name() + "");
+            Log.i("lerun_price", info.getPayment() + "");
+            LeRunPayment leRunPayment = new LeRunPayment();
+            leRunPayment.setArguments(bundle);
+            Utility.replace2DetailFragment(mFragmentManager, leRunPayment);
+        } else if (state == 1) {
+            String qr_image = info.getImagePath();
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("lerun_id",lerun_id);
-        MyLeRunFragmentInTo myLeRunFragmentInTo = new MyLeRunFragmentInTo();
-        myLeRunFragmentInTo.setArguments(bundle);
-        Utility.replace2DetailFragment(mFragmentManager, myLeRunFragmentInTo);
+            dialog = new QrcodeDialog(context, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            }, qr_image);
+            dialog.show();
+        }
+
+
     }
 
 

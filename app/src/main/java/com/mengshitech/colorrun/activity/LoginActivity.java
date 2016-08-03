@@ -141,6 +141,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                         editor.putString("user_type", "1");
                         editor.putString("user_id",userId);
                         IPAddress.login_state="1";
+                        IPAddress.user_id=userId;
                         editor.commit();
                         Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(inetnt);

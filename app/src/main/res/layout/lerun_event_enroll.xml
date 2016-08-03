@@ -87,7 +87,7 @@
                     android:id="@+id/et_enroll_name"
                     android:paddingLeft="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/enroll_bg_et"
                     android:layout_weight="5">
@@ -182,7 +182,7 @@
                 <Spinner
                     android:id="@+id/Spinner_enroll_card"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@mipmap/seletor_bg"
@@ -212,7 +212,7 @@
                     android:id="@+id/et_card_number"
                     android:paddingLeft="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
@@ -343,7 +343,7 @@
                 <Spinner
                     android:id="@+id/Spinner_enroll_id"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:background="@mipmap/seletor_bg"
@@ -372,7 +372,7 @@
                 <EditText
                     android:id="@+id/et_enroll_unit"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:paddingLeft="10dp"
                     android:layout_weight="5"
@@ -400,7 +400,7 @@
                 <EditText
                     android:id="@+id/et_contact_number"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:paddingLeft="10dp"
                     android:layout_weight="5"
@@ -441,16 +441,15 @@
                     android:layout_weight="1.7"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
-                    android:text="身份认证:"
+                    android:text="* 身份认证:"
                     android:textColor="#444444"
                     android:textSize="15sp" />
 
 
                 <ImageView
                     android:id="@+id/iv_enroll_authentication"
-                    android:layout_width="0dp"
+                    android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_weight="1.5"
                     android:gravity="top|left"
                     android:inputType="number"
                     android:scaleType="fitXY"
@@ -459,7 +458,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="3.5" />
+                    android:layout_weight="3.7" />
 
             </LinearLayout>
 
@@ -477,7 +476,7 @@
                     android:layout_weight="1.7"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
-                    android:text="活动价格:"
+                    android:text="* 活动价格:"
                     android:textColor="#444444"
                     android:textSize="15sp" />
 

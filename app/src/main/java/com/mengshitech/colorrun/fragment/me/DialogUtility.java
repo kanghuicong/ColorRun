@@ -54,6 +54,7 @@ public class DialogUtility {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_phone, null);
         final EditText et_inputnumber = (EditText) layout.findViewById(R.id.et_inputnumber);
         Button inputnumber_cancel = (Button) layout.findViewById(R.id.btn_inputnumber_cancel);

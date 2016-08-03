@@ -141,7 +141,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                 DialogUtility.DialogPhysique("weight",getActivity(),tv_weight,userid);
                 break;
             case R.id.ll_me_land:
-
+                DialogUtility.DialogAutograph("address",getActivity(),tv_address,userid);
                 break;
             case R.id.ll_me_autograph:
                 DialogUtility.DialogAutograph("sign",getActivity(),tv_sign,userid);

@@ -40,7 +40,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/splash1" />
+            android:src="@mipmap/default_avtar" />
 
         <TextView
             android:id="@+id/tvUserName"
@@ -51,7 +51,7 @@
             android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:text="未登录"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
         <ImageView
@@ -79,10 +79,10 @@
         android:padding="10dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/dog" />
+            android:src="@mipmap/me_myrun" />
 
         <TextView
             android:id="@+id/tvMyLeRun"
@@ -114,10 +114,10 @@
         android:padding="10dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/dog" />
+            android:src="@mipmap/me_myshow" />
 
         <TextView
             android:id="@+id/tvMyShow"
@@ -155,10 +155,10 @@
         android:padding="10dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/dog" />
+            android:src="@mipmap/me_aboutme" />
 
         <TextView
             android:id="@+id/tvAboutUs"
@@ -191,10 +191,10 @@
         android:padding="10dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/dog" />
+            android:src="@mipmap/setting_icon" />
 
         <TextView
             android:id="@+id/tvCancel"

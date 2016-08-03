@@ -85,11 +85,13 @@
 
                 <EditText
                     android:id="@+id/et_enroll_name"
+                    android:paddingLeft="10dp"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
+                    android:background="@drawable/enroll_bg_et"
+                    android:layout_weight="5">
+                    </EditText>
             </LinearLayout>
 
             <LinearLayout
@@ -183,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
+                    android:background="@mipmap/seletor_bg"
                     android:entries="@array/card_type"
                     android:textColor="#444444" />
             </LinearLayout>
@@ -207,6 +210,7 @@
 
                 <EditText
                     android:id="@+id/et_card_number"
+                    android:paddingLeft="10dp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -266,7 +270,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-
                         android:scaleX="1"
                         android:scaleY="1"
                         android:text="S"
@@ -343,6 +346,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
+                    android:background="@mipmap/seletor_bg"
                     android:entries="@array/ID"
                     android:textColor="#444444" />
             </LinearLayout>
@@ -370,6 +374,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
+                    android:paddingLeft="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
@@ -397,9 +402,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
+                    android:paddingLeft="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et"
-                    android:inputType="number" />
+                    android:background="@drawable/enroll_bg_et" />
             </LinearLayout>
 
             <LinearLayout

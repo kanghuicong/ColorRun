@@ -4,13 +4,13 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.adapter.MyPagerAdapter;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.view.View;
-import android.widget.Toast;
 
 /**
  * Created by kanghuicong on 2016/7/20  16:35.
@@ -28,13 +28,17 @@ public class HistoryFragment extends BaseFragment{
         historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
         ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
         context=getActivity();
-        fragmentList.add(new colorFragment(getActivity()));
-        fragmentList.add(new popFragment(getActivity()));
-        fragmentList.add(new rainbowFragment(getActivity()));
+        fragmentList.add(new HistoryTheme(getActivity(),"pop"));
+        fragmentList.add(new HistoryTheme(getActivity(),"color"));
+        fragmentList.add(new HistoryTheme(getActivity(),"marathon"));
+        fragmentList.add(new HistoryTheme(getActivity(),"rainbow"));
+        fragmentList.add(new HistoryTheme(getActivity(),"light"));
         titleList.add("卡乐泡泡跑");
         titleList.add("卡乐彩色跑");
+        titleList.add("卡乐马拉松");
+        titleList.add("卡乐水枪跑");
         titleList.add("卡乐荧光跑");
-        vp.setAdapter(new myPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
+        vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
         return historyview;
     }
 

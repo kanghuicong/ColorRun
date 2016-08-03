@@ -56,7 +56,7 @@ public class JsonTools {
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject userObject = jsonObject.getJSONObject(key);
 
-        info.setUser_address(userObject.getString("user_id"));
+        info.setUser_address(userObject.getString("user_address"));
         info.setUser_email(userObject.getString("user_email"));
         info.setUser_header(userObject.getString("user_header"));
         info.setUser_height(userObject.getString("user_height"));

@@ -52,20 +52,28 @@ public class LoginActivity extends Activity implements OnClickListener {
         spAccount = getSharedPreferences("sp_account", MODE_PRIVATE);
         // sharedpreferences
         etUserId = (EditText) findViewById(R.id.et_name);
+        etUserId.setOnClickListener(this);
         // 用户名输入框
         etUserPwd = (EditText) findViewById(R.id.et_pwd);
+        etUserPwd.setOnClickListener(this);
         // 密码输入框
         btnLogin = (Button) findViewById(R.id.btn_login);
-        // 登录按钮
         btnLogin.setOnClickListener(this);
+        // 登录按钮
         btnRegister = (Button) findViewById(R.id.btn_register);
-        // 注册按钮
         btnRegister.setOnClickListener(this);
+        // 注册按钮
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.et_name:
+                etUserId.setCursorVisible(true);
+                break;
+            case R.id.et_pwd:
+                etUserPwd.setCursorVisible(true);
+                break;
             case R.id.btn_login:
                 // 登录按钮的点击事件
                 userId = etUserId.getText().toString();

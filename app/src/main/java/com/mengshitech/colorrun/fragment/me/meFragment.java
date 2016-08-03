@@ -92,7 +92,6 @@ public class meFragment extends Fragment implements OnClickListener {
                 if (type.equals("0")){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
-                    getActivity().finish();
                 }else if (type.equals("1")){
                     Utility.replace2DetailFragment(fm, new myDetailFragment());
                 }
@@ -101,7 +100,6 @@ public class meFragment extends Fragment implements OnClickListener {
                 Log.i("登陆状态",type);
                 if (IPAddress.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
-//                turn2Fragment(new myLeRunFragment());
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录"+IPAddress.login_state,Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mActivity, LoginActivity.class);
@@ -113,18 +111,15 @@ public class meFragment extends Fragment implements OnClickListener {
             case R.id.llMyShow:
                 if (IPAddress.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myShowFragment());
-//                turn2Fragment(new myShowFragment());
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
-                // 点击我的秀事件
 
                 break;
             case R.id.llAboutUs:
                 // 点击关于我们事件
-//                turn2Fragment(new AboutUsFragment());
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:

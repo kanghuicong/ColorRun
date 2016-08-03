@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyLerunListViewAdapter;
 import com.mengshitech.colorrun.bean.ImageEntity;
@@ -60,15 +61,13 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         mActivity = getActivity();
         mFragmentManager=getFragmentManager();
         mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
+        MainActivity.rgMainBottom.setVisibility(View.GONE);
         context=getActivity();
         MainBackUtility.MainBack(mLeRunView,"我的乐跑",getFragmentManager());
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
         find();
-
-
-
         return mLeRunView;
     }
 
@@ -113,11 +112,9 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
 
             Log.i("result111", result);
             if (result.equals("timeout")) {
-//               progressDialog.dismiss();
 
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-//               progressDialog.dismiss();
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);
                     order_list = JsonTools.getOrderInfo("result",result);
@@ -133,11 +130,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             }
         }
     };
-
-
-
-
-
 
     @Override
     public void onRefresh() {

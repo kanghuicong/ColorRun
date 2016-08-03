@@ -228,7 +228,19 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 try {
                     LeRunEntity leRunEntity = JsonTools.getLerunEvent("result", result);
                     Log.i("LeRunEntity", leRunEntity + "");
-                    price.setText(String.valueOf(leRunEntity.getCharge_common()));
+
+//                    price.setText(String.valueOf(leRunEntity.getCharge_common()));
+                    int Free_price = leRunEntity.getCharge_free();
+                    int Common_price = leRunEntity.getCharge_common();
+                    int Vip_price = leRunEntity.getCharge_vip();
+                    if (Free_price<0){
+                        if (Common_price<0){
+                            price.setText(Vip_price+"");
+                        }else {
+                            price.setText(Common_price+"");
+                        }
+                    }else {price.setText(Free_price+"");}
+
                     Log.i("Charge_common", leRunEntity.getCharge_common() + "");
                     number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
                     time = leRunEntity.getLerun_endtime();

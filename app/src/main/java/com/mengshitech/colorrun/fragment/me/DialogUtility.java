@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -165,7 +166,6 @@ public class DialogUtility {
                 }
             }
         });
-
     }
 
     //修改个性签名和邮箱
@@ -230,7 +230,6 @@ public class DialogUtility {
                     }
                 });
                 break;
-
         }
 
     }
@@ -301,7 +300,7 @@ public class DialogUtility {
         }
     }
 
-    public static void DialogCancel(final Context context){
+    public static void DialogCancel(final Context context, final ImageView header, final TextView name){
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
@@ -325,6 +324,9 @@ public class DialogUtility {
                 editor.putString("user_type", "0");
                 editor.putString("user_id","");
                 editor.commit();
+                IPAddress.login_state="0";
+                header.setImageResource(R.mipmap.default_avtar);
+                name.setText("未登录");
                 dialog.dismiss();
             }
         });

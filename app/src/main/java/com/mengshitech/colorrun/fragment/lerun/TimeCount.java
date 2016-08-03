@@ -116,7 +116,7 @@ public class TimeCount extends DigitalClock {
         String minutesStr = timeStrFormat(String.valueOf(minutes));
         String secondStr = timeStrFormat(String.valueOf(second));
         returnString.append(dayStr).append("天").append(hoursStr).append("小时")
-                .append(minutesStr).append("分钟").append(secondStr).append("秒");
+                .append(minutesStr).append("分钟");
         str = Html.fromHtml(returnString.toString());
         if (day >= 10) {
             ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 2, 3,
@@ -125,8 +125,8 @@ public class TimeCount extends DigitalClock {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 9, 11,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 13, 14,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 13, 14,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 1, 2,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -134,8 +134,8 @@ public class TimeCount extends DigitalClock {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 8, 10,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 12, 13,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            ((Spannable) str).setSpan(new AbsoluteSizeSpan(16), 12, 13,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         // return returnString.toString();
         return str;

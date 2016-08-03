@@ -29,355 +29,355 @@
                 android:textSize="20sp"
                 android:textStyle="italic" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:gravity="center">-->
 
-                <ImageView
-                    android:id="@+id/iv_enroll_time"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/enroll_time" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_enroll_time"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:src="@mipmap/enroll_time" />-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2016/9/3"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_time"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="2016/9/3"-->
+                    <!--android:textSize="15sp" />-->
 
-                <ImageView
-                    android:id="@+id/iv_enroll_add"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:src="@mipmap/enroll_location" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_enroll_add"-->
+                    <!--android:layout_width="18dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:src="@mipmap/enroll_location" />-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="吉林大学中心校区（鼎新楼）"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_add"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="吉林大学中心校区（鼎新楼）"-->
+                    <!--android:textSize="15sp" />-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_enroll_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_enroll_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_name"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 姓名:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_name"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 姓名:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <EditText
-                    android:id="@+id/et_enroll_name"
-                    android:paddingLeft="10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/enroll_bg_et"
-                    android:layout_weight="5">
-                    </EditText>
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:id="@+id/et_enroll_name"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:background="@drawable/enroll_bg_et"-->
+                    <!--android:layout_weight="5">-->
+                    <!--</EditText>-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.7" />
+                <!--<View-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1.7" />-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="请填写真实姓名，购买保险使用。"
-                    android:textColor="#728ea3"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:text="请填写真实姓名，购买保险使用。"-->
+                    <!--android:textColor="#728ea3"-->
+                    <!--android:textSize="15sp" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_enroll_sex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_enroll_sex"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_sex"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="*性别:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_sex"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="*性别:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <RadioGroup
-                    android:id="@+id/rg_enroll_sex"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="5"
-                    android:layout_marginRight="20dp"
-                    android:orientation="horizontal">
+                <!--<RadioGroup-->
+                    <!--android:id="@+id/rg_enroll_sex"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/rb_sex_man"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:checked="true"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="男"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_sex_man"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:checked="true"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="男"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_sex_woman"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="女"
-                        android:textColor="#444444" />
-                </RadioGroup>
-            </LinearLayout>
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_sex_woman"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="女"-->
+                        <!--android:textColor="#444444" />-->
+                <!--</RadioGroup>-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_card_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_card_type"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_card_type"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 证件类型:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_card_type"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 证件类型:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <Spinner
-                    android:id="@+id/Spinner_enroll_card"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="5"
-                    android:background="@mipmap/seletor_bg"
-                    android:entries="@array/card_type"
-                    android:textColor="#444444" />
-            </LinearLayout>
+                <!--<Spinner-->
+                    <!--android:id="@+id/Spinner_enroll_card"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:background="@mipmap/seletor_bg"-->
+                    <!--android:entries="@array/card_type"-->
+                    <!--android:textColor="#444444" />-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_card_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_card_number"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_card_number"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 证件号码:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_card_number"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 证件号码:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <EditText
-                    android:id="@+id/et_card_number"
-                    android:paddingLeft="10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:id="@+id/et_card_number"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:background="@drawable/enroll_bg_et" />-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.7" />
+                <!--<View-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1.7" />-->
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:text="请填写真实证件号码，购买保险使用。"
-                    android:textColor="#728ea3"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:text="请填写真实证件号码，购买保险使用。"-->
+                    <!--android:textColor="#728ea3"-->
+                    <!--android:textSize="15sp" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_cloth_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_cloth_size"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_cloth_size"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 衣服尺码:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_cloth_size"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 衣服尺码:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <RadioGroup
-                    android:id="@+id/rg_enroll_size"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="5"
-                    android:layout_marginRight="20dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                <!--<RadioGroup-->
+                    <!--android:id="@+id/rg_enroll_size"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:weightSum="1">-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_s"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="S"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_s"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:checked="true"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="S"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_m"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="M"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_m"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="M"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_l"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="L"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_l"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="L"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_xl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="XL"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_xl"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="XL"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_2xl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="2XL"
-                        android:textColor="#444444" />
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_2xl"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="2XL"-->
+                        <!--android:textColor="#444444" />-->
 
-                    <RadioButton
-                        android:id="@+id/rb_size_3xl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:text="3XL"
-                        android:textColor="#444444" />
-                </RadioGroup>
-            </LinearLayout>
+                    <!--<RadioButton-->
+                        <!--android:id="@+id/rb_size_3xl"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:scaleX="1"-->
+                        <!--android:scaleY="1"-->
+                        <!--android:text="3XL"-->
+                        <!--android:textColor="#444444" />-->
+                <!--</RadioGroup>-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_enroll_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_enroll_id"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_id"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 身份:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_id"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 身份:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <Spinner
-                    android:id="@+id/Spinner_enroll_id"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="5"
-                    android:background="@mipmap/seletor_bg"
-                    android:entries="@array/ID"
-                    android:textColor="#444444" />
-            </LinearLayout>
+                <!--<Spinner-->
+                    <!--android:id="@+id/Spinner_enroll_id"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:background="@mipmap/seletor_bg"-->
+                    <!--android:entries="@array/ID"-->
+                    <!--android:textColor="#444444" />-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/ll_enroll_unit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_enroll_unit"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/tv_enroll_unit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.7"
-                    android:gravity="right|bottom"
-                    android:paddingRight="10dp"
-                    android:text="* 来源单位:"
-                    android:textColor="#444444"
-                    android:textSize="15sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_enroll_unit"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1.7"-->
+                    <!--android:gravity="right|bottom"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:text="* 来源单位:"-->
+                    <!--android:textColor="#444444"-->
+                    <!--android:textSize="15sp" />-->
 
-                <EditText
-                    android:id="@+id/et_enroll_unit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:paddingLeft="10dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:id="@+id/et_enroll_unit"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:background="@drawable/enroll_bg_et" />-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/ll_contact_number"
@@ -400,7 +400,7 @@
                 <EditText
                     android:id="@+id/et_contact_number"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:layout_marginRight="20dp"
                     android:paddingLeft="10dp"
                     android:layout_weight="5"
@@ -441,16 +441,15 @@
                     android:layout_weight="1.7"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
-                    android:text="身份认证:"
+                    android:text="* 身份认证:"
                     android:textColor="#444444"
                     android:textSize="15sp" />
 
 
                 <ImageView
                     android:id="@+id/iv_enroll_authentication"
-                    android:layout_width="0dp"
+                    android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_weight="1.5"
                     android:gravity="top|left"
                     android:inputType="number"
                     android:scaleType="fitXY"
@@ -459,7 +458,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="3.5" />
+                    android:layout_weight="3.7" />
 
             </LinearLayout>
 
@@ -477,7 +476,7 @@
                     android:layout_weight="1.7"
                     android:gravity="top|right"
                     android:paddingRight="10dp"
-                    android:text="活动价格:"
+                    android:text="* 活动价格:"
                     android:textColor="#444444"
                     android:textSize="15sp" />
 

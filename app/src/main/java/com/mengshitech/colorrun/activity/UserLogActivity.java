@@ -6,6 +6,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +40,7 @@ import com.mengshitech.colorrun.utils.upload;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -222,34 +225,38 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
 
                 if (data != null) {
                     Uri originalUri = data.getData(); // 获得图片的uri
+                    if (originalUri != null) {
+                        try {
+                            Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        // 这里开始的第二部分，获取图片的路径：
+
+                        String[] proj = {MediaStore.Images.Media.DATA};
+
+                        // 好像是android多媒体数据库的封装接口，具体的看Android文档
+                        @SuppressWarnings("deprecation")
+                        Cursor cursor = managedQuery(originalUri, proj, null, null,
+                                null);
+                        // 按我个人理解 这个是获得用户选择的图片的索引值
+                        int column_index = cursor
+                                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        // 将光标移至开头 ，这个很重要，不小心很容易引起越界
+                        cursor.moveToFirst();
+                        // 最后根据索引值获取图片路径
+                        imageFilePath = cursor.getString(column_index);
+                        Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
+                        user_image.setImageBitmap(bmp);
+
+                        temp = new File(imageFilePath);
+                        new Thread(uploadRunnable).start();
+                        System.out.println(imageFilePath);
+                    }else{
+
                     }
 
-                    // 这里开始的第二部分，获取图片的路径：
-
-                    String[] proj = {MediaStore.Images.Media.DATA};
-
-                    // 好像是android多媒体数据库的封装接口，具体的看Android文档
-                    @SuppressWarnings("deprecation")
-                    Cursor cursor = managedQuery(originalUri, proj, null, null,
-                            null);
-                    // 按我个人理解 这个是获得用户选择的图片的索引值
-                    int column_index = cursor
-                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    // 将光标移至开头 ，这个很重要，不小心很容易引起越界
-                    cursor.moveToFirst();
-                    // 最后根据索引值获取图片路径
-                    imageFilePath = cursor.getString(column_index);
-                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
-                    user_image.setImageBitmap(bmp);
-
-                    temp = new File(imageFilePath);
-                    new Thread(uploadRunnable).start();
-                    System.out.println(imageFilePath);
                 }
 //                startPhotoZoom(data.getData());
                 break;
@@ -305,6 +312,10 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
 //
 //            }
 //        }
-
+//public static boolean isIntentAvailable(Context context, Intent intent) {
+//    final PackageManager packageManager = context.getPackageManager();
+//    List<ResolveInfo> list = packageManager.queryIntentActivities(intent,PackageManager.GET_ACTIVITIES);
+//    return list.size() > 0;
+//}
 
 }

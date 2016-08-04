@@ -20,6 +20,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.UserLogActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -187,7 +188,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     if (userEntiy.getUser_header()!=null){
                        header_path = IPAddress.path+userEntiy.getUser_header();
                         IPAddress.user_log=header_path;
-                        Glide.with(getActivity()).load(header_path).into(iv_head);
+                        Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
                     }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block

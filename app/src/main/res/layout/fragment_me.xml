@@ -34,9 +34,10 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center"
-        android:padding="15dp" >
+        android:padding="5dp" >
 
         <ImageView
+            android:layout_marginLeft="5dp"
             android:id="@+id/ivUserHead"
             android:layout_width="70dp"
             android:layout_height="70dp"

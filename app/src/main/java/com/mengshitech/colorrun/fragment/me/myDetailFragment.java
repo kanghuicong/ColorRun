@@ -42,23 +42,16 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
     String header_path;
-    protected WeakReference<View> mRootView;
     @Override
     public View initView() {
-        if (mDeatilView == null) {
-            mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
-            MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
-            SharedPreferences sharedPreferences = getActivity()
-                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-            userid = sharedPreferences.getString("user_id", "");
-            FindId();
-            Click();
-            new Thread(runnable).start();
-        }
-        ViewGroup parent = (ViewGroup) mDeatilView.getParent();
-        if (parent != null) {
-            parent.removeView(mDeatilView);
-        }
+        mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
+        MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+        userid = sharedPreferences.getString("user_id", "");
+        FindId();
+        Click();
+        new Thread(runnable).start();
         return mDeatilView;
 
     }

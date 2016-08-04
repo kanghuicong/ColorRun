@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/tvShow_UserName"
+        android:layout_below="@+id/tvComment_UserName"
         android:layout_toRightOf="@+id/ivComment_UserHead"
         android:text="2016-07-15 08:23:22" />
 

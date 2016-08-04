@@ -1,5 +1,6 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -20,12 +21,16 @@ public class LeRunTheme extends BaseFragment {
     String type;
     WebView browser;
 
+    @SuppressLint("ValidFragment")
     public LeRunTheme(Activity activity,String type) {
+        super();
         mActivity = activity;
         this.type = type;
         initView();
     }
 
+    public LeRunTheme()
+    {}
     @Override
     public View initView() {
         lerun_theme_view = View.inflate(mActivity, R.layout.lerun_theme_type, null);

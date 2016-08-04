@@ -42,7 +42,7 @@ public class meFragment extends Fragment implements OnClickListener {
     LinearLayout llUserHead,llMyLeRun, llMyShow, llAboutUs,llCancel;
     ImageView ivUserHead;
     FragmentManager fm;
-    TextView tvUserName;
+    TextView tvUserName,tvUserID;
     private Activity mActivity;
     String type,id;
 
@@ -54,16 +54,9 @@ public class meFragment extends Fragment implements OnClickListener {
         type = sharedPreferences.getString("user_type", "");
         id = sharedPreferences.getString("user_id", "");
 
-        if (meView == null) {
-            mActivity = getActivity();
-            meView = View.inflate(getActivity(), R.layout.fragment_me, null);
-            initView();
-            new Thread(runnable).start();
-        }
-        ViewGroup parent = (ViewGroup) meView.getParent();
-        if (parent != null) {
-            parent.removeView(meView);
-        }
+        mActivity = getActivity();
+        initView();
+        new Thread(runnable).start();
         return meView;
     }
 
@@ -72,6 +65,7 @@ public class meFragment extends Fragment implements OnClickListener {
         llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
         ivUserHead = (ImageView)meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView)meView.findViewById(R.id.tvUserName);
+        tvUserID = (TextView)meView.findViewById(R.id.tvUserID);
         // 头像那一行
         llUserHead.setOnClickListener(this);
         llMyLeRun = (LinearLayout) meView.findViewById(R.id.llMyLeRun);
@@ -86,6 +80,9 @@ public class meFragment extends Fragment implements OnClickListener {
         //注销
         llCancel = (LinearLayout)meView.findViewById(R.id.llCancel);
         llCancel.setOnClickListener(this);
+
+
+
     }
 
     @Override
@@ -137,8 +134,6 @@ public class meFragment extends Fragment implements OnClickListener {
                     Intent intent=new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
-
-
                 break;
 
             default:
@@ -178,7 +173,12 @@ public class meFragment extends Fragment implements OnClickListener {
             } else {
                 try {
                     UserEntiy userEntiy = JsonTools.getUserInfo("result",result);
-                    tvUserName.setText(userEntiy.getUser_id());
+                    if ("".equals(userEntiy.getUser_name())){
+                        tvUserName.setText("还没写昵称呢~");
+                    }else {
+                        tvUserName.setText(userEntiy.getUser_name());
+                    }
+                    tvUserID.setText("ID:"+userEntiy.getUser_id());
                     if (userEntiy.getUser_header().equals("")){
 
                     }else{
@@ -193,6 +193,7 @@ public class meFragment extends Fragment implements OnClickListener {
             }
         }
     };
+
 
 //    @Override
 //    public void onBackPressed() {
@@ -214,7 +215,5 @@ public class meFragment extends Fragment implements OnClickListener {
 //            System.exit(0);
 //        }
 //    }
-
-
 
 }

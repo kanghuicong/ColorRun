@@ -128,6 +128,4 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     public void onRefresh() {
         new Thread(getLeRunRunnable).start();
     }
-
-
 }

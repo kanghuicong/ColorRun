@@ -1,5 +1,6 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -20,11 +21,13 @@ public class ShowMap extends Fragment{
     Context context;
     String map_path;
 
-
+    @SuppressLint("ValidFragment")
     public ShowMap(Context context, String map_path){
         this.context = context;
         this.map_path = map_path;
     }
+
+    public ShowMap(){}
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

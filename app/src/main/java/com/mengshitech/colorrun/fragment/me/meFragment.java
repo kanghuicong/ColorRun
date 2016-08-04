@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -184,7 +185,7 @@ public class meFragment extends Fragment implements OnClickListener {
                     }else{
                         String header_path = IPAddress.path+userEntiy.getUser_header();
                         Log.i("header_path:",header_path);
-                        Glide.with(getActivity()).load(header_path).into(ivUserHead);
+                        Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block

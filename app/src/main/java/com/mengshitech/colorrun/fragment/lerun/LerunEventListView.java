@@ -1,14 +1,12 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,10 +20,10 @@ import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
-import com.mengshitech.colorrun.utils.Utility;
+
 import org.json.JSONException;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +77,7 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
 
     //获取数据的请求
     private String getData() {
-        String Path = IPAddress.PATH;
+        String Path = ContentCommon.PATH;
         Map<String, String> map = new HashMap<String, String>();
         map.put("flag", "lerun");
         map.put("index", "0");

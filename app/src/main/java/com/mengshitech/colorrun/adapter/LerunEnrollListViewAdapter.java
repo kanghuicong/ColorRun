@@ -1,7 +1,6 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
-import android.content.pm.LauncherApps;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.EnrollEntity;
-import com.mengshitech.colorrun.bean.LeRunEntity;
-import com.mengshitech.colorrun.utils.IPAddress;
 
 import java.util.HashMap;
 import java.util.List;

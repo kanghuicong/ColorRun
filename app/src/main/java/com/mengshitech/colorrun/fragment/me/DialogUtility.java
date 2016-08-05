@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -23,14 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.bean.UserEntiy;
-import com.mengshitech.colorrun.dao.UserDao;
-import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
-import com.mengshitech.colorrun.utils.JsonTools;
-
-import org.json.JSONException;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -329,6 +322,7 @@ public class DialogUtility {
         }
     }
 
+    //注销账号
     public static void DialogCancel(final Context context, final ImageView header, final TextView name){
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
@@ -353,7 +347,7 @@ public class DialogUtility {
                 editor.putString("user_type", "0");
                 editor.putString("user_id","");
                 editor.commit();
-                IPAddress.login_state="0";
+                ContentCommon.login_state="0";
                 header.setImageResource(R.mipmap.default_avtar);
                 name.setText("未登录");
                 dialog.dismiss();
@@ -373,7 +367,7 @@ public class DialogUtility {
     static Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id", userid);

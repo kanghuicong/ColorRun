@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 /**
  * Created by kanghuicong on 2016/7/26  12:25.
@@ -73,7 +73,7 @@ public class RegisterPwd extends Activity {
 
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("user_id", number);
             map.put("user_pwd",repassword);

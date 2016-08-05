@@ -2,11 +2,7 @@ package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -14,25 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
-import com.mengshitech.colorrun.fragment.show.showDetailFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
@@ -135,7 +125,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
 
 
-        String header_path = IPAddress.path + mShowEntity.getUser_header();
+        String header_path = ContentCommon.path + mShowEntity.getUser_header();
         Log.i("header_path:", header_path);
         Glide.with(context).load(header_path).into(holder.user_header);
 
@@ -202,7 +192,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     Runnable like_runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             SharedPreferences sharedPreferences = context
                     .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
             String id = sharedPreferences.getString("user_id", "");
@@ -254,7 +244,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     Runnable cancellike_runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             SharedPreferences sharedPreferences = context
                     .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
             String id = sharedPreferences.getString("user_id", "");

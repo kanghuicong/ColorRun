@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.HistoryEntity;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class HistoryAdapter extends BaseAdapter {
         holder.history_name.setText(mHistoryEntity.getActivityTitle());
         holder.history_time.setText(mHistoryEntity.getActivityTime());
         holder.history_address.setText(mHistoryEntity.getActivityLoc());
-        Glide.with(mActivity).load(IPAddress.path + mHistoryEntity.getImageposter()).into(holder.image_background);
+        Glide.with(mActivity).load(ContentCommon.path + mHistoryEntity.getImageposter()).into(holder.image_background);
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
 

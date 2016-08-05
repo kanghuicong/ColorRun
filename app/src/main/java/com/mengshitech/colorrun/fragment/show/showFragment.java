@@ -3,7 +3,6 @@ package com.mengshitech.colorrun.fragment.show;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,10 +19,9 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
-import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
 import org.json.JSONException;
@@ -122,7 +120,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
             map.put("index", "2");

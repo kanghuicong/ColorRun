@@ -2,20 +2,15 @@ package com.mengshitech.colorrun.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 /**
  * 作者：wschenyongyin on 2016/8/1 14:00
@@ -34,7 +29,7 @@ public class AdvertisementActivity  extends Activity{
 
         image= (ImageView) findViewById(R.id.imageadvertisement);
 
-        Glide.with(AdvertisementActivity.this).load(IPAddress.path+"lerunposter/advertisement_poster.jpg").into(image);
+        Glide.with(AdvertisementActivity.this).load(ContentCommon.path+"lerunposter/advertisement_poster.jpg").into(image);
 
 
         new Handler(new Handler.Callback() {

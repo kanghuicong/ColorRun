@@ -17,7 +17,7 @@ import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 
 import org.json.JSONException;
@@ -67,7 +67,7 @@ public class HistoryTheme extends BaseFragment {
 	}
 	//获取数据的请求
 	private String getData() {
-		String Path = IPAddress.PATH;
+		String Path = ContentCommon.PATH;
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("flag", "lerun");
 		map.put("index", "0");

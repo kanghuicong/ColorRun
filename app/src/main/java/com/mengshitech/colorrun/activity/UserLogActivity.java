@@ -1,25 +1,17 @@
 package com.mengshitech.colorrun.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,13 +26,12 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.upload;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,14 +54,14 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_detail_userlog);
         init();
-        Log.i("user_log", IPAddress.user_log + "ssss");
+        Log.i("user_log", ContentCommon.user_log + "ssss");
     }
 
     private void init() {
         image_chose = (ImageView) findViewById(R.id.image_chose);
         user_image = (ImageView) findViewById(R.id.user_image);
         ll_back = (LinearLayout) findViewById(R.id.userlog_btn_back);
-        Glide.with(UserLogActivity.this).load(IPAddress.user_log).into(user_image);
+        Glide.with(UserLogActivity.this).load(ContentCommon.user_log).into(user_image);
         ll_back.setOnClickListener(this);
         image_chose.setOnClickListener(this);
     }
@@ -145,7 +136,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
     Runnable uploadRunnable = new Runnable() {
         @Override
         public void run() {
-            String servletPath = IPAddress.ImagePath;
+            String servletPath = ContentCommon.ImagePath;
             ScuessImagePath = upload.uploadImage(temp, servletPath);
             Message msg = new Message();
             msg.obj = ScuessImagePath;
@@ -169,10 +160,10 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
     Runnable updateRunable = new Runnable() {
         @Override
         public void run() {
-            String servlet = IPAddress.PATH;
+            String servlet = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
-            map.put("user_id", IPAddress.user_id);
+            map.put("user_id", ContentCommon.user_id);
             map.put("index", "3");
             map.put("update_type", "user_header");
             map.put("update_values", ScuessImagePath);

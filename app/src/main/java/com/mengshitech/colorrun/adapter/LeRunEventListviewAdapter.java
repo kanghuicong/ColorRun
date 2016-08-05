@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
@@ -76,7 +75,7 @@ public class LeRunEventListviewAdapter extends BaseAdapter implements OnClickLis
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(IPAddress.path+entity.getLerun_poster()).into(holder.imageview);
+        Glide.with(context).load(ContentCommon.path+entity.getLerun_poster()).into(holder.imageview);
         holder.lerun_envent_time.setText(entity.getLerun_time());
         holder.lerun_event_address.setText(entity.getLerun_address());
         holder.lerun_event_name.setText(entity.getLerun_title());

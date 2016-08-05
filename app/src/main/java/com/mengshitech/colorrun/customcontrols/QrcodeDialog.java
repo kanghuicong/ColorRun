@@ -5,13 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 /**
  * 作者：wschenyongyin on 2016/8/3 09:36
@@ -57,7 +56,7 @@ public class QrcodeDialog extends Dialog implements
        LinearLayout btn_ok = (LinearLayout) findViewById(R.id.btn_qrcde_ok);
         ImageView image_qrcode = (ImageView) findViewById(R.id.image_qrcode);
         if (qrcode_image != null) {
-            Glide.with(context).load(IPAddress.path + qrcode_image).into(image_qrcode);
+            Glide.with(context).load(ContentCommon.path + qrcode_image).into(image_qrcode);
         }
        btn_ok.setOnClickListener(this);
 

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyLerunInToListViewAdapter;
-import com.mengshitech.colorrun.adapter.MyLerunListViewAdapter;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
@@ -24,7 +23,7 @@ import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 
@@ -96,7 +95,7 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
 
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("user_id", userid);

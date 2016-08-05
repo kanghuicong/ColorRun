@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,12 +20,11 @@ import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import org.json.JSONException;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,7 +139,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id", userid);
@@ -179,8 +176,8 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_sign.setText(userEntiy.getUser_sign());
                     Log.i("用户头像地址",userEntiy.getUser_header());
                     if (userEntiy.getUser_header()!=null){
-                       header_path = IPAddress.path+userEntiy.getUser_header();
-                        IPAddress.user_log=header_path;
+                       header_path = ContentCommon.path+userEntiy.getUser_header();
+                        ContentCommon.user_log=header_path;
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
                     }
                 } catch (JSONException e) {

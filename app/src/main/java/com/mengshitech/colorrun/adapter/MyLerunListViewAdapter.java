@@ -15,9 +15,8 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
-import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
 import com.mengshitech.colorrun.fragment.me.MyLeRunFragmentInTo;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.HashMap;
@@ -90,7 +89,7 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(IPAddress.path + info.getLerun_poster()).into(holder.mylerun_poster);
+        Glide.with(context).load(ContentCommon.path + info.getLerun_poster()).into(holder.mylerun_poster);
         holder.mylerun_name.setText(info.getLerun_title());
         holder.mylerun_time.setText(info.getLerun_time());
         holder.mylerun_address.setText(info.getLerun_address());

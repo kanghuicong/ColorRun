@@ -8,8 +8,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,13 +19,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LeRunGridViewAdapter;
@@ -38,7 +34,7 @@ import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.VideoEntity;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
 import com.mengshitech.colorrun.view.MyListView;
@@ -71,11 +67,8 @@ public class LerunFragment extends Fragment implements OnClickListener {
     // 页面布局
     Activity mActivity;
     // 广告栏是否自动滑动
-
     List<LeRunEntity> gideviewlist;
-
     Context context;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -191,7 +184,7 @@ new Thread(getQrCodeRunnable).start();
     Runnable getLunBOimageRunnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lunbo");
             map.put("index", "0");
@@ -239,7 +232,7 @@ new Thread(getQrCodeRunnable).start();
     Runnable getLeRunRunnable = new Runnable() {
         @Override
         public void run() {
-            String Path = IPAddress.PATH;
+            String Path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "0");
@@ -289,7 +282,7 @@ new Thread(getQrCodeRunnable).start();
     Runnable videoRunnable = new Runnable() {
         @Override
         public void run() {
-            String Path = IPAddress.PATH;
+            String Path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lunbo");
             map.put("index", "1");
@@ -333,8 +326,8 @@ new Thread(getQrCodeRunnable).start();
     Runnable getQrCodeRunnable = new Runnable() {
         @Override
         public void run() {
-            String user_id = IPAddress.user_id;
-            String Path = IPAddress.PATH;
+            String user_id = ContentCommon.user_id;
+            String Path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "10");

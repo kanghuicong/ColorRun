@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,14 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +48,7 @@ public class meFragment extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         type = sharedPreferences.getString("user_type", "");
@@ -93,19 +92,19 @@ public class meFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.llUserHead:
                 //点击头像事件
-                if (IPAddress.login_state.equals("0")){
+                if (ContentCommon.login_state.equals("0")){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
-                }else if (IPAddress.login_state.equals("1")){
+                }else if (ContentCommon.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myDetailFragment());
                 }
                 break;
             case R.id.llMyLeRun:
                 Log.i("登陆状态",type);
-                if (IPAddress.login_state.equals("1")){
+                if (ContentCommon.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
                 }else{
-                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录"+IPAddress.login_state,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录"+ ContentCommon.login_state,Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
@@ -113,7 +112,7 @@ public class meFragment extends Fragment implements OnClickListener {
 
                 break;
             case R.id.llMyShow:
-                if (IPAddress.login_state.equals("1")){
+                if (ContentCommon.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myShowFragment());
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
@@ -127,7 +126,7 @@ public class meFragment extends Fragment implements OnClickListener {
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:
-                if (IPAddress.login_state.equals("1")){
+                if (ContentCommon.login_state.equals("1")){
                     DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName);
 
                 }else{
@@ -153,7 +152,7 @@ public class meFragment extends Fragment implements OnClickListener {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String,String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id",id);
@@ -183,7 +182,7 @@ public class meFragment extends Fragment implements OnClickListener {
                     if (userEntiy.getUser_header().equals("")){
 
                     }else{
-                        String header_path = IPAddress.path+userEntiy.getUser_header();
+                        String header_path = ContentCommon.path+userEntiy.getUser_header();
                         Log.i("header_path:",header_path);
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }

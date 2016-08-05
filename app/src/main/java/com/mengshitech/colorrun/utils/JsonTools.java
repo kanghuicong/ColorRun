@@ -1,9 +1,7 @@
 package com.mengshitech.colorrun.utils;
 
-import android.provider.MediaStore;
 import android.util.Log;
 
-import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
@@ -17,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +133,7 @@ public class JsonTools {
 
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String imagePath = jsonObject.getString("imagePath");
-            list.add(IPAddress.path + imagePath);
+            list.add(ContentCommon.path + imagePath);
         }
         Log.i("listdaixao:", list.size() + "");
         return list;

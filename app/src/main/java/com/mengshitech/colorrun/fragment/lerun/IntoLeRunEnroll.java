@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,6 +40,7 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
+import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
@@ -342,9 +345,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 bundle.putString("lerun_title",enroll_name.getText().toString());
                 bundle.putInt("lerun_price",choose_price);
                 Log.i("1Payment",user_name.getText().toString()+enroll_name.getText().toString()+choose_price);
-                LeRunPayment leRunPayment = new LeRunPayment();
-                leRunPayment.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), leRunPayment);
+//                LeRunPayment leRunPayment = new LeRunPayment();
+//                leRunPayment.setArguments(bundle);
+                AlipayFragment alipayFragment=new AlipayFragment();
+                alipayFragment.setArguments(bundle);
+                Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
             }
         }
     };

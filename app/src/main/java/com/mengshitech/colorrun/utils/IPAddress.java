@@ -10,13 +10,13 @@ import android.content.SharedPreferences;
 public class IPAddress {
 //    192.168.0.19:8080
 
-    public static final String PATH="http://192.168.2.100:8080/LeRun/servlet/LeRunServlet";
+    public static final String PATH="http://192.168.188.245:8080/LeRun/servlet/LeRunServlet";
 
-    public static final String ImagePath ="http://192.168.2.100:8080/LeRun/servlet/UploadServlet";
+    public static final String ImagePath ="http://192.168.188.245:8080/LeRun/servlet/UploadServlet";
 
-    public static final String path="http://192.168.2.100:8080/LeRun/";
+    public static final String path="http://192.168.188.245:8080/LeRun/";
 
-    public static String login_state=null;
+    public static String login_state="0";
     public static String user_id=null;
     public  static String user_log=null;
 

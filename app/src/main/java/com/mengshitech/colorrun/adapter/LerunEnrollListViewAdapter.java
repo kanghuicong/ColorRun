@@ -93,11 +93,12 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                resetBackGround();
+//                resetBackGround();
                 ((ImageView) (map.get("" + position))).setBackgroundResource(R.mipmap.selected_yes);
                 tags[position] = 1;
                 EnrollEntity mEnrollEntity = getItem(position);
                 callback.returnInfo(mEnrollEntity.getPrice());
+
                 Log.i("1EnrollEntity",mEnrollEntity.getPrice()+"");
             }
             public void resetBackGround() {

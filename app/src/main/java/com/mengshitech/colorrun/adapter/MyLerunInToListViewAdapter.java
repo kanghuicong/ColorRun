@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
@@ -133,9 +134,9 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
             bundle.putInt("lerun_price", info.getPayment());
             Log.i("user_name", info.getPersonal_name() + "");
             Log.i("lerun_price", info.getPayment() + "");
-            LeRunPayment leRunPayment = new LeRunPayment();
-            leRunPayment.setArguments(bundle);
-            Utility.replace2DetailFragment(mFragmentManager, leRunPayment);
+            AlipayFragment alipayFragment=new AlipayFragment();
+            alipayFragment.setArguments(bundle);
+            Utility.replace2DetailFragment(mFragmentManager, alipayFragment);
         } else if (state == 1) {
             String qr_image = info.getImagePath();
 

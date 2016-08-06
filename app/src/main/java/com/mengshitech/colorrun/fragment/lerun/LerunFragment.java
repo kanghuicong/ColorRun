@@ -16,6 +16,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ import com.mengshitech.colorrun.adapter.LeRunVpAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.VideoEntity;
+import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.IPAddress;
@@ -46,7 +49,7 @@ import com.mengshitech.colorrun.view.MyListView;
 import org.json.JSONException;
 
 
-public class LerunFragment extends Fragment implements OnClickListener {
+public class LerunFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener{
 
     //热播视频的图片
     ImageView hotImage;
@@ -73,6 +76,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
     // 广告栏是否自动滑动
 
     List<LeRunEntity> gideviewlist;
+    private AutoSwipeRefreshLayout mSwipeLayout;
 
     Context context;
 
@@ -95,6 +99,15 @@ public class LerunFragment extends Fragment implements OnClickListener {
     }
 
     private void findById() {
+
+
+        mSwipeLayout=new AutoSwipeRefreshLayout(mActivity);
+        mSwipeLayout= (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
+        mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.autoRefresh();
+
+
 
         //热门视频图片
         hotImage = (ImageView) lerunView.findViewById(R.id.ivHotView);
@@ -169,7 +182,7 @@ public class LerunFragment extends Fragment implements OnClickListener {
                 Toast.makeText(mActivity, "足迹", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLeRunSignUp:
-new Thread(getQrCodeRunnable).start();
+                new Thread(getQrCodeRunnable).start();
 
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
@@ -178,7 +191,7 @@ new Thread(getQrCodeRunnable).start();
                 // 城市选择按钮
                 break;
             case R.id.ivHotView:
-                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(),video_url));
+                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(), video_url));
                 break;
 
             default:
@@ -198,7 +211,9 @@ new Thread(getQrCodeRunnable).start();
 
             String jsonString = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Log.i("jsonString:", jsonString);
-
+//            if(jsonString.equals("timeout")){
+//                mSwipeLayout.setRefreshing(false);
+//            }
             try {
                 List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
                 Log.i("list的数据22:", result.toString() + "");
@@ -231,7 +246,7 @@ new Thread(getQrCodeRunnable).start();
 
             vpLeRunAd
                     .setAdapter(new LeRunVpAdapter(mActivity, imgList, vpLeRunAd, AutoRunning));
-
+            mSwipeLayout.setRefreshing(false);
         }
     };
 
@@ -245,6 +260,9 @@ new Thread(getQrCodeRunnable).start();
             map.put("index", "0");
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
             Log.i("获取主题信息:", result);
+//            if(result.equals("timeout")){
+//                mSwipeLayout.setRefreshing(false);
+//            }
             try {
                 List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
                 Log.i("解析后的主题信息:", lerunlist.size() + "");
@@ -278,7 +296,7 @@ new Thread(getQrCodeRunnable).start();
             }
             Log.i("gridlist的大小:", gideviewlist.size() + "");
             gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
-
+            mSwipeLayout.setRefreshing(false);
 
         }
     };
@@ -309,6 +327,7 @@ new Thread(getQrCodeRunnable).start();
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                mSwipeLayout.setRefreshing(false);
             } else {
                 try {
                     Log.i("videoImagezhixingle", "内容");
@@ -318,7 +337,7 @@ new Thread(getQrCodeRunnable).start();
                     Log.i("图片地址", entity.getVideo_url());
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
-
+                    mSwipeLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -370,4 +389,11 @@ new Thread(getQrCodeRunnable).start();
             }
         }
     };
+
+    @Override
+    public void onRefresh() {
+        new Thread(getLunBOimageRunnable).start();
+        new Thread(getLeRunRunnable).start();
+        new Thread(videoRunnable).start();
+    }
 }

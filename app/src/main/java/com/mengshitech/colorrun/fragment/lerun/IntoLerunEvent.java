@@ -296,4 +296,11 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("onDestroy","执行了");
+        getFragmentManager().popBackStack();
+    }
 }

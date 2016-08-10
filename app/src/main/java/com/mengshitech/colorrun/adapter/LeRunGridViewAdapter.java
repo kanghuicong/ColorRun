@@ -14,12 +14,10 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
-import com.mengshitech.colorrun.fragment.lerun.lerunDetailFragment;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by atenklsy on 2016/7/15 10:55.
@@ -75,7 +73,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder = (ViewHolder) convertView.getTag();
         }
 //        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
-        Glide.with(mActivity).load(IPAddress.path+entity.getLerun_poster()).into(holder.ivBackground);
+        Glide.with(mActivity).load(ContentCommon.path+entity.getLerun_poster()).into(holder.ivBackground);
         mLeRunGridView.setOnItemClickListener(this);
         return convertView;
     }

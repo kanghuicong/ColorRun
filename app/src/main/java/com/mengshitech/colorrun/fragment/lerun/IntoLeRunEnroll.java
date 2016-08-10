@@ -2,7 +2,6 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,20 +35,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
 import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.EnrollEntity;
-import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
 import com.mengshitech.colorrun.utils.upload;
-
-import android.view.View.OnClickListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +53,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by kanghuicong on 2016/7/27  17:58.
@@ -300,7 +292,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else {
                 signin_type = "2";
             }
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "4");
@@ -357,7 +349,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Runnable uploadRunnable = new Runnable() {
         @Override
         public void run() {
-            String servletPath = IPAddress.ImagePath;
+            String servletPath = ContentCommon.ImagePath;
             ScuessImagePath = upload.uploadImage(temp, servletPath);
             Message msg = new Message();
             msg.obj = ScuessImagePath;

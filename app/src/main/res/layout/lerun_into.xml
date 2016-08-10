@@ -60,7 +60,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="¥"
                                 android:textColor="@color/white"
-                                android:textSize="25dp" />
+                                android:textSize="30dp" />
 
                             <TextView
                                 android:id="@+id/into_lerun_price"
@@ -68,7 +68,7 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 android:textColor="@color/white"
-                                android:textSize="50dp" />
+                                android:textSize="45dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -83,14 +83,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="剩余名额"
                                 android:textColor="@color/white"
-                                android:textSize="20dp" />
+                                android:textSize="18dp" />
 
                             <TextView
                                 android:id="@+id/into_lerun_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:textSize="25dp" />
+                                android:textSize="23dp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -156,7 +156,7 @@
                                 android:padding="5dp"
                                 android:text="奥体中心"
                                 android:textColor="@color/black"
-                                android:textSize="20dp" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -178,7 +178,7 @@
                                 android:padding="5dp"
                                 android:text="2016 08 15"
                                 android:textColor="@color/black"
-                                android:textSize="20dp" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -200,7 +200,7 @@
                                 android:padding="5dp"
                                 android:text="泡泡卡乐跑"
                                 android:textColor="@color/black"
-                                android:textSize="20dp" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -370,7 +370,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginTop="15dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
@@ -395,7 +396,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
@@ -446,9 +448,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginTop="5dp"
-
                             android:orientation="horizontal">
 
                             <TextView
@@ -481,8 +483,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_marginTop="5dp"
                             android:text="*活动签到通过现场工作人员扫描二维码的方式签到，为防止网络拥堵，参赛人员可以提前将二维码保存到手机相册中" />
                     </LinearLayout>
@@ -494,13 +496,14 @@
                         android:layout_marginTop="10dp"
                         android:text="3、报名须知"
                         android:textColor="@color/black"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginTop="15dp"
                         android:orientation="vertical">
 
@@ -537,7 +540,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="30dp"
                                 android:text="@string/youmust" />
 
                             <View

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -18,13 +17,8 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
-import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.Utility;
-
-import org.json.JSONException;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +103,7 @@ public class LoginActivity extends Activity implements OnClickListener {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String,String> map= new HashMap<String,String>();
             map.put("flag","user");
             map.put("index","1");
@@ -139,8 +133,8 @@ public class LoginActivity extends Activity implements OnClickListener {
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         editor.putString("user_type", "1");
                         editor.putString("user_id",userId);
-                        IPAddress.login_state="1";
-                        IPAddress.user_id=userId;
+                        ContentCommon.login_state="1";
+                        ContentCommon.user_id=userId;
                         editor.commit();
                         Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(inetnt);

@@ -3,22 +3,15 @@ package com.mengshitech.colorrun.fragment.show;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
-import com.mengshitech.colorrun.bean.CommentEntity;
-import com.mengshitech.colorrun.bean.ShowEntity;
-import com.mengshitech.colorrun.fragment.BaseFragment;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.view.MyListView;
 
 import org.json.JSONException;
 
@@ -56,7 +49,7 @@ public class showDetailFragment extends Activity {
         showdetail_comment_num.setText(bundle.getString("show_comment_num"));
         String show_hear = bundle.getString("user_header");
         String show_Image = bundle.getString("show_image");
-        String header_path = IPAddress.path+show_hear;
+        String header_path = ContentCommon.path+show_hear;
         Glide.with(showDetailFragment.this).load(header_path).into(showdetail_hear);
         try {
             ImageList = JsonTools.getImageInfo(show_Image);

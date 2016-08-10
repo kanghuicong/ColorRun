@@ -14,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
@@ -37,7 +36,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -190,7 +188,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.bt_into_lerun_entry:
 
-                if (IPAddress.login_state.equals("1")) {
+                if (ContentCommon.login_state.equals("1")) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("type",1);
                     bundle.putInt("lerun_id", lerun_id);
@@ -228,7 +226,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "1");
@@ -284,9 +282,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                     common_equipment = leRunEntity.getCommon_equipment();
                     vip_equipment = leRunEntity.getVip_eqeuipment();
 
-                    String poster_path = IPAddress.path+leRunEntity.getLerun_poster();
+                    String poster_path = ContentCommon.path+leRunEntity.getLerun_poster();
                     Log.i("poster_path",poster_path);
-                    map_path = IPAddress.path+leRunEntity.getLerun_map();
+                    map_path = ContentCommon.path+leRunEntity.getLerun_map();
                     Glide.with(getActivity()).load(poster_path).into(poster);
                     Glide.with(getActivity()).load(map_path).into(map);
                     Time(time);// 倒计时

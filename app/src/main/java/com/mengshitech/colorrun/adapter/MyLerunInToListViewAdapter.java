@@ -16,13 +16,10 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.ImageEntity;
-import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.fragment.lerun.LeRunPayment;
-import com.mengshitech.colorrun.fragment.me.MyLeRunFragmentInTo;
-import com.mengshitech.colorrun.utils.IPAddress;
-import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.HashMap;
@@ -97,7 +94,7 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
             holder = (Holder) view.getTag();
         }
         if (info.getImagePath() != null && !info.getImagePath().equals("")) {
-            Glide.with(context).load(IPAddress.path + info.getImagePath()).into(holder.mylerun_qrcode);
+            Glide.with(context).load(ContentCommon.path + info.getImagePath()).into(holder.mylerun_qrcode);
         }
         holder.mylerun_username.setText(info.getPersonal_name());
         holder.mylerun_title.setText(info.getLerun_title());

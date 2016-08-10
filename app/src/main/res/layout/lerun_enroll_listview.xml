@@ -15,8 +15,8 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="免费"
             android:textColor="#728ea3"
             android:textSize="16sp" />
@@ -45,7 +45,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@mipmap/selected_no"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             />
     </LinearLayout>
 </LinearLayout>

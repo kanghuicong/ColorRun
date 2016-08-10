@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,12 +20,11 @@ import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import org.json.JSONException;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,23 +40,16 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
     String header_path;
-    protected WeakReference<View> mRootView;
     @Override
     public View initView() {
-        if (mDeatilView == null) {
-            mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
-            MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
-            SharedPreferences sharedPreferences = getActivity()
-                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-            userid = sharedPreferences.getString("user_id", "");
-            FindId();
-            Click();
-            new Thread(runnable).start();
-        }
-        ViewGroup parent = (ViewGroup) mDeatilView.getParent();
-        if (parent != null) {
-            parent.removeView(mDeatilView);
-        }
+        mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
+        MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+        userid = sharedPreferences.getString("user_id", "");
+        FindId();
+        Click();
+        new Thread(runnable).start();
         return mDeatilView;
 
     }
@@ -149,7 +139,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void run() {
-            String path = IPAddress.PATH;
+            String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id", userid);
@@ -186,8 +176,8 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_sign.setText(userEntiy.getUser_sign());
                     Log.i("用户头像地址",userEntiy.getUser_header());
                     if (userEntiy.getUser_header()!=null){
-                       header_path = IPAddress.path+userEntiy.getUser_header();
-                        IPAddress.user_log=header_path;
+                       header_path = ContentCommon.path+userEntiy.getUser_header();
+                        ContentCommon.user_log=header_path;
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
                     }
                 } catch (JSONException e) {

@@ -1,30 +1,21 @@
 package com.mengshitech.colorrun.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.utils.HttpUtils;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.ToolKits;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * atenklsy
@@ -87,10 +78,10 @@ public class SplashActivity extends Activity {
             SharedPreferences sharedPreferences =getSharedPreferences("user_type", Activity.MODE_PRIVATE);
             String type = sharedPreferences.getString("user_type", "");
 
-            IPAddress.user_id= sharedPreferences.getString("user_id", "");
+            ContentCommon.user_id= sharedPreferences.getString("user_id", "");
 
             Log.i("登陆状态",type+"");
-            IPAddress.login_state = type;
+            ContentCommon.login_state = type;
 
             if (!(phoneinfo.isConnected()) && !(wifiinfo.isConnected())) {
                 startActivity(new Intent(SplashActivity.this,

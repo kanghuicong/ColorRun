@@ -1,5 +1,6 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
 import android.view.View;
@@ -21,11 +22,14 @@ public class LerunVideo extends BaseFragment {
     WebView browser;
     String uri;
 
+    @SuppressLint("ValidFragment")
     public LerunVideo(Activity activity,String uri) {
         mActivity = activity;
         this.uri = uri;
         initView();
     }
+
+    public  LerunVideo(){}
 
     @Override
     public View initView() {

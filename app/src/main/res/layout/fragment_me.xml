@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ViewBackground"
-    android:orientation="vertical"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#11cd6e"
-        >
+        android:background="#11cd6e">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,6 +33,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center"
+        android:padding="15dp">
         android:padding="5dp" >
 
         <ImageView
@@ -44,17 +44,39 @@
             android:layout_marginRight="10dp"
             android:src="@mipmap/default_avtar" />
 
-        <TextView
-            android:id="@+id/tvUserName"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:singleLine="true"
-            android:text="未登录"
-            android:textSize="20sp" />
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="未登录"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvUserID"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="ID:"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/ivHeadArrow_right"
@@ -78,7 +100,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -92,6 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的乐跑"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView
@@ -113,7 +136,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -127,6 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的show"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView
@@ -154,7 +178,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -168,6 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="关于我们"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView
@@ -186,11 +211,11 @@
         android:id="@+id/llCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -204,6 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="注销账号"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView

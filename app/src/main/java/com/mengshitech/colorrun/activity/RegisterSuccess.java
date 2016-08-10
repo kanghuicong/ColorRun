@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.utils.IPAddress;
 
 /**
  * Created by kanghuicong on 2016/7/26  12:35.

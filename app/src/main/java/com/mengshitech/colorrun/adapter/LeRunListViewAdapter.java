@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
-import com.mengshitech.colorrun.utils.IPAddress;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
@@ -75,7 +75,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-       Glide.with(mActivity).load(IPAddress.path+mLeRunEntity.getLerun_poster()).into( holder.ivLeRunBackground);
+       Glide.with(mActivity).load(ContentCommon.path+mLeRunEntity.getLerun_poster()).into( holder.ivLeRunBackground);
         holder.tvLeRunName.setText(mLeRunEntity.getLerun_title());
         holder.tvLeRunLocation.setText(mLeRunEntity.getLerun_address());
         holder.tvLeRunTime.setText(mLeRunEntity.getLerun_time());

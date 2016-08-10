@@ -8,40 +8,40 @@ import java.io.Serializable;
  */
 public class CommentEntity implements Serializable {
 
-    private int ivUserHead;
-    private String tvUserName;
-    private String tvSendTime;
-    private String tvCommentContent;
+    private String user_header;
+    private String user_name;
+    private String comment_time;
+    private String comment_content;
 
-    public int getIvUserHead() {
-        return ivUserHead;
+    public String getUser_header() {
+        return user_header;
     }
 
-    public void setIvUserHead(int ivUserHead) {
-        this.ivUserHead = ivUserHead;
+    public void setUser_header(String user_header) {
+        this.user_header = user_header;
     }
 
-    public String getTvUserName() {
-        return tvUserName;
+    public String getComment_content() {
+        return comment_content;
     }
 
-    public void setTvUserName(String tvUserName) {
-        this.tvUserName = tvUserName;
+    public void setComment_content(String comment_content) {
+        this.comment_content = comment_content;
     }
 
-    public String getTvSendTime() {
-        return tvSendTime;
+    public String getComment_time() {
+        return comment_time;
     }
 
-    public void setTvSendTime(String tvSendTime) {
-        this.tvSendTime = tvSendTime;
+    public void setComment_time(String comment_time) {
+        this.comment_time = comment_time;
     }
 
-    public String getTvCommentContent() {
-        return tvCommentContent;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setTvCommentContent(String tvCommentContent) {
-        this.tvCommentContent = tvCommentContent;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }

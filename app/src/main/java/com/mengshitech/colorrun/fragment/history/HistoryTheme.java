@@ -2,11 +2,13 @@ package com.mengshitech.colorrun.fragment.history;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,9 +18,11 @@ import com.mengshitech.colorrun.adapter.HistoryAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
@@ -37,6 +41,7 @@ public class HistoryTheme extends BaseFragment {
 	FragmentManager mFragmentManagr;
 	private ProgressDialog dialog;
 	String type;
+	int lerun_id;
 
 	public HistoryTheme(Activity activity, String type) {
 		mActivity = activity;
@@ -52,12 +57,12 @@ public class HistoryTheme extends BaseFragment {
 //		dialog.show();
 		rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
 		findById();
+		theme_listview.setOnItemClickListener(new ItemClickListener());
 		return rainbowView;
 	}
 
 	private void findById() {
-		theme_listview = (ListView) rainbowView
-				.findViewById(R.id.history_theme_listview);
+		theme_listview = (ListView) rainbowView.findViewById(R.id.history_theme_listview);
 		mFragmentManagr=getFragmentManager();
 		initDatas();
 	}
@@ -76,6 +81,17 @@ public class HistoryTheme extends BaseFragment {
 		return result;
 	}
 
+	private final class ItemClickListener implements AdapterView.OnItemClickListener {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Log.i("ItemClickListener","ItemClickListener");
+			HistoryContent historyContent = new HistoryContent();
+			Bundle bundle = new Bundle();
+			bundle.putInt("lerun_id",lerun_id);
+			historyContent.setArguments(bundle);
+			Utility.replace2DetailFragment(getFragmentManager(), historyContent);
+
+		}
+	}
 
 	//获取lerun主题信息的线程
 	Runnable getLeRunRunnable = new Runnable() {

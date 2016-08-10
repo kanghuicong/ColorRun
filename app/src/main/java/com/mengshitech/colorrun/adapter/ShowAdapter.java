@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +44,14 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     ListView mListView;
     ShowEntity mShowEntity;
     List<ShowEntity> mShowList;
-    String like_state;
-
+    String like_state,index;
     private Context context;
     int count;
+    ImageView image;
+    TextView text;
+    String like_num;
+    int yes_state,no_state;
+    Map<Integer, Boolean> isCheckMap =  new HashMap<Integer, Boolean>();
 
     private static class ViewHolder {
         private ImageView user_header;
@@ -76,10 +81,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         return count;
     }
 
-    public int getChildCount(int childCount) {
-        return 1;
-    }
-
     @Override
     public ShowEntity getItem(int position) {
         return mShowList.get(position);
@@ -92,7 +93,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
         holder = null;
@@ -118,6 +119,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             holder.show_comment = (ImageView) view.findViewById(R.id.im_show_comment);
             holder.show_like = (ImageView) view.findViewById(R.id.im_show_like);
             holder.show_share = (ImageView) view.findViewById(R.id.im_show_share);
+
             view.setTag(holder);
         } else {
             view = convertView;
@@ -134,6 +136,15 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         holder.show_time.setText(mShowEntity.getShow_time());
         holder.show_comment_num.setText(mShowEntity.getComment_num());
         holder.show_like_num.setText(mShowEntity.getLike_num());
+
+        like_state = mShowEntity.getLike_state();
+        Log.i("77777777777like_state",like_state);
+
+        if (like_state.equals("0")){
+            holder.show_like.setBackgroundResource(R.mipmap.show_heart_no);
+        }else if (like_state.equals("1")){
+            holder.show_like.setBackgroundResource(R.mipmap.show_heart);
+        }
 
         String result = mShowEntity.getShow_image();
 
@@ -152,10 +163,42 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        /**
-         * 改变drawable的大小
-         */
-        holder.show_like.setOnClickListener(this);
+        final TextView number = holder.show_like_num;
+        holder.show_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    image = (ImageView) v.findViewById(R.id.im_show_like);
+                    String state = like_state;
+                    if (ContentCommon.user_id == null) {
+                        Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (state.equals("0")) {
+                            index = "8";
+                            new Thread(runnable).start();
+                            if (yes_state == 1) {
+                                Log.i("lalala","lalalalalla");
+                                number.setText(Integer.valueOf(number.getText().toString()) + 1 + "");
+                                mShowEntity.setLike_num(number.getText().toString());
+                            }else {
+                                Log.i("qqqqqq",yes_state+"");
+                                Toast.makeText(context,"11111111111",Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals("1")) {
+                            index = "6";
+                            new Thread(runnable).start();
+                            if (no_state == 1) {
+                                Log.i("hahaha","hahahahaha");
+                                number.setText(Integer.valueOf(number.getText().toString()) - 1 + "");
+                                mShowEntity.setLike_num(number.getText().toString());
+                            }else {
+                                Log.i("ppppppp",no_state+"");
+                                Toast.makeText(context,"222222222222",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+            }
+        });
+//        holder.show_like.setOnClickListener(this);
         holder.show_comment.setOnClickListener(this);
         holder.show_share.setOnClickListener(this);
         return view;
@@ -169,15 +212,21 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.im_show_like:
-                Toast.makeText(context, "like", Toast.LENGTH_SHORT).show();
-                like_state = mShowEntity.getLike_state();
-                if (like_state.equals("0")) {
-                    new Thread(like_runnable).start();
-                } else if (like_state.equals("1")) {
-                    new Thread(cancellike_runnable).start();
-                }
-                break;
+//            case R.id.im_show_like:
+//                Log.i("111like_state",like_state);
+//                image = (ImageView)v.findViewById(R.id.im_show_like);
+//                if (ContentCommon.user_id == null){
+//                    Toast.makeText(context,"请先登录...",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    if (like_state.equals("0")) {
+//                        index = "8";
+//                        new Thread(runnable).start();
+//                    } else if (like_state.equals("1")) {
+//                        index = "6";
+//                        new Thread(runnable).start();
+//                    }
+//                }
+//                break;
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
                 break;
@@ -189,17 +238,14 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
     }
 
-    Runnable like_runnable = new Runnable() {
+    Runnable runnable = new Runnable() {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
-            SharedPreferences sharedPreferences = context
-                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-            String id = sharedPreferences.getString("user_id", "");
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
-            map.put("index", "8");
-            map.put("user_id", id);
+            map.put("index", index);
+            map.put("user_id", ContentCommon.user_id);
             map.put("like_userid", mShowEntity.getUser_id());
             map.put("show_id", mShowEntity.getShow_id());
 
@@ -208,12 +254,12 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
-            like_handler.sendMessage(msg);
+            handler.sendMessage(msg);
         }
 
     };
 
-        Handler like_handler = new Handler() {
+        Handler handler = new Handler() {
 
             public void handleMessage(Message msg) {
                 String result = (String) msg.obj;
@@ -224,69 +270,46 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 } else {
 //                progressDialog.dismiss();
-                    try {
-                        int state = JsonTools.getState("state",result);
-                        like_state = state+"";
-                        Log.i("state", state+"");
-                        holder.show_like.setImageResource(R.mipmap.show_heart);
-                        holder.show_like_num.setText(Integer.valueOf(holder.show_like_num.getText().toString()) + 1 + "");
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                    if (index.equals("8")) {
+                        try {
+                            Log.i("点赞时状态", like_state);
+                            yes_state = JsonTools.getState("state", result);
+                            Log.i("点赞返回状态", yes_state + "");
+                            if (yes_state == 1) {
+                                like_state = "1";
+                                mShowEntity.setLike_state(like_state);
+                                image.setBackgroundResource(R.mipmap.show_heart);
+//                                number.setText(Integer.valueOf(number) + 1 + "");
+                            } else {
+                                Toast.makeText(context, "点赞失败...", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }else if (index.equals("6")){
+                        try {
+                            Log.i("取消赞时状态",like_state);
+                            no_state = JsonTools.getState("state",result);
+                            Log.i("取消赞返回状态",no_state+"");
+
+                            if (no_state==1){
+                                like_state = "0";
+                                mShowEntity.setLike_state(like_state);
+                                image.setBackgroundResource(R.mipmap.show_heart_no);
+//                                number.setText(Integer.valueOf(number)-1+"");
+                            }else {
+                                Toast.makeText(context,"取消赞失败...",Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
         };
-
-
-
-
-    Runnable cancellike_runnable = new Runnable() {
-        @Override
-        public void run() {
-            String path = ContentCommon.PATH;
-            SharedPreferences sharedPreferences = context
-                    .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-            String id = sharedPreferences.getString("user_id", "");
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("flag", "show");
-            map.put("index", "6");
-            map.put("user_id", id);
-            map.put("show_id", mShowEntity.getShow_id());
-
-            String result = HttpUtils.sendHttpClientPost(path, map,
-                    "utf-8");
-            Log.i("result", result);
-            Message msg = new Message();
-            msg.obj = result;
-            cancellike_handler.sendMessage(msg);
-        }
-
-    };
-
-    Handler cancellike_handler = new Handler() {
-
-        public void handleMessage(Message msg) {
-            String result = (String) msg.obj;
-
-            Log.i("result111", result);
-            if (result.equals("timeout")) {
-//                progressDialog.dismiss();
-                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
-            } else {
-//                progressDialog.dismiss();
-                try {
-                    int state = JsonTools.getState("state",result);
-                    like_state = state+"";
-                    Log.i("like_state", state+"");
-                    holder.show_like.setImageResource(R.mipmap.show_heart_no);
-                    holder.show_like_num.setText(Integer.valueOf(holder.show_like_num.getText().toString()) - 1 + "");
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
 }
 

@@ -2,8 +2,10 @@ package com.mengshitech.colorrun.utils;
 
 import android.util.Log;
 
+import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
+import com.mengshitech.colorrun.bean.LikeEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
@@ -113,6 +115,50 @@ public class JsonTools {
             info.setComment_num(showObject.getString("comment_num"));
             info.setLike_num(showObject.getString("like_num"));
             info.setShow_time(showObject.getString("show_time"));
+
+            list.add(info);
+        }
+        Log.i("list的大小", list.size() + "");
+        return list;
+    }
+    //点赞信息
+    public static List<LikeEntity> getLikeInfo(String key, String jsonString)
+            throws JSONException {
+        List<LikeEntity> list = new ArrayList<LikeEntity>();
+
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            LikeEntity info = new LikeEntity();
+            JSONObject Object = jsonArray.getJSONObject(i);
+            info.setUser_id(Object.getString("user_id"));
+            info.setUser_name(Object.getString("user_name"));
+            info.setUser_header(Object.getString("user_header"));
+            info.setLike_time(Object.getString("like_time"));
+
+            list.add(info);
+        }
+        Log.i("list的大小", list.size() + "");
+        return list;
+    }
+
+    //点评信息
+    public static List<CommentEntity> getCommentInfo(String key, String jsonString)
+            throws JSONException {
+        List<CommentEntity> list = new ArrayList<CommentEntity>();
+
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            CommentEntity info = new CommentEntity();
+            JSONObject Object = jsonArray.getJSONObject(i);
+
+            info.setUser_name(Object.getString("user_name"));
+            info.setUser_header(Object.getString("user_header"));
+            info.setComment_time(Object.getString("comment_time"));
+            info.setComment_content(Object.getString("comment_content"));
 
             list.add(info);
         }

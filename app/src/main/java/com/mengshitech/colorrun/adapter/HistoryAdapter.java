@@ -74,13 +74,6 @@ public class HistoryAdapter extends BaseAdapter {
         holder.history_address.setText(mHistoryEntity.getActivityLoc());
         Glide.with(mActivity).load(ContentCommon.path + mHistoryEntity.getImageposter()).into(holder.image_background);
 
-        mListView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-            }
-        });
         return convertView;
     }
 
@@ -91,5 +84,4 @@ public class HistoryAdapter extends BaseAdapter {
         TextView history_address;
         ImageView image_background;
     }
-
 }

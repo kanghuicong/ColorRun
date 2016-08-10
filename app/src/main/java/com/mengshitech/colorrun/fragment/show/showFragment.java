@@ -64,6 +64,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
             Intent intent = new Intent(getActivity(),showDetailFragment.class);
             Bundle bundle = new Bundle();
+            bundle.putString("show_id",mShowEntity.getShow_id());
             bundle.putString("user_name",mShowEntity.getUser_name());
             bundle.putString("show_content",mShowEntity.getShow_content());
             bundle.putString("show_time",mShowEntity.getShow_time());
@@ -76,9 +77,9 @@ public class showFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * 初始化控件
-     */
+
+
+
     private void findById() {
 //        initShow();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
@@ -125,6 +126,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
             map.put("flag", "show");
             map.put("index", "2");
             map.put("pageSize","4");
+            map.put("user_id",ContentCommon.user_id);
             map.put("currentPage","1");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
@@ -153,6 +155,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
                     Log.i("mshowlist",mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(),getFragmentManager(),mShowList,lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
+
                     } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

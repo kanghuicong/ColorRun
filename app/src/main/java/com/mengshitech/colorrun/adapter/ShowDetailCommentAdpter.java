@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.CommentEntity;
+import com.mengshitech.colorrun.utils.ContentCommon;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ import java.util.List;
  * Created by atenklsy on 2016/7/16 16:56.
  * E-address:atenk@qq.com.
  */
-public class ShowDetailCommentAdpter extends BaseAdapter implements AdapterView.OnItemClickListener {
+public class ShowDetailCommentAdpter extends BaseAdapter{
     List<CommentEntity> mCommentList;
     ListView mCommentListView;
     Activity mActivity;
@@ -50,7 +53,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter implements AdapterView.
         CommentEntity mCommentEntity = getItem(position);
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(mActivity, R.layout.item_comment_style, null);
+            convertView = View.inflate(mActivity, R.layout.show_detail_comment_listview, null);
             holder = new ViewHolder();
             holder.ivUserHead = (ImageView) convertView.findViewById(R.id.ivComment_UserHead);
             holder.tvUserName = (TextView) convertView.findViewById(R.id.tvComment_UserName);
@@ -60,18 +63,17 @@ public class ShowDetailCommentAdpter extends BaseAdapter implements AdapterView.
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.ivUserHead.setImageResource(mCommentEntity.getIvUserHead());
-        holder.tvUserName.setText(mCommentEntity.getTvUserName());
-        holder.tvSendTime.setText(mCommentEntity.getTvSendTime());
-        holder.tvCommentContent.setText(mCommentEntity.getTvCommentContent());
-        mCommentListView.setOnItemClickListener(this);
+        holder.tvUserName.setText(mCommentEntity.getUser_name());
+        holder.tvSendTime.setText(mCommentEntity.getComment_time());
+        holder.tvCommentContent.setText(mCommentEntity.getComment_content());
+
+        String header_path = ContentCommon.path + mCommentEntity.getUser_header();
+        Log.i("header_path:", header_path);
+        Glide.with(mActivity).load(header_path).into(holder.ivUserHead);
+
         return convertView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, final int clickPosition, long id) {
-//        clickPosition是被点击的那个position
-    }
 
     class ViewHolder {
         ImageView ivUserHead;

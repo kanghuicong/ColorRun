@@ -25,7 +25,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:maxLength="200"
-        android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/enroll_bg_et"/>
 
         <LinearLayout

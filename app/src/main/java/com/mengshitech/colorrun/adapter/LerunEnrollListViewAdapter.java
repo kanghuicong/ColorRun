@@ -25,21 +25,24 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
     List<EnrollEntity> mEnrollList;
     ListView listView;
     Holder holder = null;
-    private HashMap<String, Object> map;
-    int []tags ={0,0,0};
+//    private HashMap<String, Object> map;
+//    int []tags ={0,0,0};
     CallBack callback;
+    int flag;
 
-    public LerunEnrollListViewAdapter(Context context, List<EnrollEntity> mEnrollList, ListView listView, CallBack callback) {
+    public LerunEnrollListViewAdapter(Context context, List<EnrollEntity> mEnrollList, ListView listView,CallBack callback) {
         this.context = context;
         this.mEnrollList = mEnrollList;
         this.listView = listView;
-        map = new HashMap<String, Object>();
         this.callback = callback;
     }
 
     public interface CallBack{
         public void returnInfo(int price);
+    }
 
+    public void setFlag(int flag){
+        this.flag = flag;
     }
 
     @Override
@@ -75,34 +78,42 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
             view = convertView;
             holder = (Holder) view.getTag();
         }
-
         holder.equipment.setText(mEnrollEntity.getEnroll_equipment());
 
-        map.put("" + position, holder.image);
 
-        if (tags[position] == 0) {
-            holder.image.setBackgroundResource(R.mipmap.selected_no);
-        } else {
+        Log.i("flag:",flag+"");
+        if (flag == position) {
             holder.image.setBackgroundResource(R.mipmap.selected_yes);
+            callback.returnInfo(mEnrollEntity.getPrice());
+        } else {
+            holder.image.setBackgroundResource(R.mipmap.selected_no);
         }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                resetBackGround();
-                ((ImageView) (map.get("" + position))).setBackgroundResource(R.mipmap.selected_yes);
-                tags[position] = 1;
-                EnrollEntity mEnrollEntity = getItem(position);
-                callback.returnInfo(mEnrollEntity.getPrice());
-                Log.i("1EnrollEntity",mEnrollEntity.getPrice()+"");
-            }
-            public void resetBackGround() {
-                for (int i = 0; i < map.size(); i++) {
-                    ((ImageView) (map.get("" + i))).setBackgroundResource(R.mipmap.selected_no);
-                    tags[i] = 0;
-                }
-            }
-        });
+//        map.put("" + position, holder.image);
+//        if (tags[position] == 0) {
+//            holder.image.setBackgroundResource(R.mipmap.selected_no);
+//        } else {
+//            holder.image.setBackgroundResource(R.mipmap.selected_yes);
+//        }
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                resetBackGround();
+//                ((ImageView) (map.get("" + position))).setBackgroundResource(R.mipmap.selected_yes);
+//                tags[position] = 1;
+//                EnrollEntity mEnrollEntity = getItem(position);
+//                callback.returnInfo(mEnrollEntity.getPrice());
+//                Log.i("1EnrollEntity",mEnrollEntity.getPrice()+"");
+//            }
+//            public void resetBackGround() {
+//                for (int i = 0; i < map.size(); i++) {
+//                    ((ImageView) (map.get("" + i))).setBackgroundResource(R.mipmap.selected_no);
+//                    tags[i] = 0;
+//                }
+//            }
+//        });
+
 
         if (mEnrollEntity.getPrice()==0){
             holder.price.setText("免费");

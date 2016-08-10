@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -82,6 +84,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     LerunEnrollListViewAdapter adapter;
     List<EnrollEntity> list = new ArrayList<EnrollEntity>();
     protected WeakReference<View> mRootView;
+    LinearLayout ll_enroll_content;
+    int index;
+    int flag=100;
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null || mRootView.get() == null) {
@@ -92,6 +98,18 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             GetData();
             EnrollClick();
 
+
+            ll_enroll_content.setOnTouchListener(new View.OnTouchListener() {
+
+        public boolean onTouch(View v, MotionEvent event) {
+            // TODO Auto-generated method stub
+            ll_enroll_content.setFocusable(true);
+            ll_enroll_content.setFocusableInTouchMode(true);
+            ll_enroll_content.requestFocus();
+
+            return false;
+        }
+    });
             mRootView = new WeakReference<View>(enroll_view);
         } else {
             ViewGroup parent = (ViewGroup) mRootView.get().getParent();
@@ -145,21 +163,32 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             entity.setEnroll_equipment(vip_equipment);
             list.add(entity);
         }
-        adapter = new LerunEnrollListViewAdapter(getActivity(), list, enroll_listview, new LerunEnrollListViewAdapter.CallBack() {
+        adapter = new LerunEnrollListViewAdapter(getActivity(), list, enroll_listview,new LerunEnrollListViewAdapter.CallBack() {
             @Override
             public void returnInfo(int price) {
                 choose_price = price;
                 Log.i("choose_price", choose_price + "");
             }
         });
+
+        enroll_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("123333333", "onItemClick: "+flag+"-----0"+position);
+                flag = position;
+                adapter.setFlag(flag);
+                adapter.notifyDataSetChanged();
+            }
+        });
         enroll_listview.setAdapter(adapter);
     }
+
 
     private void FindId() {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         user_id = sharedPreferences.getString("user_id", "");
 
+        ll_enroll_content = (LinearLayout)enroll_view.findViewById(R.id.ll_enroll_content);
         enroll_name = (TextView) enroll_view.findViewById(R.id.tv_enroll_university);
         enroll_time = (TextView) enroll_view.findViewById(R.id.tv_enroll_time);
         enroll_address = (TextView) enroll_view.findViewById(R.id.tv_enroll_add);
@@ -501,5 +530,17 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         }
 
     }
+
+//    ll_enroll_content.setOnTouchListener(new View.OnTouchListener() {
+//
+//        public boolean onTouch(View v, MotionEvent event) {
+//            // TODO Auto-generated method stub
+//            ll_enroll_content.setFocusable(true);
+//            ll_enroll_content.setFocusableInTouchMode(true);
+//            ll_enroll_content.requestFocus();
+//
+//            return false;
+//        }
+//    });
 
 }

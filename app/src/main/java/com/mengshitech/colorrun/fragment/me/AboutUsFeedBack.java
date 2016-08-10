@@ -41,12 +41,14 @@ public class AboutUsFeedBack extends BaseFragment {
         feedback_refer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(runnable).start();
+                if ("".equals(feedback_content.getText().toString())) {
+                   Toast.makeText(getActivity(),"请填写反馈信息...",Toast.LENGTH_SHORT).show();
+                }else {
+                    new Thread(runnable).start();
+                }
             }
         });
-
         return feedback_view;
-
     }
 
     private void FindId() {
@@ -60,9 +62,11 @@ public class AboutUsFeedBack extends BaseFragment {
         public void run() {
             String path = ContentCommon.PATH;
             Map<String,String> map = new HashMap<String,String>();
+            map.put("flag","aboutus");
             map.put("user_id",ContentCommon.user_id);
-            map.put("",feedback_content.getText().toString());
-            map.put("",feedback_phone.getText().toString());
+            map.put("index","2");
+            map.put("feedback_content",feedback_content.getText().toString());
+            map.put("user_telphone",feedback_phone.getText().toString());
 
             String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
             Message msg = new Message();
@@ -79,8 +83,12 @@ public class AboutUsFeedBack extends BaseFragment {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    int stype = JsonTools.getState("",result);
-                    String data = JsonTools.getDatas(result);
+                    int stype = JsonTools.getState("state",result);
+                    if (stype==1){
+                        Toast.makeText(getActivity(),"反馈成功！",Toast.LENGTH_SHORT).show();
+                    }else if (stype==0){
+                        Toast.makeText(getActivity(),"反馈失败！",Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

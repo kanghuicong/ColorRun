@@ -67,10 +67,28 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         return showView;
     }
 
+    // 获取点击事件
+    private final class ItemClickListener implements AdapterView.OnItemClickListener {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
+            Intent intent = new Intent(getActivity(),showDetailFragment.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("show_id",mShowEntity.getShow_id());
+            bundle.putString("user_name",mShowEntity.getUser_name());
+            bundle.putString("show_content",mShowEntity.getShow_content());
+            bundle.putString("show_time",mShowEntity.getShow_time());
+            bundle.putString("show_comment_num",mShowEntity.getComment_num());
+            bundle.putString("show_like_num",mShowEntity.getLike_num());
+            bundle.putString("user_header",mShowEntity.getUser_header());
+            bundle.putString("show_image",mShowEntity.getShow_image());
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
+        }
+    }
 
-    /**
-     * 初始化控件
-     */
+
+
+
     private void findById() {
 //        initShow();
         new Thread(runnable).start();
@@ -122,8 +140,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
             map.put("index", "2");
-            map.put("pageSize", "4");
-            map.put("currentPage", "1");
+            map.put("pageSize","4");
+            map.put("user_id",ContentCommon.user_id);
+            map.put("currentPage","1");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -151,9 +170,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     Log.i("mshowlist", mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
-
-
-                } catch (JSONException e) {
+                    } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -166,22 +183,4 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setRefreshing(false);
     }
 
-
-    // 获取点击事件
-    private final class ItemClickListener implements AdapterView.OnItemClickListener {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
-            Intent intent = new Intent(getActivity(),showDetailFragment.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("user_name",mShowEntity.getUser_name());
-            bundle.putString("show_content",mShowEntity.getShow_content());
-            bundle.putString("show_time",mShowEntity.getShow_time());
-            bundle.putString("show_comment_num",mShowEntity.getComment_num());
-            bundle.putString("show_like_num",mShowEntity.getLike_num());
-            bundle.putString("user_header",mShowEntity.getUser_header());
-            bundle.putString("show_image",mShowEntity.getShow_image());
-            intent.putExtras(bundle);
-            getActivity().startActivity(intent);
-        }
-    }
 }

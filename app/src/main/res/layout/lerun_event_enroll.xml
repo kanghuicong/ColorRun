@@ -524,11 +524,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:layout_marginLeft="20dp"
-
+                        android:transcriptMode="normal"
                         android:background="@android:drawable/editbox_background_normal">
                     </com.mengshitech.colorrun.view.MyListView>
-
-
             </LinearLayout>
 
             <RadioButton

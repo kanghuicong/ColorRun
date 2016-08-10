@@ -46,11 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="3"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/gv_show_image"
         android:padding="10dp"/>
 
 
     <LinearLayout
+        android:id="@+id/ll_showlistview_like"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -78,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:text=""
+            android:text="100"
             android:textColor="@color/black"/>
 
         <ImageView

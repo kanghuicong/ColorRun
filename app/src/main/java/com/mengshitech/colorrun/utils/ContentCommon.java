@@ -17,7 +17,6 @@ public class ContentCommon {
 
     public static final String path="http://192.168.2.117:8080/LeRun/";
 
-
     public static String login_state="0";
     public static String user_id=null;
     public  static String user_log=null;

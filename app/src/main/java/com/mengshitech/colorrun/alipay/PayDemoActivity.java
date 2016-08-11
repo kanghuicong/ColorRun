@@ -25,7 +25,7 @@ import android.widget.Toast;
 public class PayDemoActivity extends FragmentActivity {
 
 	// 商户PID
-	public static final String PARTNER = "";
+	public static final String PARTNER = "2088911677454020";
 	// 商户收款账号
 	public static final String SELLER = "";
 	// 商户私钥，pkcs8格式

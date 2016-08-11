@@ -2,12 +2,13 @@ package com.mengshitech.colorrun.fragment.show;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +21,21 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
+import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
+
 import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class showFragment extends Fragment implements View.OnClickListener {
+public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,View.OnClickListener{
     View showView;
     ImageView ivShow_CreateShow;
     ShowAdapter mShowAdapter;
@@ -37,16 +43,20 @@ public class showFragment extends Fragment implements View.OnClickListener {
     List<ShowEntity> mShowList;
     FragmentManager fm;
     private Activity mActivity;
+    Context context;
     int entry_number = 3;
+    AutoSwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View initView() {
         mActivity = getActivity();
         showView = View.inflate(mActivity, R.layout.fragment_show, null);
         findById();
         new Thread(runnable).start();
         lvShowContent.setOnItemClickListener(new ItemClickListener());
+        context = getActivity();
+
         return showView;
     }
 
@@ -75,8 +85,14 @@ public class showFragment extends Fragment implements View.OnClickListener {
 
     private void findById() {
 //        initShow();
+        new Thread(runnable).start();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
+//        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+//        swipeRefreshLayout=new AutoSwipeRefreshLayout(context);
+//        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.autoRefresh();
+
 
     }
 
@@ -92,23 +108,23 @@ public class showFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void loadData() {
-
-        int count = mShowAdapter.getCount();
-        int length = mShowList.size() / entry_number;
-        System.out.println("list" + mShowList.size());
-        System.out.println("length" + length);
-        // 判断有没有数据
-        if (count < length * entry_number) {
-            mShowAdapter.addItem(count + entry_number);
-        } else if (length * entry_number < count + 1
-                && count + 1 < mShowList.size() + 1) {
-            mShowAdapter.addItem(mShowList.size());
-        } else {
-            Toast.makeText(getActivity(), "没有更多show了", Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
+//    private void loadData() {
+//
+//        int count = mShowAdapter.getCount();
+//        int length = mShowList.size() / entry_number;
+//        System.out.println("list" + mShowList.size());
+//        System.out.println("length" + length);
+//        // 判断有没有数据
+//        if (count < length * entry_number) {
+//            mShowAdapter.addItem(count + entry_number);
+//        } else if (length * entry_number < count + 1
+//                && count + 1 < mShowList.size() + 1) {
+//            mShowAdapter.addItem(mShowList.size());
+//        } else {
+//            Toast.makeText(getActivity(), "没有更多show了", Toast.LENGTH_SHORT)
+//                    .show();
+//        }
+//    }
 
     Runnable runnable = new Runnable() {
 
@@ -144,11 +160,10 @@ public class showFragment extends Fragment implements View.OnClickListener {
 //                progressDialog.dismiss();
                 try {
 
-                    mShowList = JsonTools.getShowInfo("result",result);
-                    Log.i("mshowlist",mShowList.toString());
-                    mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(),getFragmentManager(),mShowList,lvShowContent);
+                    mShowList = JsonTools.getShowInfo("result", result);
+                    Log.i("mshowlist", mShowList.toString());
+                    mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
-
                     } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -156,4 +171,10 @@ public class showFragment extends Fragment implements View.OnClickListener {
             }
         }
     };
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
 }

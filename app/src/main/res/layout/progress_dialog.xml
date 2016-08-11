@@ -9,7 +9,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateDrawable="@drawable/loading" />
+        android:indeterminateDrawable="@drawable/update_loading" />
 
     <TextView
         android:id="@+id/tv_message"
@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="6dp" />
+        android:paddingTop="10dp" />
 
 </LinearLayout>

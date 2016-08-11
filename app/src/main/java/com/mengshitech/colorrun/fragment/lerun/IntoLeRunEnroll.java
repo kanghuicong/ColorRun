@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
+import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -365,9 +366,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 bundle.putString("lerun_title",enroll_name.getText().toString());
                 bundle.putInt("lerun_price",choose_price);
                 Log.i("1Payment",user_name.getText().toString()+enroll_name.getText().toString()+choose_price);
-                LeRunPayment leRunPayment = new LeRunPayment();
-                leRunPayment.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), leRunPayment);
+//                LeRunPayment leRunPayment = new LeRunPayment();
+//                leRunPayment.setArguments(bundle);
+                AlipayFragment alipayFragment=new AlipayFragment();
+                alipayFragment.setArguments(bundle);
+                Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
             }
         }
     };

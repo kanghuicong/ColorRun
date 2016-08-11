@@ -17,6 +17,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LeRunEventListviewAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -110,20 +111,21 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    mSwipeLayout.setRefreshing(false);
+
                     List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
                     count=lerunlist.size();
                     lerun_listView.setAdapter(new LeRunEventListviewAdapter(context, lerunlist,mFragmentManagr));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+            }      mSwipeLayout.setRefreshing(false);
         }
     };
 
     //下拉刷新
     @Override
     public void onRefresh() {
+        Log.i("sssssss","vvvvvvvv");
         new Thread(getLeRunRunnable).start();
     }
 }

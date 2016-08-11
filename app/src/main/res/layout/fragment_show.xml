@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ViewBackground"
-    android:clickable="true"
+
     android:orientation="vertical">
 
     <RelativeLayout
@@ -29,12 +29,16 @@
             android:src="@mipmap/friendcircle" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lvShowContent"
+    <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/lvShowContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
+
+    </com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout>
 </LinearLayout>

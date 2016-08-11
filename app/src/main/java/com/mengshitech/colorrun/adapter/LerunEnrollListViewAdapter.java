@@ -114,7 +114,6 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
 //            }
 //        });
 
-
         if (mEnrollEntity.getPrice()==0){
             holder.price.setText("免费");
         }else {

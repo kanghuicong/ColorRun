@@ -36,24 +36,26 @@ import java.util.Random;
  * 说明:
  */
 public class AlipayFragment extends Fragment implements View.OnClickListener {
-    TextView payment_name, payment_title, payment_price;
-    View payment_view;
-    RelativeLayout rl_zfb, rl_wx;
-    ImageView iv_zfb, iv_wx;
-    String pay_way;
-    Context context;
+    private TextView payment_name, payment_title, payment_price;
+    private View payment_view;
+    private RelativeLayout rl_zfb, rl_wx;
+    private ImageView iv_zfb, iv_wx;
+    private String pay_way = "null";
+    private Context context;
     private Button btn_pay;
+    private String user_name;
+    private String lerun_title;
+    private String lerun_price;
 
     // 商户PID
-    public static final String PARTNER = "";
+    public static final String PARTNER = "2088911677454020";
     // 商户收款账号
-    public static final String SELLER = "";
+    public static final String SELLER = "juyao@cocotek.cn";
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "";
+    public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJ7VdfgvPD4Hux/vnD+V134ixPLbR6UIXab2quOusWZevhIlPgiIZlq4BoV7rp9C4DOxleEl533Efz3VWabgs+vz/fgiKPD1c0argn40DDw0yClZrwgK+Lt/U50SZUplTjGb3rHw+GY25gPjz5lapLpXlvoZKClrFWBXB4jqJ7TpAgMBAAECgYA05tv34aOq9WA57tCXzQyNEn+Oc8KVEQhAR//6/YBQnFWqLYVPyj5tEMX7R4qNuPR7wzYsWzeTCBNpQNovXsAN3CsPhqiUDkwCPj6v+zFHkmfzGyhALSrp3ixV6NJQEF3NRPTQbbnAT3AnvnhsefPQEQm2mif9lDqM95mZzZ1SEQJBANMakVI4d5PTGAk9IhM8hY9OPn7h8gYiBY8eEa9x6bM7Oo++BuP8QCeSEFGJ8Ps6BRmzVXSNaxPL5s4EgSRBA8MCQQDAnRVyQSGfLH2DiFMNU/k38RqHKgblgxPYBgV8R9sy64ohus40gaMRJuzhCSc+DxCR412qlC3NRQ0MhgosvjXjAkAqABwvnppz58jddbNE3oK4K1oVxoBvpe8zNUlRfbmAdmVFWgpm67Yb6VyjzG0MntOK9HopEUXfj27hSFYlT2YfAkEAiBr4GqJXhcjEcHuWZGagRp2Cp1xVPz0eepnWqnmENTknhKoiKAwrFGWzIVl8d2fhx5UojO7kZpaSn/Tfn7pRDQJAKASdNi8n5IU01CuyQZt3GBy99P4hTbwKbIaBPnxPFy2LQPXZgrdpNJXKZ1sfwv4y2WhPTl/ic+RJ85BsBA7vAA==";
     // 支付宝公钥
     public static final String RSA_PUBLIC = "";
-
-    private static final int SDK_PAY_FLAG = 1;
+    public static final int SDK_PAY_FLAG = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         payment_view = inflater.inflate(R.layout.lerun_enroll_payment, null);
@@ -64,6 +66,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     }
 
     private void GetData() {
+        user_name = getArguments().getString("user_name");
+        lerun_title = getArguments().getString("lerun_title");
+        lerun_price = getArguments().getInt("lerun_price") + "";
         Log.i("payment_name", getArguments().getString("user_name"));
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -81,6 +86,8 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         rl_wx = (RelativeLayout) payment_view.findViewById(R.id.rl_wxzf);
         rl_wx.setOnClickListener(this);
         iv_wx = (ImageView) payment_view.findViewById(R.id.iv_payment_wx);
+
+        btn_pay.setOnClickListener(this);
     }
 
     @Override
@@ -97,67 +104,78 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                 pay_way = "wx";
                 break;
             case R.id.btn_play:
-                pay();
 
-                break;
-        }
-    }
-
-
-
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @SuppressWarnings("unused")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SDK_PAY_FLAG: {
-                    PayResult payResult = new PayResult((String) msg.obj);
-                    /**
-                     * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
-                     * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
-                     * docType=1) 建议商户依赖异步通知
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // 判断resultStatus 为非"9000"则代表可能支付失败
-                        // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                        if (TextUtils.equals(resultStatus, "8000")) {
-                            Toast.makeText(context, "支付结果确认中", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                    break;
+                if(pay_way.equals("zfb")){
+                    //支付宝支付
+                    pay();
+                }else if(pay_way.equals("wx")){
+                    //微信支付
+                    Toast.makeText(getActivity(),"微信支付还未完善",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(),"请选择付款方式",Toast.LENGTH_SHORT).show();
                 }
-                default:
+
                     break;
-            }
+
+            default:
+                break;
+                }
         }
 
-        ;
-    };
+
+        @SuppressLint("HandlerLeak")
+        private Handler mHandler = new Handler() {
+            @SuppressWarnings("unused")
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case SDK_PAY_FLAG: {
+                        PayResult payResult = new PayResult((String) msg.obj);
+                        /**
+                         * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
+                         * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
+                         * docType=1) 建议商户依赖异步通知
+                         */
+                        String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+
+                        String resultStatus = payResult.getResultStatus();
+                        // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                        if (TextUtils.equals(resultStatus, "9000")) {
+                            Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 判断resultStatus 为非"9000"则代表可能支付失败
+                            // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                            if (TextUtils.equals(resultStatus, "8000")) {
+                                Toast.makeText(context, "支付结果确认中", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                                Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+
+            ;
+        };
 
     public void pay() {
-        if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE) || TextUtils.isEmpty(SELLER)) {
-            new AlertDialog.Builder(context).setTitle("警告").setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialoginterface, int i) {
-                            //
-                            getActivity().finish();
-                        }
-                    }).show();
-            return;
-        }
-        String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
+//        if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE) || TextUtils.isEmpty(SELLER)) {
+//            new AlertDialog.Builder(context).setTitle("警告").setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
+//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialoginterface, int i) {
+//                            //
+//                            getActivity().finish();
+//                        }
+//                    }).show();
+//            return;
+//        }
+        //订单信息
+        String orderInfo = getOrderInfo(lerun_title, "该测试商品的详细描述", lerun_price);
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！

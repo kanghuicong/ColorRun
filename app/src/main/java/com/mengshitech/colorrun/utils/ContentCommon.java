@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class ContentCommon {
 //    192.168.0.19:8080
 
+
     public static final String PATH="http://192.168.2.117:8080/LeRun/servlet/LeRunServlet";
 
     public static final String ImagePath ="http://192.168.2.117:8080/LeRun/servlet/UploadServlet";

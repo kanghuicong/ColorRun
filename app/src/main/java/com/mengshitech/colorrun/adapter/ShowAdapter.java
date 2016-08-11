@@ -77,7 +77,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public int getCount() {
-        Log.i("123", "getCount: " + count);
+//        Log.i("123", "getCount: " + count);
         return count;
     }
 

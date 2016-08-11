@@ -43,19 +43,11 @@ public class showFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mActivity = getActivity();
-
-        if (showView == null) {
-            showView = View.inflate(mActivity, R.layout.fragment_show, null);
-            findById();
-            new Thread(runnable).start();
-            lvShowContent.setOnItemClickListener(new ItemClickListener());
-        }
-        ViewGroup parent = (ViewGroup) showView.getParent();
-        if (parent != null) {
-            parent.removeView(showView);
-        }
+        showView = View.inflate(mActivity, R.layout.fragment_show, null);
+        findById();
+        new Thread(runnable).start();
+        lvShowContent.setOnItemClickListener(new ItemClickListener());
         return showView;
-
     }
 
     // 获取点击事件
@@ -65,6 +57,7 @@ public class showFragment extends Fragment implements View.OnClickListener {
             Intent intent = new Intent(getActivity(),showDetailFragment.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id",mShowEntity.getShow_id());
+            bundle.putString("comment_userid",mShowEntity.getUser_id());
             bundle.putString("user_name",mShowEntity.getUser_name());
             bundle.putString("show_content",mShowEntity.getShow_content());
             bundle.putString("show_time",mShowEntity.getShow_time());

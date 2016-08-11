@@ -85,11 +85,10 @@ public class HistoryTheme extends BaseFragment {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Log.i("ItemClickListener","ItemClickListener");
 			HistoryContent historyContent = new HistoryContent();
-			Bundle bundle = new Bundle();
-			bundle.putInt("lerun_id",lerun_id);
-			historyContent.setArguments(bundle);
+//			Bundle bundle = new Bundle();
+//			bundle.putInt("lerun_id",lerun_id);
+//			historyContent.setArguments(bundle);
 			Utility.replace2DetailFragment(getFragmentManager(), historyContent);
-
 		}
 	}
 

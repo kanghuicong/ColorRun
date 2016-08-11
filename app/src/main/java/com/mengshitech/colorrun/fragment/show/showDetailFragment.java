@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,14 +18,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.adapter.ShowDetailGridViewAdapter;
 import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.LikeEntity;
+import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
@@ -36,12 +41,16 @@ import java.util.Map;
  * Created by atenklsy on 2016/7/14 22:03.
  * E-address:atenk@qq.com.
  */
-public class showDetailFragment extends Activity {
+public class showDetailFragment extends Activity implements View.OnClickListener{
     ImageView showdetail_hear,showdetail_like,showdetail_comment,showdetail_share;
     TextView showdetail_username,showdetail_content,showdetail_time,showdetail_like_num,showdetail_comment_num;
     GridView showdetail_image,gv_like;
+    EditText et_show_comment;
+    Button bt_show_comment;
     ListView lv_comment;
-    String show_id;
+    ShowDetailCommentAdpter lv_adapter;
+    String show_id,comment_userid;
+    int state;
     LinearLayout ll_like;
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
@@ -63,6 +72,8 @@ public class showDetailFragment extends Activity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         show_id = bundle.getString("show_id");
+        comment_userid = bundle.getString("comment_userid");
+        Log.i("点赞show_id",show_id);
         showdetail_username.setText(bundle.getString("user_name"));
         showdetail_content.setText(bundle.getString("show_content"));
         showdetail_time.setText(bundle.getString("show_time"));
@@ -100,6 +111,22 @@ public class showDetailFragment extends Activity {
         ll_like = (LinearLayout)findViewById(R.id.ll_showlistview_like);
         gv_like = (GridView)findViewById(R.id.gv_showdetail_image);
         lv_comment = (ListView)findViewById(R.id.lv_showdetail_comment);
+        et_show_comment = (EditText)findViewById(R.id.et_show_comment);
+        bt_show_comment = (Button)findViewById(R.id.bt_show_comment);
+        bt_show_comment.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_show_comment:
+                if (ContentCommon.login_state.equals("1")){
+                    new Thread(comment_show_runnable).start();
+                }else{
+                    Toast.makeText(showDetailFragment.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     Runnable like_runnable = new Runnable() {
@@ -173,8 +200,56 @@ public class showDetailFragment extends Activity {
                 try {
                     List<CommentEntity> commentlist = JsonTools.getCommentInfo("result",result);
                     Log.i("commentlist",commentlist+"");
-                    ShowDetailCommentAdpter lv_adapter = new ShowDetailCommentAdpter(showDetailFragment.this,commentlist,lv_comment);
-                    gv_like.setAdapter(lv_adapter);
+
+                    lv_adapter = new ShowDetailCommentAdpter(showDetailFragment.this,commentlist,lv_comment);
+                    lv_comment.setAdapter(lv_adapter);
+                }catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+
+
+    Runnable comment_show_runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = ContentCommon.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "show");
+            map.put("index", "7");
+            map.put("show_id",show_id);
+            map.put("user_id",ContentCommon.user_id);
+            map.put("comment_content",et_show_comment.getText().toString());
+            map.put("comment_userid",comment_userid);
+
+            String result = HttpUtils.sendHttpClientPost(path, map,
+                    "utf-8");
+            Log.i("result", result);
+            Message msg = new Message();
+            msg.obj = result;
+            comment_show_handler.sendMessage(msg);
+        }
+    };
+
+    Handler comment_show_handler= new Handler() {
+
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
+//                progressDialog.dismiss();
+                Toast.makeText(showDetailFragment.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+            } else {
+//                progressDialog.dismiss();
+                try {
+                    state = JsonTools.getState("state",result);
+                    if (state ==1){
+                        Toast.makeText(showDetailFragment.this,"评论成功！",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(showDetailFragment.this,"评论失败！",Toast.LENGTH_SHORT).show();
+                    }
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

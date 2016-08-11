@@ -34,20 +34,20 @@ public class HistoryContent extends Fragment{
     TextView history_title,history_time,history_content;
     ImageView history_poster;
     ListView history_listview;
-    int lerun_id;
+//    int lerun_id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         history_content_view = View.inflate(getActivity(), R.layout.history_content, null);
         MainBackUtility.MainBack(history_content_view,"详情",getFragmentManager());
         FindId();
-        GetData();
+//        GetData();
         return history_content_view;
     }
 
-    private void GetData() {
-        lerun_id = getArguments().getInt("lerun_id");
-    }
+//    private void GetData() {
+//        lerun_id = getArguments().getInt("lerun_id");
+//    }
 
     private void FindId() {
         history_title = (TextView)history_content_view.findViewById(R.id.tv_history_content_title);
@@ -64,7 +64,7 @@ public class HistoryContent extends Fragment{
             Map<String ,String> map = new HashMap<String, String>();
 //            map.put("flag",);
 //            map.put("index",);
-            map.put("lerun_id",lerun_id+"");
+//            map.put("lerun_id",lerun_id+"");
             String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
             Message msg = new Message();
             msg.obj = result;

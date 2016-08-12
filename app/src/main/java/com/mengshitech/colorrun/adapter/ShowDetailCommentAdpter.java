@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 
 import java.util.List;
 
@@ -26,16 +27,23 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
     List<CommentEntity> mCommentList;
     ListView mCommentListView;
     Activity mActivity;
+    int count;
 
+    public ShowDetailCommentAdpter(Activity activity){
+        mActivity = activity;
+        count=0;
+    }
     public ShowDetailCommentAdpter(Activity activity, List<CommentEntity> commentList, ListView listView) {
         mCommentList = commentList;
         mCommentListView = listView;
         mActivity = activity;
+        count=commentList.size();
     }
+
 
     @Override
     public int getCount() {
-        return mCommentList.size();
+        return count;
     }
 
     @Override
@@ -69,7 +77,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
 
         String header_path = ContentCommon.path + mCommentEntity.getUser_header();
         Log.i("header_path:", header_path);
-        Glide.with(mActivity).load(header_path).into(holder.ivUserHead);
+        Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).into(holder.ivUserHead);
 
         return convertView;
     }

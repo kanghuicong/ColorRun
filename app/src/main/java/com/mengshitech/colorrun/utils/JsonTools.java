@@ -5,6 +5,7 @@ import android.util.Log;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
+import com.mengshitech.colorrun.bean.LeRunEvaluateEntity;
 import com.mengshitech.colorrun.bean.LikeEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
@@ -48,6 +49,7 @@ public class JsonTools {
 
         return result;
     }
+
     //用户信息
     public static UserEntiy getUserInfo(String key, String jsonString)
             throws JSONException {
@@ -70,6 +72,7 @@ public class JsonTools {
 
         return info;
     }
+
     //查看我的乐跑
     public static List<OrderEntity> getOrderInfo(String key, String jsonString)
             throws JSONException {
@@ -93,6 +96,7 @@ public class JsonTools {
 
         return list;
     }
+
     //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
@@ -121,6 +125,7 @@ public class JsonTools {
         Log.i("list的大小", list.size() + "");
         return list;
     }
+
     //点赞信息
     public static List<LikeEntity> getLikeInfo(String key, String jsonString)
             throws JSONException {
@@ -227,7 +232,7 @@ public class JsonTools {
         LeRunEntity entity = new LeRunEntity();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject object = jsonObject.getJSONObject(key);
-        Log.i("jsonString_mdzz",jsonString);
+        Log.i("jsonString_mdzz", jsonString);
 
         entity.setLerun_address(object.getString("lerun_address"));
         entity.setLerun_begintime(object.getString("lerun_begintime"));
@@ -261,23 +266,23 @@ public class JsonTools {
         entity.setVip_eqeuipment(object.getString("vip_equipment"));
         entity.setLerun_surplus(Integer.parseInt(object.getString("lerun_surplus")));
 
-        Log.i("mdzz",entity+"");
+        Log.i("mdzz", entity + "");
         return entity;
     }
 
     //解析热门视频信息
-    public static  List<VideoEntity> getVideoInfo(String jsonString) throws JSONException {
-        Log.i("json解析得到的数据",jsonString);
+    public static List<VideoEntity> getVideoInfo(String jsonString) throws JSONException {
+        Log.i("json解析得到的数据", jsonString);
 
 //        JSONObject jsonObject=new JSONObject(jsonString);
 //        JSONObject object=jsonObject.getJSONObject("datas");
 
         JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray jsonArray=jsonObject.getJSONArray("datas");
-        List<VideoEntity> list=new ArrayList<VideoEntity>();
-        for(int i=0;i<jsonArray.length();i++){
-            VideoEntity entity=new VideoEntity();
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        List<VideoEntity> list = new ArrayList<VideoEntity>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            VideoEntity entity = new VideoEntity();
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
             entity.setVideo_id(jsonObject1.getInt("video_id"));
             entity.setVideo_image(jsonObject1.getString("video_image"));
             entity.setVideo_title(jsonObject1.getString("video_title"));
@@ -299,9 +304,55 @@ public class JsonTools {
             entity.setActivityTime(object.getString("lerun_time"));
             entity.setActivityTitle(object.getString("lerun_title"));
             entity.setImageposter(object.getString("lerun_poster"));
+            entity.setLerun_id(object.getInt("lerun_id"));
             list.add(entity);
         }
 
+        return list;
+    }
+
+    //解析历史活动主题详细信息
+    public static LeRunEntity getHistoryLerunDetail(String key, String jsonString) throws JSONException {
+        LeRunEntity entity = new LeRunEntity();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject object = jsonObject.getJSONObject(key);
+        entity.setLerun_poster(object.getString("lerun_poster"));
+        entity.setLerun_content(object.getString("lerun_content"));
+        entity.setLerun_time(object.getString("lerun_time"));
+        entity.setLerun_title(object.getString("lerun_title"));
+        entity.setAverageStar(object.getString("AverageStar"));
+        entity.setLerun_host(object.getString("lerun_host"));
+        entity.setLerun_maxuser(object.getInt("lerun_maxuser"));
+        return entity;
+    }
+
+    //解析主题评论信息
+    public static List<CommentEntity> getLeRunEvaluate(String key, String jsonString)
+            throws JSONException {
+        List<CommentEntity> list = new ArrayList<CommentEntity>();
+
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            CommentEntity info = new CommentEntity();
+            JSONObject Object = jsonArray.getJSONObject(i);
+
+//            info.setUser_name(Object.getString("user_name"));
+//            info.setUser_header(Object.getString("user_header"));
+//            info.setLerun_id(Object.getInt("lerun_id"));
+//            info.setEvaluate_content(Object.getString("evaluate_content"));
+//            info.setEvaluate_time(Object.getString("evaluate_time"));
+
+            info.setUser_name(Object.getString("user_name"));
+            info.setUser_header(Object.getString("user_header"));
+            info.setComment_time(Object.getString("evaluate_time"));
+            info.setComment_content(Object.getString("evaluate_content"));
+            info.setUser_id(Object.getString("user_id"));
+
+            list.add(info);
+        }
+        Log.i("list的大小", list.size() + "");
         return list;
     }
 
@@ -325,5 +376,6 @@ public class JsonTools {
 
         return list;
     }
+
 
 }

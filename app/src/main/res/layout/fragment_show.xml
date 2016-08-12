@@ -29,7 +29,7 @@
             android:src="@mipmap/friendcircle" />
     </RelativeLayout>
 
-    <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
+    <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -40,5 +40,5 @@
             android:layout_height="match_parent"/>
 
 
-    </com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout>
+    </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 </LinearLayout>

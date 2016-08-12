@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +42,9 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        HistoryEntity mHistoryEntity = mHistotyList.get(position);
+        Log.i("item的值：","2222"+mHistoryEntity.getLerun_id());
+        return mHistoryEntity.getLerun_id();
     }
 
     @Override

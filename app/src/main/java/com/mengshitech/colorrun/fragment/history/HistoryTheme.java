@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.HistoryAdapter;
@@ -58,6 +59,8 @@ public class HistoryTheme extends BaseFragment {
 
     @Override
     public View initView() {
+
+        MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         dialog = ProgressDialog.show(mActivity, "正在加载数据");
 //		dialog.show();
         rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
@@ -80,8 +83,9 @@ public class HistoryTheme extends BaseFragment {
     private String getData() {
         String Path = ContentCommon.PATH;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("flag", "lerun");
-        map.put("index", "0");
+        map.put("flag", "historylerun");
+        map.put("index", "1");
+        map.put("lerun_theme",type);
         String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
         Log.i("获取主题信息:", result);
         return result;
@@ -90,9 +94,12 @@ public class HistoryTheme extends BaseFragment {
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.i("ItemClickListener", "ItemClickListener");
+
+            int lerun_id= Integer.parseInt(parent.getItemAtPosition(position).toString());
+           Log.i("item的值：",""+lerun_id);
             HistoryContent historyContent = new HistoryContent();
             Bundle bundle = new Bundle();
-            bundle.putInt("lerun_id", 999);
+            bundle.putInt("lerun_id", lerun_id);
             historyContent.setArguments(bundle);
             Utility.replace2DetailFragment(getParentFragment().getFragmentManager(), historyContent);
 
@@ -124,8 +131,9 @@ public class HistoryTheme extends BaseFragment {
             } else {
                 try {
                     dialog.dismiss();
-                    List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("result", result);
+                    List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("datas", result);
 //                    count=lerunlist.size();
+                    Log.i("lerunlist的大小",lerunlist.size()+"");
                     theme_listview.setAdapter(new HistoryAdapter(mActivity, lerunlist, theme_listview));
                 } catch (JSONException e) {
                     e.printStackTrace();

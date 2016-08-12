@@ -45,7 +45,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private Activity mActivity;
     Context context;
     int entry_number = 3;
-    AutoSwipeRefreshLayout swipeRefreshLayout;
+    BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -94,10 +94,20 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         new Thread(runnable).start();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
-        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout=new AutoSwipeRefreshLayout(context);
+
+//        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout=new BottomPullSwipeRefreshLayout(mActivity);
+        swipeRefreshLayout= (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.autoRefresh();
+        swipeRefreshLayout.setOnLoadListener(new BottomPullSwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                Log.i("加油","栓该死的");
+            }
+        });
+
+//       swipeRefreshLayout.autoRefresh();
 
 
     }
@@ -170,6 +180,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     Log.i("mshowlist", mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
                     lvShowContent.setAdapter(mShowAdapter);
+                    swipeRefreshLayout.setRefreshing(false);
                     } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -180,7 +191,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+//        swipeRefreshLayout.setRefreshing(false);
+        new Thread(runnable).start();
     }
 
 }

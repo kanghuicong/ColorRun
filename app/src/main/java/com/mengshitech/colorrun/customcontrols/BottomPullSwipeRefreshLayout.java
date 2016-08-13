@@ -1,6 +1,8 @@
 package com.mengshitech.colorrun.customcontrols;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,6 +14,9 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.mengshitech.colorrun.R;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 作者：wschenyongyin on 2016/8/6 10:58
@@ -144,7 +149,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
     private boolean isBottom() {
 
         if (mListView != null && mListView.getAdapter() != null) {
-            return mListView.getLastVisiblePosition() == (mListView.getAdapter().getCount() - 1);
+            return mListView.getLastVisiblePosition() == (mListView.getAdapter().getCount()-1);
         }
         return false;
     }
@@ -166,7 +171,10 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
             // 设置状态
             setLoading(true);
             //
-            mOnLoadListener.onLoad();
+//            mOnLoadListener.onLoad();
+            Message msg=new Message();
+            handler.sendMessageDelayed(msg,2000);
+//            handler.sendEmptyMessageDelayed(0,2000);
         }
     }
 
@@ -178,9 +186,12 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
         if (isLoading) {
             mListView.addFooterView(mListViewFooter);
         } else {
-            mListView.removeFooterView(mListViewFooter);
-            mYDown = 0;
-            mLastY = 0;
+            if(mListView.getFooterViewsCount()>0){
+                mListView.removeFooterView(mListViewFooter);
+                mYDown = 0;
+                mLastY = 0;
+            }
+
         }
     }
 
@@ -213,6 +224,33 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
     public static interface OnLoadListener {
         public void onLoad();
     }
+
+    /**
+     * 自动刷新
+     */
+    public void autoRefresh() {
+        try {
+            Field mCircleView = SwipeRefreshLayout.class.getDeclaredField("mCircleView");
+            mCircleView.setAccessible(true);
+            View progress = (View) mCircleView.get(this);
+            progress.setVisibility(VISIBLE);
+
+            Method setRefreshing = SwipeRefreshLayout.class.getDeclaredMethod("setRefreshing", boolean.class, boolean.class);
+            setRefreshing.setAccessible(true);
+            setRefreshing.invoke(this, true, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            mOnLoadListener.onLoad();
+        }
+    };
+
 }
 
 

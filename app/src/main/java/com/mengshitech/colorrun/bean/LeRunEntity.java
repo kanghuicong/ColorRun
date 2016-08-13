@@ -39,6 +39,7 @@ public class LeRunEntity {
 	private String insurancecompany_name;
 	//剩余
 	private int lerun_surplus;
+	String AverageStar;//平均分
 
 	
 	public LeRunEntity() {
@@ -102,8 +103,13 @@ public class LeRunEntity {
 	}
 
 
+	public String getAverageStar() {
+		return AverageStar;
+	}
 
-
+	public void setAverageStar(String averageStar) {
+		AverageStar = averageStar;
+	}
 
 	public void setLerun_surplus(int lerun_surplus) {
 		this.lerun_surplus = lerun_surplus;

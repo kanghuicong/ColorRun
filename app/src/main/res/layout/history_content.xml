@@ -6,87 +6,63 @@
 
     <include layout="@layout/main_back" />
 
-    <ScrollView
+
+    <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
+        android:layout_below="@+id/title_tick"
+        android:id="@+id/bottomRefesh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+
+        <com.mengshitech.colorrun.view.MyListView
+            android:id="@+id/lv_history_content"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal" />
+    </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:background="@color/white"
+
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
 
-            <LinearLayout
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_content"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
+                android:background="#ffffff"
+                android:ems="10"
+                android:hint="请输入要评价的内容"
 
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/iv_history_content_poster"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:background="@mipmap/tab_show_no" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <RatingBar
-                        android:id="@+id/rb_history_content_ratingbar"
-                        style="@style/roomRatingBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:rating="3"></RatingBar>
-
-                    <TextView
-                        android:id="@+id/tv_history_content_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="卡乐跑"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/tv_history_content_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="2016.8.10"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/tv_history_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/enroll_bg_et"
-                        android:textSize="18dp"
-                        android:text="啦啦啦啦啦啦啦"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <include layout="@layout/mian_splitter" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <com.mengshitech.colorrun.view.MyListView
-                    android:id="@+id/lv_history_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" />
-            </LinearLayout>
+                android:textSize="16sp"></EditText>
         </LinearLayout>
-    </ScrollView>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:background="#0099ff"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
 </LinearLayout>

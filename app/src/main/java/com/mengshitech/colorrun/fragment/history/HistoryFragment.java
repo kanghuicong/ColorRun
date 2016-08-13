@@ -30,11 +30,11 @@ public class HistoryFragment extends BaseFragment{
             historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
             ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
             context=getActivity();
-            fragmentList.add(new HistoryTheme(getActivity(),"pop"));
-            fragmentList.add(new HistoryTheme(getActivity(),"color"));
-            fragmentList.add(new HistoryTheme(getActivity(),"marathon"));
-            fragmentList.add(new HistoryTheme(getActivity(),"rainbow"));
-            fragmentList.add(new HistoryTheme(getActivity(),"light"));
+            fragmentList.add(new HistoryTheme(getActivity(),"1"));
+            fragmentList.add(new HistoryTheme(getActivity(),"2"));
+            fragmentList.add(new HistoryTheme(getActivity(),"3"));
+            fragmentList.add(new HistoryTheme(getActivity(),"4"));
+            fragmentList.add(new HistoryTheme(getActivity(),"5"));
             titleList.add("卡乐泡泡跑");
             titleList.add("卡乐彩色跑");
             titleList.add("卡乐马拉松");

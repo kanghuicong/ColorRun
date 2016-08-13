@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background"
-        android:drawable="@mipmap/feedback_star_off"></item>
+        android:drawable="@mipmap/max_rating_off"></item>
     <item android:id="@android:id/secondaryProgress"
-        android:drawable="@mipmap/feedback_star_off"></item>
+        android:drawable="@mipmap/max_rating_off"></item>
     <item android:id="@android:id/progress"
-        android:drawable="@mipmap/feedback_star_on"></item>
+        android:drawable="@mipmap/max_rating_on"></item>
 
 </layer-list>

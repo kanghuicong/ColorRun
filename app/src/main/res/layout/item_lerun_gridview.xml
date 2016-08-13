@@ -5,21 +5,20 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg_gv"
-        >
+        android:background="@drawable/bg_gv">
 
         <ImageView
             android:id="@+id/ivBackground"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="115dp"
             android:scaleType="fitXY"
-
-            />
+             />
 
         <TextView
+
             android:id="@+id/tv_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

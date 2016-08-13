@@ -7,67 +7,62 @@
     <include layout="@layout/main_back" />
 
 
-    <FrameLayout
+    <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
+        android:layout_below="@+id/title_tick"
+        android:id="@+id/bottomRefesh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
-
-        <include layout="@layout/mian_splitter" />
-
-        <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
-            android:id="@+id/bottomRefesh"
+        <com.mengshitech.colorrun.view.MyListView
+            android:id="@+id/lv_history_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal" />
+    </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 
-            <com.mengshitech.colorrun.view.MyListView
-                android:id="@+id/lv_history_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
-        </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:background="@color/white"
+
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="5dp"
-            android:background="@color/white"
-            android:gravity="center">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:orientation="horizontal">
 
-
-                android:layout_weight="1"
-                android:background="@android:drawable/editbox_background_normal"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/et_pwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="20dp"
-                    android:background="#ffffff"
-                    android:ems="10"
-                    android:hint="请输入要评价的内容"
-
-                    android:textSize="16sp"></EditText>
-            </LinearLayout>
-
-            <Button
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:background="#0099ff"
-                android:text="发送"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
+                android:background="#ffffff"
+                android:ems="10"
+                android:hint="请输入要评价的内容"
+
+                android:textSize="16sp"></EditText>
         </LinearLayout>
-    </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:background="#0099ff"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
 
 
 </LinearLayout>

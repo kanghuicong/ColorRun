@@ -34,6 +34,7 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
         this.context = context;
         this.likelist = likelist;
         this.count = count;
+        Log.i("点赞头像数",count+"");
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String header_path =    ContentCommon.path+likeEntity.getUser_header();
+        String header_path = ContentCommon.path+likeEntity.getUser_header();
 
         Log.i("header_path:",header_path);
         Glide.with(context).load(header_path).into(holder.grid_image);

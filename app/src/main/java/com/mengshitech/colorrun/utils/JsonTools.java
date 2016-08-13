@@ -129,8 +129,8 @@ public class JsonTools {
     //点赞信息
     public static List<LikeEntity> getLikeInfo(String key, String jsonString)
             throws JSONException {
+        Log.i("点赞jsonString", jsonString);
         List<LikeEntity> list = new ArrayList<LikeEntity>();
-
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray("datas");
 
@@ -139,12 +139,12 @@ public class JsonTools {
             JSONObject Object = jsonArray.getJSONObject(i);
             info.setUser_id(Object.getString("user_id"));
             info.setUser_name(Object.getString("user_name"));
-            info.setUser_header(Object.getString("user_header"));
+//            info.setUser_header(Object.getString("user_header"));
             info.setLike_time(Object.getString("like_time"));
 
             list.add(info);
         }
-        Log.i("list的大小", list.size() + "");
+        Log.i("点赞list的大小", list.size() + "");
         return list;
     }
 

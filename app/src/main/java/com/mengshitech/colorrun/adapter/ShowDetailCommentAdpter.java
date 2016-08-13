@@ -58,7 +58,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CommentEntity mCommentEntity = getItem(position);
+        CommentEntity mCommentEntity = mCommentList.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = View.inflate(mActivity, R.layout.show_detail_comment_listview, null);
@@ -88,5 +88,9 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         TextView tvUserName;
         TextView tvSendTime;
         TextView tvCommentContent;
+    }
+    public void changeCount(int changecount){
+        Log.i("changecount",changecount+"");
+        count=changecount;
     }
 }

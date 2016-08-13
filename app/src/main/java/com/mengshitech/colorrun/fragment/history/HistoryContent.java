@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -42,21 +45,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by kanghuicong on 2016/8/9  17:26.
+ * wschenyongyin
  */
-public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    View history_content_view;
-    TextView history_title, history_time, history_content;
-    ImageView history_poster;
-    ListView history_listview;
+public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
+    private View history_content_view;
+    private TextView history_title, history_time, history_content;
+    private ImageView history_poster;
+    private ListView history_listview;
+
     int lerun_id;
-    BottomPullSwipeRefreshLayout pullSwipeRefreshLayout;
-    Context context;
+    private BottomPullSwipeRefreshLayout pullSwipeRefreshLayout;
+    private Context context;
     private static Activity mActivity;
     private double AverageStar;
     private RatingBar ratingBar;
-    private TextView tv_score,tv_host,tv_peoplenum;
-private View view;
+    private TextView tv_score, tv_host, tv_peoplenum;
+    private int pageSize = 10;
+    private int currentPage = 1;
+    private View view;
+    private boolean onload = false;
+    private boolean onRefresh = false;
+    private List<CommentEntity> list;
+    private ShowDetailCommentAdpter adapter;
+    private String evaluate_content;
+    private Button btn_send;
+    private EditText et_content;
 
     @Override
     public void onAttach(Activity activity) {
@@ -67,11 +80,11 @@ private View view;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         history_content_view = View.inflate(getActivity(), R.layout.history_content, null);
+
         MainBackUtility.MainBack(history_content_view, "详情", getFragmentManager());
-        view=View.inflate(getActivity(),R.layout.historycontent_listview_headerview,null);
+        view = View.inflate(getActivity(), R.layout.historycontent_listview_headerview, null);
         GetData();
         FindId();
-
         return history_content_view;
     }
 
@@ -88,22 +101,21 @@ private View view;
         history_listview = (ListView) history_content_view.findViewById(R.id.lv_history_content);
         ratingBar = (RatingBar) view.findViewById(R.id.rb_history_content_ratingbar);
         tv_score = (TextView) view.findViewById(R.id.tv_score);
-        tv_host= (TextView) view.findViewById(R.id.tv_host);
-        tv_peoplenum= (TextView) view.findViewById(R.id.tv_peoplenum);
+        tv_host = (TextView) view.findViewById(R.id.tv_host);
+        tv_peoplenum = (TextView) view.findViewById(R.id.tv_peoplenum);
+        btn_send = (Button) history_content_view.findViewById(R.id.btn_send);
+        et_content = (EditText) history_content_view.findViewById(R.id.et_content);
 
+        new Thread(lerunInfoRunnable).start();
+        new Thread(EvaluateRunnable).start();
         pullSwipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         pullSwipeRefreshLayout = (BottomPullSwipeRefreshLayout) history_content_view.findViewById(R.id.bottomRefesh);
         pullSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        pullSwipeRefreshLayout.autoRefresh();
         pullSwipeRefreshLayout.setOnRefreshListener(this);
-//        pullSwipeRefreshLayout.autoRefresh();
-        pullSwipeRefreshLayout.setOnLoadListener(new BottomPullSwipeRefreshLayout.OnLoadListener() {
-            @Override
-            public void onLoad() {
-                Log.i("ssssssss", "vvvvvvv");
-            }
-        });
-        new Thread(lerunInfoRunnable).start();
-        new Thread(EvaluateRunnable).start();
+        pullSwipeRefreshLayout.setOnLoadListener(this);
+        btn_send.setOnClickListener(this);
+
 
     }
 
@@ -130,30 +142,26 @@ private View view;
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    Log.i("主题result:", result);
                     LeRunEntity entity = JsonTools.getHistoryLerunDetail("datas", result);
-                    Log.i("主题Lerun_title:", entity.getLerun_title());
                     history_title.setText(entity.getLerun_title());
                     history_time.setText(entity.getLerun_time());
                     history_content.setText(entity.getLerun_content());
-                    tv_host.setText("承办方："+entity.getLerun_host());
-                    tv_peoplenum.setText("参与人数:"+entity.getLerun_maxuser()+"");
-//                    history_poster
+                    tv_host.setText("承办方：" + entity.getLerun_host());
+                    tv_peoplenum.setText("参与人数:" + entity.getLerun_maxuser() + "");
                     Glide.with(mActivity).load(ContentCommon.path + entity.getLerun_poster()).into(history_poster);
                     DecimalFormat df = new DecimalFormat("######0.0");
                     AverageStar = Double.valueOf(entity.getAverageStar().toString());
-                    Log.i("AverageStar", df.format(AverageStar) );
-                    if ((int) AverageStar==0){
+                    Log.i("AverageStar", df.format(AverageStar));
+                    if ((int) AverageStar == 0) {
                         tv_score.setText("5.0分");
-                        Log.i("AverageStar", (int) AverageStar+"" );
+                        Log.i("AverageStar", (int) AverageStar + "");
                         ratingBar.setRating(5);
 
-                    }else{
+                    } else {
                         tv_score.setText(df.format(AverageStar) + "分");
-                        Log.i("AverageStar", (int) AverageStar+"" );
+                        Log.i("AverageStar", (int) AverageStar + "");
                         ratingBar.setRating((int) AverageStar);
                     }
-
 
 
                 } catch (JSONException e) {
@@ -174,6 +182,8 @@ private View view;
             map.put("flag", "historylerun");
             map.put("index", "3");
             map.put("lerun_id", lerun_id + "");
+            map.put("pageSize", pageSize + "");
+            map.put("currentPage", currentPage + "");
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
@@ -188,34 +198,132 @@ private View view;
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+//上拉加载刷新listview
+                    if (onload) {
 
-                    int state=JsonTools.getState("state",result);
-                    Log.i("result:", "result");
-                    if(state==1){
-                        List<CommentEntity> list = JsonTools.getLeRunEvaluate("datas", result);
-                        history_listview.addHeaderView(view);
-                        ShowDetailCommentAdpter adapter = new ShowDetailCommentAdpter(mActivity, list, history_listview);
-                        history_listview.setAdapter(adapter);
-                    }else if(state==0){
+                        int state = JsonTools.getState("state", result);
+                        Log.i("result:", "result");
+                        if (state == 1) {
+                            List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
 
-                        history_listview.addHeaderView(view);
-                        ShowDetailCommentAdpter adapter = new ShowDetailCommentAdpter(mActivity);
-                        history_listview.setAdapter(adapter);
+                            for (int i = 0; i < mlist.size(); i++) {
+                                list.add(mlist.get(i));
+                            }
+                            Log.i("lissize:", list.size() + "result");
+                            adapter.changeCount(list.size());
+                            adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetInvalidated();
+                            pullSwipeRefreshLayout.setLoading(false);
+
+                        } else if (state == 0) {
+
+                            pullSwipeRefreshLayout.setLoading(false);
+                        }
+
+                        onload = false;
                     }
+                    //下拉刷新后刷新listview
+                    else if (onRefresh) {
+                        list.clear();
+                        List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
 
+                        for (int i = 0; i < mlist.size(); i++) {
+                            list.add(mlist.get(i));
+                        }
+                        Log.i("下拉刷新后list的大小", list.size() + "");
+                        adapter.changeCount(list.size());
+                        adapter.notifyDataSetChanged();
+                       adapter.notifyDataSetInvalidated();
+                        pullSwipeRefreshLayout.setRefreshing(false);
+                    } else
+                    //进入页面进行listview数据加载
+                    {
+                        int state = JsonTools.getState("state", result);
+                        Log.i("result:", "result");
+                        if (state == 1) {
+                            list = JsonTools.getLeRunEvaluate("datas", result);
+                            history_listview.addHeaderView(view);
+                            adapter = new ShowDetailCommentAdpter(mActivity, list, history_listview);
+                            history_listview.setAdapter(adapter);
+                            pullSwipeRefreshLayout.setRefreshing(false);
+                        } else if (state == 0) {
+
+                            history_listview.addHeaderView(view);
+                            adapter = new ShowDetailCommentAdpter(mActivity);
+                            history_listview.setAdapter(adapter);
+                            pullSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-
-
                 }
             }
         }
     };
 
-
+    //下拉刷新
     @Override
     public void onRefresh() {
         Log.i("下拉刷新", "成功");
-        pullSwipeRefreshLayout.setRefreshing(false);
+        onRefresh = true;
+        currentPage = 1;
+
+        new Thread(EvaluateRunnable).start();
     }
+
+    //上拉加载
+    @Override
+    public void onLoad() {
+
+        currentPage = currentPage + 1;
+        onload = true;
+        new Thread(EvaluateRunnable).start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        evaluate_content = et_content.getText().toString();
+        new Thread(evaluateRunnable).start();
+    }
+
+
+    //执行评论的线程
+    Runnable evaluateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "historylerun");
+            map.put("index", "4");
+            map.put("evaluate_content", evaluate_content);
+            map.put("lerun_id", lerun_id + "");
+            map.put("user_id", ContentCommon.user_id);
+            String result = HttpUtils.sendHttpClientPost(ContentCommon.PATH, map, "utf-8");
+
+            Message msg = new Message();
+            msg.obj = result;
+            evaluateHandler.sendMessage(msg);
+
+        }
+    };
+    Handler evaluateHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String result = (String) msg.obj;
+            try {
+                int state = JsonTools.getState("state", result);
+                if (state == 1) {
+                    Toast.makeText(getActivity(), "发表成功", Toast.LENGTH_SHORT).show();
+                    et_content.setText("");
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                } else {
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 }

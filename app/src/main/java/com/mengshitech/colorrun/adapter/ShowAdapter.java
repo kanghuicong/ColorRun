@@ -50,7 +50,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     ImageView image;
     TextView text;
     String like_num;
-    int yes_state,no_state;
+    int yes_state=5,no_state=5;
     Map<Integer, Boolean> isCheckMap =  new HashMap<Integer, Boolean>();
 
     private static class ViewHolder {
@@ -175,7 +175,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                         if (state.equals("0")) {
                             index = "8";
                             new Thread(runnable).start();
-                            if (yes_state == 1) {
+                            if (yes_state == 1 || yes_state==5) {
                                 Log.i("lalala","lalalalalla");
                                 number.setText(Integer.valueOf(number.getText().toString()) + 1 + "");
                                 mShowEntity.setLike_num(number.getText().toString());
@@ -186,7 +186,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                         } else if (state.equals("1")) {
                             index = "6";
                             new Thread(runnable).start();
-                            if (no_state == 1) {
+                            if (no_state == 1 || no_state == 5) {
                                 Log.i("hahaha","hahahahaha");
                                 number.setText(Integer.valueOf(number.getText().toString()) - 1 + "");
                                 mShowEntity.setLike_num(number.getText().toString());
@@ -212,21 +212,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.im_show_like:
-//                Log.i("111like_state",like_state);
-//                image = (ImageView)v.findViewById(R.id.im_show_like);
-//                if (ContentCommon.user_id == null){
-//                    Toast.makeText(context,"请先登录...",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    if (like_state.equals("0")) {
-//                        index = "8";
-//                        new Thread(runnable).start();
-//                    } else if (like_state.equals("1")) {
-//                        index = "6";
-//                        new Thread(runnable).start();
-//                    }
-//                }
-//                break;
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
                 break;
@@ -311,5 +296,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 }
             }
         };
+
 }
 

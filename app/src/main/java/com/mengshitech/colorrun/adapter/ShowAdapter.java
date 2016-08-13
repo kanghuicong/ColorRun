@@ -32,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * atenklsy
  */
@@ -94,6 +97,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent) {
+        ShareSDK.initSDK(parent.getContext());
         Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
         holder = null;
@@ -198,9 +202,29 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     }
             }
         });
+
+        holder.show_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContentCommon.user_id == null) {
+                    Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
+                } else {
+                    OnekeyShare onkeyShare =new OnekeyShare();
+                    onkeyShare.disableSSOWhenAuthorize();
+                    onkeyShare.setTitle(mShowEntity.getUser_name()+"的卡乐彩色跑");
+                    onkeyShare.setText(mShowEntity.getShow_content());
+
+                    onkeyShare.setImageUrl(ImageList.get(1));
+                    onkeyShare.setUrl("http://www.roay.cn/");
+                    //显示分享列表
+
+                    onkeyShare.show(context);
+                }
+            }
+        });
 //        holder.show_like.setOnClickListener(this);
         holder.show_comment.setOnClickListener(this);
-        holder.show_share.setOnClickListener(this);
+//        holder.show_share.setOnClickListener(this);
         return view;
     }
 
@@ -215,9 +239,22 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.im_show_share:
-                Toast.makeText(context, "share", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.im_show_share:
+//                if (ContentCommon.user_id == null) {
+//                    Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    OnekeyShare onkeyShare =new OnekeyShare();
+//                    onkeyShare.disableSSOWhenAuthorize();
+//                    onkeyShare.setTitle("卡乐 越运动越青春");
+//                    onkeyShare.setText("On The Way");
+//
+//                    onkeyShare.setImageUrl("http://www.roay.cn/uploads/160804/1-160P4114125948.png");
+//                    onkeyShare.setUrl("http://www.roay.cn/");
+//                    //显示分享列表
+//
+//                    onkeyShare.show(context);
+//                }
+//                break;
             default:
                 break;
         }
@@ -243,6 +280,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
 
     };
+
 
         Handler handler = new Handler() {
 

@@ -25,6 +25,13 @@
         <item name="android:isIndicator">true</item>
     </style>
 
+    <style name="maxRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/max_rating_bar</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:maxHeight">36dp</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
 
         <!-- 设置未浮动窗口 -->

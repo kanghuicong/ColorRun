@@ -9,73 +9,99 @@ package com.mengshitech.colorrun.bean;
  */
 
 public class QrcodeBean {
-	private String imagePath;
-	private String personal_name;
-	private int sign_state;
-private int charge_state;
-	private String lerun_title;
-	private int Payment;
-	private String lerun_time;
+    private String imagePath;
+    private String personal_name;
+    private int sign_state;
+    private int charge_state;
+    private String lerun_title;
+    private int Payment;
+    private String lerun_time;
+    private int evaluate_state;
+    private int lerun_id;
+    private String user_telphone;
 
-	public QrcodeBean() {
-	}
+    public QrcodeBean() {
+    }
 
-	public String getLerun_time() {
-		return lerun_time;
-	}
+    public String getUser_telphone() {
+        return user_telphone;
+    }
 
-	public void setLerun_time(String lerun_time) {
-		this.lerun_time = lerun_time;
-	}
+    public void setUser_telphone(String user_telphone) {
+        this.user_telphone = user_telphone;
+    }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+    public int getLerun_id() {
+        return lerun_id;
+    }
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
+    public void setLerun_id(int lerun_id) {
+        this.lerun_id = lerun_id;
+    }
 
-	public String getPersonal_name() {
-		return personal_name;
-	}
+    public int getEvaluate_state() {
+        return evaluate_state;
+    }
 
-	public void setPersonal_name(String personal_name) {
-		this.personal_name = personal_name;
-	}
+    public void setEvaluate_state(int evaluate_state) {
+        this.evaluate_state = evaluate_state;
+    }
 
-	public int getSign_state() {
-		return sign_state;
-	}
+    public String getLerun_time() {
+        return lerun_time;
+    }
 
-	public void setSign_state(int sign_state) {
-		this.sign_state = sign_state;
-	}
+    public void setLerun_time(String lerun_time) {
+        this.lerun_time = lerun_time;
+    }
 
-	public String getLerun_title() {
-		return lerun_title;
-	}
+    public String getImagePath() {
+        return imagePath;
+    }
 
-	public void setLerun_title(String lerun_title) {
-		this.lerun_title = lerun_title;
-	}
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
-	public int getCharge_state() {
-		return charge_state;
-	}
+    public String getPersonal_name() {
+        return personal_name;
+    }
 
-	public void setCharge_state(int charge_state) {
-		this.charge_state = charge_state;
-	}
+    public void setPersonal_name(String personal_name) {
+        this.personal_name = personal_name;
+    }
 
-	public int getPayment() {
-		return Payment;
-	}
+    public int getSign_state() {
+        return sign_state;
+    }
 
-	public void setPayment(int payment) {
-		Payment = payment;
-	}
-	
-	
+    public void setSign_state(int sign_state) {
+        this.sign_state = sign_state;
+    }
+
+    public String getLerun_title() {
+        return lerun_title;
+    }
+
+    public void setLerun_title(String lerun_title) {
+        this.lerun_title = lerun_title;
+    }
+
+    public int getCharge_state() {
+        return charge_state;
+    }
+
+    public void setCharge_state(int charge_state) {
+        this.charge_state = charge_state;
+    }
+
+    public int getPayment() {
+        return Payment;
+    }
+
+    public void setPayment(int payment) {
+        Payment = payment;
+    }
+
 
 }

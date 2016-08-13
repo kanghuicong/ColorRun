@@ -371,6 +371,9 @@ public class JsonTools {
             entity.setSign_state(object.getInt("sign_state"));
             entity.setCharge_state(object.getInt("charge_state"));
             entity.setPayment(object.getInt("payment"));
+            entity.setLerun_id(object.getInt("lerun_id"));
+            entity.setEvaluate_state(object.getInt("evaluate_state"));
+            entity.setUser_telphone(object.getString("user_telphone"));
             list.add(entity);
         }
 

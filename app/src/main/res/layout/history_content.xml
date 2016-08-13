@@ -18,6 +18,7 @@
             android:id="@+id/lv_history_content"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:scrollbars="none"
             android:layout_gravity="center_horizontal" />
     </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 

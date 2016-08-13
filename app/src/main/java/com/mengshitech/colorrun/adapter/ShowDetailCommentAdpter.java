@@ -82,7 +82,6 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         return convertView;
     }
 
-
     class ViewHolder {
         ImageView ivUserHead;
         TextView tvUserName;

@@ -41,5 +41,4 @@
         android:text="能坚持下来就是棒棒哒！"
         android:textColor="@color/black" />
 
-
 </RelativeLayout>

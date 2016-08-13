@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,10 +16,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.dao.UserDao;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.Utility;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +87,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                     etUserId.setText("");
                     etUserPwd.setText("");
                 } else {
-                    new Thread(runnable).start();
+                        new Thread(runnable).start();
                 }
 
                 break;
@@ -136,6 +145,15 @@ public class LoginActivity extends Activity implements OnClickListener {
                         ContentCommon.login_state="1";
                         ContentCommon.user_id=userId;
                         editor.commit();
+
+                        UserDao dao = new UserDao(LoginActivity.this);
+                        UserEntiy modler = dao.find(userId);
+                        Log.i("UserEntiy modler",modler+"");
+                        Log.i("UserEntiy","UserEntiy");
+                        if (modler == null) {
+                            new Thread(user_runnable).start();
+                        }
+
                         Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(inetnt);
                         finish();
@@ -145,5 +163,54 @@ public class LoginActivity extends Activity implements OnClickListener {
                 }
             }
         }
+    };
+
+    Runnable user_runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = ContentCommon.PATH;
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("flag", "user");
+            map.put("user_id",userId);
+            map.put("index","4");
+            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            Message msg = new Message();
+            msg.obj = result;
+            user_handler.sendMessage(msg);
+        }
+    };
+
+    Handler user_handler = new Handler(){
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+                try {
+                    UserEntiy userEntiy = JsonTools.getUserInfo("result",result);
+                    UserDao dao = new UserDao(LoginActivity.this);
+//                    UserEntiy modler = new UserEntiy(userEntiy.getUser_bankid(),
+//                            userEntiy.getUser_id(),
+//                            userEntiy.getUser_pwd(),
+//                            userEntiy.getUser_name(),
+//                            userEntiy.getUser_birthday(),
+//                            userEntiy.getUser_sex(),
+//                            userEntiy.getUser_header(),
+//                            userEntiy.getUser_identity(),
+//                            userEntiy.getUser_address(),
+//                            userEntiy.getUser_fullname(),
+//                            userEntiy.getUser_level(),
+//                            userEntiy.getUser_height(),
+//                            userEntiy.getUser_health(),
+//                            userEntiy.getUser_weight(),
+//                            userEntiy.getUser_sign(),
+//                            userEntiy.getUser_phone(),
+//                            userEntiy.getUser_email(),
+//                            userEntiy.getUser_state(),
+//                            userEntiy.getUser_otherid());
+                    dao.add(userEntiy.getUser_id(),userEntiy.getUser_name(),userEntiy.getUser_header());
+
+                }catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
     };
 }

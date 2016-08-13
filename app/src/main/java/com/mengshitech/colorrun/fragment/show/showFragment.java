@@ -10,9 +10,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -70,7 +68,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
-            Intent intent = new Intent(getActivity(), showDetailFragment.class);
+            Intent intent = new Intent(getActivity(), showDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
             bundle.putString("comment_userid", mShowEntity.getUser_id());
@@ -94,7 +92,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
 
         ivShow_CreateShow.setOnClickListener(this);
-//        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
@@ -179,6 +177,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         currentPage = currentPage + 1;
         new Thread(loadrunnable).start();
     }
+
 
     Runnable loadrunnable = new Runnable() {
 

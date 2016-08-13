@@ -19,6 +19,7 @@ public class ContentCommon {
 
     public static String login_state="0";
     public static String user_id=null;
-    public  static String user_log=null;
+    public static String user_log=null;
+    public static String user_name=null;
 
 }

@@ -18,21 +18,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.adapter.ShowDetailGridViewAdapter;
 import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.LikeEntity;
-import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
+import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,20 +42,21 @@ import java.util.Map;
  * Created by atenklsy on 2016/7/14 22:03.
  * E-address:atenk@qq.com.
  */
-public class showDetailFragment extends Activity implements View.OnClickListener{
-    ImageView showdetail_hear,showdetail_like,showdetail_comment,showdetail_share;
-    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_like_num,showdetail_comment_num;
+public class showDetail extends Activity implements View.OnClickListener{
+    ImageView showdetail_hear,showdetail_comment,showdetail_share;
+    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_comment_num;
     GridView showdetail_image,gv_like;
     EditText et_show_comment;
     Button bt_show_comment;
     ListView lv_comment;
     ShowDetailCommentAdpter lv_adapter;
+    ShowDetailGridViewAdapter gv_adapter;
     String show_id,comment_userid;
     int state;
     LinearLayout ll_like;
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
-    String user_id,user_name,user_header,like_time;
+    List<CommentEntity> commentlist;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -77,19 +79,18 @@ public class showDetailFragment extends Activity implements View.OnClickListener
         showdetail_username.setText(bundle.getString("user_name"));
         showdetail_content.setText(bundle.getString("show_content"));
         showdetail_time.setText(bundle.getString("show_time"));
-        showdetail_like_num.setText(bundle.getString("show_like_num"));
         showdetail_comment_num.setText(bundle.getString("show_comment_num"));
         String show_hear = bundle.getString("user_header");
         String show_Image = bundle.getString("show_image");
         String header_path = ContentCommon.path+show_hear;
-        Glide.with(showDetailFragment.this).load(header_path).into(showdetail_hear);
+        Glide.with(showDetail.this).load(header_path).transform(new GlideCircleTransform(this)).into(showdetail_hear);
         try {
             ImageList = JsonTools.getImageInfo(show_Image);
             imagepath = new ArrayList<String>();
             for (int i = 0; i < ImageList.size(); i++) {
                 String paths = ImageList.get(i);
                 imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(showDetailFragment.this,imagepath,imagepath.size());
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(showDetail.this,imagepath,imagepath.size());
                 showdetail_image.setAdapter(adapter);
             }
         } catch (JSONException e) {
@@ -102,8 +103,6 @@ public class showDetailFragment extends Activity implements View.OnClickListener
         showdetail_username = (TextView)findViewById(R.id.tv_show_username);
         showdetail_content = (TextView)findViewById(R.id.tv_show_content);
         showdetail_image = (GridView)findViewById(R.id.gv_show_image);
-        showdetail_like = (ImageView)findViewById(R.id.im_show_like);
-        showdetail_like_num = (TextView)findViewById(R.id.tv_show_like_num);
         showdetail_comment = (ImageView)findViewById(R.id.im_show_comment);
         showdetail_comment_num = (TextView)findViewById(R.id.tv_show_comment_num);
         showdetail_share = (ImageView)findViewById(R.id.im_show_share);
@@ -121,9 +120,12 @@ public class showDetailFragment extends Activity implements View.OnClickListener
         switch (v.getId()){
             case R.id.bt_show_comment:
                 if (ContentCommon.login_state.equals("1")){
-                    new Thread(comment_show_runnable).start();
-                }else{
-                    Toast.makeText(showDetailFragment.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
+                    if ("".equals(et_show_comment.getText().toString())) {
+                        Toast.makeText(showDetail.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
+                    }else {
+                        new Thread(comment_show_runnable).start();}
+                } else{
+                    Toast.makeText(showDetail.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -153,13 +155,13 @@ public class showDetailFragment extends Activity implements View.OnClickListener
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(showDetailFragment.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
 //                progressDialog.dismiss();
                 try {
                     List<LikeEntity> likelist = JsonTools.getLikeInfo("result",result);
                     Log.i("likelist",likelist+"");
-                    ShowDetailGridViewAdapter gv_adapter = new ShowDetailGridViewAdapter(showDetailFragment.this,likelist,likelist.size());
+                    gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
                     gv_like.setAdapter(gv_adapter);
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -194,14 +196,14 @@ public class showDetailFragment extends Activity implements View.OnClickListener
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(showDetailFragment.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
 //                progressDialog.dismiss();
                 try {
-                    List<CommentEntity> commentlist = JsonTools.getCommentInfo("result",result);
+                    commentlist = JsonTools.getCommentInfo("result",result);
                     Log.i("commentlist",commentlist+"");
 
-                    lv_adapter = new ShowDetailCommentAdpter(showDetailFragment.this,commentlist,lv_comment);
+                    lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
                     lv_comment.setAdapter(lv_adapter);
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -210,7 +212,6 @@ public class showDetailFragment extends Activity implements View.OnClickListener
             }
         }
     };
-
 
 
     Runnable comment_show_runnable = new Runnable() {
@@ -240,15 +241,30 @@ public class showDetailFragment extends Activity implements View.OnClickListener
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(showDetailFragment.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
 //                progressDialog.dismiss();
                 try {
                     state = JsonTools.getState("state",result);
                     if (state ==1){
-                        Toast.makeText(showDetailFragment.this,"评论成功！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(showDetail.this,"评论成功！",Toast.LENGTH_SHORT).show();
+
+
+                        UserDao dao = new UserDao(showDetail.this);
+                        UserEntiy modler =  dao.find(ContentCommon.user_id);
+                        long time_now = new Date().getTime();
+
+                        CommentEntity info = new CommentEntity();
+                        info.setUser_name(modler.getUser_name());
+                        info.setUser_header(modler.getUser_header());
+                        info.setComment_time(time_now+"");
+                        info.setComment_content(et_show_comment.getText().toString());
+                        commentlist.add(info);
+                        lv_adapter.notifyDataSetChanged();
+
+                        et_show_comment.setText("");
                     } else {
-                        Toast.makeText(showDetailFragment.this,"评论失败！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(showDetail.this,"评论失败！",Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -257,4 +273,6 @@ public class showDetailFragment extends Activity implements View.OnClickListener
             }
         }
     };
+
+
 }

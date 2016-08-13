@@ -139,7 +139,7 @@ public class JsonTools {
             JSONObject Object = jsonArray.getJSONObject(i);
             info.setUser_id(Object.getString("user_id"));
             info.setUser_name(Object.getString("user_name"));
-//            info.setUser_header(Object.getString("user_header"));
+            info.setUser_header(Object.getString("user_header"));
             info.setLike_time(Object.getString("like_time"));
 
             list.add(info);
@@ -220,6 +220,8 @@ public class JsonTools {
             entity.setLerun_poster(object.getString("lerun_poster"));
             entity.setLerun_time(object.getString("lerun_time"));
             entity.setLerun_address(object.getString("lerun_address"));
+            entity.setLerun_browsenum(object.getString("lerun_browsenum"));
+            entity.setLerun_likenum(object.getString("lerun_likenum"));
             entity.setLerun_state(Integer.parseInt(object.getString("lerun_state")));
             list.add(entity);
         }

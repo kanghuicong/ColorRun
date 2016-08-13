@@ -271,7 +271,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     try {
                         no_state = JsonTools.getState("state", result);
                         Log.i("state取消赞返回状态", no_state + "");
-
                         if (no_state == 1) {
                             list.set(pos,"0");
                             mShowEntity = mShowList.get(pos);

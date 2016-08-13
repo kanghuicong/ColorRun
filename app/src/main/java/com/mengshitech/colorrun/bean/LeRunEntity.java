@@ -23,6 +23,8 @@ public class LeRunEntity {
 	private String lerun_video;
 	private String lerun_begintime;
 	private String lerun_endtime;
+	private String lerun_browsenum;
+	private String lerun_likenum;
 	private int charge_mode;
 	private int insurance_id;
 	//活动收费表
@@ -102,8 +104,21 @@ public class LeRunEntity {
 	}
 
 
+	public String getLerun_browsenum() {
+		return lerun_browsenum;
+	}
 
+	public void setLerun_browsenum(String lerun_browsenum) {
+		this.lerun_browsenum = lerun_browsenum;
+	}
 
+	public String getLerun_likenum() {
+		return lerun_likenum;
+	}
+
+	public void setLerun_likenum(String lerun_likenum) {
+		this.lerun_likenum = lerun_likenum;
+	}
 
 	public void setLerun_surplus(int lerun_surplus) {
 		this.lerun_surplus = lerun_surplus;

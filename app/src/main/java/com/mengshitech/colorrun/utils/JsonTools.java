@@ -215,6 +215,8 @@ public class JsonTools {
             entity.setLerun_poster(object.getString("lerun_poster"));
             entity.setLerun_time(object.getString("lerun_time"));
             entity.setLerun_address(object.getString("lerun_address"));
+            entity.setLerun_browsenum(object.getString("lerun_browsenum"));
+            entity.setLerun_likenum(object.getString("lerun_likenum"));
             entity.setLerun_state(Integer.parseInt(object.getString("lerun_state")));
             list.add(entity);
         }

@@ -31,12 +31,13 @@
     </RelativeLayout>
 
     <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
+        android:descendantFocusability="blocksDescendants"
         android:id="@+id/id_swipe_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
-            android:descendantFocusability="blocksDescendants"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -47,6 +48,7 @@
                 android:orientation="vertical">
 
                 <android.support.v4.view.ViewPager
+
                     android:id="@+id/vpLeRunAd"
                     android:layout_width="match_parent"
                     android:layout_height="190dp" />

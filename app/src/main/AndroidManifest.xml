@@ -52,6 +52,9 @@
         <activity android:name=".activity.GuideActivity"/>
         <activity android:name=".activity.UserLogActivity"/>
         <activity android:name=".fragment.show.showDetailFragment"/>
+        <activity android:name=".releaseshow.ReleaseShowActivity"/>
+        <activity android:name=".releaseshow.ImgFileListActivity"/>
+        <activity android:name=".releaseshow.ImgsActivity"/>
     </application>
 
 </manifest>

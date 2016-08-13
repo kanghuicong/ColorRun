@@ -24,6 +24,7 @@ import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.releaseshow.ReleaseShowActivity;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -92,7 +93,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
 
-
+        ivShow_CreateShow.setOnClickListener(this);
 //        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
@@ -108,8 +109,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivShow_CreateShow:
-                CreateShowFragment mCreateShowFragment = new CreateShowFragment();
-                Utility.replace2DetailFragment(fm, mCreateShowFragment);
+//                CreateShowFragment mCreateShowFragment = new CreateShowFragment();
+//                Utility.replace2DetailFragment(fm, mCreateShowFragment);
+                getActivity().startActivity(new Intent(getActivity(), ReleaseShowActivity.class));
                 break;
             default:
                 break;

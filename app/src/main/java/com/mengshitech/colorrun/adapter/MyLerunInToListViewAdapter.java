@@ -18,7 +18,9 @@ import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
+import com.mengshitech.colorrun.fragment.history.HistoryContent;
 import com.mengshitech.colorrun.fragment.lerun.LeRunPayment;
+import com.mengshitech.colorrun.fragment.me.LerunEvaluateFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
@@ -99,12 +101,27 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
         holder.mylerun_username.setText(info.getPersonal_name());
         holder.mylerun_title.setText(info.getLerun_title());
         holder.mylerun_payment.setText(info.getPayment() + "");
-        switch (info.getCharge_state()) {
+        int evaluate_state = info.getEvaluate_state();
+        int charge_state = info.getCharge_state();
+        int sign_state = info.getSign_state();
+        switch (charge_state) {
             case 0:
                 holder.charge_state.setText("未付款");
                 break;
             case 1:
-                holder.charge_state.setText("已付款");
+                if (sign_state == 0) {
+                    holder.charge_state.setText("未签到");
+                } else if (sign_state == 1) {
+
+                    if (evaluate_state == 1) {
+                        holder.charge_state.setText("已评价");
+                    } else {
+                        holder.charge_state.setText("未评价");
+                    }
+                }
+
+
+//                holder.charge_state.setText("已付款");
                 break;
 
             default:
@@ -122,28 +139,57 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         QrcodeBean info = list.get(position);
-        int state = info.getCharge_state();
+        lerun_id=info.getLerun_id();
+        int evaluate_state = info.getEvaluate_state();
+        int charge_state = info.getCharge_state();
+        int sign_state = info.getSign_state();
+        String user_telphone=info.getUser_telphone();
         Log.i("charge_state", info.getCharge_state() + "");
-        if (state == 0) {
+        if (charge_state == 0) {
             Bundle bundle = new Bundle();
             bundle.putString("user_name", info.getPersonal_name());
             bundle.putString("lerun_title", info.getLerun_title());
             bundle.putInt("lerun_price", info.getPayment());
             Log.i("user_name", info.getPersonal_name() + "");
             Log.i("lerun_price", info.getPayment() + "");
-            AlipayFragment alipayFragment=new AlipayFragment();
+            AlipayFragment alipayFragment = new AlipayFragment();
             alipayFragment.setArguments(bundle);
             Utility.replace2DetailFragment(mFragmentManager, alipayFragment);
-        } else if (state == 1) {
+        } else if (charge_state == 1) {
             String qr_image = info.getImagePath();
 
-            dialog = new QrcodeDialog(context, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
+            if (sign_state == 0) {
+                dialog = new QrcodeDialog(context, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                }, qr_image);
+                dialog.show();
+            }
+            //已经签到
+            else if (sign_state == 1) {
+                //评价了
+                if (evaluate_state == 1) {
+
+                    HistoryContent historyContent = new HistoryContent();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("lerun_id", lerun_id);
+                    historyContent.setArguments(bundle);
+                    Utility.replace2DetailFragment(mFragmentManager, historyContent);
                 }
-            }, qr_image);
-            dialog.show();
+                //未评价
+                else {
+                    LerunEvaluateFragment lerunEvaluateFragment=new LerunEvaluateFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("lerun_id", lerun_id);
+                    bundle.putString("user_telphone",user_telphone);
+                    lerunEvaluateFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(mFragmentManager, lerunEvaluateFragment);
+                }
+            }
+
+
         }
 
 

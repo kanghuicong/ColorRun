@@ -20,6 +20,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -28,20 +29,26 @@ import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,View.OnClickListener{
+public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
     View showView;
     ImageView ivShow_CreateShow;
     ShowAdapter mShowAdapter;
     ListView lvShowContent;
     List<ShowEntity> mShowList;
+
     FragmentManager fm;
     private Activity mActivity;
     Context context;
-    AutoSwipeRefreshLayout swipeRefreshLayout;
+    int entry_number = 3;
+    BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    int pageSize = 5;
+    int currentPage = 1;
+    List<ShowEntity> AllShowList = new ArrayList<ShowEntity>();
 
 
     @Override
@@ -60,16 +67,17 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
-            Intent intent = new Intent(getActivity(),showDetail.class);
+            Intent intent = new Intent(getActivity(), showDetail.class);
             Bundle bundle = new Bundle();
-            bundle.putString("show_id",mShowEntity.getShow_id());
-            bundle.putString("comment_userid",mShowEntity.getUser_id());
-            bundle.putString("user_name",mShowEntity.getUser_name());
-            bundle.putString("show_content",mShowEntity.getShow_content());
-            bundle.putString("show_time",mShowEntity.getShow_time());
-            bundle.putString("show_comment_num",mShowEntity.getComment_num());
-            bundle.putString("user_header",mShowEntity.getUser_header());
-            bundle.putString("show_image",mShowEntity.getShow_image());
+            bundle.putString("show_id", mShowEntity.getShow_id());
+            bundle.putString("comment_userid", mShowEntity.getUser_id());
+            bundle.putString("user_name", mShowEntity.getUser_name());
+            bundle.putString("show_content", mShowEntity.getShow_content());
+            bundle.putString("show_time", mShowEntity.getShow_time());
+            bundle.putString("show_comment_num", mShowEntity.getComment_num());
+            bundle.putString("show_like_num", mShowEntity.getLike_num());
+            bundle.putString("user_header", mShowEntity.getUser_header());
+            bundle.putString("show_image", mShowEntity.getShow_image());
             intent.putExtras(bundle);
             getActivity().startActivity(intent);
         }
@@ -78,13 +86,17 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void findById() {
 //        initShow();
-        new Thread(runnable).start();
+//        new Thread(runnable).start();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
+
 //        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
-//        swipeRefreshLayout=new AutoSwipeRefreshLayout(context);
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//        swipeRefreshLayout.autoRefresh();
+        swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
+        swipeRefreshLayout = (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.autoRefresh();
+        swipeRefreshLayout.setOnLoadListener(this);
 
 
     }
@@ -101,23 +113,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
     }
 
-//    private void loadData() {
-//
-//        int count = mShowAdapter.getCount();
-//        int length = mShowList.size() / entry_number;
-//        System.out.println("list" + mShowList.size());
-//        System.out.println("length" + length);
-//        // 判断有没有数据
-//        if (count < length * entry_number) {
-//            mShowAdapter.addItem(count + entry_number);
-//        } else if (length * entry_number < count + 1
-//                && count + 1 < mShowList.size() + 1) {
-//            mShowAdapter.addItem(mShowList.size());
-//        } else {
-//            Toast.makeText(getActivity(), "没有更多show了", Toast.LENGTH_SHORT)
-//                    .show();
-//        }
-//    }
 
     Runnable runnable = new Runnable() {
 
@@ -127,9 +122,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
             map.put("index", "2");
-            map.put("pageSize","4");
-            map.put("user_id",ContentCommon.user_id);
-            map.put("currentPage","1");
+            map.put("pageSize", pageSize + "");
+            map.put("user_id", ContentCommon.user_id);
+            map.put("currentPage", currentPage + "");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -147,17 +142,19 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             Log.i("result111", result);
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-//                progressDialog.dismiss();
                 try {
 
-                    mShowList = JsonTools.getShowInfo("result", result);
+                    mShowList = JsonTools.getShowInfo("datas", result);
+
                     Log.i("mshowlist", mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
+
                     lvShowContent.setAdapter(mShowAdapter);
-                    } catch (JSONException e) {
+                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setLoading(false);
+                } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -167,6 +164,77 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        currentPage = 1;
+        new Thread(runnable).start();
+        Log.i("自动执行", "sss");
     }
+
+    @Override
+    public void onLoad() {
+        currentPage = currentPage + 1;
+        new Thread(loadrunnable).start();
+    }
+
+
+    Runnable loadrunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            String path = ContentCommon.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "show");
+            map.put("index", "2");
+            map.put("pageSize", pageSize + "");
+            map.put("user_id", ContentCommon.user_id);
+            map.put("currentPage", currentPage + "");
+
+            String result = HttpUtils.sendHttpClientPost(path, map,
+                    "utf-8");
+            Log.i("loadresult", result);
+            Message msg = new Message();
+            msg.obj = result;
+            loadhandler.sendMessage(msg);
+        }
+    };
+
+    Handler loadhandler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            String result = (String) msg.obj;
+
+            Log.i("loadresult", result);
+            if (result.equals("timeout")) {
+
+                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+            } else {
+
+                try {
+                    int state = JsonTools.getState("state", result);
+                    if (state == 1) {
+                        List<ShowEntity> list = JsonTools.getShowInfo("datas", result);
+
+                        for (int i = 0; i < list.size(); i++) {
+                            Log.i("list的循环", list.get(i) + "");
+                            mShowList.add(list.get(i));
+                            Log.i("list的循环", list.get(i) + "");
+                        }
+                        Log.i("mshowlist", mShowList.size() + "");
+                        mShowAdapter.addItem(mShowList.size());
+                        mShowAdapter.notifyDataSetChanged();
+                        mShowAdapter.notifyDataSetInvalidated();
+                        swipeRefreshLayout.setLoading(false);
+                    } else {
+                        Log.i("取消加载","sss");
+                        swipeRefreshLayout.setLoading(false);
+                    }
+
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
 }

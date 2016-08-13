@@ -27,16 +27,23 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
     List<CommentEntity> mCommentList;
     ListView mCommentListView;
     Activity mActivity;
+    int count;
 
+    public ShowDetailCommentAdpter(Activity activity){
+        mActivity = activity;
+        count=0;
+    }
     public ShowDetailCommentAdpter(Activity activity, List<CommentEntity> commentList, ListView listView) {
         mCommentList = commentList;
         mCommentListView = listView;
         mActivity = activity;
+        count=commentList.size();
     }
+
 
     @Override
     public int getCount() {
-        return mCommentList.size();
+        return count;
     }
 
     @Override
@@ -51,7 +58,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CommentEntity mCommentEntity = getItem(position);
+        CommentEntity mCommentEntity = mCommentList.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = View.inflate(mActivity, R.layout.show_detail_comment_listview, null);
@@ -72,7 +79,6 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         Log.i("header_path:", header_path);
         Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).into(holder.ivUserHead);
 
-
         return convertView;
     }
 
@@ -81,5 +87,9 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         TextView tvUserName;
         TextView tvSendTime;
         TextView tvCommentContent;
+    }
+    public void changeCount(int changecount){
+        Log.i("changecount",changecount+"");
+        count=changecount;
     }
 }

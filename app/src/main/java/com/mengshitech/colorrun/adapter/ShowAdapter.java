@@ -34,6 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * atenklsy
  */
@@ -96,6 +99,8 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent) {
+        ShareSDK.initSDK(parent.getContext());
+        Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
         holder = null;
         if (convertView == null) {
@@ -135,10 +140,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         holder.show_like.setText(mShowEntity.getLike_num());
 
         String like_state = mShowEntity.getLike_state();
-
         list.add(like_state);
-        Log.i("222list", list + "");
-
         //根据like_state判断爱心初始状态
         if (like_state.equals("0")) {
             Log.i("state初始状态0====", like_state + "");
@@ -169,9 +171,29 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             e.printStackTrace();
         }
 
+
         holder.show_like.setOnClickListener(new MyAdapterListener(position, like_state));
+
+        holder.show_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContentCommon.user_id == null) {
+                    Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
+                } else {
+                    OnekeyShare onkeyShare =new OnekeyShare();
+                    onkeyShare.disableSSOWhenAuthorize();
+                    onkeyShare.setTitle(mShowEntity.getUser_name()+"的卡乐彩色跑");
+                    onkeyShare.setText(mShowEntity.getShow_content());
+
+                    onkeyShare.setImageUrl(ImageList.get(1));
+                    onkeyShare.setUrl("http://www.roay.cn/");
+                    //显示分享列表
+
+                    onkeyShare.show(context);
+                }
+            }
+        });
         holder.show_comment.setOnClickListener(this);
-        holder.show_share.setOnClickListener(this);
         return view;
     }
 
@@ -204,14 +226,15 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
     }
 
+    public void addItem(int item) {
+        count = item;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.im_show_comment:
                 Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.im_show_share:
-                Toast.makeText(context, "share", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

@@ -40,7 +40,7 @@
 
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
+
                 android:text="报名中"
 
                 android:textColor="@color/red" />

@@ -6,4 +6,5 @@
         android:drawable="@mipmap/feedback_star_off"></item>
     <item android:id="@android:id/progress"
         android:drawable="@mipmap/feedback_star_on"></item>
+
 </layer-list>

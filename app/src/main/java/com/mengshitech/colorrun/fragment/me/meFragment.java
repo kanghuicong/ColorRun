@@ -127,7 +127,7 @@ public class meFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.llCancel:
                 if (ContentCommon.login_state.equals("1")){
-                    DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName);
+                    DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName,tvUserID);
 
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();

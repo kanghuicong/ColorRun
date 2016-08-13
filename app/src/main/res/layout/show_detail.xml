@@ -24,6 +24,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:layout_below="@+id/rlShowHead">
 
         <LinearLayout
@@ -68,18 +69,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:background="@color/ViewBackground"
         android:layout_alignParentBottom="true">
 
+        <include layout="@layout/mian_splitter"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center">
 
         <EditText
             android:id="@+id/et_show_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:background="@android:drawable/editbox_background_normal"
             android:layout_weight="1"
             android:hint="说点啥~"/>
 
@@ -87,7 +97,9 @@
             android:id="@+id/bt_show_comment"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginRight="10dp"
             android:background="@mipmap/comment_send" />
+        </LinearLayout>
     </LinearLayout>
 
 

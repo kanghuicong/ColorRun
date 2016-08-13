@@ -51,7 +51,7 @@
 
         <activity android:name=".activity.GuideActivity"/>
         <activity android:name=".activity.UserLogActivity"/>
-        <activity android:name=".fragment.show.showDetailFragment"/>
+        <activity android:name=".fragment.show.showDetail"/>
     </application>
 
 </manifest>

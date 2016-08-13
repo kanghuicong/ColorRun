@@ -10,9 +10,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,7 +20,6 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
-import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -44,7 +41,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     FragmentManager fm;
     private Activity mActivity;
     Context context;
-    int entry_number = 3;
     AutoSwipeRefreshLayout swipeRefreshLayout;
 
 
@@ -64,7 +60,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
-            Intent intent = new Intent(getActivity(),showDetailFragment.class);
+            Intent intent = new Intent(getActivity(),showDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id",mShowEntity.getShow_id());
             bundle.putString("comment_userid",mShowEntity.getUser_id());
@@ -72,15 +68,12 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             bundle.putString("show_content",mShowEntity.getShow_content());
             bundle.putString("show_time",mShowEntity.getShow_time());
             bundle.putString("show_comment_num",mShowEntity.getComment_num());
-            bundle.putString("show_like_num",mShowEntity.getLike_num());
             bundle.putString("user_header",mShowEntity.getUser_header());
             bundle.putString("show_image",mShowEntity.getShow_image());
             intent.putExtras(bundle);
             getActivity().startActivity(intent);
         }
     }
-
-
 
 
     private void findById() {
@@ -176,5 +169,4 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
-
 }

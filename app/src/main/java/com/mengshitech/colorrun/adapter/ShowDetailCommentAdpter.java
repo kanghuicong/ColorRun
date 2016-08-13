@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.GlideCircleTransform;
 
 import java.util.List;
 
@@ -69,11 +70,11 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
 
         String header_path = ContentCommon.path + mCommentEntity.getUser_header();
         Log.i("header_path:", header_path);
-        Glide.with(mActivity).load(header_path).into(holder.ivUserHead);
+        Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).into(holder.ivUserHead);
+
 
         return convertView;
     }
-
 
     class ViewHolder {
         ImageView ivUserHead;

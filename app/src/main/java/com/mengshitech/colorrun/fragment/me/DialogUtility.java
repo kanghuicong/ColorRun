@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 
@@ -323,7 +324,7 @@ public class DialogUtility {
     }
 
     //注销账号
-    public static void DialogCancel(final Context context, final ImageView header, final TextView name){
+    public static void DialogCancel(final Context context, final ImageView header, final TextView name,final TextView id){
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
@@ -350,6 +351,7 @@ public class DialogUtility {
                 ContentCommon.login_state="0";
                 header.setImageResource(R.mipmap.default_avtar);
                 name.setText("未登录");
+                id.setText("");
                 dialog.dismiss();
             }
         });

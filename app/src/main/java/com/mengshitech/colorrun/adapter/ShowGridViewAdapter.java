@@ -1,14 +1,19 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.fragment.lerun.ShowMap;
+import com.mengshitech.colorrun.fragment.show.showDetail;
+import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +28,7 @@ public class ShowGridViewAdapter extends BaseAdapter {
     int count;
 
 
-    public ShowGridViewAdapter(Context context,List<String> imagepath,int count){
+    public ShowGridViewAdapter(Context context, List<String> imagepath, int count){
         this.context = context;
         this.imagepath = imagepath;
         this.count = count;
@@ -47,7 +52,6 @@ public class ShowGridViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.show_gridview, null);
             holder = new ViewHolder();
@@ -58,9 +62,10 @@ public class ShowGridViewAdapter extends BaseAdapter {
         }
 
         String image_path = imagepath.get(position);
-        Log.i("header_path:",image_path);
-
+        Log.i("image_path:",image_path);
         Glide.with(context).load(image_path).into(holder.grid_image);
+
+
         return convertView;
     }
 

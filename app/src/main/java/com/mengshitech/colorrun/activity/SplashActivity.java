@@ -83,6 +83,9 @@ public class SplashActivity extends Activity {
             Log.i("登陆状态",type+"");
             ContentCommon.login_state = type;
 
+
+
+
             if (!(phoneinfo.isConnected()) && !(wifiinfo.isConnected())) {
                 startActivity(new Intent(SplashActivity.this,
                         MainActivity.class));

@@ -27,11 +27,15 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.upload;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -148,12 +152,26 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String imagepath = (String) msg.obj;
-            if (imagepath.equals("failure")) {
+            String result = (String) msg.obj;
+            if (result.equals("failure")) {
                 Toast.makeText(UserLogActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
-                new Thread(updateRunable).start();
+                try {
+                    int state = JsonTools.getState("state", result);
+                    if (state == 1) {
+                        String datas=JsonTools.getDatas(result);
+                        ScuessImagePath= JsonTools.getUserLog(datas);
+//                        ScuessImagePath=list.get(0);
+                        new Thread(updateRunable).start();
+                    } else {
+                        Toast.makeText(UserLogActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
     };
 
@@ -244,7 +262,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         temp = new File(imageFilePath);
                         new Thread(uploadRunnable).start();
                         System.out.println(imageFilePath);
-                    }else{
+                    } else {
 
                     }
 

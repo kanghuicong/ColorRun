@@ -30,20 +30,23 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.JSONException;
+
 /**
  * atenklsy
  */
 public class meFragment extends Fragment implements OnClickListener {
     View meView;
-    LinearLayout llUserHead,llMyLeRun, llMyShow, llAboutUs,llCancel;
+    LinearLayout llUserHead, llMyLeRun, llMyShow, llAboutUs, llCancel;
     ImageView ivUserHead;
     FragmentManager fm;
-    TextView tvUserName,tvUserID;
+    TextView tvUserName, tvUserID;
     private Activity mActivity;
-    String type,id;
+    String type, id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,9 +66,9 @@ public class meFragment extends Fragment implements OnClickListener {
     private void initView() {
         meView = View.inflate(getActivity(), R.layout.fragment_me, null);
         llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
-        ivUserHead = (ImageView)meView.findViewById(R.id.ivUserHead);
-        tvUserName = (TextView)meView.findViewById(R.id.tvUserName);
-        tvUserID = (TextView)meView.findViewById(R.id.tvUserID);
+        ivUserHead = (ImageView) meView.findViewById(R.id.ivUserHead);
+        tvUserName = (TextView) meView.findViewById(R.id.tvUserName);
+        tvUserID = (TextView) meView.findViewById(R.id.tvUserID);
         // 头像那一行
         llUserHead.setOnClickListener(this);
         llMyLeRun = (LinearLayout) meView.findViewById(R.id.llMyLeRun);
@@ -78,9 +81,8 @@ public class meFragment extends Fragment implements OnClickListener {
         // 关于我们那一行
         llAboutUs.setOnClickListener(this);
         //注销
-        llCancel = (LinearLayout)meView.findViewById(R.id.llCancel);
+        llCancel = (LinearLayout) meView.findViewById(R.id.llCancel);
         llCancel.setOnClickListener(this);
-
 
 
     }
@@ -92,31 +94,31 @@ public class meFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.llUserHead:
                 //点击头像事件
-                if (ContentCommon.login_state.equals("0")){
+                if (ContentCommon.login_state.equals("1")) {
+                    Utility.replace2DetailFragment(fm, new myDetailFragment());
+                } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
-                }else if (ContentCommon.login_state.equals("1")){
-                    Utility.replace2DetailFragment(fm, new myDetailFragment());
                 }
                 break;
             case R.id.llMyLeRun:
-                Log.i("登陆状态",type);
-                if (ContentCommon.login_state.equals("1")){
+                Log.i("登陆状态", type);
+                if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
-                }else{
-                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录"+ ContentCommon.login_state,Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                } else {
+                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录" + ContentCommon.login_state, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
                 // 点击我的乐跑事件
 
                 break;
             case R.id.llMyShow:
-                if (ContentCommon.login_state.equals("1")){
+                if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myShowFragment());
-                }else{
-                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                } else {
+                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
 
@@ -126,12 +128,12 @@ public class meFragment extends Fragment implements OnClickListener {
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:
-                if (ContentCommon.login_state.equals("1")){
-                    DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName,tvUserID);
+                if (ContentCommon.login_state.equals("1")) {
+                    DialogUtility.DialogCancel(getActivity(), ivUserHead, tvUserName, tvUserID);
 
-                }else{
-                    Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(mActivity, LoginActivity.class);
+                } else {
+                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
                 break;
@@ -153,18 +155,18 @@ public class meFragment extends Fragment implements OnClickListener {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
-            Map<String,String> map = new HashMap<String, String>();
+            Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
-            map.put("user_id",id);
-            map.put("index","4");
-            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            map.put("user_id", id);
+            map.put("index", "4");
+            String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
         }
     };
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
@@ -172,21 +174,21 @@ public class meFragment extends Fragment implements OnClickListener {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    UserEntiy userEntiy = JsonTools.getUserInfo("result",result);
-                    if ("".equals(userEntiy.getUser_name())){
+                    UserEntiy userEntiy = JsonTools.getUserInfo("result", result);
+                    if ("".equals(userEntiy.getUser_name())) {
                         tvUserName.setText("还没写昵称呢~");
-                    }else {
+                    } else {
                         tvUserName.setText(userEntiy.getUser_name());
                     }
-                    tvUserID.setText("ID:"+userEntiy.getUser_id());
-                    if (userEntiy.getUser_header().equals("")){
+                    tvUserID.setText("ID:" + userEntiy.getUser_id());
+                    if (userEntiy.getUser_header().equals("")) {
 
-                    }else{
-                        String header_path = ContentCommon.path+userEntiy.getUser_header();
-                        Log.i("header_path:",header_path);
+                    } else {
+                        String header_path = ContentCommon.path + userEntiy.getUser_header();
+                        Log.i("header_path:", header_path);
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }

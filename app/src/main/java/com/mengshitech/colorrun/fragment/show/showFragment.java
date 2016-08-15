@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
@@ -107,9 +109,16 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivShow_CreateShow:
-//                CreateShowFragment mCreateShowFragment = new CreateShowFragment();
-//                Utility.replace2DetailFragment(fm, mCreateShowFragment);
-                getActivity().startActivity(new Intent(getActivity(), ReleaseShowActivity.class));
+
+                if(ContentCommon.login_state.equals("1")){
+                    context.startActivity(new Intent(context, ReleaseShowActivity.class));
+                }else {
+
+                    Toast.makeText(context,"您还没有登陆哦！",Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, LoginActivity.class));
+
+                }
+
                 break;
             default:
                 break;
@@ -146,6 +155,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             Log.i("result111", result);
             if (result.equals("timeout")) {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
 

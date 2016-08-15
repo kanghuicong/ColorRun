@@ -383,4 +383,23 @@ public class JsonTools {
     }
 
 
+    public static String getUserLog(String jsonString)
+            throws JSONException {
+
+        Log.i("jsonString:", jsonString);
+
+        JSONArray jsonArray = new JSONArray(jsonString);
+
+        List<String> list = new ArrayList<>();
+
+
+        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        String imagePath = jsonObject.getString("imagePath");
+
+
+        Log.i("listdaixao:", list.size() + "");
+        return imagePath;
+    }
+
+
 }

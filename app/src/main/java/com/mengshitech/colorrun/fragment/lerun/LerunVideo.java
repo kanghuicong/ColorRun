@@ -23,21 +23,24 @@ public class LerunVideo extends BaseFragment {
     String uri;
 
     @SuppressLint("ValidFragment")
-    public LerunVideo(Activity activity,String uri) {
+    public LerunVideo(Activity activity, String uri) {
         mActivity = activity;
         this.uri = uri;
         initView();
     }
 
-    public  LerunVideo(){}
+    public LerunVideo() {
+    }
 
     @Override
     public View initView() {
         if (lerun_theme_view == null) {
             lerun_theme_view = View.inflate(mActivity, R.layout.lerun_hotvideo, null);
-            MainBackUtility.MainBack(lerun_theme_view, "热门视频", getFragmentManager());
+
             init();
+
         }
+        MainBackUtility.MainBack(lerun_theme_view, "热门视频", getFragmentManager());
         ViewGroup parent = (ViewGroup) lerun_theme_view.getParent();
         if (parent != null) {
             parent.removeView(lerun_theme_view);
@@ -45,12 +48,12 @@ public class LerunVideo extends BaseFragment {
         return lerun_theme_view;
     }
 
-    private void init(){
-        browser=(WebView)lerun_theme_view.findViewById(R.id.web_video);
+    private void init() {
+        browser = (WebView) lerun_theme_view.findViewById(R.id.web_video);
         //WebView加载web资源
         browser.loadUrl("http://baidu.com");
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
-        browser.setWebViewClient(new WebViewClient(){
+        browser.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub

@@ -49,8 +49,8 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     ImageView poster, map;
     TextView address, name, lerun_time, price, number, tx_entry, end_tiem, start_time, hold_time;
     Button ll_entry;
-    String free_equipment,common_equipment,vip_equipment;
-    int charge_mode,free_price,common_price,vip_price;
+    String free_equipment, common_equipment, vip_equipment;
+    int charge_mode, free_price, common_price, vip_price;
     List<EnrollEntity> list;
     String time;
     String map_path;
@@ -66,7 +66,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
             lerun_id = getArguments().getInt("lerun_id");
             Log.i("lerun_id", lerun_id + "");
-            context=getActivity();
+            context = getActivity();
 
             new Thread(runnable).start();
             find();
@@ -190,26 +190,26 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                 if (ContentCommon.login_state.equals("1")) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt("type",1);
+                    bundle.putInt("type", 1);
                     bundle.putInt("lerun_id", lerun_id);
                     bundle.putString("title", name.getText().toString());
                     bundle.putString("time", start_time.getText().toString());
                     bundle.putString("address", address.getText().toString());
 
-                    bundle.putInt("charge_mode",charge_mode);
-                    bundle.putInt("free_price",free_price);
-                    bundle.putInt("common_price",common_price);
-                    bundle.putInt("vip_price",vip_price);
-                    bundle.putString("free_equipment",free_equipment);
-                    bundle.putString("common_equipment",common_equipment);
-                    bundle.putString("vip_equipment",vip_equipment);
+                    bundle.putInt("charge_mode", charge_mode);
+                    bundle.putInt("free_price", free_price);
+                    bundle.putInt("common_price", common_price);
+                    bundle.putInt("vip_price", vip_price);
+                    bundle.putString("free_equipment", free_equipment);
+                    bundle.putString("common_equipment", common_equipment);
+                    bundle.putString("vip_equipment", vip_equipment);
 
                     IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
                     mIntoLerunEnroll.setArguments(bundle);
                     Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
                 } else {
-                    Toast.makeText(context,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(context, LoginActivity.class);
+                    Toast.makeText(context, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                 }
 
@@ -217,7 +217,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 break;
             case R.id.into_lerun_map:
                 //点击地图放大
-                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap(getActivity(),map_path));
+                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap(getActivity(), map_path));
             default:
                 break;
         }
@@ -244,24 +244,23 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             String result = (String) msg.obj;
             Log.i("result2", result);
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     LeRunEntity leRunEntity = JsonTools.getLerunEvent("result", result);
                     Log.i("LeRunEntity", leRunEntity + "");
-
-//                    price.setText(String.valueOf(leRunEntity.getCharge_common()));
                     int Free_price = leRunEntity.getCharge_free();
                     int Common_price = leRunEntity.getCharge_common();
                     int Vip_price = leRunEntity.getCharge_vip();
-                    if (Free_price<0){
-                        if (Common_price<0){
-                            price.setText(Vip_price+"");
-                        }else {
-                            price.setText(Common_price+"");
+                    if (Free_price < 0) {
+                        if (Common_price < 0) {
+                            price.setText(Vip_price + "");
+                        } else {
+                            price.setText(Common_price + "");
                         }
-                    }else {price.setText(Free_price+"");}
+                    } else {
+                        price.setText(Free_price + "");
+                    }
 
                     Log.i("Charge_common", leRunEntity.getCharge_common() + "");
                     number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
@@ -282,9 +281,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                     common_equipment = leRunEntity.getCommon_equipment();
                     vip_equipment = leRunEntity.getVip_eqeuipment();
 
-                    String poster_path = ContentCommon.path+leRunEntity.getLerun_poster();
-                    Log.i("poster_path",poster_path);
-                    map_path = ContentCommon.path+leRunEntity.getLerun_map();
+                    String poster_path = ContentCommon.path + leRunEntity.getLerun_poster();
+                    Log.i("poster_path", poster_path);
+                    map_path = ContentCommon.path + leRunEntity.getLerun_map();
                     Glide.with(getActivity()).load(poster_path).into(poster);
                     Glide.with(getActivity()).load(map_path).into(map);
                     Time(time);// 倒计时
@@ -298,7 +297,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("onDestroy","执行了");
+        Log.i("onDestroy", "执行了");
         getFragmentManager().popBackStack();
     }
 }

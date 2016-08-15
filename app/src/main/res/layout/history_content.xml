@@ -8,18 +8,18 @@
 
 
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
-        android:layout_below="@+id/title_tick"
         android:id="@+id/bottomRefesh"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@+id/title_tick"
         android:layout_weight="1">
 
         <com.mengshitech.colorrun.view.MyListView
             android:id="@+id/lv_history_content"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:scrollbars="none"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:scrollbars="none" />
     </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 
     <LinearLayout
@@ -29,13 +29,13 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="5dp"
         android:background="@color/white"
-
+        android:id="@+id/footview"
         android:gravity="center">
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-
             android:layout_weight="1"
             android:background="@android:drawable/editbox_background_normal"
             android:orientation="horizontal">

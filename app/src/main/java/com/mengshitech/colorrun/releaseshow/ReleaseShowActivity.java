@@ -85,16 +85,23 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         if (bundle != null) {
             if (bundle.getStringArrayList("files") != null) {
                 listfile = bundle.getStringArrayList("files");
-                String content = bundle.getString("evaluate_content");
+
 
                 count = listfile.size() + 1;
-                et_text.setText(content + "");
 
-                compressfile=compressImage(listfile);
+
+                compressfile = compressImage(listfile);
                 ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
                         ReleaseShowActivity.this, compressfile, count, bmp);
                 gridView.setAdapter(adapter);
+
+
             }
+            if (bundle.getString("evaluate_content") != null) {
+                String content = bundle.getString("evaluate_content");
+                et_text.setText(content + "");
+            }
+
         }
 
         ll_send.setOnClickListener(this);
@@ -220,7 +227,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             String result = (String) msg.obj;
 
-            Log.i("上传图片返回的值",result+"");
+            Log.i("上传图片返回的值", result + "");
             if (result.equals("failure") || result.equals("") || result == null) {
                 Toast.makeText(ReleaseShowActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
@@ -279,13 +286,13 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             case R.id.ll_send:
                 content = et_text.getText().toString();
                 System.out.println("内容:" + content + "图片内容:" + listfile);
-                if (listfile != null&&listfile.size()!=0 && content != null) {
+                if (listfile != null && listfile.size() != 0 && content != null) {
                     new Thread(runnable).start();
 
-                } else if((listfile == null||listfile.size()==0)&&content != null&&!content.equals("")){
-                    success_imagePath="";
-                   new Thread(ReleaseShowRunnable).start();
-                }else{
+                } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
+                    success_imagePath = "";
+                    new Thread(ReleaseShowRunnable).start();
+                } else {
                     Toast.makeText(ReleaseShowActivity.this, "请输入发布的内容",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -318,14 +325,13 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     }
 
 
-
     //对取回来的图片进行压缩
 
-    private List<String> compressImage(List<String> list){
-        List<String> imageList=new ArrayList<String>();
-        for(int i=0;i<list.size();i++){
-            String imagepath=list.get(i);
-            String compressimage=CompressImage.compressBitmap(ReleaseShowActivity.this,imagepath,200,200,false);
+    private List<String> compressImage(List<String> list) {
+        List<String> imageList = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            String imagepath = list.get(i);
+            String compressimage = CompressImage.compressBitmap(ReleaseShowActivity.this, imagepath, 200, 200, false);
             imageList.add(compressimage);
         }
 

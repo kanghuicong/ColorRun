@@ -3,13 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ViewBackground"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/history_theme_listview"
+    <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
+        android:id="@+id/swipe_history"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        />
+        android:layout_height="match_parent">
+
+        <com.mengshitech.colorrun.view.MyListView
+            android:id="@+id/history_theme_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
+
 
 </LinearLayout>

@@ -17,6 +17,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,8 +70,16 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         context = getActivity();
         mActivity = getActivity();
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        showView = View.inflate(mActivity, R.layout.fragment_show, null);
-        findById();
+        if(showView==null){
+            showView = View.inflate(mActivity, R.layout.fragment_show, null);
+            findById();
+        }
+        ViewGroup parent = (ViewGroup) showView.getParent();
+        if (parent != null) {
+            parent.removeView(showView);
+        }
+
+
         lvShowContent.setOnItemClickListener(new ItemClickListener());
 
         return showView;
@@ -131,6 +140,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                 if (ContentCommon.login_state.equals("1")) {
                     context.startActivity(new Intent(context, ReleaseShowActivity.class));
+
+
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }

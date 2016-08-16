@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -39,7 +40,7 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 		Bitmap bitmap[] = null;
 		Intent intent=getIntent();
 		evaluate_content=intent.getStringExtra("evaluate_content");
-		Log.i("ImgFileEvaluate",evaluate_content);
+
 
 		if (locallist!=null) {
 			bitmap=new Bitmap[locallist.size()];
@@ -66,5 +67,21 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 		startActivity(intent);
 		finish();
 	}
-	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			Intent intent=new Intent(ImgFileListActivity.this,ReleaseShowActivity.class);
+
+			Bundle bundle=new Bundle();
+			bundle.putString("evaluate_content",evaluate_content);
+			intent.putExtras(bundle);
+			startActivity(intent);
+			finish();
+			return false;
+		}else {
+			return super.onKeyDown(keyCode, event);
+		}
+
+	}
+
 }

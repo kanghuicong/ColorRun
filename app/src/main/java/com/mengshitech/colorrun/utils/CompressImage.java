@@ -133,19 +133,7 @@ public class CompressImage {
         return desPath;
     }
 
-    /**
-     * 此方法过期，该方法可能造成OutOfMemoryError，使用不含isAdjust参数的方法
-     * @param is
-     * @param reqsW
-     * @param reqsH
-     * @param isAdjust
-     * @return
-     */
-    @Deprecated
-    public final static Bitmap compressBitmap(InputStream is, int reqsW, int reqsH, boolean isAdjust) {
-        Bitmap bitmap = BitmapFactory.decodeStream(is);
-        return compressBitmap(bitmap, reqsW, reqsH, isAdjust);
-    }
+
 
     /**
      * 压缩某个输入流中的图片，可以解决网络输入流压缩问题，并得到图片对象
@@ -192,31 +180,9 @@ public class CompressImage {
         return BitmapFactory.decodeByteArray(bts, 0, bts.length, options);
     }
 
-    /**
-     * 此方法已过期，该方法可能造成OutOfMemoryError，使用不含isAdjust参数的方法
-     * @param bitmap
-     * @param reqsW
-     * @param reqsH
-     * @return
-     */
-    @Deprecated
-    public final static Bitmap compressBitmap(Bitmap bitmap, int reqsW, int reqsH, boolean isAdjust) {
-        if (bitmap == null || reqsW == 0 || reqsH == 0) return bitmap;
-        if (bitmap.getWidth() > reqsW || bitmap.getHeight() > reqsH) {
-            float scaleX = new BigDecimal(reqsW).divide(new BigDecimal(bitmap.getWidth()), 4, RoundingMode.DOWN).floatValue();
-            float scaleY = new BigDecimal(reqsH).divide(new BigDecimal(bitmap.getHeight()), 4, RoundingMode.DOWN).floatValue();
-            if (isAdjust) {
-                scaleX = scaleX < scaleY ? scaleX : scaleY;
-                scaleY = scaleX;
-            }
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleX, scaleY);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        }
-        return bitmap;
-    }
 
-    /**
+
+    /**质量压缩
      * 压缩已存在的图片对象，并返回压缩后的图片
      * @param bitmap
      * @param reqsW
@@ -238,20 +204,6 @@ public class CompressImage {
         }
     }
 
-    /**
-     * 此方法过期，该方法可能造成OutOfMemoryError，使用不含isAdjust参数的方法
-     * get bitmap form resource dictory, and then compress bitmap according to reqsW and reqsH
-     * @param res {@link android.content.res.Resources}
-     * @param resID
-     * @param reqsW
-     * @param reqsH
-     * @return
-     */
-    @Deprecated
-    public final static Bitmap compressBitmap(Resources res, int resID, int reqsW, int reqsH, boolean isAdjust) {
-        Bitmap bitmap = BitmapFactory.decodeResource(res, resID);
-        return compressBitmap(bitmap, reqsW, reqsH, isAdjust);
-    }
 
     /**
      * 压缩资源图片，并返回图片对象
@@ -300,20 +252,6 @@ public class CompressImage {
         }
     }
 
-//  public final static Bitmap compressBitmap(InputStream is, long maxBytes) {
-//      try {
-//          ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//          byte[] bts = new byte[1024];
-//          while (is.read(bts) != -1) baos.write(bts, 0, bts.length);
-//          is.close();
-//          int options = 100;
-//          while (baos.toByteArray().length > maxBytes) {
-//
-//          }
-//      } catch (Exception e) {
-//          // TODO: handle exception
-//      }
-//  }
 
     /**
      * 得到指定路径图片的options
@@ -337,7 +275,7 @@ public class CompressImage {
 
         String dir = Environment
                 .getExternalStorageDirectory()
-                .getAbsolutePath()+ "Image" + File.separator;
+                .getAbsolutePath()+ "/Image" + File.separator;
         File file = new File(dir);
         if (!file.exists()) file.mkdirs();
         return dir;

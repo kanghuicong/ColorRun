@@ -29,6 +29,7 @@ import com.mengshitech.colorrun.fragment.lerun.LerunEventListView;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
 import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.fragment.show.showFragment;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
 
@@ -92,7 +93,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void initFragment() {
         //一开始先初始到lerunFragment
         fm = getSupportFragmentManager();
-      Utility.replace2MainFragment(fm, new LerunFragment());
+        Utility.replace2MainFragment(fm, new LerunFragment());
 
     }
 
@@ -157,21 +158,26 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             transaction.hide(mMeFragment);
         }
     }
-//检测是否有网络连接
+
+    //检测是否有网络连接
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
-    @Override
-    public void onReceive(Context arg0, Intent arg1) {
-        NetworkInfo phoneinfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        NetworkInfo wifiinfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            NetworkInfo phoneinfo = connectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo wifiinfo = connectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (!(phoneinfo.isConnected()) && !(wifiinfo.isConnected())) {
-           Toast.makeText(MainActivity.this,"无网络连接，内容加载失败",Toast.LENGTH_SHORT).show();
+            if (!(phoneinfo.isConnected()) && !(wifiinfo.isConnected())) {
+                Toast.makeText(MainActivity.this, "无网络连接，内容加载失败", Toast.LENGTH_SHORT).show();
+                ContentCommon.INTENT_STATE = false;
+
+            } else {
+                ContentCommon.INTENT_STATE = true;
+            }
         }
-    }
-};
+    };
 
     // 动态注册广播
     protected void onResume() {
@@ -181,7 +187,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(broadcastReceiver, filter);
-    };
+    }
+
+    ;
 
     // 动态注销广播
     @Override
@@ -193,29 +201,5 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         }
     }
 
-
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        //监听返回按钮
-//        exit();
-//    }
-//
-//    private void exit() {
-//        if (!isExit) {
-//            isExit = true;
-//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-//                    Toast.LENGTH_SHORT).show();
-//            // 利用handler延迟发送更改状态信息
-//            mHandler.sendEmptyMessageDelayed(0, 2000);
-//            //如果2秒内没有退出，则变成false。重新按两次才能退出。
-//        } else {
-//            finish();
-//            System.exit(0);
-//        }
-//    }
 
 }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -159,8 +160,8 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                 try {
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
-                        String datas=JsonTools.getDatas(result);
-                        ScuessImagePath= JsonTools.getUserLog(datas);
+                        String datas = JsonTools.getDatas(result);
+                        ScuessImagePath = JsonTools.getUserLog(datas);
 //                        ScuessImagePath=list.get(0);
                         new Thread(updateRunable).start();
                     } else {
@@ -258,8 +259,11 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         imageFilePath = cursor.getString(column_index);
                         Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
                         user_image.setImageBitmap(bmp);
+                        //压缩图片
+                        String image=CompressImage.compressBitmap(UserLogActivity.this,imageFilePath,200,200,false);
 
-                        temp = new File(imageFilePath);
+
+                        temp = new File(image);
                         new Thread(uploadRunnable).start();
                         System.out.println(imageFilePath);
                     } else {
@@ -267,64 +271,12 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                     }
 
                 }
-//                startPhotoZoom(data.getData());
-                break;
 
-//            case 1005:
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//                Uri originalUri = data.getData();
-//                                    Cursor cursor = managedQuery(originalUri, proj, null, null,
-//                            null);
-//                    // 按我个人理解 这个是获得用户选择的图片的索引值
-//                    int column_index = cursor
-//                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                    // 将光标移至开头 ，这个很重要，不小心很容易引起越界
-//                    cursor.moveToFirst();
-//                    // 最后根据索引值获取图片路径
-//                    imageFilePath = cursor.getString(column_index);
-//                setPicToView(data);
-//                break;
+                break;
 
         }
 
     }
-//    public void startPhotoZoom(Uri uri) {
-//        Intent intent = new Intent("com.android.camera.action.CROP");
-//        intent.setDataAndType(uri, "image/*");
-//    // crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
-//    intent.putExtra("crop", true);
-//    // aspectX aspectY 是宽高的比例
-//    intent.putExtra("aspectX", 1);
-//    intent.putExtra("aspectY", 1);
-//    // outputX outputY 是裁剪图片宽高
-//    intent.putExtra("outputX", 300);
-//    intent.putExtra("outputY", 300);
-//    intent.putExtra("return-data", true);
-//    startActivityForResult(intent, 1005);
-//
-//}
-//
-///**
-// * 保存裁剪之后的图片数据
-// * @param
-// */
-//
-//        private void setPicToView(Intent intent) {
-//            Bundle extras = intent.getExtras();
-//            if (extras != null) {
-//                // 取得SDCard图片路径做显示
-//                Bitmap photo = extras.getParcelable("data");
-//                user_image.setImageBitmap(photo);
-//                temp = new File(imageFilePath);
-//                new Thread(uploadRunnable).start();
-////                Drawable drawable = new BitmapDrawable(null, photo);
-//
-//            }
-//        }
-//public static boolean isIntentAvailable(Context context, Intent intent) {
-//    final PackageManager packageManager = context.getPackageManager();
-//    List<ResolveInfo> list = packageManager.queryIntentActivities(intent,PackageManager.GET_ACTIVITIES);
-//    return list.size() > 0;
-//}
+
 
 }

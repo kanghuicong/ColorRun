@@ -173,7 +173,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
             //
 //            mOnLoadListener.onLoad();
             Message msg=new Message();
-            handler.sendMessageDelayed(msg,2000);
+            handler.sendMessageDelayed(msg,500);
 //            handler.sendEmptyMessageDelayed(0,2000);
         }
     }

@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.me;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
@@ -29,10 +30,13 @@ public class AboutUsFeedBack extends BaseFragment {
     View feedback_view;
     EditText feedback_content,feedback_phone;
     Button feedback_refer;
+    private Context context;
+
 
     @Override
     public View initView() {
-        mActivity = getActivity();
+//        mActivity = getActivity();
+        context=getActivity();
         feedback_view = View.inflate(mActivity, R.layout.me_aboutus_feedback, null);
         MainBackUtility.MainBack(feedback_view,"反馈",getFragmentManager());
 
@@ -42,7 +46,7 @@ public class AboutUsFeedBack extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if ("".equals(feedback_content.getText().toString())) {
-                   Toast.makeText(getActivity(),"请填写反馈信息...",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(context,"请填写反馈信息...",Toast.LENGTH_SHORT).show();
                 }else {
                     new Thread(runnable).start();
                 }
@@ -80,14 +84,14 @@ public class AboutUsFeedBack extends BaseFragment {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     int stype = JsonTools.getState("state",result);
                     if (stype==1){
-                        Toast.makeText(getActivity(),"反馈成功！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"反馈成功！",Toast.LENGTH_SHORT).show();
                     }else if (stype==0){
-                        Toast.makeText(getActivity(),"反馈失败！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"反馈失败！",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

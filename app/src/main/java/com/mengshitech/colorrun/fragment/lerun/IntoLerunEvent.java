@@ -244,7 +244,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             String result = (String) msg.obj;
             Log.i("result2", result);
             if (result.equals("timeout")) {
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     LeRunEntity leRunEntity = JsonTools.getLerunEvent("result", result);

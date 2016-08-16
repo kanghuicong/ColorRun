@@ -326,7 +326,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             try {
                 int state = JsonTools.getState("state", result);
                 if (state == 1) {
-                    Toast.makeText(getActivity(), "发表成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

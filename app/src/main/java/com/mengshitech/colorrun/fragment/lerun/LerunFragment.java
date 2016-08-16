@@ -93,6 +93,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
                              Bundle savedInstanceState) {
         //使用缓存 使fragment保持原有状态
         mActivity = getActivity();
+        context=getActivity();
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
@@ -135,7 +136,13 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
         mSwipeLayout= (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
         mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.autoRefresh();
+
+        if(ContentCommon.INTENT_STATE){
+//            Toast.makeText(context,"网络状态:"+ContentCommon.INTENT_STATE,Toast.LENGTH_SHORT).show();
+            mSwipeLayout.autoRefresh();
+        }
+
+
 
 
 
@@ -166,7 +173,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
     }
 
     private void initView() {
-        initImgList();
+
 
         fm = getFragmentManager();
         //初始化fm给ListView、GridView用
@@ -187,14 +194,6 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
 
 
     }
-
-    //
-    private void initImgList() {
-        new Thread(getLunBOimageRunnable).start();
-        new Thread(getLeRunRunnable).start();
-        new Thread(videoRunnable).start();
-    }
-
 
     @Override
     public void onClick(View v) {

@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -87,9 +88,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     LinearLayout ll_enroll_content;
     int index;
     int flag=100;
+    private Context context;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context=getActivity();
         if (mRootView == null || mRootView.get() == null) {
 
             enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
@@ -234,7 +237,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                if (charge_mode == 2) {
                                                                    if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price==0) {
                                                                        if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
-                                                                           Toast.makeText(getActivity(), "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
+                                                                           Toast.makeText(context, "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
                                                                        } else {
                                                                            if (rb_sex_man.isChecked()) {
                                                                                sex = "男";
@@ -294,15 +297,15 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                    new Thread(runnable).start();
                                                                }
                                                            } else {
-                                                               Toast.makeText(getActivity(), "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                                                               Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                                                                enroll_number.setText("");
                                                            }
                                                        } else {
-                                                           Toast.makeText(getActivity(), "请输入正确的姓名!", Toast.LENGTH_SHORT).show();
+                                                           Toast.makeText(context, "请输入正确的姓名!", Toast.LENGTH_SHORT).show();
                                                            user_name.setText("");
                                                        }
                                                    } else {
-                                                       Toast.makeText(getActivity(), "请将信息填写完整！", Toast.LENGTH_SHORT).show();
+                                                       Toast.makeText(context, "请将信息填写完整！", Toast.LENGTH_SHORT).show();
                                                    }
                                                }
                                            }
@@ -355,11 +358,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             Log.i("result", result);
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else if (result.equals("0")) {
-                Toast.makeText(getActivity(), "报名失败...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "报名失败...", Toast.LENGTH_SHORT).show();
             } else if (result.equals("1")) {
-                Toast.makeText(getActivity(), "您已经报过名啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "您已经报过名啦", Toast.LENGTH_SHORT).show();
             } else if (result.equals("2")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("user_name",user_name.getText().toString());
@@ -392,7 +395,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             super.handleMessage(msg);
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
-                Toast.makeText(getActivity(), "图片上传失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
                 new Thread(runnable).start();
             }

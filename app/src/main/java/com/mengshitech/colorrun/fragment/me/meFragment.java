@@ -106,7 +106,7 @@ public class meFragment extends Fragment implements OnClickListener {
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
                 } else {
-                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录" + ContentCommon.login_state, Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
@@ -117,7 +117,7 @@ public class meFragment extends Fragment implements OnClickListener {
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myShowFragment());
                 } else {
-                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
@@ -132,7 +132,7 @@ public class meFragment extends Fragment implements OnClickListener {
                     DialogUtility.DialogCancel(getActivity(), ivUserHead, tvUserName, tvUserID);
 
                 } else {
-                    Toast.makeText(mActivity, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }

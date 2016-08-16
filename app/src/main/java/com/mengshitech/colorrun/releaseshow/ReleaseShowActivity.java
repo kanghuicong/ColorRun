@@ -14,6 +14,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ReleaseShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -57,6 +58,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     GridView gridView;
     // ArrayList<String> listfile = new ArrayList<String>();
     List<String> listfile = new ArrayList<String>();
+    List<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
     int count;
     LinearLayout ll_send, ll_cancel;
@@ -87,8 +89,10 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
                 count = listfile.size() + 1;
                 et_text.setText(content + "");
+
+                compressfile=compressImage(listfile);
                 ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
-                        ReleaseShowActivity.this, listfile, count, bmp);
+                        ReleaseShowActivity.this, compressfile, count, bmp);
                 gridView.setAdapter(adapter);
             }
         }
@@ -112,7 +116,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                         imageFilePath = Environment
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
-                                + "/filename.jpg";
+                                + "/showpicture.jpg";
                         temp = new File(imageFilePath);
                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                         Intent it = new Intent(
@@ -197,7 +201,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             upload load = new upload();
             try {
-                String result = load.uploadListImage(listfile, ContentCommon.ImagePath);
+                String result = load.uploadListImage(compressfile, ContentCommon.ImagePath);
                 Message msg = new Message();
                 msg.obj = result;
                 loadhandler.sendMessage(msg);
@@ -311,5 +315,20 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             gridView.setAdapter(adapter);
 
         }
+    }
+
+
+
+    //对取回来的图片进行压缩
+
+    private List<String> compressImage(List<String> list){
+        List<String> imageList=new ArrayList<String>();
+        for(int i=0;i<list.size();i++){
+            String imagepath=list.get(i);
+            String compressimage=CompressImage.compressBitmap(ReleaseShowActivity.this,imagepath,200,200,false);
+            imageList.add(compressimage);
+        }
+
+        return imageList;
     }
 }

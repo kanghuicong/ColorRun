@@ -118,7 +118,8 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             Log.i("result111", result);
             if (result.equals("timeout")) {
 
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                autoSwipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);

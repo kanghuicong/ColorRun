@@ -1,99 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    style="@style/layout_full"
+    android:orientation="vertical">
 
-    <include layout="@layout/main_back"/>
+    <include layout="@layout/main_back" />
 
-    <TextView
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="注册账号" />
-    
-    <!-- 下方textview用于调整两个控件之间的间距 -->
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
-    
-    <LinearLayout 
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-       
+    <LinearLayout
+        style="@style/layout_full"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="您注册的手机号码为"
-            android:textSize="15sp"
-            android:textColor="#2E2E2E"
-        />
+            style="@style/layout_vertical"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="注册账号"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            style="@style/layout_vertical"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_register_pwd_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您注册的手机号码为"
+                android:textColor="#2E2E2E"
+                android:textStyle="italic"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_registered_3_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/orange"
+                android:textSize="15sp"
+                />
+
+        </LinearLayout>
+
         <TextView
-            
-            android:id="@+id/tv_registered_3_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/orange"
-            android:text=""
-            
+            style="@style/layout_vertical"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="请设置您的密码"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_registered3_pwd"
+            style="@style/layout_vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="请输入密码"
+            android:textSize="14sp"
             />
-        
-    </LinearLayout>
-    
-    <TextView 
-        android:layout_gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:text="请设置您的密码"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
-        />
 
-    <EditText
-        android:id="@+id/et_registered3_pwd" 
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:hint="请输入密码"
-        android:textSize="12sp"
-        android:layout_marginTop="30dp"
-        
-        />
-    
-    <EditText 
-         android:id="@+id/et_registered3_repwd" 
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:hint="请输入确认密码"
-        android:textSize="12sp"
-        android:layout_marginTop="15dp"
-        />
-    <TextView 
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="密码必须由数字、字母、字符至少两种组成"
-        android:layout_gravity="center"
-        />
-    
-    
-    <Button
-        
-        android:layout_gravity="center"
-        android:id="@+id/btn_registered3_commit"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:background="@mipmap/common_btn_highlight"
-        android:textColor="#ffffff"
-        android:layout_marginTop="40dp"
-        android:text="提交" />
-    
+        <EditText
+            android:id="@+id/et_registered3_repwd"
+            style="@style/layout_vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@android:drawable/editbox_background_normal"
+            android:hint="请输入确认密码"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/layout_vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="密码6~16位，必须由数字、字母、字符至少两种组成"
+            android:textSize="14dp"/>
+
+        <View
+            style="@style/layout_vertical"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_registered3_commit"
+            style="@style/layout_vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@mipmap/nav_bg"
+            android:text="提交"
+            android:textColor="#ffffff" />
+        <View
+            style="@style/layout_vertical"
+            android:layout_weight="5"/>
+    </LinearLayout>
 
 </LinearLayout>

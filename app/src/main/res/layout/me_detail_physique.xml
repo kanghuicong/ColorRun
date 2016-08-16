@@ -21,8 +21,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="体重"
-            android:textSize="18dp" />
+            android:text=""
+            android:textSize="18sp" />
 
         <include layout="@layout/mian_splitter" />
 
@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="20dp"
-                android:text="kg"
-                android:textSize="18dp"/>
+                android:text=""
+                android:textSize="18sp"/>
 
         </LinearLayout>
 

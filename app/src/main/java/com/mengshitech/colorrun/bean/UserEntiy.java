@@ -28,22 +28,22 @@ public class UserEntiy implements Serializable {
     private String user_state;
     private String user_otherid;
 
-    public UserEntiy(String user_id, String user_name, String user_birthday, String user_pwd, String user_sex, String user_header, String user_address, String user_identity, String user_bankid, String user_fullname, String user_level, String user_health, String user_height, String user_sign, String user_weight, String user_phone, String user_email, String user_state, String user_otherid) {
+    public UserEntiy(String user_id, String user_name, String user_pwd, String user_birthday, String user_sex, String user_header, String user_identity, String user_address, String user_bankid, String user_fullname, String user_level, String user_health, String user_height, String user_weight, String user_sign, String user_phone, String user_email, String user_state, String user_otherid) {
         this.user_id = user_id;
         this.user_name = user_name;
-        this.user_birthday = user_birthday;
         this.user_pwd = user_pwd;
+        this.user_birthday = user_birthday;
         this.user_sex = user_sex;
         this.user_header = user_header;
-        this.user_address = user_address;
         this.user_identity = user_identity;
+        this.user_address = user_address;
         this.user_bankid = user_bankid;
         this.user_fullname = user_fullname;
         this.user_level = user_level;
         this.user_health = user_health;
         this.user_height = user_height;
-        this.user_sign = user_sign;
         this.user_weight = user_weight;
+        this.user_sign = user_sign;
         this.user_phone = user_phone;
         this.user_email = user_email;
         this.user_state = user_state;

@@ -9,10 +9,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,7 +46,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     FragmentManager fm;
     private Activity mActivity;
     Context context;
-    int entry_number = 3;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     int pageSize = 5;
     int currentPage = 1;
@@ -54,6 +55,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public View initView() {
         mActivity = getActivity();
+        fm = getFragmentManager();
         showView = View.inflate(mActivity, R.layout.fragment_show, null);
         findById();
         new Thread(runnable).start();
@@ -89,7 +91,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //        new Thread(runnable).start();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
-
+        ivShow_CreateShow.setOnClickListener(this);
 //        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
@@ -112,7 +114,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 break;
         }
     }
-
 
     Runnable runnable = new Runnable() {
 

@@ -6,10 +6,17 @@
 
     <include layout="@layout/main_back"/>
 
-    <ListView
+    <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
+        android:id="@+id/swipe_layout_myshow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_me_mylerun"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="match_parent">
 
+        <ListView
+            android:id="@+id/lv_myshow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+
+
+    </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 </LinearLayout>

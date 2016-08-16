@@ -24,12 +24,12 @@ public class UserDao {
     }
 
     // 插入
-    public void add(String user_id,String user_name,String user_header) {
+    public void add(String user_id,String user_name,String user_header,String user_phone,String user_email,String user_sex,String user_height,String user_weight,String user_address,String user_sign) {
         db = dbHelper.getWritableDatabase();
-        db.execSQL("insert into user (user_id,user_name,user_header) values(?,?,?)",
-                new Object[]{user_id,user_name,user_header});
-        Log.i("add",user_id+user_name+user_header);
+        db.execSQL("insert into user (user_id,user_name,user_header,user_phone,user_email,user_sex,user_height,user_weight,user_address,user_sign) values(?,?,?,?,?,?,?,?,?,?)",
+                new Object[]{user_id,user_name,user_header,user_phone,user_email,user_sex,user_height,user_weight,user_address,user_sign});
         db.close();
+        Log.i("getUser_height2",user_weight);
     }
 
     //更新数据
@@ -73,7 +73,7 @@ public class UserDao {
         return null;// 如果没有信息，则返回null
     }
 
-    public void detele(Integer... ids) {
+    public void delete(Integer... ids) {
         if (ids.length > 0)
         {
             StringBuffer sb = new StringBuffer();
@@ -83,9 +83,16 @@ public class UserDao {
             }
             sb.deleteCharAt(sb.length() - 1);
             db = dbHelper.getWritableDatabase();
-            db.execSQL("delete from user where uesr_id in (" + sb
+            db.execSQL("delete from user where user_id in (" + sb
                     + ")", (Object[]) ids);
         }
     }
 
+    public void delete_user (String user_id) {
+        db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from user where user_id = ?" +
+                new Object[]{user_id});
+        Log.i("delete_user","delete_user");
+        db.close();
+    }
 }

@@ -100,11 +100,10 @@ public class JsonTools {
     //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
-        Log.i("jsonString", jsonString);
+        Log.i("myshowjsonString", jsonString);
         List<ShowEntity> list = new ArrayList<ShowEntity>();
-
         JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        JSONArray jsonArray = jsonObject.getJSONArray(key);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             ShowEntity info = new ShowEntity();
@@ -119,10 +118,8 @@ public class JsonTools {
             info.setComment_num(showObject.getString("comment_num"));
             info.setLike_num(showObject.getString("like_num"));
             info.setShow_time(showObject.getString("show_time"));
-
             list.add(info);
         }
-        Log.i("list的大小", list.size() + "");
         return list;
     }
 

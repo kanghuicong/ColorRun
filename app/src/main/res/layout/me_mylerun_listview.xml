@@ -37,12 +37,9 @@
                 android:id="@+id/lerun_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginTop="5dp"
-
                 android:text="报名中"
-
                 android:textColor="@color/red" />
         </LinearLayout>
 

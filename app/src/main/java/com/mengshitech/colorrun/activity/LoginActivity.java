@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +27,7 @@ import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
@@ -37,7 +40,8 @@ import java.util.Map;
  */
 public class LoginActivity extends Activity implements OnClickListener {
     EditText etUserId, etUserPwd;
-    Button btnLogin, btnRegister;
+    Button btnLogin;
+    TextView tvRegister,tvFindpwd;
     SharedPreferences spAccount;
     String userId;
     String userPwd;
@@ -47,25 +51,31 @@ public class LoginActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+        MainBackUtility.MainBackActivity(LoginActivity.this, "登入");
         initView();
     }
 
     private void initView() {
-
-        spAccount = getSharedPreferences("sp_account", MODE_PRIVATE);
         // sharedpreferences
-        etUserId = (EditText) findViewById(R.id.et_name);
-        etUserId.setOnClickListener(this);
+        spAccount = getSharedPreferences("sp_account", MODE_PRIVATE);
         // 用户名输入框
+        etUserId = (EditText) findViewById(R.id.et_name);
+        etUserId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        etUserId.setOnClickListener(this);
+        // 密码输入框
         etUserPwd = (EditText) findViewById(R.id.et_pwd);
         etUserPwd.setOnClickListener(this);
-        // 密码输入框
+        etUserPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16)});
+        // 登录按钮
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
-        // 登录按钮
-        btnRegister = (Button) findViewById(R.id.btn_register);
-        btnRegister.setOnClickListener(this);
         // 注册按钮
+        tvRegister = (TextView) findViewById(R.id.tv_register);
+        tvRegister.setOnClickListener(this);
+        //找回密码
+        tvFindpwd = (TextView)findViewById(R.id.tv_find_pwd);
+        tvFindpwd.setOnClickListener(this);
+
     }
 
     @Override
@@ -87,15 +97,30 @@ public class LoginActivity extends Activity implements OnClickListener {
                     etUserId.setText("");
                     etUserPwd.setText("");
                 } else {
+                    if (userPwd.length()>=6&&userPwd.length()<=16){
                         new Thread(runnable).start();
+                    }else {
+                        Toast.makeText(LoginActivity.this, "请输入6~16位密码", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 break;
-            case R.id.btn_register:
+            case R.id.tv_register:
                 // 注册按钮的点击事件
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                Intent intent_register = new Intent(LoginActivity.this,RegisterActivity.class);
+                Bundle bundle_register = new Bundle();
+                bundle_register.putString("type","register");
+                intent_register.putExtras(bundle_register);
+                startActivity(intent_register);
                 break;
 
+            case R.id.tv_find_pwd:
+                //找回密码
+                Intent intent_find_pwd = new Intent(LoginActivity.this,RegisterActivity.class);
+                Bundle bundle_find_pwd = new Bundle();
+                bundle_find_pwd.putString("type","find_pwd");
+                intent_find_pwd.putExtras(bundle_find_pwd);
+                startActivity(intent_find_pwd);
             default:
                 break;
         }
@@ -205,8 +230,17 @@ public class LoginActivity extends Activity implements OnClickListener {
 //                            userEntiy.getUser_email(),
 //                            userEntiy.getUser_state(),
 //                            userEntiy.getUser_otherid());
-                    dao.add(userEntiy.getUser_id(),userEntiy.getUser_name(),userEntiy.getUser_header());
-
+                    dao.add(userEntiy.getUser_id(),
+                            userEntiy.getUser_name(),
+                            userEntiy.getUser_header(),
+                            userEntiy.getUser_phone(),
+                            userEntiy.getUser_email(),
+                            userEntiy.getUser_sex(),
+                            userEntiy.getUser_height(),
+                            userEntiy.getUser_weight(),
+                            userEntiy.getUser_address(),
+                            userEntiy.getUser_sign());
+                    Log.i("getUser_height1",userEntiy.getUser_weight());
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

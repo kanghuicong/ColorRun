@@ -261,7 +261,6 @@ public class showDetail extends Activity implements View.OnClickListener{
                         info.setComment_content(et_show_comment.getText().toString());
                         commentlist.add(info);
                         lv_adapter.notifyDataSetChanged();
-
                         et_show_comment.setText("");
                     } else {
                         Toast.makeText(showDetail.this,"评论失败！",Toast.LENGTH_SHORT).show();

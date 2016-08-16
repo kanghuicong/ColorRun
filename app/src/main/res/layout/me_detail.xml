@@ -7,7 +7,6 @@
 
     <include layout="@layout/main_back"></include>
 
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -188,10 +187,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
                     android:text=""
                     android:textColor="@color/ViewLine"
                     android:textSize="18dp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:text="cm"
+                    android:textColor="@color/ViewLine"
+                    android:textSize="18dp" />
+
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -218,10 +227,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
                     android:text=""
                     android:textColor="@color/ViewLine"
                     android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:text="kg"
+                    android:textColor="@color/ViewLine"
+                    android:textSize="18dp" />
+
             </LinearLayout>
 
             <LinearLayout

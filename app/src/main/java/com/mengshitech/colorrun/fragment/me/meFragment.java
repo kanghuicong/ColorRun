@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +24,7 @@ import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -43,21 +43,35 @@ public class meFragment extends Fragment implements OnClickListener {
     FragmentManager fm;
     TextView tvUserName,tvUserID;
     private Activity mActivity;
-    String type,id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
-        SharedPreferences sharedPreferences = getActivity()
-                .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-        type = sharedPreferences.getString("user_type", "");
-        id = sharedPreferences.getString("user_id", "");
 
         mActivity = getActivity();
         initView();
-        new Thread(runnable).start();
+        GetDate();
+
         return meView;
+    }
+
+    private void GetDate() {
+        UserDao dao = new UserDao(getActivity());
+        UserEntiy modler = new UserEntiy();
+        modler = dao.find(ContentCommon.user_id);
+        if (modler == null) {
+            if (ContentCommon.user_id != null) {
+                new Thread(runnable).start();
+            }
+        } else {
+            tvUserName.setText(modler.getUser_name());
+            tvUserID.setText(modler.getUser_id());
+            if (modler.getUser_header()!=null){
+                String header_path = ContentCommon.path+modler.getUser_header();
+                Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
+            }
+        }
     }
 
     private void initView() {
@@ -100,7 +114,6 @@ public class meFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.llMyLeRun:
-                Log.i("登陆状态",type);
                 if (ContentCommon.login_state.equals("1")){
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
                 }else{
@@ -128,7 +141,6 @@ public class meFragment extends Fragment implements OnClickListener {
             case R.id.llCancel:
                 if (ContentCommon.login_state.equals("1")){
                     DialogUtility.DialogCancel(getActivity(),ivUserHead,tvUserName,tvUserID);
-
                 }else{
                     Toast.makeText(mActivity,"您还没有登陆哦,请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mActivity, LoginActivity.class);
@@ -155,7 +167,7 @@ public class meFragment extends Fragment implements OnClickListener {
             String path = ContentCommon.PATH;
             Map<String,String> map = new HashMap<String, String>();
             map.put("flag", "user");
-            map.put("user_id",id);
+            map.put("user_id",ContentCommon.user_id);
             map.put("index","4");
             String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
             Message msg = new Message();
@@ -168,7 +180,6 @@ public class meFragment extends Fragment implements OnClickListener {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
@@ -178,9 +189,8 @@ public class meFragment extends Fragment implements OnClickListener {
                     }else {
                         tvUserName.setText(userEntiy.getUser_name());
                     }
-                    tvUserID.setText("ID:"+userEntiy.getUser_id());
+                    tvUserID.setText(userEntiy.getUser_id());
                     if (userEntiy.getUser_header().equals("")){
-
                     }else{
                         String header_path = ContentCommon.path+userEntiy.getUser_header();
                         Log.i("header_path:",header_path);

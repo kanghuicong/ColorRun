@@ -3,13 +3,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#000"
+    android:orientation="vertical"
     android:gravity="center" >
+    <View
+        style="@style/layout_vertical"
+        android:layout_weight="1"/>
 
     <ImageView
         android:id="@+id/into_lerun_showmap"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        style="@style/layout_vertical"
+        android:layout_weight="2"
         android:scaleType="centerCrop"
         android:background="@mipmap/defaut_error_square"/>
+
+    <View
+        style="@style/layout_vertical"
+        android:layout_weight="1"/>
 
 </LinearLayout>

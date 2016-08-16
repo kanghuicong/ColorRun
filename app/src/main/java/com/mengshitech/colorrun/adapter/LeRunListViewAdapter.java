@@ -118,11 +118,11 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder.tvLeRunState.setTextColor(mActivity.getResources().getColor(R.color.red));
         }else if(3 == mLeRunEntity.getLerun_state()){
             holder.tvLeRunState.setText("活动结束");
-            holder.tvLeRunState.setTextColor(mActivity.getResources().getColor(R.color.ViewLine));
+            holder.tvLeRunState.setTextColor(mActivity.getResources().getColor(R.color.orange));
         }
 
         Drawable drawable = mActivity.getResources().getDrawable(R.mipmap.show_heart);
-        drawable.setBounds(0, 0, 28, 28);//必须设置图片大小，否则不显示
+        drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
         holder.tvLeRunLike.setCompoundDrawables(drawable, null, null, null);
 
         holder.tvLeRunLike.setOnClickListener(new MyAdapterListener(position,holder.tvLeRunLike,holder.like_anim));

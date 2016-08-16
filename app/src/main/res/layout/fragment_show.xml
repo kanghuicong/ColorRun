@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ViewBackground"
-
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_show_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#11cd6e">
@@ -28,6 +28,7 @@
             android:layout_marginRight="10dp"
             android:src="@mipmap/friendcircle" />
     </RelativeLayout>
+
 
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout"

@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -57,7 +58,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     FragmentManager fm;
     private Activity mActivity;
     Context context;
-    int entry_number = 3;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     int pageSize = 5;
     int currentPage = 1;
@@ -69,6 +69,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public View initView() {
         context = getActivity();
         mActivity = getActivity();
+        fm = getFragmentManager();
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if(showView==null){
             showView = View.inflate(mActivity, R.layout.fragment_show, null);
@@ -111,6 +112,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 //        new Thread(runnable).start();
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
+        ivShow_CreateShow.setOnClickListener(this);
+//        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
         no_network = (LinearLayout) showView.findViewById(R.id.layout_no_network);
         ivShow_CreateShow.setOnClickListener(this);
 
@@ -118,7 +121,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
-
         swipeRefreshLayout.setOnLoadListener(this);
 
         if (ContentCommon.INTENT_STATE) {
@@ -129,8 +131,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             no_network.setVisibility(View.VISIBLE);
             lvShowContent.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -150,7 +150,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 break;
         }
     }
-
 
     Runnable runnable = new Runnable() {
 

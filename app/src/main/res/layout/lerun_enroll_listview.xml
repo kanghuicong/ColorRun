@@ -37,7 +37,7 @@
             android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:text="lalal"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_weight="1"/>
 
         <ImageView

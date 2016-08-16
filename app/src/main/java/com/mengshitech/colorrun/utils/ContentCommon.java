@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
  * 515849594@qq.com
  */
 public class ContentCommon {
-//    192.168.0.19:8080
-
 
     public static final String PATH="http://172.18.113.4:8080/LeRun/servlet/LeRunServlet";
 

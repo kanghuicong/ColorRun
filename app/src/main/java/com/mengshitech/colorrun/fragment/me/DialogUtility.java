@@ -39,6 +39,7 @@ public class DialogUtility {
     static String userid;
     static String update_type;
     static String update_values;
+    static TextView tv_title;
     static Context Context;
     static Pattern number = Pattern.compile("[0-9]*");
 
@@ -56,7 +57,7 @@ public class DialogUtility {
         Button inputnumber_clear = (Button) layout.findViewById(R.id.btn_inputnumber_clear);
 
         addDialog(dialog, layout);
-
+        et_inputnumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         //取消退出对话框
         inputnumber_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +74,10 @@ public class DialogUtility {
                 update_type = "user_phone";
                 update_values = phone;
                 Context = context;
+                tv_title = tv_phone;
                 Matcher m = number.matcher(phone);
                 if (phone.trim().length() == 11 && m.matches()) {
-                    tv_phone.setText(phone);
                     new Thread(runnable).start();
-//                    UserDao dao = new UserDao(context);
-//                    dao.update_data("user_phone",phone,user_id);
-
                     dialog.dismiss();
                 } else {
                     Toast.makeText(context, "请输入正确的手机号码", Toast.LENGTH_SHORT).show();
@@ -120,11 +118,10 @@ public class DialogUtility {
                 update_type = "user_sex";
                 update_values = sex;
                 Context = context;
-                new Thread(runnable).start();
-                tv_sex.setText(sex);
-
-//                UserDao dao = new UserDao(context);
-//                dao.update_data("user_sex",sex,user_id);
+                tv_title = tv_sex;
+                if (!"".equals(update_values)) {
+                    new Thread(runnable).start();
+                }
 
                 dialog.dismiss();
             }
@@ -152,15 +149,12 @@ public class DialogUtility {
                 update_type = "user_name";
                 update_values = nickname;
                 Context = context;
+                tv_title = tv_nickname;
                 if (nickname.isEmpty()) {
                     Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    tv_nickname.setText(nickname);
                     new Thread(runnable).start();
-//                    UserDao dao = new UserDao(context);
-//                    dao.update_data("user_name",nickname,user_id);
-
                     dialog.dismiss();
                 }
             }
@@ -191,14 +185,12 @@ public class DialogUtility {
                         update_type = "user_sign";
                         update_values = sign;
                         Context = context;
+                        tv_title = tv_conent;
                         if (sign.isEmpty()) {
                             Toast.makeText(context, "请输入个性签名", Toast.LENGTH_SHORT)
                                     .show();
                         } else {
-                            tv_conent.setText(sign);
                             new Thread(runnable).start();
-//                            UserDao dao = new UserDao(context);
-//                            dao.update_data("uesr_sign",autograph,user_id);
                             dialog.dismiss();
                         }
                     }
@@ -214,14 +206,12 @@ public class DialogUtility {
                         update_type = "user_email";
                         update_values = email;
                         Context = context;
+                        tv_title = tv_conent;
                         String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
                         Pattern p = Pattern.compile(str);
                         Matcher m = p.matcher(email);
                         if (m.matches()) {
-                            tv_conent.setText(email);
                             new Thread(runnable).start();
-//                            UserDao dao = new UserDao(context);
-//                            dao.update_data("uesr_email", email, user_id);
                             dialog.dismiss();
                         } else {
                             Toast.makeText(context, "请输入正确的邮箱", Toast.LENGTH_SHORT)
@@ -241,11 +231,11 @@ public class DialogUtility {
                         update_type = "user_address";
                         update_values = address;
                         Context = context;
+                        tv_title = tv_conent;
                         if (address.isEmpty()) {
                             Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT)
                                     .show();
                         } else {
-                            tv_conent.setText(address);
                             new Thread(runnable).start();
                             dialog.dismiss();
                         }
@@ -283,21 +273,20 @@ public class DialogUtility {
                         update_type = "user_height";
                         update_values = physique;
                         Context = context;
+                        tv_title = tv_physique;
                         Matcher m = number.matcher(physique);
                         if (m.matches()) {
-                            tv_physique.setText(physique + "cm");
                             new Thread(runnable).start();
-//                            UserDao dao = new UserDao(context);
-//                            dao.update_data("user_height",physique+"cm",user_id);
                             dialog.dismiss();
                         } else {
-                            Toast.makeText(context, "请输入身高", Toast.LENGTH_SHORT)
-                                    .show();
+                            Toast.makeText(context, "请输入身高", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 break;
             case ("weight"):
+                title.setText("体重");
+                tv_physique_bar.setText("kg");
                 bt_conservation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -306,12 +295,10 @@ public class DialogUtility {
                         update_type = "user_weight";
                         update_values = physique;
                         Context = context;
+                        tv_title = tv_physique;
                         Matcher m = number.matcher(physique);
                         if (m.matches()) {
-                            tv_physique.setText(physique + "kg");
                             new Thread(runnable).start();
-//                            UserDao dao = new UserDao(context);
-//                            dao.update_data("user_weight",physique+"kg",user_id);
                             dialog.dismiss();
                         } else {
                             Toast.makeText(context, "请输入体重", Toast.LENGTH_SHORT)
@@ -393,11 +380,16 @@ public class DialogUtility {
 
             Log.i("result", result);
             if (result.equals("timeout")) {
-                Toast.makeText(Context, "连接服务器超时", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(Context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(Context, "修改成功！", Toast.LENGTH_SHORT)
-                        .show();
+                if (result.equals("1")) {
+                    tv_title.setText(update_values);
+                    UserDao dao = new UserDao(Context);
+                    dao.update_data(update_type, update_values, userid);
+                    Toast.makeText(Context, "修改成功！", Toast.LENGTH_SHORT).show();
+                }else if (result.equals("0")){
+                    Toast.makeText(Context, "修改失败！", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };

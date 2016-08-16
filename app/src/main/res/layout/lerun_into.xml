@@ -60,7 +60,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="¥"
                                 android:textColor="@color/white"
-                                android:textSize="30dp" />
+                                android:textSize="30sp" />
 
                             <TextView
                                 android:id="@+id/into_lerun_price"
@@ -68,7 +68,7 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 android:textColor="@color/white"
-                                android:textSize="45dp" />
+                                android:textSize="45sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -83,14 +83,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="剩余名额"
                                 android:textColor="@color/white"
-                                android:textSize="18dp" />
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/into_lerun_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:textSize="23dp" />
+                                android:textSize="23sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -154,9 +154,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="奥体中心"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18dp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -176,9 +176,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="2016 08 15"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18dp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -198,9 +198,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="泡泡卡乐跑"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18dp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -281,8 +281,7 @@
                             android:id="@+id/start_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-                            android:text="2016 07 15 8:00"
+                            android:text=""
                             android:textColor="@color/red"
                             android:textSize="18dp" />
 
@@ -292,7 +291,7 @@
                             android:padding="3dp"
                             android:text="开始活动报名"
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -308,9 +307,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
-                            android:text="2016 07 15 11:00"
+                            android:text=""
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -318,7 +317,7 @@
                             android:padding="3dp"
                             android:text="活动报名截至"
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -326,7 +325,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="10dp"
-
                         android:orientation="horizontal">
 
                         <TextView
@@ -334,9 +332,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
-                            android:text="2016 08 15 11:00"
+                            android:text=""
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
 
                         <TextView
 
@@ -345,7 +343,7 @@
                             android:padding="3dp"
                             android:text="举行活动"
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
 

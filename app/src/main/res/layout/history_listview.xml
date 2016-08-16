@@ -20,7 +20,7 @@
         android:layout_height="70dp"
         android:background="#9acdcdcd"
         android:orientation="vertical"
-       android:layout_gravity="bottom"
+        android:layout_gravity="bottom"
         android:padding="10dp">
 
         <LinearLayout

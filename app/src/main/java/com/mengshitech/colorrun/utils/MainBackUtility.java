@@ -26,6 +26,7 @@ public class MainBackUtility {
             }
         });
     }
+
     public static void MainBackActivity(final Activity activity, String title) {
         RelativeLayout title_back_ll = (RelativeLayout) activity.findViewById(R.id.title_back_ll);
         TextView title_bar = (TextView) activity.findViewById(R.id.title_barr);

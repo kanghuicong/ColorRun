@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_show_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#11cd6e">
@@ -51,6 +52,7 @@
             android:textSize="17sp" />
     </LinearLayout>
 
+>>>>>>> 04b33274b6dc6039d3767a01d84da1fe3f8f20aa
 
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout"

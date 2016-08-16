@@ -86,7 +86,6 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
     //声明mLocationOption类对象
     private AMapLocationClientOption mLocationOption=null;
 
-
     Context context;
 
     @Override

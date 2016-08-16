@@ -54,7 +54,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     int count;
     TextView show_like;
     int yes_state, no_state;
-    int pos;
+    int like_pos,share_pos;
     String sta;
     List<String> list = new ArrayList<String>();
 
@@ -69,7 +69,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         private TextView show_like;
         private ImageView show_comment;
         private ImageView show_share;
-        private TextView show_text;
     }
 
     public ShowAdapter(int count, Context context, FragmentManager fm, List<ShowEntity> showList,
@@ -145,12 +144,12 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         if (like_state.equals("0")) {
             Log.i("state初始状态0====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-            drawable.setBounds(0, 0, 28, 28);//必须设置图片大小，否则不显示
+            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
             holder.show_like.setCompoundDrawables(drawable, null, null, null);
         } else if (like_state.equals("1")) {
             Log.i("state初始状态1====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-            drawable.setBounds(0, 0, 28, 28);//必须设置图片大小，否则不显示
+            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
             holder.show_like.setCompoundDrawables(drawable, null, null, null);
         }
 
@@ -172,56 +171,65 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
 
 
-        holder.show_like.setOnClickListener(new MyAdapterListener(position, like_state));
+        holder.show_like.setOnClickListener(new LikeListener(position, like_state));
 
-        holder.show_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContentCommon.user_id == null) {
-                    Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
-                } else {
-                    OnekeyShare onkeyShare =new OnekeyShare();
-                    onkeyShare.disableSSOWhenAuthorize();
-                    onkeyShare.setTitle(mShowEntity.getUser_name()+"的卡乐彩色跑");
-                    onkeyShare.setText(mShowEntity.getShow_content());
-
-                    onkeyShare.setImageUrl(ImageList.get(1));
-                    onkeyShare.setUrl("http://www.roay.cn/");
-                    //显示分享列表
-
-                    onkeyShare.show(context);
-                }
-            }
-        });
+        holder.show_share.setOnClickListener(new ShareListener(position) );
         holder.show_comment.setOnClickListener(this);
         return view;
     }
 
-    class MyAdapterListener implements View.OnClickListener {
+    class LikeListener implements View.OnClickListener {
 
         private int position;
         private String like_state;
 
-        public MyAdapterListener(int pos, String state) {
+        public LikeListener(int pos, String state) {
             position = pos;
             like_state = state;
         }
 
         @Override
         public void onClick(View v) {
-            pos = position;
+            like_pos = position;
             if (ContentCommon.user_id == null) {
                 Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
             } else {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
                 Log.i("state点击时状态", like_state + "");
-                if (list.get(pos).equals("0")) {
+                if (list.get(like_pos).equals("0")) {
                     index = "8";
                     new Thread(runnable).start();
-                } else if (list.get(pos).equals("1")) {
+                } else if (list.get(like_pos).equals("1")) {
                     index = "6";
                     new Thread(runnable).start();
                 }
+            }
+        }
+    }
+
+    class ShareListener implements View.OnClickListener{
+        int position;
+
+        public ShareListener(int pos) {
+            position = pos;
+        }
+        @Override
+        public void onClick(View v) {
+            share_pos = position;
+            if (ContentCommon.user_id == null) {
+                Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
+            } else {
+                OnekeyShare onkeyShare =new OnekeyShare();
+                onkeyShare.disableSSOWhenAuthorize();
+                ShowEntity showEntity = mShowList.get(share_pos);
+                onkeyShare.setTitle(showEntity.getUser_name()+"的卡乐彩色跑");
+                onkeyShare.setText(showEntity.getShow_content());
+
+                onkeyShare.setImageUrl(ImageList.get(1));
+                onkeyShare.setUrl("http://www.roay.cn/");
+                //显示分享列表
+
+                onkeyShare.show(context);
             }
         }
     }
@@ -245,7 +253,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
 
         @Override
         public void run() {
-            ShowEntity showEntity = mShowList.get(pos);
+            ShowEntity showEntity = mShowList.get(like_pos);
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "show");
@@ -275,13 +283,13 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                         yes_state = JsonTools.getState("state", result);
                         Log.i("state点赞返回状态", yes_state + "");
                         if (yes_state == 1) {
-                            list.set(pos,"1");
-                            mShowEntity = mShowList.get(pos);
+                            list.set(like_pos,"1");
+                            mShowEntity = mShowList.get(like_pos);
                             show_like.setText(Integer.valueOf(show_like.getText().toString()) + 1 + "");
                             mShowEntity.setLike_state("1");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-                            drawable.setBounds(0, 0, 28, 28);//必须设置图片大小，否则不显示
+                            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
                             show_like.setCompoundDrawables(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "点赞失败...", Toast.LENGTH_SHORT).show();
@@ -295,13 +303,13 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                         no_state = JsonTools.getState("state", result);
                         Log.i("state取消赞返回状态", no_state + "");
                         if (no_state == 1) {
-                            list.set(pos,"0");
-                            mShowEntity = mShowList.get(pos);
+                            list.set(like_pos,"0");
+                            mShowEntity = mShowList.get(like_pos);
                             show_like.setText(Integer.valueOf(show_like.getText().toString()) - 1 + "");
                             mShowEntity.setLike_state("0");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-                            drawable.setBounds(0, 0, 28, 28);//必须设置图片大小，否则不显示
+                            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
                             show_like.setCompoundDrawables(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "取消赞失败...", Toast.LENGTH_SHORT).show();

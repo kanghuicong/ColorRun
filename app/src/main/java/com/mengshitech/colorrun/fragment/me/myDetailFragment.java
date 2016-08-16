@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.UserLogActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -52,9 +53,29 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         context=getActivity();
         FindId();
         Click();
-        new Thread(runnable).start();
-        return mDeatilView;
 
+        UserDao dao = new UserDao(getActivity());
+        UserEntiy modler = new UserEntiy();
+        modler = dao.find(ContentCommon.user_id);
+        if (modler == null) {
+            new Thread(runnable).start();
+        }else {
+            tv_nickname.setText(modler.getUser_name());
+            tv_phone.setText(modler.getUser_phone());
+            tv_email.setText(modler.getUser_email());
+            tv_sex.setText(modler.getUser_sex());
+            tv_height.setText(modler.getUser_height());
+            tv_weight.setText(modler.getUser_weight());
+            tv_address.setText(modler.getUser_address());
+            tv_sign.setText(modler.getUser_sign());
+
+            if (modler.getUser_header()!=null){
+                header_path = ContentCommon.path+modler.getUser_header();
+                ContentCommon.user_log=header_path;
+                Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
+            }
+        }
+        return mDeatilView;
     }
 
     private void Click() {
@@ -90,8 +111,6 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         tv_sign = (TextView) mDeatilView.findViewById(R.id.tv_me_autograph);
 
 
-
-
     }
 
     @Override
@@ -100,13 +119,6 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         switch (v.getId()){
             case R.id.ll_me_head:
                 getActivity().startActivity(new Intent(getActivity(), UserLogActivity.class));
-
-
-//                Intent intent = new Intent();
-//                intent.putExtra("user_log", header_path);
-//                intent.setAction("UserLog_ImagePath");
-//                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-//                getActivity().finish();
                 break;
             case R.id.ll_me_nickname:
                 DialogUtility.DialogNickname(getActivity(),tv_nickname,userid);
@@ -173,13 +185,13 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_phone.setText(userEntiy.getUser_phone());
                     tv_email.setText(userEntiy.getUser_email());
                     tv_sex.setText(userEntiy.getUser_sex());
-                    tv_height.setText(userEntiy.getUser_height()+"cm");
-                    tv_weight.setText(userEntiy.getUser_weight()+"kg");
+                    tv_height.setText(userEntiy.getUser_height());
+                    tv_weight.setText(userEntiy.getUser_weight());
                     tv_address.setText(userEntiy.getUser_address());
                     tv_sign.setText(userEntiy.getUser_sign());
                     Log.i("用户头像地址",userEntiy.getUser_header());
                     if (userEntiy.getUser_header()!=null){
-                       header_path = ContentCommon.path+userEntiy.getUser_header();
+                        header_path = ContentCommon.path+userEntiy.getUser_header();
                         ContentCommon.user_log=header_path;
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
                     }

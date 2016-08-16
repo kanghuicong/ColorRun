@@ -68,8 +68,8 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             parent.removeView(mLeRunView);
         }
         MainActivity.rgMainBottom.setVisibility(View.GONE);
-
         MainBackUtility.MainBack(mLeRunView, "我的乐跑", getFragmentManager());
+
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
@@ -83,8 +83,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         autoSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         autoSwipeRefreshLayout.setOnRefreshListener(this);
         autoSwipeRefreshLayout.autoRefresh();
-
-
         mylerun_listview = (ListView) mLeRunView.findViewById(R.id.lv_me_mylerun);
 
     }
@@ -98,7 +96,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("user_id", userid);
-
             map.put("index", "6");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
@@ -115,9 +112,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result111", result);
             if (result.equals("timeout")) {
-
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 autoSwipeRefreshLayout.setRefreshing(false);
             } else {
@@ -125,10 +120,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
                     autoSwipeRefreshLayout.setRefreshing(false);
                     order_list = JsonTools.getOrderInfo("result", result);
                     adapter = new MyLerunListViewAdapter(entry_number, getActivity(), order_list, mylerun_listview, mFragmentManager);
-
                     mylerun_listview.setAdapter(adapter);
-
-
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

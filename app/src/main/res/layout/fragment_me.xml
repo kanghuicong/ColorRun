@@ -34,7 +34,6 @@
         android:background="@color/white"
         android:gravity="center"
         android:padding="15dp">
-        android:padding="5dp" >
 
         <ImageView
             android:layout_marginLeft="5dp"
@@ -45,16 +44,17 @@
             android:src="@mipmap/default_avtar" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvUserName"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
@@ -63,18 +63,34 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="ID:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/tvUserID"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="ID:"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+                </LinearLayout>
 
         </LinearLayout>
 
@@ -115,7 +131,7 @@
             android:layout_weight="1"
             android:text="我的乐跑"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -151,7 +167,7 @@
             android:layout_weight="1"
             android:text="我的show"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -193,7 +209,7 @@
             android:layout_weight="1"
             android:text="关于我们"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -230,7 +246,7 @@
             android:layout_weight="1"
             android:text="注销账号"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <ImageView
             android:layout_width="wrap_content"

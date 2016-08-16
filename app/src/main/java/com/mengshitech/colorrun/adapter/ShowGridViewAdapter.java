@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.fragment.lerun.ShowMap;
 import com.mengshitech.colorrun.fragment.show.showDetail;
+import com.mengshitech.colorrun.utils.GlideRoundTransform;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ShowGridViewAdapter extends BaseAdapter {
 
         String image_path = imagepath.get(position);
         Log.i("image_path:",image_path);
-        Glide.with(context).load(image_path).into(holder.grid_image);
+        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
 
 
         return convertView;

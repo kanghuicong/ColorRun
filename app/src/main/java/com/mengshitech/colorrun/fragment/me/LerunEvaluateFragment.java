@@ -1,5 +1,6 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -38,10 +39,12 @@ public class LerunEvaluateFragment extends BaseFragment implements View.OnClickL
     private String user_id;
     private int state;
     private String user_telphone;
+    private Context context;
 
 
     @Override
     public View initView() {
+        context=getActivity();
         lerun_evaluate_view = View.inflate(getActivity(), R.layout.fragment_lerunevaluate, null);
         init();
         return lerun_evaluate_view;
@@ -64,7 +67,7 @@ public class LerunEvaluateFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         evaluate_content = et_evaluate.getText().toString();
         if (evaluate_content.equals("") && evaluate_content == null) {
-            Toast.makeText(getActivity(), "请输入您要评价的内容！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "请输入您要评价的内容！", Toast.LENGTH_SHORT).show();
         } else {
             new Thread(runnable).start();
 
@@ -76,7 +79,7 @@ public class LerunEvaluateFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         evaluate_score = (int) rating;
-        Toast.makeText(getActivity(), "评分为:" + evaluate_score, Toast.LENGTH_SHORT).show();
+
     }
 
     //提交评价的网络线程
@@ -111,11 +114,11 @@ public class LerunEvaluateFragment extends BaseFragment implements View.OnClickL
             try {
                 state = JsonTools.getState("state", result);
                 if (state == 1) {
-                    Toast.makeText(getActivity(), "评价成功" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "评价成功" , Toast.LENGTH_SHORT).show();
                     et_evaluate.setText("");
                     getFragmentManager().popBackStack();
                 } else {
-                    Toast.makeText(getActivity(), "评价失败" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "评价失败" , Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

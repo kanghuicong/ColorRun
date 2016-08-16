@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/show_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ViewBackground"
+    android:clickable="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -29,6 +31,28 @@
             android:src="@mipmap/friendcircle" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_no_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/no_wifi" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无法连接网络"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+>>>>>>> 04b33274b6dc6039d3767a01d84da1fe3f8f20aa
 
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout"
@@ -39,8 +63,9 @@
             android:id="@+id/lvShowContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"/>
+            android:scrollbars="none" />
 
 
     </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
+
 </LinearLayout>

@@ -60,7 +60,6 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-
     <!-- 全屏幕拉伸-->
     <style name="layout_full">
         <item name="android:layout_width">match_parent</item>
@@ -80,5 +79,8 @@
         <item name="android:layout_height">0px</item>
     </style>
 
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkboxs_style</item>
+    </style>
 
 </resources>

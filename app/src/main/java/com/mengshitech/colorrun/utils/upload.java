@@ -30,12 +30,12 @@ import android.util.Log;
 public class upload {
 
     private static final String CHARSET = "UTF-8"; // 设置编码
-    private static int readTimeOut = 10 * 1000; // 读取超时
-    private static int connectTimeout = 10 * 1000; // 超时时间
+    private static int readTimeOut = 60 * 1000; // 读取超时
+    private static int connectTimeout = 60 * 1000; // 超时时间
     private static int mStatus; // 返回状态码
     private static final int TIME_OUT = 10 * 1000;
     private static HttpResponse resp;
-    private static String result = null;
+    private static String result = "ceshi";
 
 
     public static synchronized String uploadListImage(List<String> imageUrlList, String ServletPath) throws IOException {
@@ -67,19 +67,22 @@ public class upload {
             post.setEntity(entity);
             resp = client.execute(post);
             // 获取回调值
-            Log.e("", EntityUtils.toString(resp.getEntity()));
+//            Log.e("udasdasd", EntityUtils.toString(resp.getEntity()));
             mStatus = resp.getStatusLine().getStatusCode();
             if (mStatus == 200) {
-                result = EntityUtils.toString(resp.getEntity());
+                if(entity!=null){
+                    result= EntityUtils.toString(resp.getEntity());
+                }
+
             } else {
-                result = "failure";
+                result= "failure";
             }
-            Log.e("返回的值为", mStatus + "");
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return EntityUtils.toString(resp.getEntity());
+        return result;
     }
 
     //传file文件  和servlet地址

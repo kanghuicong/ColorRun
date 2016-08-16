@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
     private String evaluate_content;
     private Button btn_send;
     private EditText et_content;
+    private LinearLayout footview;
 
     @Override
     public void onAttach(Activity activity) {
@@ -105,13 +107,15 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
         tv_peoplenum = (TextView) view.findViewById(R.id.tv_peoplenum);
         btn_send = (Button) history_content_view.findViewById(R.id.btn_send);
         et_content = (EditText) history_content_view.findViewById(R.id.et_content);
+        footview= (LinearLayout) history_content_view.findViewById(R.id.footview);
+        footview.setVisibility(View.GONE);
 
         new Thread(lerunInfoRunnable).start();
         new Thread(EvaluateRunnable).start();
         pullSwipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         pullSwipeRefreshLayout = (BottomPullSwipeRefreshLayout) history_content_view.findViewById(R.id.bottomRefesh);
         pullSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
-        pullSwipeRefreshLayout.autoRefresh();
+//        pullSwipeRefreshLayout.autoRefresh();
         pullSwipeRefreshLayout.setOnRefreshListener(this);
         pullSwipeRefreshLayout.setOnLoadListener(this);
         btn_send.setOnClickListener(this);
@@ -162,7 +166,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                         Log.i("AverageStar", (int) AverageStar + "");
                         ratingBar.setRating((int) AverageStar);
                     }
-
+                    footview.setVisibility(View.VISIBLE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -196,6 +200,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                pullSwipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
 //上拉加载刷新listview
@@ -224,17 +229,25 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                     }
                     //下拉刷新后刷新listview
                     else if (onRefresh) {
-                        list.clear();
-                        List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
 
-                        for (int i = 0; i < mlist.size(); i++) {
-                            list.add(mlist.get(i));
+                        int state=JsonTools.getState("state",result);
+                        if(state==1){
+                            list.clear();
+                            List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
+
+                            for (int i = 0; i < mlist.size(); i++) {
+                                list.add(mlist.get(i));
+                            }
+                            Log.i("下拉刷新后list的大小", list.size() + "");
+                            adapter.changeCount(list.size());
+                            adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetInvalidated();
+                            pullSwipeRefreshLayout.setRefreshing(false);
+                        }else{
+                            pullSwipeRefreshLayout.setRefreshing(false);
                         }
-                        Log.i("下拉刷新后list的大小", list.size() + "");
-                        adapter.changeCount(list.size());
-                        adapter.notifyDataSetChanged();
-                       adapter.notifyDataSetInvalidated();
-                        pullSwipeRefreshLayout.setRefreshing(false);
+
+
                     } else
                     //进入页面进行listview数据加载
                     {
@@ -313,7 +326,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             try {
                 int state = JsonTools.getState("state", result);
                 if (state == 1) {
-                    Toast.makeText(getActivity(), "发表成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

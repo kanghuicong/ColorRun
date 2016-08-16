@@ -18,4 +18,5 @@
     <color name="little_bule">#0099cc</color>
     <color name="purple">#ff0033</color>
     <color name="line">#ffd3dde6</color>
+    <color name="bule_overlay">#660D92DD</color>
 </resources>

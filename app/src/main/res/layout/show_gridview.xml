@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:id="@+id/iv_show_gridview"
         android:background="@mipmap/defaut_error_square"/>
 

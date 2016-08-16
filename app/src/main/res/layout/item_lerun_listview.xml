@@ -12,7 +12,7 @@
         android:layout_height="140dp"
         android:layout_marginRight="10dp"
         android:layout_weight="2"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:src="@mipmap/defaut_error_long" />
 
     <LinearLayout

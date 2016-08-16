@@ -1,6 +1,8 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.mengshitech.colorrun.fragment.me.LerunEvaluateFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +99,8 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
             holder = (Holder) view.getTag();
         }
         if (info.getImagePath() != null && !info.getImagePath().equals("")) {
+           Drawable drawable=context.getResources().getDrawable(R.drawable.defaut_error_square);
+            FileNotFoundException e;
             Glide.with(context).load(ContentCommon.path + info.getImagePath()).into(holder.mylerun_qrcode);
         }
         holder.mylerun_username.setText(info.getPersonal_name());

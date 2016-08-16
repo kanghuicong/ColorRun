@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.me;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -41,6 +42,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
     String header_path;
+    private Context context;
     @Override
     public View initView() {
         mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
@@ -48,6 +50,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
+        context=getActivity();
         FindId();
         Click();
 
@@ -172,8 +175,8 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
 
             Log.i("result", result);
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
 //                progressDialog.dismiss();
                 try {

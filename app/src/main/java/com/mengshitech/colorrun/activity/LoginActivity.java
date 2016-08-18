@@ -179,8 +179,8 @@ public class LoginActivity extends Activity implements OnClickListener {
                             new Thread(user_runnable).start();
                         }
 
-                        Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(inetnt);
+//                        Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
+//                        startActivity(inetnt);
                         finish();
                         break;
                     default:

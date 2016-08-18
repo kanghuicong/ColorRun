@@ -5,19 +5,22 @@
     android:background="#000"
     android:orientation="vertical"
     android:gravity="center" >
-    <View
-        style="@style/layout_vertical"
-        android:layout_weight="1"/>
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/into_lerun_showmap"
-        style="@style/layout_vertical"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:scaleType="centerCrop"
-        android:background="@mipmap/defaut_error_square"/>
 
-    <View
-        style="@style/layout_vertical"
-        android:layout_weight="1"/>
+        />
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

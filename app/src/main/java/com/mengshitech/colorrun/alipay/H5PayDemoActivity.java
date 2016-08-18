@@ -18,7 +18,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-
+/**
+ * 作者：wschenyongyin on 2016/8/4 10:53
+ * 说明:
+ */
 public class H5PayDemoActivity extends Activity {
 
 	private WebView mWebView;

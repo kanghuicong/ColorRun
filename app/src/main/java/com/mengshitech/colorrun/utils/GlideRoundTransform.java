@@ -11,11 +11,8 @@ import android.graphics.RectF;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 /**
- * 用glide库加载网络图片后进行方形化处理
- * 
- * 
- * @author wschenyongyin
- *
+ * 作者：wschenyongyin on 2016/8/15 14:06
+ * 说明:glide加载图片正方形
  */
 
 public class GlideRoundTransform extends BitmapTransformation {

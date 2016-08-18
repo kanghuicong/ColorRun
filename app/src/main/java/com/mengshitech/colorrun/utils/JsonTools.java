@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kanghuicong on 2016/7/22  13:55.
- * 515849594@qq.com
+ * 作者：wschenyongyin on 2016/7/15 14:06
+ * 说明:json解析工具类
  */
 public class JsonTools {
 

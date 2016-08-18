@@ -35,19 +35,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * atenklsy
- */
-public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener{
+
+public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     View myshowView;
     ShowAdapter mShowAdapter;
     ListView lv_myshow;
     List<ShowEntity> mShowList;
     FragmentManager fm;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
+    private Activity activity;
 
     @Override
     public View initView() {
+        activity=getActivity();
         myshowView = View.inflate(mActivity, R.layout.me_myshow, null);
         MainBackUtility.MainBack(myshowView, "我的show", getFragmentManager());
         findById();
@@ -127,13 +127,17 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
             Log.i("result111", result);
             if (result.equals("timeout")) {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+            } else if (result.equals("failuer") || result.equals("empty")) {
+                swipeRefreshLayout.setRefreshing(false);
+
             } else {
                 try {
 
                     mShowList = JsonTools.getShowInfo("result", result);
 
                     Log.i("mshowlist", mShowList.toString());
-                    mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lv_myshow);
+                    mShowAdapter = new ShowAdapter(mShowList.size(),activity,getActivity(), getFragmentManager(), mShowList, lv_myshow);
                     lv_myshow.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);
 //                    swipeRefreshLayout.setLoading(false);

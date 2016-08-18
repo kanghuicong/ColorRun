@@ -3,7 +3,10 @@ package com.mengshitech.colorrun.alipay;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
-
+/**
+ * 作者：wschenyongyin on 2016/8/4 10:53
+ * 说明:
+ */
 public class SignUtils {
 
 	private static final String ALGORITHM = "RSA";

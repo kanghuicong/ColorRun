@@ -14,10 +14,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 /**
- * Created by kanghuicong on 2016/7/21  19:50.
- * 515849594@qq.com
+ * 作者：wschenyongyin on 2016/6/15 14:06
+ * 说明:对图片进行圆形处理
  */
-
 //圆形头像，ImageView直接调用
 public class RoundImageView extends ImageView {
 

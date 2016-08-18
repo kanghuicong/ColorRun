@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,6 +71,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         aboutus_connection = (LinearLayout) me_version_view.findViewById(R.id.me_aboutus_connection);
         aboutus_connection.setOnClickListener(this);
         aboutus_agreement = (TextView) me_version_view.findViewById(R.id.me_aboutus_agreement);
+        aboutus_version.setText(getVersionName(context));
 
         progressDialog = ProgressDialog.show(context, "正在检查更新,请稍后");
     }
@@ -102,7 +104,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "aboutus");
             map.put("index", "0");
-            map.put("version_number", "v1.0");
+            map.put("version_number", getVersionCode(context)+"");
 
             String result = HttpUtils.sendHttpClientPost(servlet, map, "utf-8");
             Message msg = new Message();
@@ -175,4 +177,35 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
             new Thread(updateRunnable).start();
         }
     };
+
+
+    private int getVersionCode(Context context)
+    {
+        int versionCode = 0;
+        try
+        {
+            // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            versionCode = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+    private String getVersionName(Context context)
+    {
+        String versionName = null;
+        try
+        {
+            // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            versionName = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionName;
+            int versionCode = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionCode;
+            Log.i("versionName：",versionName);
+            Log.i("versionName：",versionCode+"");
+        } catch (PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
 }

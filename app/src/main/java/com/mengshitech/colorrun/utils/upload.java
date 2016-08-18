@@ -26,7 +26,10 @@ import java.io.IOException;
 
 
 import android.util.Log;
-
+/**
+ * 作者：wschenyongyin on 2016/6/16 15:06
+ * 说明:上传图片文件
+ */
 public class upload {
 
     private static final String CHARSET = "UTF-8"; // 设置编码

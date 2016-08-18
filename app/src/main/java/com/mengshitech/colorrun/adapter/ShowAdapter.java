@@ -57,6 +57,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     int like_pos,share_pos;
     String sta;
     List<String> list = new ArrayList<String>();
+    Activity activity;
 
 
     private static class ViewHolder {
@@ -78,6 +79,15 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         this.mShowList = showList;
         this.fm = fm;
         this.mListView = mListView;
+    }
+    public ShowAdapter(int count,Activity activity ,Context context, FragmentManager fm, List<ShowEntity> showList,
+                       ListView mListView) {
+        this.count = count;
+        this.context = context;
+        this.mShowList = showList;
+        this.fm = fm;
+        this.mListView = mListView;
+        this.activity=activity;
     }
 
     @Override
@@ -162,7 +172,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 String paths = ImageList.get(i);
                 System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
                 imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context, imagepath, imagepath.size());
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,activity ,imagepath, imagepath.size());
                 System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
                 holder.show_image.setAdapter(adapter);
             }
@@ -242,7 +252,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.im_show_comment:
-                Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
+
                 break;
             default:
                 break;

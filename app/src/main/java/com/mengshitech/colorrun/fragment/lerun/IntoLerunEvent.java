@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.SpaceImageDetailActivity;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
@@ -57,6 +58,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     int lerun_id;
     Context context;
     protected WeakReference<View> mRootView;
+    private Activity activity;
 
     @Override
     public View initView() {
@@ -67,7 +69,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             lerun_id = getArguments().getInt("lerun_id");
             Log.i("lerun_id", lerun_id + "");
             context = getActivity();
-
+            activity = getActivity();
             new Thread(runnable).start();
             find();
             click();
@@ -217,7 +219,20 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 break;
             case R.id.into_lerun_map:
                 //点击地图放大
-                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap(getActivity(), map_path));
+//                Utility.replace2DetailFragment(getFragmentManager(), new ShowMap(getActivity(), map_path));
+                Intent intent = new Intent(context, SpaceImageDetailActivity.class);
+                intent.putExtra("image_path", map_path);
+                intent.putExtra("position", 0);
+                int[] location = new int[2];
+                map.getLocationOnScreen(location);
+                intent.putExtra("locationX", location[0]);
+                intent.putExtra("locationY", location[1]);
+
+                intent.putExtra("width", map.getWidth());
+                intent.putExtra("height", map.getHeight());
+                context.startActivity(intent);
+                activity.overridePendingTransition(0, 0);
+                break;
             default:
                 break;
         }

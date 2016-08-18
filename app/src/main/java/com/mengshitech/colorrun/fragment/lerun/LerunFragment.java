@@ -53,7 +53,7 @@ import com.mengshitech.colorrun.view.MyListView;
 import org.json.JSONException;
 
 
-public class LerunFragment extends Fragment implements OnClickListener,SwipeRefreshLayout.OnRefreshListener ,AMapLocationListener{
+public class LerunFragment extends Fragment implements OnClickListener, SwipeRefreshLayout.OnRefreshListener, AMapLocationListener {
 
     //热播视频的图片
     ImageView hotImage;
@@ -78,13 +78,13 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
     // 页面布局
     Activity mActivity;
     // 广告栏是否自动滑动
-    List<LeRunEntity> gideviewlist;
+    List<LeRunEntity> gideviewlist = null;
     private AutoSwipeRefreshLayout mSwipeLayout;
 
     //声明AMapLocationClient类对象
-    private  AMapLocationClient locationClient = null;
+    private AMapLocationClient locationClient = null;
     //声明mLocationOption类对象
-    private AMapLocationClientOption mLocationOption=null;
+    private AMapLocationClientOption mLocationOption = null;
 
     Context context;
 
@@ -93,7 +93,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
                              Bundle savedInstanceState) {
         //使用缓存 使fragment保持原有状态
         mActivity = getActivity();
-        context=getActivity();
+        context = getActivity();
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
@@ -103,7 +103,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
             parent.removeView(lerunView);
         }
         //初始化locationManager方法
-        locationClient=new AMapLocationClient(mActivity);
+        locationClient = new AMapLocationClient(mActivity);
         //设置定位回调监听，这里要实现AMapLocationListener接口，AMapLocationListener接口只有onLocationChanged方法可以实现，用于接收异步返回的定位结果，参数是AMapLocation类型。
         locationClient.setLocationListener(this);
         //初始化定位参数
@@ -132,18 +132,15 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
     private void findById() {
 
 
-        mSwipeLayout=new AutoSwipeRefreshLayout(mActivity);
-        mSwipeLayout= (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
+        mSwipeLayout = new AutoSwipeRefreshLayout(mActivity);
+        mSwipeLayout = (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
         mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);
 
-        if(ContentCommon.INTENT_STATE){
+        if (ContentCommon.INTENT_STATE) {
 //            Toast.makeText(context,"网络状态:"+ContentCommon.INTENT_STATE,Toast.LENGTH_SHORT).show();
             mSwipeLayout.autoRefresh();
         }
-
-
-
 
 
         //热门视频图片
@@ -274,7 +271,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
             }
 
             vpLeRunAd
-                    .setAdapter(new LeRunVpAdapter(mActivity, imgList, vpLeRunAd, AutoRunning));
+                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
             mSwipeLayout.setRefreshing(false);
         }
     };
@@ -288,20 +285,9 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
             map.put("flag", "lerun");
             map.put("index", "0");
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
-            Log.i("获取主题信息:", result);
-//            if(result.equals("timeout")){
-//                mSwipeLayout.setRefreshing(false);
-//            }
-            try {
-                List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
-                Log.i("解析后的主题信息:", lerunlist.size() + "");
-                Message msg = new Message();
-                msg.obj = lerunlist;
-                LerunInfohandler.sendMessage(msg);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            Message msg = new Message();
+            msg.obj = result;
+            LerunInfohandler.sendMessage(msg);
 
 
         }
@@ -311,21 +297,32 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            List<LeRunEntity> lerunlist = (List<LeRunEntity>) msg.obj;
-            Log.i("lerunlist的东西:", lerunlist.size() + "");
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
 
-            lvLerun.setAdapter(new LeRunListViewAdapter(mActivity, lerunlist, fm,
-                    lvLerun));
-//热门活动gridview
-            gideviewlist = new ArrayList<LeRunEntity>();
-            for (int i = 0; i < 2; i++) {
-                LeRunEntity entity = lerunlist.get(i);
+                mSwipeLayout.setRefreshing(false);
+            } else {
+                try {
+                    List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
+                    lvLerun.setAdapter(new LeRunListViewAdapter(mActivity, lerunlist, fm,
+                            lvLerun));
+                    //热门活动gridview
+                    gideviewlist = new ArrayList<LeRunEntity>();
+                    for (int i = 0; i < 2; i++) {
+                        LeRunEntity entity = lerunlist.get(i);
 
-                gideviewlist.add(entity);
+                        gideviewlist.add(entity);
+                    }
+                    Log.i("gridlist的大小:", gideviewlist.size() + "");
+                    gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
+                    mSwipeLayout.setRefreshing(false);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            Log.i("gridlist的大小:", gideviewlist.size() + "");
-            gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
-            mSwipeLayout.setRefreshing(false);
+
 
         }
     };
@@ -354,11 +351,14 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+
+            Log.i("获取热门信息：",""+result);
             if (result.equals("timeout")) {
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 mSwipeLayout.setRefreshing(false);
             } else {
                 try {
+
                     Log.i("videoImagezhixingle", "内容");
                     List<VideoEntity> list = JsonTools.getVideoInfo(result);
 
@@ -421,6 +421,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
 
     @Override
     public void onRefresh() {
+        gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
         new Thread(getLunBOimageRunnable).start();
         new Thread(getLeRunRunnable).start();
         new Thread(videoRunnable).start();
@@ -429,7 +430,7 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
 
-        System.out.println("城市"+aMapLocation.getCity());
+        System.out.println("城市" + aMapLocation.getCity());
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
 //                //定位成功回调信息，设置相关消息
@@ -450,10 +451,10 @@ public class LerunFragment extends Fragment implements OnClickListener,SwipeRefr
 //                aMapLocation.getCityCode();//城市编码
 //                aMapLocation.getAdCode();//地区编码
                 tvleRunCity.setText(aMapLocation.getCity());
-                Log.e("AmapS",aMapLocation.getCity());
+                Log.e("AmapS", aMapLocation.getCity());
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError","location Error, ErrCode:"
+                Log.e("AmapError", "location Error, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
                         + aMapLocation.getErrorInfo());
             }

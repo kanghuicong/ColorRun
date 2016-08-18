@@ -57,6 +57,7 @@ public class showDetail extends Activity implements View.OnClickListener{
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
     List<CommentEntity> commentlist;
+    ImageView show_back;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -90,7 +91,7 @@ public class showDetail extends Activity implements View.OnClickListener{
             for (int i = 0; i < ImageList.size(); i++) {
                 String paths = ImageList.get(i);
                 imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(showDetail.this,imagepath,imagepath.size());
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(showDetail.this,showDetail.this,imagepath,imagepath.size());
                 showdetail_image.setAdapter(adapter);
             }
         } catch (JSONException e) {
@@ -107,12 +108,14 @@ public class showDetail extends Activity implements View.OnClickListener{
         showdetail_comment_num = (TextView)findViewById(R.id.tv_show_comment_num);
         showdetail_share = (ImageView)findViewById(R.id.im_show_share);
         showdetail_time = (TextView)findViewById(R.id.tv_show_time);
+        show_back= (ImageView) findViewById(R.id.show_back);
         ll_like = (LinearLayout)findViewById(R.id.ll_showlistview_like);
         gv_like = (GridView)findViewById(R.id.gv_showdetail_image);
         lv_comment = (ListView)findViewById(R.id.lv_showdetail_comment);
         et_show_comment = (EditText)findViewById(R.id.et_show_comment);
         bt_show_comment = (Button)findViewById(R.id.bt_show_comment);
-        bt_show_comment.setOnClickListener(this);
+        bt_show_comment.setOnClickListener(this);show_back.setOnClickListener(this);
+
     }
 
     @Override
@@ -127,6 +130,10 @@ public class showDetail extends Activity implements View.OnClickListener{
                 } else{
                     Toast.makeText(showDetail.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.show_back:
+                finish();
+
                 break;
         }
     }

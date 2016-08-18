@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +29,22 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
     List<LikeEntity> likelist;
     LikeEntity likeEntity;
     int count;
+    DisplayMetrics dm;
 
     public ShowDetailGridViewAdapter(Context context, List<LikeEntity> likelist, int count){
         this.context = context;
         this.likelist = likelist;
         this.count = count;
+        dm = context.getResources().getDisplayMetrics();
         Log.i("点赞头像数",count+"");
         Log.i("点赞头像数likelist",likelist+"");
     }
 
     @Override
     public int getCount() {
-        return count;
+        if (count <=6) {
+            return count;
+        }else return 6;
     }
 
     @Override
@@ -65,9 +70,12 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (position<=10) {
+        ViewGroup.LayoutParams ps = holder.grid_image.getLayoutParams();
+        ps.height = (dm.widthPixels/8);
+        ps.width = (dm.widthPixels/8);
+        holder.grid_image.setLayoutParams(ps);
+        if (position<=6) {
             String header_path = ContentCommon.path + likeEntity.getUser_header();
-            Log.i("点赞header_path:", header_path);
             Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.grid_image);
         }
         return convertView;

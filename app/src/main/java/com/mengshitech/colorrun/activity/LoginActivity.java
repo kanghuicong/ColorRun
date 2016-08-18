@@ -51,7 +51,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        MainBackUtility.MainBackActivity(LoginActivity.this, "登入");
+        MainBackUtility.MainBackActivity(LoginActivity.this, "登录乐跑");
         initView();
     }
 

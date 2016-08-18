@@ -181,7 +181,6 @@ public class CompressImage {
     }
 
 
-
     /**质量压缩
      * 压缩已存在的图片对象，并返回压缩后的图片
      * @param bitmap

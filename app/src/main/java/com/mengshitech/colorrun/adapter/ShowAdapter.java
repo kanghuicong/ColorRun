@@ -26,6 +26,7 @@ import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.view.EmptyGridView;
 
 import org.json.JSONException;
 
@@ -62,7 +63,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     private static class ViewHolder {
         private ImageView user_header;
         private TextView user_name;
-        private GridView show_image;
+        private EmptyGridView show_image;
         private TextView show_content;
         private TextView show_time;
         private TextView show_comment_num;
@@ -111,7 +112,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     .findViewById(R.id.im_show_userhear);
             holder.user_name = (TextView) view
                     .findViewById(R.id.tv_show_username);
-            holder.show_image = (GridView) view
+            holder.show_image = (EmptyGridView) view
                     .findViewById(R.id.gv_show_image);
             holder.show_content = (TextView) view
                     .findViewById(R.id.tv_show_content);
@@ -170,6 +171,12 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        holder.show_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
+            @Override
+            public boolean onTouchInvalidPosition(int motionEvent) {
+                return false; //不终止路由事件让父级控件处理事件
+            }
+        });
 
         holder.show_like.setOnClickListener(new LikeListener(position, like_state));
 

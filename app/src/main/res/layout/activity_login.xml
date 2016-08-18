@@ -58,7 +58,7 @@
                 android:layout_marginRight="20dp"
                 android:background="#ffffff"
                 android:ems="10"
-                android:hint="User Name"
+                android:hint="User Id"
                 android:textSize="16sp">
 
                 <requestFocus />

@@ -123,7 +123,7 @@ public class CompressImage {
             if (degree != 0) bitmap = rotateBitmap(bitmap, degree);
             File file = new File(desPath);
             FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 70, fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, fos);
             fos.close();
             if (isDelSrc) srcFile.deleteOnExit();
         } catch (Exception e) {

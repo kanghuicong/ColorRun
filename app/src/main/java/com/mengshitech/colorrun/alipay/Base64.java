@@ -1,5 +1,8 @@
 package com.mengshitech.colorrun.alipay;
-
+/**
+ * 作者：wschenyongyin on 2016/8/4 10:53
+ * 说明:
+ */
 public final class Base64 {
 
 	private static final int BASELENGTH = 128;

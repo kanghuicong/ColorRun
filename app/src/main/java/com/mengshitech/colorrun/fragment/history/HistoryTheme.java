@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.HistoryAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
+import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
@@ -28,6 +31,7 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
+import com.mengshitech.colorrun.view.MyListView;
 
 import org.json.JSONException;
 
@@ -39,14 +43,15 @@ import java.util.Map;
  * wschenyongyin
  */
 @SuppressLint("ValidFragment")
-public class HistoryTheme extends BaseFragment {
+public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     private Activity mActivity;
     List<HistoryEntity> mHistoryList;
-    ListView theme_listview;
+    MyListView theme_listview;
     FragmentManager mFragmentManagr;
     private ProgressDialog dialog;
     String type;
     int lerun_id;
+    BottomPullSwipeRefreshLayout swipeRefreshLayout;
 
     public HistoryTheme(Activity activity, String type) {
         mActivity = activity;
@@ -61,23 +66,33 @@ public class HistoryTheme extends BaseFragment {
     public View initView() {
 
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
-        dialog = ProgressDialog.show(mActivity, "正在加载数据");
-//		dialog.show();
-        rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
-        findById();
+       if(rainbowView==null){
+           rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
+           init();
+       }
+        ViewGroup parent = (ViewGroup) rainbowView.getParent();
+        if (parent != null) {
+            parent.removeView(rainbowView);
+        }
+
+
         theme_listview.setOnItemClickListener(new ItemClickListener());
         return rainbowView;
     }
 
-    private void findById() {
-        theme_listview = (ListView) rainbowView.findViewById(R.id.history_theme_listview);
+    private void init() {
+
+        theme_listview = (MyListView) rainbowView.findViewById(R.id.history_theme_listview);
         mFragmentManagr = getFragmentManager();
-        initDatas();
+        swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
+        swipeRefreshLayout = (BottomPullSwipeRefreshLayout) rainbowView.findViewById(R.id.swipe_history);
+        swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.autoRefresh();
+
     }
 
-    private void initDatas() {
-        new Thread(getLeRunRunnable).start();
-    }
+
 
     //获取数据的请求
     private String getData() {
@@ -85,18 +100,20 @@ public class HistoryTheme extends BaseFragment {
         Map<String, String> map = new HashMap<String, String>();
         map.put("flag", "historylerun");
         map.put("index", "1");
-        map.put("lerun_theme",type);
+        map.put("lerun_theme", type);
         String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
         Log.i("获取主题信息:", result);
         return result;
     }
 
+
+
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.i("ItemClickListener", "ItemClickListener");
 
-            int lerun_id= Integer.parseInt(parent.getItemAtPosition(position).toString());
-           Log.i("item的值：",""+lerun_id);
+            int lerun_id = Integer.parseInt(parent.getItemAtPosition(position).toString());
+            Log.i("item的值：", "" + lerun_id);
             HistoryContent historyContent = new HistoryContent();
             Bundle bundle = new Bundle();
             bundle.putInt("lerun_id", lerun_id);
@@ -126,19 +143,31 @@ public class HistoryTheme extends BaseFragment {
             String result = (String) msg.obj;
 
             if (result.equals("timeout")) {
-                dialog.dismiss();
+
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
-                    dialog.dismiss();
-                    List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("datas", result);
-//                    count=lerunlist.size();
-                    Log.i("lerunlist的大小",lerunlist.size()+"");
-                    theme_listview.setAdapter(new HistoryAdapter(mActivity, lerunlist, theme_listview));
+
+                    int state=JsonTools.getState("state",result);
+                    if(state==1){
+                        List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("datas", result);
+                        Log.i("lerunlist的大小", lerunlist.size() + "sss");
+                        theme_listview.setAdapter(new HistoryAdapter(mActivity, lerunlist, theme_listview));
+                        swipeRefreshLayout.setRefreshing(false);
+                    }else{
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
     };
+
+    @Override
+    public void onRefresh() {
+        new Thread(getLeRunRunnable).start();
+    }
 }

@@ -8,6 +8,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
         android:src="@mipmap/imgbg" />
 
     <CheckBox
@@ -17,19 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/imageView1"
         android:layout_alignTop="@+id/imageView1"
+
         android:checked="false"
         android:clickable="false"
         android:focusable="false" />
 
-    <TextView
-        android:id="@+id/tv_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5.0dip"
-        android:maxLines="1"
-        android:textColor="#ff333333"
-        android:textSize="14.0sp" />
+
 
 </RelativeLayout>

@@ -58,6 +58,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     int like_pos,share_pos;
     String sta;
     List<String> list = new ArrayList<String>();
+    Activity activity;
 
 
     private static class ViewHolder {
@@ -79,6 +80,15 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         this.mShowList = showList;
         this.fm = fm;
         this.mListView = mListView;
+    }
+    public ShowAdapter(int count,Activity activity ,Context context, FragmentManager fm, List<ShowEntity> showList,
+                       ListView mListView) {
+        this.count = count;
+        this.context = context;
+        this.mShowList = showList;
+        this.fm = fm;
+        this.mListView = mListView;
+        this.activity=activity;
     }
 
     @Override
@@ -134,7 +144,11 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
         //读取基本数据
         holder.user_name.setText(mShowEntity.getUser_name());
-        holder.show_content.setText(mShowEntity.getShow_content());
+        if (mShowEntity.getShow_content().equals("")){
+            holder.show_content.setVisibility(View.GONE);
+        } else {
+            holder.show_content.setText(mShowEntity.getShow_content());
+        }
         holder.show_time.setText(mShowEntity.getShow_time());
         holder.show_comment_num.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
@@ -163,7 +177,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 String paths = ImageList.get(i);
                 System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
                 imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context, imagepath, imagepath.size());
+                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,activity ,imagepath, imagepath.size());
                 System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
                 holder.show_image.setAdapter(adapter);
             }
@@ -249,7 +263,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.im_show_comment:
-                Toast.makeText(context, "comment", Toast.LENGTH_SHORT).show();
+
                 break;
             default:
                 break;
@@ -288,7 +302,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 if (index.equals("8")) {
                     try {
                         yes_state = JsonTools.getState("state", result);
-                        Log.i("state点赞返回状态", yes_state + "");
                         if (yes_state == 1) {
                             list.set(like_pos,"1");
                             mShowEntity = mShowList.get(like_pos);
@@ -308,7 +321,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 } else if (index.equals("6")) {
                     try {
                         no_state = JsonTools.getState("state", result);
-                        Log.i("state取消赞返回状态", no_state + "");
                         if (no_state == 1) {
                             list.set(like_pos,"0");
                             mShowEntity = mShowList.get(like_pos);

@@ -14,7 +14,7 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 
 /**
  * 作者：wschenyongyin on 2016/8/3 09:36
- * 说明:
+ * 说明:显示二维码
  */
 public class QrcodeDialog extends Dialog implements
         View.OnClickListener {

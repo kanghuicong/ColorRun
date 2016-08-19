@@ -30,8 +30,8 @@ import android.os.Message;
 import android.widget.ImageView;
 
 /**
- * Created by kanghuicong on 2016/7/22  11:20.
- * 515849594@qq.com
+ * 作者：wschenyongyin on 2016/6/15 14:06
+ * 说明:用httpclient 请求网络数据
  */
 public class HttpUtils {
 

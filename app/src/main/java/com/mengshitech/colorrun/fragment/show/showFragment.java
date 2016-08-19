@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,8 +73,16 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mActivity = getActivity();
         fm = getFragmentManager();
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        showView = View.inflate(mActivity, R.layout.fragment_show, null);
-        findById();
+        if (showView == null) {
+            showView = View.inflate(mActivity, R.layout.fragment_show, null);
+            findById();
+        }
+        ViewGroup parent = (ViewGroup) showView.getParent();
+        if (parent != null) {
+            parent.removeView(showView);
+        }
+
+
         lvShowContent.setOnItemClickListener(new ItemClickListener());
 
         return showView;
@@ -106,7 +115,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
         ivShow_CreateShow.setOnClickListener(this);
-//        swipeRefreshLayout= (AutoSwipeRefreshLayout) showView.findViewById(R.id.swipe_layout);
+
         no_network = (LinearLayout) showView.findViewById(R.id.layout_no_network);
         ivShow_CreateShow.setOnClickListener(this);
 
@@ -133,6 +142,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                 if (ContentCommon.login_state.equals("1")) {
                     context.startActivity(new Intent(context, ReleaseShowActivity.class));
+
+
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }
@@ -178,7 +189,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     mShowList = JsonTools.getShowInfo("datas", result);
 
                     Log.i("mshowlist", mShowList.toString());
-                    mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
+                    mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
 
                     lvShowContent.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);
@@ -270,7 +281,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     //当没有网络连接时将listview隐藏  并动态加入一个提示的TextView
 
 
-    private  BroadcastReceiver Receiver = new BroadcastReceiver() {
+    private BroadcastReceiver Receiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
@@ -279,7 +290,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             NetworkInfo wifiinfo = connectivityManager
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            if ((phoneinfo.isConnected()) ||(wifiinfo.isConnected())) {
+            if ((phoneinfo.isConnected()) || (wifiinfo.isConnected())) {
 
                 no_network.setVisibility(View.GONE);
                 swipeRefreshLayout.autoRefresh();
@@ -296,7 +307,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             try {
                 mActivity.unregisterReceiver(Receiver);
-            }catch (Exception e){
+            } catch (Exception e) {
                 // already unregistered
             }
 

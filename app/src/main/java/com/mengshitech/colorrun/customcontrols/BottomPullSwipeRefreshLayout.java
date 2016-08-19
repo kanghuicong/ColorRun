@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 
 /**
  * 作者：wschenyongyin on 2016/8/6 10:58
- * 说明:
+ * 说明:实现SwipeRefreshLayout自动刷新和上拉加载
  */
 public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements AbsListView.OnScrollListener {
 

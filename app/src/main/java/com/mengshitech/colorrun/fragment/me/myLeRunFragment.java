@@ -52,11 +52,12 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
     private Context context;
     private AutoSwipeRefreshLayout autoSwipeRefreshLayout;
     FragmentManager mFragmentManager;
+    private Activity activity;
 
     @Override
     public View initView() {
 
-        mActivity = getActivity();
+        activity = getActivity();
         context = getActivity();
         mFragmentManager = getFragmentManager();
         if (mLeRunView == null) {

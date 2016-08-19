@@ -8,16 +8,20 @@ import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.SpaceImageDetailActivity;
+import com.mengshitech.colorrun.fragment.lerun.ShowMap;
+import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
+import com.mengshitech.colorrun.utils.Utility;
 
 public class ImgsActivity extends Activity implements OnClickListener {
 
@@ -44,6 +52,8 @@ public class ImgsActivity extends Activity implements OnClickListener {
 	Button count;
 	TextView btn_cancel;
 	String evaluate_content;
+	public static LinearLayout ll_imageactivity;
+	public static  FrameLayout frameLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,8 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		count = (Button) findViewById(R.id.count);
 		btn_back=(LinearLayout) findViewById(R.id.btn_back);
 		btn_cancel=(TextView) findViewById(R.id.btn_cancel);
+		ll_imageactivity= (LinearLayout) findViewById(R.id.ll_imageactivity);
+		frameLayout= (FrameLayout) findViewById(R.id.fm_image);
 		
 		
 
@@ -101,18 +113,34 @@ public class ImgsActivity extends Activity implements OnClickListener {
 	}
 
 	@SuppressLint("NewApi")
-	public ImageView iconImage(String filepath, int index, CheckBox checkBox)
+	public ImageView iconImage(final String filepath, int index, CheckBox checkBox)
 			throws FileNotFoundException {
 		LayoutParams params = new LayoutParams(
 				relativeLayout2.getMeasuredHeight() - 10,
 				relativeLayout2.getMeasuredHeight() - 10);
-		ImageView imageView = new ImageView(this);
+		params.gravity= Gravity.CENTER;
+		params.leftMargin=2;
+		final ImageView imageView = new ImageView(this);
 		imageView.setLayoutParams(params);
-		imageView.setBackgroundResource(R.mipmap.imgbg);
+		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//		imageView.setBackgroundResource(R.mipmap.imgbg);
 //		float alpha = 100;
-		imageView.setAlpha(100);
+		imageView.setAlpha(255);
 		util.imgExcute(imageView, imgCallBack, filepath);
-		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
+//		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
+		Log.i("img",filepath+"");
+		imageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ShowMap show=new ShowMap(ImgsActivity.this,filepath,frameLayout,ll_imageactivity);
+
+				FragmentManager fragmentManager=getFragmentManager();
+				fragmentManager.beginTransaction().replace(R.id.fm_image, show).addToBackStack(null).commit();
+				frameLayout.setVisibility(View.VISIBLE);
+//				ll_imageactivity.setVisibility(View.GONE);
+
+			}
+		});
 		return imageView;
 	}
 
@@ -145,6 +173,8 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		@Override
 		public void OnItemClick(View v, int Position, CheckBox checkBox) {
 			String filapath = fileTraversal.filecontent.get(Position);
+			String imagepath=imgGridView.getItemAtPosition(Position).toString();
+			Log.i("imagepath",imagepath + ":"+Position);
 			if (checkBox.isChecked()) {
 				checkBox.setChecked(false);
 				select_layout.removeView(hashImage.get(Position));
@@ -215,4 +245,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		}
 
 	}
+
+
 }

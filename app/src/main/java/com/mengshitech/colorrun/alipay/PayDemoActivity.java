@@ -21,7 +21,10 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
-
+/**
+ * 作者：wschenyongyin on 2016/8/4 10:53
+ * 说明:
+ */
 public class PayDemoActivity extends FragmentActivity {
 
 	// 商户PID

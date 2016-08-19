@@ -8,7 +8,10 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-;
+/**
+ * 作者：wschenyongyin on 2016/8/15 14:06
+ * 说明:用Gson解析json的工具类
+ */
 public class GsonTools {
 
 	public GsonTools() {

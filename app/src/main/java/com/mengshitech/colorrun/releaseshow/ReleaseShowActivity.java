@@ -3,6 +3,8 @@ package com.mengshitech.colorrun.releaseshow;
 //有问题发邮箱:wschenyongyin@qq.com
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ReleaseShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
+import com.mengshitech.colorrun.fragment.lerun.ShowMap;
 import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -21,6 +25,7 @@ import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.upload;
 
 
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,6 +48,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -70,6 +76,10 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     private String evaluate_content;
     String success_imagePath;
 
+    private FrameLayout frameLayout;
+    private LinearLayout linearLayout;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,23 +88,38 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         ll_send = (LinearLayout) findViewById(R.id.ll_send);
         ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);
         et_text = (EditText) findViewById(R.id.et_text);
+        linearLayout = (LinearLayout) findViewById(R.id.ll_reshow);
+        frameLayout = (FrameLayout) findViewById(R.id.fm_reshow);
 
+        progressDialog=ProgressDialog.show(ReleaseShowActivity.this,"正在发表");
         intDatas();
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             if (bundle.getStringArrayList("files") != null) {
                 listfile = bundle.getStringArrayList("files");
-                String content = bundle.getString("evaluate_content");
+
 
                 count = listfile.size() + 1;
-                et_text.setText(content + "");
 
-                compressfile=compressImage(listfile);
-                ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
-                        ReleaseShowActivity.this, compressfile, count, bmp);
-                gridView.setAdapter(adapter);
+
+                try {
+                    compressfile = compressImage(listfile);
+                    ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
+                            ReleaseShowActivity.this, compressfile, count, bmp);
+                    gridView.setAdapter(adapter);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
             }
+            if (bundle.getString("evaluate_content") != null) {
+                String content = bundle.getString("evaluate_content");
+                et_text.setText(content + "");
+            }
+
         }
 
         ll_send.setOnClickListener(this);
@@ -189,6 +214,14 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             if (position + 1 == count) {
 
                 showDailog();
+            } else {
+                String image_path = compressfile.get(position);
+                ShowMap show = new ShowMap(ReleaseShowActivity.this, image_path, frameLayout, linearLayout);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fm_reshow, show).addToBackStack(null).commit();
+                frameLayout.setVisibility(View.VISIBLE);
+
             }
 
         }
@@ -220,11 +253,12 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             String result = (String) msg.obj;
 
-            Log.i("上传图片返回的值",result+"");
+            Log.i("上传图片返回的值", result + "");
             if (result.equals("failure") || result.equals("") || result == null) {
                 Toast.makeText(ReleaseShowActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    deleteFile(compressfile);
                     success_imagePath = JsonTools.getDatas(result);
                     new Thread(ReleaseShowRunnable).start();
                 } catch (JSONException e) {
@@ -232,6 +266,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 }
 
             }
+
 
         }
     };
@@ -264,9 +299,12 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
                 Toast.makeText(ReleaseShowActivity.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else if (result.equals("1")) {
+                progressDialog.dismiss();
                 finish();
             } else {
+                progressDialog.dismiss();
                 Toast.makeText(ReleaseShowActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
             }
         }
@@ -279,13 +317,14 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             case R.id.ll_send:
                 content = et_text.getText().toString();
                 System.out.println("内容:" + content + "图片内容:" + listfile);
-                if (listfile != null&&listfile.size()!=0 && content != null) {
+                if (listfile != null && listfile.size() != 0 && content != null) {
+                    progressDialog.show();
                     new Thread(runnable).start();
 
-                } else if((listfile == null||listfile.size()==0)&&content != null&&!content.equals("")){
-                    success_imagePath="";
-                   new Thread(ReleaseShowRunnable).start();
-                }else{
+                } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
+                    success_imagePath = "";
+                    new Thread(ReleaseShowRunnable).start();
+                } else {
                     Toast.makeText(ReleaseShowActivity.this, "请输入发布的内容",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -318,17 +357,48 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     }
 
 
-
     //对取回来的图片进行压缩
 
-    private List<String> compressImage(List<String> list){
-        List<String> imageList=new ArrayList<String>();
-        for(int i=0;i<list.size();i++){
-            String imagepath=list.get(i);
-            String compressimage=CompressImage.compressBitmap(ReleaseShowActivity.this,imagepath,200,200,false);
+    private List<String> compressImage(List<String> list) throws IOException {
+        List<String> imageList = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            File file = new File(list.get(i));
+            String compressimage = null;
+
+            String imagepath = list.get(i);
+            FileInputStream fis = null;
+            fis = new FileInputStream(file);
+            long size = fis.available();
+            Log.i("文件的大小", "" + size);
+
+            //当图片小于1M时 不进行图片压缩
+            if (size < 1048576) {
+                compressimage = imagepath;
+            } else {
+
+                compressimage = CompressImage.compressBitmap(ReleaseShowActivity.this, imagepath, 300, 300, false);
+            }
             imageList.add(compressimage);
         }
 
         return imageList;
+    }
+
+    //删除缓存图片
+    public static boolean deleteFile(List<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            File file = new File(list.get(i));
+
+            if (file.exists() && file.isFile()) {
+                if (file.delete()) {
+                    Log.i("正在删除文件：", list.get(i) + "");
+
+                } else {
+                    System.out.println("删除旧头像失败！");
+                }
+            } else {
+            }
+        }
+        return false;
     }
 }

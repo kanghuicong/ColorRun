@@ -13,7 +13,7 @@ import com.mengshitech.colorrun.bean.VersionEntiy;
 
 /**
  * 作者：wschenyongyin on 2016/8/6 16:11
- * 说明:
+ * 说明:检查更新的dialog
  */
 public class UpdateDialog extends Dialog implements View.OnClickListener {
     Context context;// 上下文联系
@@ -49,12 +49,12 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
         tv_update_content = (TextView) findViewById(R.id.update_content);
         tv_update_size = (TextView) findViewById(R.id.update_size);
         tv_version_number = (TextView) findViewById(R.id.version_number);
-        Log.i("ssssss", entiy.getUpdate_content() + entiy.getVersion_number() + entiy.getUpdate_size());
+//        Log.i("ssssss", entiy.getUpdate_content() + entiy.getVersion_number() + entiy.getUpdate_size());
         String content;
         content = entiy.getUpdate_content();
         content = content.replace("\\n", "\n");
         tv_update_content.setText(content);
-        tv_version_number.setText(entiy.getVersion_number());
+        tv_version_number.setText(entiy.getVersionName());
         tv_update_size.setText(entiy.getUpdate_size());
 
         btn_close.setOnClickListener(this);

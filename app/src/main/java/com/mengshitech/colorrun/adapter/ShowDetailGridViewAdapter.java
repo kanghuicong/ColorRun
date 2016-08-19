@@ -42,9 +42,7 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (count <=6) {
             return count;
-        }else return 6;
     }
 
     @Override
@@ -70,14 +68,13 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ViewGroup.LayoutParams ps = holder.grid_image.getLayoutParams();
-        ps.height = (dm.widthPixels/8);
-        ps.width = (dm.widthPixels/8);
-        holder.grid_image.setLayoutParams(ps);
-        if (position<=6) {
+            ViewGroup.LayoutParams ps = holder.grid_image.getLayoutParams();
+            ps.height = (dm.widthPixels/10);
+            ps.width = (dm.widthPixels/10);
+            holder.grid_image.setLayoutParams(ps);
             String header_path = ContentCommon.path + likeEntity.getUser_header();
             Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.grid_image);
-        }
+
         return convertView;
     }
 

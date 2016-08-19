@@ -11,6 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#11cd6e">
+        <ImageView
+            android:id="@+id/show_back"
+            android:layout_marginLeft="5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/btn_back" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,16 +48,34 @@
                 android:layout_marginTop="2dp"
                 android:background="@color/ViewLine" />
 
+            <LinearLayout
+                android:id="@+id/ll_show_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_weight="7"
+                    android:src="@mipmap/show_heart"/>
+
             <com.mengshitech.colorrun.view.MyGridView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:numColumns="6"
                 android:id="@+id/gv_showdetail_image"
                 android:padding="10dp"/>
 
+            </LinearLayout>
+
             <View
+                android:id="@+id/show_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="2dp"
@@ -59,6 +85,17 @@
                 android:id="@+id/lv_showdetail_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_show_comment_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:text="暂时没人评论哦~"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:textColor="@color/grey"/>
 
             <View
                 android:layout_width="match_parent"

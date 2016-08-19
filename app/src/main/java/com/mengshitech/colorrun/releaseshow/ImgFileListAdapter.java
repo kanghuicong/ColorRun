@@ -19,7 +19,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.utils.GlideRoundTransform;
 
 public class ImgFileListAdapter extends BaseAdapter{
 
@@ -74,18 +76,19 @@ public class ImgFileListAdapter extends BaseAdapter{
 		
 		holder.filename_textView.setText(listdata.get(arg0).get(filename));
 		holder.filecount_textview.setText(listdata.get(arg0).get(filecount));
-		if (bitmaps[arg0] == null) {
-			util.imgExcute(holder.photo_imgview,new ImgCallBack() {
-				@Override
-				public void resultImgCall(ImageView imageView, Bitmap bitmap) {
-					bitmaps[arg0]=bitmap;
-					imageView.setImageBitmap(bitmap);
-				}
-			}, listdata.get(arg0).get(imgpath));
-		}
-		else {
-			holder.photo_imgview.setImageBitmap(bitmaps[arg0]);
-		}
+//		if (bitmaps[arg0] == null) {
+//			util.imgExcute(holder.photo_imgview,new ImgCallBack() {
+//				@Override
+//				public void resultImgCall(ImageView imageView, Bitmap bitmap) {
+//					bitmaps[arg0]=bitmap;
+//					imageView.setImageBitmap(bitmap);
+//				}
+//			}, listdata.get(arg0).get(imgpath));
+//		}
+//		else {
+//			holder.photo_imgview.setImageBitmap(bitmaps[arg0]);
+//		}
+		Glide.with(context).load( listdata.get(arg0).get(imgpath)).transform(new GlideRoundTransform(context)).into(holder.photo_imgview);
 		
 		return arg1;
 	}

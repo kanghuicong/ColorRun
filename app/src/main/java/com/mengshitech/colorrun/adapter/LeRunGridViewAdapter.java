@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.GlideRoundTransform;
 import com.mengshitech.colorrun.utils.Utility;
 
 import java.util.List;
@@ -30,23 +32,28 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     Activity mActivity;
     LeRunEntity mLeRunEntity;
     List<LeRunEntity> gideviewlist;//测试用的
+    private int count;
+    private Boolean flag=true;
 
-//    public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> leRunEntityList, FragmentManager fm, GridView gridView) {
-//        mActivity = activity;
-//        mLeRunList = leRunEntityList;
-//        mFragmentManagr = fm;
-//        mLeRunGridView = gridView;
-//    }
+
     public LeRunGridViewAdapter(Activity activity, List<LeRunEntity> gideviewlist, FragmentManager fm, GridView gridView) {
         mActivity = activity;
         this.gideviewlist = gideviewlist;
         mFragmentManagr = fm;
         mLeRunGridView = gridView;
+
+//        Toast.makeText(mActivity,"gideviewlist:"+gideviewlist.size()+"",Toast.LENGTH_SHORT).show();
+        if(gideviewlist==null){
+            count=2;
+            flag=false;
+        }else {
+            count=gideviewlist.size();
+        }
     }
 
     @Override
     public int getCount() {
-        return gideviewlist.size();
+        return count;
     }
 
     @Override
@@ -63,19 +70,25 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        LeRunEntity entity=gideviewlist.get(position);
-        if (convertView == null) {
-            convertView = View.inflate(mActivity, R.layout.item_lerun_gridview, null);
-            holder = new ViewHolder();
-            holder.ivBackground = (ImageView) convertView.findViewById(R.id.ivBackground);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-//        holder.ivBackground.setImageResource(mLeRunEntity.getLeRunBackgroundId());
-        Glide.with(mActivity).load(ContentCommon.path+entity.getLerun_poster()).into(holder.ivBackground);
-        mLeRunGridView.setOnItemClickListener(this);
-        return convertView;
+
+
+           if (convertView == null) {
+               convertView = View.inflate(mActivity, R.layout.item_lerun_gridview, null);
+               holder = new ViewHolder();
+               holder.ivBackground = (ImageView) convertView.findViewById(R.id.ivBackground);
+               convertView.setTag(holder);
+           } else {
+               holder = (ViewHolder) convertView.getTag();
+           }
+        if (flag){
+           LeRunEntity entity=gideviewlist.get(position);
+           Glide.with(mActivity).load(ContentCommon.path+entity.getLerun_poster()).into(holder.ivBackground);
+           mLeRunGridView.setOnItemClickListener(this);
+       }else {
+//            holder.ivBackground.setImageResource(R.mipmap.defaut_error_square);
+            Glide.with(mActivity).load(R.mipmap.defaut_error_square).transform(new GlideRoundTransform(mActivity)).into(holder.ivBackground);
+       }
+    return convertView;
     }
 
     @Override

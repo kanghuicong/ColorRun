@@ -45,7 +45,9 @@ public class LerunEvaluateFragment extends BaseFragment implements View.OnClickL
     @Override
     public View initView() {
         context=getActivity();
+
         lerun_evaluate_view = View.inflate(getActivity(), R.layout.fragment_lerunevaluate, null);
+        MainBackUtility.MainBack(lerun_evaluate_view, "评价", getFragmentManager());
         init();
         return lerun_evaluate_view;
     }

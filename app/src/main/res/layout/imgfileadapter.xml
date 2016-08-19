@@ -9,6 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/imgbg" />
 
     <LinearLayout

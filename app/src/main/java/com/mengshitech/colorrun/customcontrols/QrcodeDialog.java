@@ -50,7 +50,7 @@ public class QrcodeDialog extends Dialog implements
         super.onCreate(savedInstanceState);
         this.setContentView(layout);
 
-        Log.i("oncreat", "success");
+
 
 
        LinearLayout btn_ok = (LinearLayout) findViewById(R.id.btn_qrcde_ok);

@@ -113,7 +113,7 @@ public class RegisterPwd extends Activity {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("result",result);
+
             // 判断从服务器端返回来的值是否为1，如果为1则注册成功，同时将用户信息存入sqlite数据库并跳转到注册成功页面
             if (result.equals("timeout")){
                 Toast.makeText(RegisterPwd.this, "连接服务器失败！",
@@ -166,7 +166,7 @@ public class RegisterPwd extends Activity {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("result",result);
+
             // 判断从服务器端返回来的值是否为1，如果为1则注册成功，同时将用户信息存入sqlite数据库并跳转到注册成功页面
             if (result.equals("timeout")){
                 Toast.makeText(RegisterPwd.this, "连接服务器失败！",

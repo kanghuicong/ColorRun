@@ -56,7 +56,7 @@ public class ChoseImageDiaLog extends Dialog implements
 		super.onCreate(savedInstanceState);
 		this.setContentView(layout);
 
-		Log.i("oncreat", "success");
+
 		Button btn_takephoto = (Button) findViewById(R.id.btn_takephoto);
 		Button btn_picture = (Button) findViewById(R.id.btn_picture);
 		Button btn_cancel = (Button) findViewById(R.id.btn_cancel);

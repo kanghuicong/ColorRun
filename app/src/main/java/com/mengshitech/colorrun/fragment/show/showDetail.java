@@ -76,7 +76,6 @@ public class showDetail extends Activity implements View.OnClickListener{
         Bundle bundle = intent.getExtras();
         show_id = bundle.getString("show_id");
         comment_userid = bundle.getString("comment_userid");
-        Log.i("点赞show_id",show_id);
         showdetail_username.setText(bundle.getString("user_name"));
         showdetail_content.setText(bundle.getString("show_content"));
         showdetail_time.setText(bundle.getString("show_time"));
@@ -149,7 +148,6 @@ public class showDetail extends Activity implements View.OnClickListener{
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             like_handler.sendMessage(msg);
@@ -167,7 +165,6 @@ public class showDetail extends Activity implements View.OnClickListener{
 //                progressDialog.dismiss();
                 try {
                     List<LikeEntity> likelist = JsonTools.getLikeInfo("result",result);
-                    Log.i("likelist",likelist+"");
                     gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
                     gv_like.setAdapter(gv_adapter);
                 }catch (JSONException e) {
@@ -190,7 +187,6 @@ public class showDetail extends Activity implements View.OnClickListener{
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             comment_handler.sendMessage(msg);
@@ -208,7 +204,6 @@ public class showDetail extends Activity implements View.OnClickListener{
 //                progressDialog.dismiss();
                 try {
                     commentlist = JsonTools.getCommentInfo("result",result);
-                    Log.i("commentlist",commentlist+"");
 
                     lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
                     lv_comment.setAdapter(lv_adapter);
@@ -235,7 +230,6 @@ public class showDetail extends Activity implements View.OnClickListener{
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             comment_show_handler.sendMessage(msg);

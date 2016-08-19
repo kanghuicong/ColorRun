@@ -118,7 +118,6 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-            Log.i("返回的值", result);
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
@@ -128,7 +127,6 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                     String gsonString = JsonTools.getDatas(result);
                     final VersionEntiy entiy = GsonTools.getEntity(gsonString, VersionEntiy.class);
 
-                    Log.i("返回的值", entiy.toString());
                     progressDialog.dismiss();
 
                     updateDialog = new UpdateDialog(context, R.layout.dialog_updateversion, entiy, R.style.dialog, new UpdateDialog.LeaveMyDialogListener() {
@@ -200,8 +198,6 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
             // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
             versionName = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionName;
             int versionCode = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionCode;
-            Log.i("versionName：",versionName);
-            Log.i("versionName：",versionCode+"");
         } catch (PackageManager.NameNotFoundException e)
         {
             e.printStackTrace();

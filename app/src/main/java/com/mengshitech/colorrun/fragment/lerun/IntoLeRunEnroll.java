@@ -151,7 +151,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             EnrollEntity entity = new EnrollEntity();
             entity.setPrice(free_price);
             entity.setEnroll_equipment(free_equipment);
-            Log.i("free_price", free_price + "");
             list.add(entity);
         }
         if (common_price >= 0) {
@@ -170,13 +169,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             @Override
             public void returnInfo(int price) {
                 choose_price = price;
-                Log.i("choose_price", choose_price + "");
             }
         });
 
         enroll_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("123333333", "onItemClick: "+flag+"-----0"+position);
                 flag = position;
                 adapter.setFlag(flag);
                 adapter.notifyDataSetChanged();
@@ -224,7 +221,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         bt_enroll_agree.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
-                                                   Log.i("1choose_price",choose_price+"");
                                                    if (!"".equals(user_name.getText().toString()) &&
                                                            !"".equals(card_number.getText().toString()) &&
                                                            !"".equals(enroll_unit.getText().toString()) &&
@@ -355,7 +351,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result", result);
             if (result.equals("timeout")) {
 //                progressDialog.dismiss();
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
@@ -368,7 +363,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 bundle.putString("user_name",user_name.getText().toString());
                 bundle.putString("lerun_title",enroll_name.getText().toString());
                 bundle.putInt("lerun_price",choose_price);
-                Log.i("1Payment",user_name.getText().toString()+enroll_name.getText().toString()+choose_price);
 //                LeRunPayment leRunPayment = new LeRunPayment();
 //                leRunPayment.setArguments(bundle);
                 AlipayFragment alipayFragment=new AlipayFragment();

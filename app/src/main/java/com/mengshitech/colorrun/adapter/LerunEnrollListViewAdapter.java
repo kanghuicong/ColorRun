@@ -64,8 +64,7 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         EnrollEntity mEnrollEntity = getItem(position);
 
-        Log.i("mLeRunList.size():",mEnrollList.size()+"");
-        Log.i("mEnrollEntity",mEnrollEntity.getPrice()+"");
+
         if (convertView == null) {
             view = View.inflate(context, R.layout.lerun_enroll_listview,
                     null);
@@ -81,7 +80,7 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
         holder.equipment.setText(mEnrollEntity.getEnroll_equipment());
 
 
-        Log.i("flag:",flag+"");
+
         if (flag == position) {
             holder.image.setBackgroundResource(R.mipmap.selected_yes);
             callback.returnInfo(mEnrollEntity.getPrice());

@@ -64,7 +64,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		bundle = getIntent().getExtras();
 		fileTraversal = bundle.getParcelable("data");
 		evaluate_content=bundle.getString("evaluate_content");
-		Log.i("ImgsActivityEvaluate",evaluate_content+"");
 		imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
 				onItemClickClass);
 		imgGridView.setAdapter(imgsAdapter);
@@ -128,7 +127,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		imageView.setAlpha(255);
 		util.imgExcute(imageView, imgCallBack, filepath);
 //		imageView.setOnClickListener(new ImgOnclick(filepath, checkBox));
-		Log.i("img",filepath+"");
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -174,7 +172,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
 		public void OnItemClick(View v, int Position, CheckBox checkBox) {
 			String filapath = fileTraversal.filecontent.get(Position);
 			String imagepath=imgGridView.getItemAtPosition(Position).toString();
-			Log.i("imagepath",imagepath + ":"+Position);
 			if (checkBox.isChecked()) {
 				checkBox.setChecked(false);
 				select_layout.removeView(hashImage.get(Position));
@@ -183,18 +180,17 @@ public class ImgsActivity extends Activity implements OnClickListener {
 			} else {
 				try {
 					checkBox.setChecked(true);
-					Log.i("img", "img choise position->" + Position);
 					ImageView imageView = iconImage(filapath, Position,
 							checkBox);
 					if (imageView != null) {
-						if (select_layout.getChildCount() < 9) {
+						if (select_layout.getChildCount() < 6) {
 							hashImage.put(Position, imageView);
 							filelist.add(filapath);
 							select_layout.addView(imageView);
 							count.setText(select_layout.getChildCount() + "");
 						} else {
 							checkBox.setChecked(false);
-							Toast.makeText(ImgsActivity.this, "最多只能选9张图片",
+							Toast.makeText(ImgsActivity.this, "最多只能选6张图片",
 									Toast.LENGTH_SHORT).show();
 						}
 

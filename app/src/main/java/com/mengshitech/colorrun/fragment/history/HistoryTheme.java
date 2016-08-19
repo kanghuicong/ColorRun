@@ -102,7 +102,6 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
         map.put("index", "1");
         map.put("lerun_theme", type);
         String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
-        Log.i("获取主题信息:", result);
         return result;
     }
 
@@ -110,10 +109,8 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.i("ItemClickListener", "ItemClickListener");
 
             int lerun_id = Integer.parseInt(parent.getItemAtPosition(position).toString());
-            Log.i("item的值：", "" + lerun_id);
             HistoryContent historyContent = new HistoryContent();
             Bundle bundle = new Bundle();
             bundle.putInt("lerun_id", lerun_id);
@@ -152,7 +149,6 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
                     int state=JsonTools.getState("state",result);
                     if(state==1){
                         List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("datas", result);
-                        Log.i("lerunlist的大小", lerunlist.size() + "sss");
                         theme_listview.setAdapter(new HistoryAdapter(mActivity, lerunlist, theme_listview));
                         swipeRefreshLayout.setRefreshing(false);
                     }else{

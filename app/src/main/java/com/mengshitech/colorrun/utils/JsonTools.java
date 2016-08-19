@@ -32,6 +32,7 @@ public class JsonTools {
     public static int getState(String key, String jsonString) throws JSONException {
         JSONObject object = new JSONObject(jsonString);
         int state = object.getInt(key);
+
         return state;
     }
 
@@ -100,7 +101,6 @@ public class JsonTools {
     //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
-        Log.i("myshowjsonString", jsonString);
         List<ShowEntity> list = new ArrayList<ShowEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray(key);
@@ -126,7 +126,6 @@ public class JsonTools {
     //点赞信息
     public static List<LikeEntity> getLikeInfo(String key, String jsonString)
             throws JSONException {
-        Log.i("点赞jsonString", jsonString);
         List<LikeEntity> list = new ArrayList<LikeEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray("datas");
@@ -141,7 +140,6 @@ public class JsonTools {
 
             list.add(info);
         }
-        Log.i("点赞list的大小", list.size() + "");
         return list;
     }
 
@@ -164,7 +162,6 @@ public class JsonTools {
 
             list.add(info);
         }
-        Log.i("list的大小", list.size() + "");
         return list;
     }
 
@@ -172,7 +169,6 @@ public class JsonTools {
     public static List<String> getImageInfo(String jsonString)
             throws JSONException {
 
-        Log.i("jsonString:", jsonString);
 
         JSONArray jsonArray = new JSONArray(jsonString);
 
@@ -183,7 +179,6 @@ public class JsonTools {
             String imagePath = jsonObject.getString("imagePath");
             list.add(ContentCommon.path + imagePath);
         }
-        Log.i("listdaixao:", list.size() + "");
         return list;
     }
 
@@ -231,7 +226,6 @@ public class JsonTools {
         LeRunEntity entity = new LeRunEntity();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject object = jsonObject.getJSONObject(key);
-        Log.i("jsonString_mdzz", jsonString);
 
         entity.setLerun_address(object.getString("lerun_address"));
         entity.setLerun_begintime(object.getString("lerun_begintime"));
@@ -265,13 +259,11 @@ public class JsonTools {
         entity.setVip_eqeuipment(object.getString("vip_equipment"));
         entity.setLerun_surplus(Integer.parseInt(object.getString("lerun_surplus")));
 
-        Log.i("mdzz", entity + "");
         return entity;
     }
 
     //解析热门视频信息
     public static List<VideoEntity> getVideoInfo(String jsonString) throws JSONException {
-        Log.i("json解析得到的数据", jsonString);
 
 //        JSONObject jsonObject=new JSONObject(jsonString);
 //        JSONObject object=jsonObject.getJSONObject("datas");
@@ -351,7 +343,6 @@ public class JsonTools {
 
             list.add(info);
         }
-        Log.i("list的大小", list.size() + "");
         return list;
     }
 
@@ -383,7 +374,6 @@ public class JsonTools {
     public static String getUserLog(String jsonString)
             throws JSONException {
 
-        Log.i("jsonString:", jsonString);
 
         JSONArray jsonArray = new JSONArray(jsonString);
 
@@ -394,7 +384,6 @@ public class JsonTools {
         String imagePath = jsonObject.getString("imagePath");
 
 
-        Log.i("listdaixao:", list.size() + "");
         return imagePath;
     }
 

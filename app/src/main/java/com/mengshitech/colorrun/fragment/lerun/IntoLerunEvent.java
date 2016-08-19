@@ -67,7 +67,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
             MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
             lerun_id = getArguments().getInt("lerun_id");
-            Log.i("lerun_id", lerun_id + "");
             context = getActivity();
             activity = getActivity();
             new Thread(runnable).start();
@@ -80,21 +79,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 parent.removeView(mRootView.get());
             }
         }
-        return mRootView.get();
+        return mRootView.get();}
 
-//        into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
-//        MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
-//        lerun_id = getArguments().getInt("lerun_id");
-//        Log.i("lerun_id", lerun_id + "");
-//        context=getActivity();
-//
-//        new Thread(runnable).start();
-//        find();
-//        click();// 点击事件
-////        entry_type();// 查看报名的状态
-////        number_type();// 查看人数状态
-//        return into_lerun_view;
-    }
+
 
 
     // 人数状态
@@ -127,19 +114,13 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     private void Time(String time) {
         //获取活动结束时间time
         String Countdown = time + ":00";
-        Log.i("Countdown", Countdown);
 
         String time_finish = getTime(Countdown);
-        Log.i("time_finish1111", time_finish);
         long time_now = new Date().getTime();
-        Log.i("time_finish", time_finish);
 
         int Time_finish = Integer.valueOf(time_finish) * 1000;
         int Time_now = (int) time_now;
 
-        Log.i("时间戳", time_now + "");
-        Log.i("Time_now", Time_now + "");
-        Log.i("Time_finish", Time_finish + "");
 
         countdown.setEndTime(System.currentTimeMillis()
                 + (Time_finish - Time_now));
@@ -157,7 +138,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             long l = d.getTime();
             String str = String.valueOf(l);
             re_time = str.substring(0, 10);
-            Log.i("时间戳", re_time + "");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -247,7 +227,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             map.put("index", "1");
             map.put("lerun_id", lerun_id + "");
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
-            Log.i("result1", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -257,13 +236,11 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("result2", result);
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     LeRunEntity leRunEntity = JsonTools.getLerunEvent("result", result);
-                    Log.i("LeRunEntity", leRunEntity + "");
                     int Free_price = leRunEntity.getCharge_free();
                     int Common_price = leRunEntity.getCharge_common();
                     int Vip_price = leRunEntity.getCharge_vip();
@@ -277,10 +254,8 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                         price.setText(Free_price + "");
                     }
 
-                    Log.i("Charge_common", leRunEntity.getCharge_common() + "");
                     number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
                     time = leRunEntity.getLerun_endtime();
-                    Log.i("Lerun_endtime", leRunEntity.getLerun_endtime());
                     address.setText(leRunEntity.getLerun_address());
                     lerun_time.setText(leRunEntity.getLerun_time());
                     name.setText(leRunEntity.getLerun_title());
@@ -297,7 +272,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                     vip_equipment = leRunEntity.getVip_eqeuipment();
 
                     String poster_path = ContentCommon.path + leRunEntity.getLerun_poster();
-                    Log.i("poster_path", poster_path);
                     map_path = ContentCommon.path + leRunEntity.getLerun_map();
                     Glide.with(getActivity()).load(poster_path).into(poster);
                     Glide.with(getActivity()).load(map_path).into(map);
@@ -312,7 +286,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("onDestroy", "执行了");
         getFragmentManager().popBackStack();
     }
 }

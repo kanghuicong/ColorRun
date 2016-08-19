@@ -101,7 +101,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);

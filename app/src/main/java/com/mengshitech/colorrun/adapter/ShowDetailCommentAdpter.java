@@ -76,7 +76,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         holder.tvCommentContent.setText(mCommentEntity.getComment_content());
 
         String header_path = ContentCommon.path + mCommentEntity.getUser_header();
-        Log.i("header_path:", header_path);
+
         Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).into(holder.ivUserHead);
 
         return convertView;
@@ -89,7 +89,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         TextView tvCommentContent;
     }
     public void changeCount(int changecount){
-        Log.i("changecount",changecount+"");
+
         count=changecount;
     }
 }

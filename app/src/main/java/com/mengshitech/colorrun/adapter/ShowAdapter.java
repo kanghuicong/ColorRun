@@ -205,7 +205,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
             } else {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
-                Log.i("state点击时状态", like_state + "");
+                
                 if (list.get(like_pos).equals("0")) {
                     index = "8";
                     new Thread(runnable).start();

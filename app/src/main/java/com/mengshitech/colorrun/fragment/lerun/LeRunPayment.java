@@ -34,7 +34,6 @@ public class LeRunPayment extends Fragment implements View.OnClickListener{
     }
 
     private void GetData() {
-        Log.i("payment_name",getArguments().getString("user_name"));
         payment_name.setText("姓名："+getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
         payment_price.setText(getArguments().getInt("lerun_price")+"");

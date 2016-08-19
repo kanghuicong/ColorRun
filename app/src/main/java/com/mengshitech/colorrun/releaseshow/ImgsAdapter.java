@@ -83,7 +83,6 @@ public class ImgsAdapter extends BaseAdapter {
 		} else {
 //			holder.imageView.setImageBitmap(bitmaps[arg0]);
 			Glide.with(context).load(data.get(arg0)).into(holder.imageView);
-			Log.i("imgsadapter",data.get(arg0)+"");
 		}
 		arg1.setOnClickListener(new OnPhotoClick(arg0, holder.checkBox));
 		return arg1;

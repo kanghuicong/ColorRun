@@ -41,7 +41,6 @@ public class CreateQrCode {
 			//
 			QRCodeWriter writer = new QRCodeWriter();
 
-			Log.i("", "输入的内容" + contents);
 			if (contents == null || "".equals(contents)
 					|| contents.length() < 1) {
 				return null;

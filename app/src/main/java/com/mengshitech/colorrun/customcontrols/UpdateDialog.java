@@ -42,14 +42,14 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         this.setContentView(layout);
 
-        Log.i("oncreat", "success");
+
         Button btn_close = (Button) findViewById(R.id.btn_close);
         Button btn_update = (Button) findViewById(R.id.btn_update);
 
         tv_update_content = (TextView) findViewById(R.id.update_content);
         tv_update_size = (TextView) findViewById(R.id.update_size);
         tv_version_number = (TextView) findViewById(R.id.version_number);
-//        Log.i("ssssss", entiy.getUpdate_content() + entiy.getVersion_number() + entiy.getUpdate_size());
+
         String content;
         content = entiy.getUpdate_content();
         content = content.replace("\\n", "\n");

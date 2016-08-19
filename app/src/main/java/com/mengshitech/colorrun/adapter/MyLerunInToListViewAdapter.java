@@ -149,14 +149,13 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
         int charge_state = info.getCharge_state();
         int sign_state = info.getSign_state();
         String user_telphone=info.getUser_telphone();
-        Log.i("charge_state", info.getCharge_state() + "");
+
         if (charge_state == 0) {
             Bundle bundle = new Bundle();
             bundle.putString("user_name", info.getPersonal_name());
             bundle.putString("lerun_title", info.getLerun_title());
             bundle.putInt("lerun_price", info.getPayment());
-            Log.i("user_name", info.getPersonal_name() + "");
-            Log.i("lerun_price", info.getPayment() + "");
+
             AlipayFragment alipayFragment = new AlipayFragment();
             alipayFragment.setArguments(bundle);
             Utility.replace2DetailFragment(mFragmentManager, alipayFragment);

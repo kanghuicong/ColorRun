@@ -367,7 +367,6 @@ public class DialogUtility {
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
 
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -378,7 +377,6 @@ public class DialogUtility {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result", result);
             if (result.equals("timeout")) {
                 Toast.makeText(Context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {

@@ -112,7 +112,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -124,7 +123,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result111", result);
             if (result.equals("timeout")) {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
@@ -136,7 +134,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
                     mShowList = JsonTools.getShowInfo("result", result);
 
-                    Log.i("mshowlist", mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(),activity,getActivity(), getFragmentManager(), mShowList, lv_myshow);
                     lv_myshow.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);

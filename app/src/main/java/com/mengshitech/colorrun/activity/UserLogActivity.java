@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -59,7 +60,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_detail_userlog);
         init();
-        Log.i("user_log", ContentCommon.user_log + "ssss");
+
     }
 
     private void init() {
@@ -197,6 +198,9 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
             String result = (String) msg.obj;
             if (result.equals("1")) {
                 Toast.makeText(UserLogActivity.this, "更改头像成功", Toast.LENGTH_SHORT).show();
+                UserDao dao=new UserDao(UserLogActivity.this);
+                dao.update_data("user_header",ScuessImagePath,ContentCommon.user_id);
+
             } else if (result.equals("0")) {
                 Toast.makeText(UserLogActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
             }

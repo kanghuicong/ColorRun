@@ -196,7 +196,6 @@ public class meFragment extends Fragment implements OnClickListener {
                     if (userEntiy.getUser_header().equals("")){
                     }else{
                         String header_path = ContentCommon.path+userEntiy.getUser_header();
-                        Log.i("header_path:",header_path);
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }
                 } catch (JSONException e) {

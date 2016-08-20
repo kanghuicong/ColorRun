@@ -218,7 +218,6 @@ public class showDetail extends Activity implements View.OnClickListener{
                 try {
                     commentlist = JsonTools.getCommentInfo("result",result);
                     int state = JsonTools.getState("state",result);
-                    Log.i("commentlist",commentlist+"");
                     if (state == 1){
                         lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
                         lv_comment.setAdapter(lv_adapter);
@@ -275,7 +274,7 @@ public class showDetail extends Activity implements View.OnClickListener{
                         info.setUser_header(modler.getUser_header());
                         info.setComment_time(time_now+"");
                         info.setComment_content(et_show_comment.getText().toString());
-                        commentlist.add(info);
+                        commentlist.add(0,info);
                         lv_adapter.notifyDataSetChanged();
                         et_show_comment.setText("");
                     } else {

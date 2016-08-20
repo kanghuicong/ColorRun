@@ -246,7 +246,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 onkeyShare.setTitle(showEntity.getUser_name()+"的卡乐彩色跑");
                 onkeyShare.setText(showEntity.getShow_content());
 
-                onkeyShare.setImageUrl(ImageList.get(1));
+                onkeyShare.setImageUrl(ImageList.get(0));
                 onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
 

@@ -142,8 +142,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                 if (ContentCommon.login_state.equals("1")) {
                     context.startActivity(new Intent(context, ReleaseShowActivity.class));
-
-
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }

@@ -42,15 +42,17 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
     TextView tv_nickname,tv_phone,tv_sex,tv_height,tv_weight,tv_sign,tv_email,tv_address;
     String userid ;
     String header_path;
+
     private Context context;
     @Override
     public View initView() {
-        mDeatilView = View.inflate(getActivity(), R.layout.me_detail, null);
+        context = getActivity();
+        mDeatilView = View.inflate(context, R.layout.me_detail, null);
         MainBackUtility.MainBack(mDeatilView,"个人信息",getFragmentManager());
-        SharedPreferences sharedPreferences = getActivity()
+        SharedPreferences sharedPreferences = context
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
-        context=getActivity();
+
         FindId();
         Click();
 
@@ -72,7 +74,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
             if (modler.getUser_header()!=null){
                 header_path = ContentCommon.path+modler.getUser_header();
                 ContentCommon.user_log=header_path;
-                Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
+                Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
             }
         }
         return mDeatilView;
@@ -118,31 +120,31 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         fm =getFragmentManager();
         switch (v.getId()){
             case R.id.ll_me_head:
-                getActivity().startActivity(new Intent(getActivity(), UserLogActivity.class));
+                context.startActivity(new Intent(context, UserLogActivity.class));
                 break;
             case R.id.ll_me_nickname:
-                DialogUtility.DialogNickname(getActivity(),tv_nickname,userid);
+                DialogUtility.DialogNickname(context,tv_nickname,userid);
                 break;
             case R.id.ll_me_phone:
-                DialogUtility.DialogPhone(getActivity(),tv_phone,userid);
+                DialogUtility.DialogPhone(context,tv_phone,userid);
                 break;
             case R.id.ll_me_email:
-                DialogUtility.DialogAutograph("email",getActivity(),tv_email,userid);
+                DialogUtility.DialogAutograph("email",context,tv_email,userid);
                 break;
             case R.id.ll_me_sex:
-                DialogUtility.DialogSex(getActivity(),tv_sex,userid);
+                DialogUtility.DialogSex(context,tv_sex,userid);
                 break;
             case R.id.ll_me_height:
-                DialogUtility.DialogPhysique("height",getActivity(),tv_height,userid);
+                DialogUtility.DialogPhysique("height",context,tv_height,userid);
                 break;
             case R.id.ll_me_weight:
-                DialogUtility.DialogPhysique("weight",getActivity(),tv_weight,userid);
+                DialogUtility.DialogPhysique("weight",context,tv_weight,userid);
                 break;
             case R.id.ll_me_land:
-                DialogUtility.DialogAutograph("address",getActivity(),tv_address,userid);
+                DialogUtility.DialogAutograph("address",context,tv_address,userid);
                 break;
             case R.id.ll_me_autograph:
-                DialogUtility.DialogAutograph("sign",getActivity(),tv_sign,userid);
+                DialogUtility.DialogAutograph("sign",context,tv_sign,userid);
                 break;
 
             default:
@@ -193,7 +195,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     if (userEntiy.getUser_header()!=null){
                         header_path = ContentCommon.path+userEntiy.getUser_header();
                         ContentCommon.user_log=header_path;
-                        Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
+                        Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
                     }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block

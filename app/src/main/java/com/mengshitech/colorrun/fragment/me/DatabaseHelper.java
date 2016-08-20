@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table user(user_id varchar(20) primary key, user_name varchar(50), user_pwd varchar(20), " +
-                "user_birthday varchar(10), user_sex varchar(10), user_header varchar(50), user_identity varchar(20), " +
+                "user_birthday varchar(20), user_sex varchar(10), user_header varchar(50), user_identity varchar(20), " +
                 "user_address varchar(50), user_bankid varchar (50), user_fullname varchar(20), user_level varchar(10), " +
                 "user_health varchar(10), user_height varchar(10), user_weight varchar(10), user_email varchar(20), " +
                 "user_state varchar(10), user_otherid varchar(10),user_sign varchar(100),user_phone varchar(15))");

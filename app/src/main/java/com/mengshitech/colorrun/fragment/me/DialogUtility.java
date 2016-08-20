@@ -122,7 +122,6 @@ public class DialogUtility {
                 if (!"".equals(update_values)) {
                     new Thread(runnable).start();
                 }
-
                 dialog.dismiss();
             }
         });
@@ -383,6 +382,7 @@ public class DialogUtility {
                 if (result.equals("1")) {
                     tv_title.setText(update_values);
                     UserDao dao = new UserDao(Context);
+                    Log.i("Dialog",update_type+"---"+update_values+"---"+userid);
                     dao.update_data(update_type, update_values, userid);
                     Toast.makeText(Context, "修改成功！", Toast.LENGTH_SHORT).show();
                 }else if (result.equals("0")){

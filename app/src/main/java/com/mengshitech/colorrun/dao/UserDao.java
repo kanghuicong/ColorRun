@@ -35,8 +35,47 @@ public class UserDao {
     //更新数据
     public void update_data(String type, String values, String user_id) {
         db = dbHelper.getWritableDatabase();
-        db.execSQL("update user set ?=? where user_id=?",
-                new Object[]{type, values, user_id});
+        switch (type){
+            case "user_header":
+                db.execSQL("update user set user_header = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_name":
+                db.execSQL("update user set user_name = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_phone":
+                db.execSQL("update user set user_phone = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_email":
+                db.execSQL("update user set user_email = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_sex":
+                db.execSQL("update user set user_sex = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_height":
+                db.execSQL("update user set user_height = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_weight":
+                db.execSQL("update user set user_weight = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_address":
+                db.execSQL("update user set user_address = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            case "user_sign":
+                db.execSQL("update user set user_sign = ? where user_id= ?",
+                        new Object[]{values,user_id});
+                break;
+            default:
+                break;
+        }
+
         db.close();
     }
 
@@ -47,7 +86,7 @@ public class UserDao {
         Cursor cursor = db.rawQuery("select * from user where user_id=?",
                       new String[]{String.valueOf(id)});
         if (cursor.moveToNext())// 遍历查找到的便签信息
-        {Log.i("mingzizizi",cursor.getColumnIndex("user_id")+"");
+        {
             return new UserEntiy(
 
                     cursor.getString(cursor.getColumnIndex("user_id")),
@@ -69,6 +108,8 @@ public class UserDao {
                     cursor.getString(cursor.getColumnIndex("user_email")),
                     cursor.getString(cursor.getColumnIndex("user_state")),
                     cursor.getString(cursor.getColumnIndex("user_otherid")));
+
+
         }
         return null;// 如果没有信息，则返回null
     }

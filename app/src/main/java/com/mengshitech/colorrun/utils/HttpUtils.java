@@ -103,7 +103,7 @@ public class HttpUtils {
             // 请求超时
             client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
             // 读取超时
-            client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 8000);
+            client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 100000);
 
             HttpResponse httpResponse = client.execute(httpPost);
             if (httpResponse.getStatusLine().getStatusCode() == 200) {

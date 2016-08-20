@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -28,10 +29,12 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
+import com.mengshitech.colorrun.utils.UtilsClick;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
     List<String> list = new ArrayList<String>();
     int pos;
     int lerun_id;
+    long time = 0;
     private android.view.animation.Animation animation;
 
     public LeRunListViewAdapter(Activity activity, List<LeRunEntity> leRunList, FragmentManager fm,
@@ -129,6 +133,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         mListView.setOnItemClickListener(this);
         return convertView;
     }
+
     class MyAdapterListener implements View.OnClickListener {
         private int position;
         private TextView lerun_like;
@@ -140,19 +145,23 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         }
         @Override
         public void onClick(View v) {
-            if(v == lerun_like){
-                lerun_ainm.setVisibility(View.VISIBLE);
-                lerun_ainm.startAnimation(animation);
-                new Handler().postDelayed(new Runnable(){
-                    public void run() {
-                        lerun_ainm.setVisibility(View.GONE);
-                    }
-                }, 1000);
+            if (UtilsClick.isFastClick()) {
+                return ;
+            } else {
+                if (v == lerun_like) {
+                    lerun_ainm.setVisibility(View.VISIBLE);
+                    lerun_ainm.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            lerun_ainm.setVisibility(View.GONE);
+                        }
+                    }, 1000);
+                }
+                pos = position;
+                TextView lerun_like = (TextView) v.findViewById(R.id.tvLeRunLike);
+                lerun_like.setText(Integer.valueOf(lerun_like.getText().toString()) + 1 + "");
+                new Thread(lerun_like_runnable).start();
             }
-            pos = position;
-            TextView lerun_like = (TextView) v.findViewById(R.id.tvLeRunLike);
-            lerun_like.setText(Integer.valueOf(lerun_like.getText().toString()) + 1 + "");
-            new Thread(lerun_like_runnable).start();
         }
     }
 

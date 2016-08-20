@@ -249,6 +249,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                if(ImageList.size()!=0){
                    onkeyShare.setImageUrl(ImageList.get(0));
                }
+                onkeyShare.setImageUrl(ImageList.get(0));
                 onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
 

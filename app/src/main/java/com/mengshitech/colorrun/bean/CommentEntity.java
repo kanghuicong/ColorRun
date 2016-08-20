@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.bean;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * Created by atenklsy on 2016/7/16 16:57.

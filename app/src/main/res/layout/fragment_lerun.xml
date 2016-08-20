@@ -128,7 +128,6 @@
                     android:background="@color/white"
                     android:gravity="center_horizontal"
                     android:horizontalSpacing="5dp"
-
                     android:numColumns="2" />
 
                 <LinearLayout
@@ -153,7 +152,7 @@
                     android:layout_height="180dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/defaut_error_long" />
 
 

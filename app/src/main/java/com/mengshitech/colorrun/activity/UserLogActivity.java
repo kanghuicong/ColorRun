@@ -164,6 +164,9 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         String datas = JsonTools.getDatas(result);
                         ScuessImagePath = JsonTools.getUserLog(datas);
 //                        ScuessImagePath=list.get(0);
+//                        UserDao dao=new UserDao(UserLogActivity.this);
+//                        dao.update_data("user_header",ScuessImagePath,ContentCommon.user_id);
+                        Log.i("ScuessImagePath",ScuessImagePath+"ssss");
                         new Thread(updateRunable).start();
                     } else {
                         Toast.makeText(UserLogActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
@@ -196,10 +199,10 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+
             if (result.equals("1")) {
                 Toast.makeText(UserLogActivity.this, "更改头像成功", Toast.LENGTH_SHORT).show();
-                UserDao dao=new UserDao(UserLogActivity.this);
-                dao.update_data("user_header",ScuessImagePath,ContentCommon.user_id);
+                Log.i("result",result+":shsiss");
 
             } else if (result.equals("0")) {
                 Toast.makeText(UserLogActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
@@ -281,6 +284,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         }
 
     }
+
 
 
 }

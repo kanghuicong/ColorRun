@@ -29,6 +29,7 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONException;
 
@@ -44,7 +45,7 @@ import java.util.Map;
  */
 public class showDetail extends Activity implements View.OnClickListener{
     ImageView showdetail_hear,showdetail_comment,showdetail_share;
-    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_comment_num;
+    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_comment_num,comment_text;
     GridView showdetail_image,gv_like;
     EditText et_show_comment;
     Button bt_show_comment;
@@ -53,7 +54,8 @@ public class showDetail extends Activity implements View.OnClickListener{
     ShowDetailGridViewAdapter gv_adapter;
     String show_id,comment_userid;
     int state;
-    LinearLayout ll_like;
+    View show_view;
+    LinearLayout ll_like,ll_show_like;
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
     List<CommentEntity> commentlist;
@@ -109,11 +111,15 @@ public class showDetail extends Activity implements View.OnClickListener{
         showdetail_time = (TextView)findViewById(R.id.tv_show_time);
         show_back= (ImageView) findViewById(R.id.show_back);
         ll_like = (LinearLayout)findViewById(R.id.ll_showlistview_like);
+        ll_show_like = (LinearLayout)findViewById(R.id.ll_show_like);
+        show_view = (View)findViewById(R.id.show_view);
         gv_like = (GridView)findViewById(R.id.gv_showdetail_image);
         lv_comment = (ListView)findViewById(R.id.lv_showdetail_comment);
+        comment_text = (TextView)findViewById(R.id.tv_show_comment_text);
         et_show_comment = (EditText)findViewById(R.id.et_show_comment);
         bt_show_comment = (Button)findViewById(R.id.bt_show_comment);
-        bt_show_comment.setOnClickListener(this);show_back.setOnClickListener(this);
+        bt_show_comment.setOnClickListener(this);
+        show_back.setOnClickListener(this);
 
     }
 
@@ -159,14 +165,21 @@ public class showDetail extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-//                progressDialog.dismiss();
                 try {
                     List<LikeEntity> likelist = JsonTools.getLikeInfo("result",result);
                     gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
                     gv_like.setAdapter(gv_adapter);
+                    int state = JsonTools.getState("state",result);
+                    Log.i("点赞state",state+"");
+                    if (state == 1){
+                        gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
+                        gv_like.setAdapter(gv_adapter);
+                    } else {
+                        show_view.setVisibility(View.GONE);
+                        ll_show_like.setVisibility(View.GONE);
+                    }
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -174,7 +187,6 @@ public class showDetail extends Activity implements View.OnClickListener{
             }
         }
     };
-
 
     Runnable comment_runnable = new Runnable() {
         @Override
@@ -207,6 +219,14 @@ public class showDetail extends Activity implements View.OnClickListener{
 
                     lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
                     lv_comment.setAdapter(lv_adapter);
+                    int state = JsonTools.getState("state",result);
+                    Log.i("commentlist",commentlist+"");
+                    if (state == 1){
+                        lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
+                        lv_comment.setAdapter(lv_adapter);
+                    } else {
+                        comment_text.setVisibility(View.VISIBLE);
+                    }
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -214,7 +234,6 @@ public class showDetail extends Activity implements View.OnClickListener{
             }
         }
     };
-
 
     Runnable comment_show_runnable = new Runnable() {
         @Override
@@ -241,15 +260,12 @@ public class showDetail extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-//                progressDialog.dismiss();
                 try {
                     state = JsonTools.getState("state",result);
                     if (state ==1){
                         Toast.makeText(showDetail.this,"评论成功！",Toast.LENGTH_SHORT).show();
-
 
                         UserDao dao = new UserDao(showDetail.this);
                         UserEntiy modler =  dao.find(ContentCommon.user_id);
@@ -273,6 +289,4 @@ public class showDetail extends Activity implements View.OnClickListener{
             }
         }
     };
-
-
 }

@@ -9,17 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp">
 
         <ImageView
             android:id="@+id/im_show_userhear"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_weight="6"
             android:src="@mipmap/image_head" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -45,29 +51,50 @@
 
     </LinearLayout>
 
-    <com.mengshitech.colorrun.view.MyGridView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+
+    <com.mengshitech.colorrun.view.EmptyGridView
         android:id="@+id/gv_show_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="65dp"
+        android:layout_weight="1"
         android:layout_marginRight="10dp"
         android:numColumns="3"
         android:padding="10dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_showlistview_like"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
         <TextView
             android:id="@+id/tv_show_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="65dp"
             android:layout_weight="1"
             android:text="" />
 
@@ -107,7 +134,7 @@
             android:layout_marginRight="20dp"
             android:background="@mipmap/show_share"
             android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

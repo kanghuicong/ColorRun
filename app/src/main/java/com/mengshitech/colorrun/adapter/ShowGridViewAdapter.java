@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +31,14 @@ public class ShowGridViewAdapter extends BaseAdapter  {
     Context context;
     List<String> imagepath = new ArrayList<String>();
     int count;
+    DisplayMetrics dm;
     Activity activity;
-
 
     public ShowGridViewAdapter(Context context,Activity activity, List<String> imagepath, int count) {
         this.context = context;
         this.imagepath = imagepath;
         this.count = count;
+        dm = context.getResources().getDisplayMetrics();
         this.activity=activity;
     }
 
@@ -67,7 +69,14 @@ public class ShowGridViewAdapter extends BaseAdapter  {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        ViewGroup.LayoutParams ps = holder.grid_image.getLayoutParams();
+        ps.height = (dm.widthPixels/7*2);
+
+        holder.grid_image.setLayoutParams(ps);
+
         final String image_path = imagepath.get(position);
+
+
 
         Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
@@ -80,16 +89,12 @@ public class ShowGridViewAdapter extends BaseAdapter  {
                 holder.grid_image.getLocationOnScreen(location);
                 intent.putExtra("locationX", location[0]);
                 intent.putExtra("locationY", location[1]);
-
                 intent.putExtra("width", holder.grid_image.getWidth());
                 intent.putExtra("height", holder.grid_image.getHeight());
                 context.startActivity(intent);
                 activity.overridePendingTransition(0, 0);
-
-
             }
         });
-
         return convertView;
     }
 

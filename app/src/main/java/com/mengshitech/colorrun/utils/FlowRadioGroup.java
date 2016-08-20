@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 /**
  * Created by kanghuicong on 2016/8/4  10:49.
  */
+//RadioGroup换行
 public class FlowRadioGroup extends RadioGroup {
 
     public FlowRadioGroup(Context context) {

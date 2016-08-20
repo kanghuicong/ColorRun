@@ -26,6 +26,7 @@ import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.view.EmptyGridView;
 
 import org.json.JSONException;
 
@@ -63,7 +64,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     private static class ViewHolder {
         private ImageView user_header;
         private TextView user_name;
-        private GridView show_image;
+        private EmptyGridView show_image;
         private TextView show_content;
         private TextView show_time;
         private TextView show_comment_num;
@@ -121,7 +122,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     .findViewById(R.id.im_show_userhear);
             holder.user_name = (TextView) view
                     .findViewById(R.id.tv_show_username);
-            holder.show_image = (GridView) view
+            holder.show_image = (EmptyGridView) view
                     .findViewById(R.id.gv_show_image);
             holder.show_content = (TextView) view
                     .findViewById(R.id.tv_show_content);
@@ -143,7 +144,11 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
         //读取基本数据
         holder.user_name.setText(mShowEntity.getUser_name());
-        holder.show_content.setText(mShowEntity.getShow_content());
+        if (mShowEntity.getShow_content().equals("")){
+            holder.show_content.setVisibility(View.GONE);
+        } else {
+            holder.show_content.setText(mShowEntity.getShow_content());
+        }
         holder.show_time.setText(mShowEntity.getShow_time());
         holder.show_comment_num.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
@@ -180,6 +185,12 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        holder.show_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
+            @Override
+            public boolean onTouchInvalidPosition(int motionEvent) {
+                return false; //不终止路由事件让父级控件处理事件
+            }
+        });
 
         holder.show_like.setOnClickListener(new LikeListener(position, like_state));
 
@@ -235,7 +246,9 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 onkeyShare.setTitle(showEntity.getUser_name()+"的卡乐彩色跑");
                 onkeyShare.setText(showEntity.getShow_content());
 
-                onkeyShare.setImageUrl(ImageList.get(1));
+               if(ImageList.size()!=0){
+                   onkeyShare.setImageUrl(ImageList.get(0));
+               }
                 onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
 
@@ -291,7 +304,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 if (index.equals("8")) {
                     try {
                         yes_state = JsonTools.getState("state", result);
-                        Log.i("state点赞返回状态", yes_state + "");
                         if (yes_state == 1) {
                             list.set(like_pos,"1");
                             mShowEntity = mShowList.get(like_pos);
@@ -311,7 +323,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 } else if (index.equals("6")) {
                     try {
                         no_state = JsonTools.getState("state", result);
-                        Log.i("state取消赞返回状态", no_state + "");
                         if (no_state == 1) {
                             list.set(like_pos,"0");
                             mShowEntity = mShowList.get(like_pos);

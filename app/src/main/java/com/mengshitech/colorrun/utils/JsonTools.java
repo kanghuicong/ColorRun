@@ -33,6 +33,7 @@ public class JsonTools {
         JSONObject object = new JSONObject(jsonString);
         int state = object.getInt(key);
 
+        Log.i("state",state+"");
         return state;
     }
 
@@ -126,11 +127,17 @@ public class JsonTools {
     //点赞信息
     public static List<LikeEntity> getLikeInfo(String key, String jsonString)
             throws JSONException {
+        int count;
         List<LikeEntity> list = new ArrayList<LikeEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        if (jsonArray.length()>6){
+            count =6;
+        }else{
+            count = jsonArray.length();
+        }
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < count; i++) {
             LikeEntity info = new LikeEntity();
             JSONObject Object = jsonArray.getJSONObject(i);
             info.setUser_id(Object.getString("user_id"));
@@ -162,6 +169,7 @@ public class JsonTools {
 
             list.add(info);
         }
+
         return list;
     }
 

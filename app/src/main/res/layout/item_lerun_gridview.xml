@@ -15,7 +15,7 @@
             android:id="@+id/ivBackground"
             android:layout_width="match_parent"
             android:layout_height="115dp"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
         <TextView
             android:id="@+id/tv_item"
             android:layout_width="wrap_content"

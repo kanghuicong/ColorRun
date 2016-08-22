@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@mipmap/tab_run_yes2x"
+        android:drawable="@mipmap/tab_run_yes"
         android:state_checked="true" />
     <item
-        android:drawable="@mipmap/tab_run_no2x"/>
+        android:drawable="@mipmap/tab_run_no"/>
 
 </selector>

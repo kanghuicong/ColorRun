@@ -178,14 +178,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         hotImage.setOnClickListener(this);
 
         tvLeRunActivity.setOnClickListener(this);
-        Utility.changeTopDrawableSize(tvLeRunActivity, R.mipmap.icon_activity, 80, 80);
         tvLeRunTheme.setOnClickListener(this);
-        Utility.changeTopDrawableSize(tvLeRunTheme, R.mipmap.icon_theme, 80, 80);
         tvLeRunFootPrint.setOnClickListener(this);
-        Utility.changeTopDrawableSize(tvLeRunFootPrint, R.mipmap.icon_footer, 80, 80);
         tvLeRunSignUp.setOnClickListener(this);
-        Utility.changeTopDrawableSize(tvLeRunSignUp, R.mipmap.icon_sign, 80, 80);
-//        Utility.changeDrawableSize(img_hotfire,R.mipmap.hot_fire,40,40);
         Utility.changeRightDrawableSize(tvHotActivity, R.mipmap.hot_fire, 30, 30);
         Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
 
@@ -358,6 +353,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     VideoEntity entity = list.get(0);
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
+                    Log.i("video_url",video_url+"");
                     mSwipeLayout.setRefreshing(false);
 
                 } catch (JSONException e) {

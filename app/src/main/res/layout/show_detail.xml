@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rlShowHead"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="#11cd6e">
         <ImageView
             android:id="@+id/show_back"

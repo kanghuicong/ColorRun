@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ import java.util.Map;
 public class LoginActivity extends Activity implements OnClickListener {
     EditText etUserId, etUserPwd;
     Button btnLogin;
-    TextView tvRegister,tvFindpwd;
+    TextView tvRegister, tvFindpwd;
     SharedPreferences spAccount;
     String userId;
     String userPwd;
@@ -73,7 +74,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvRegister.setOnClickListener(this);
         //找回密码
-        tvFindpwd = (TextView)findViewById(R.id.tv_find_pwd);
+        tvFindpwd = (TextView) findViewById(R.id.tv_find_pwd);
         tvFindpwd.setOnClickListener(this);
 
     }
@@ -97,9 +98,9 @@ public class LoginActivity extends Activity implements OnClickListener {
                     etUserId.setText("");
                     etUserPwd.setText("");
                 } else {
-                    if (userPwd.length()>=6&&userPwd.length()<=16){
+                    if (userPwd.length() >= 6 && userPwd.length() <= 16) {
                         new Thread(runnable).start();
-                    }else {
+                    } else {
                         Toast.makeText(LoginActivity.this, "请输入6~16位密码", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -107,18 +108,18 @@ public class LoginActivity extends Activity implements OnClickListener {
                 break;
             case R.id.tv_register:
                 // 注册按钮的点击事件
-                Intent intent_register = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent_register = new Intent(LoginActivity.this, RegisterActivity.class);
                 Bundle bundle_register = new Bundle();
-                bundle_register.putString("type","register");
+                bundle_register.putString("type", "register");
                 intent_register.putExtras(bundle_register);
                 startActivity(intent_register);
                 break;
 
             case R.id.tv_find_pwd:
                 //找回密码
-                Intent intent_find_pwd = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent_find_pwd = new Intent(LoginActivity.this, RegisterActivity.class);
                 Bundle bundle_find_pwd = new Bundle();
-                bundle_find_pwd.putString("type","find_pwd");
+                bundle_find_pwd.putString("type", "find_pwd");
                 intent_find_pwd.putExtras(bundle_find_pwd);
                 startActivity(intent_find_pwd);
             default:
@@ -138,13 +139,13 @@ public class LoginActivity extends Activity implements OnClickListener {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
-            Map<String,String> map= new HashMap<String,String>();
-            map.put("flag","user");
-            map.put("index","1");
-            map.put("user_id",userId);
-            map.put("user_pwd",userPwd);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "user");
+            map.put("index", "1");
+            map.put("user_id", userId);
+            map.put("user_pwd", userPwd);
 
-            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -166,21 +167,27 @@ public class LoginActivity extends Activity implements OnClickListener {
                         SharedPreferences mySharedPreferences = getSharedPreferences("user_type", Activity.MODE_PRIVATE);
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         editor.putString("user_type", "1");
-                        editor.putString("user_id",userId);
-                        ContentCommon.login_state="1";
-                        ContentCommon.user_id=userId;
+                        editor.putString("user_id", userId);
+                        ContentCommon.login_state = "1";
+                        ContentCommon.user_id = userId;
                         editor.commit();
 
                         UserDao dao = new UserDao(LoginActivity.this);
                         UserEntiy modler = dao.find(userId);
-                        Log.i("UserEntiy modler",modler+"");
-                        Log.i("UserEntiy","UserEntiy");
+                        Log.i("UserEntiy modler", modler + "");
+                        Log.i("UserEntiy", "UserEntiy");
                         if (modler == null) {
-                            new Thread(user_runnable).start();
+                            new Thread(user_runnable).start();    Log.i("aaaaaaaa", "fffffffff");
                         }
 
 //                        Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
 //                        startActivity(inetnt);
+                        Context context=LoginActivity.this;
+                        Intent intent = new Intent();
+
+                        intent.setAction("refresh");
+                        context.sendBroadcast(intent);
+                        Log.i("sssssssssss", "fffffffff");
                         finish();
                         break;
                     default:
@@ -194,23 +201,25 @@ public class LoginActivity extends Activity implements OnClickListener {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
-            Map<String,String> map = new HashMap<String, String>();
+            Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
-            map.put("user_id",userId);
-            map.put("index","4");
-            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            map.put("user_id", userId);
+            Log.i("Userid", "" + userId);
+            map.put("index", "4");
+            String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
             user_handler.sendMessage(msg);
         }
     };
 
-    Handler user_handler = new Handler(){
+    Handler user_handler = new Handler() {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-                try {
-                    UserEntiy userEntiy = JsonTools.getUserInfo("result",result);
-                    UserDao dao = new UserDao(LoginActivity.this);
+            try {
+                UserEntiy userEntiy = JsonTools.getUserInfo("result", result);
+                Log.i("result", result + "");
+                UserDao dao = new UserDao(LoginActivity.this);
 //                    UserEntiy modler = new UserEntiy(userEntiy.getUser_bankid(),
 //                            userEntiy.getUser_id(),
 //                            userEntiy.getUser_pwd(),
@@ -230,21 +239,21 @@ public class LoginActivity extends Activity implements OnClickListener {
 //                            userEntiy.getUser_email(),
 //                            userEntiy.getUser_state(),
 //                            userEntiy.getUser_otherid());
-                    dao.add(userEntiy.getUser_id(),
-                            userEntiy.getUser_name(),
-                            userEntiy.getUser_header(),
-                            userEntiy.getUser_phone(),
-                            userEntiy.getUser_email(),
-                            userEntiy.getUser_sex(),
-                            userEntiy.getUser_height(),
-                            userEntiy.getUser_weight(),
-                            userEntiy.getUser_address(),
-                            userEntiy.getUser_sign());
+                dao.add(userEntiy.getUser_id(),
+                        userEntiy.getUser_name(),
+                        userEntiy.getUser_header(),
+                        userEntiy.getUser_phone(),
+                        userEntiy.getUser_email(),
+                        userEntiy.getUser_sex(),
+                        userEntiy.getUser_height(),
+                        userEntiy.getUser_weight(),
+                        userEntiy.getUser_address(),
+                        userEntiy.getUser_sign());
 
-                }catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+        }
     };
 }

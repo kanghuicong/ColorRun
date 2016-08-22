@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="我"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="@dimen/navigation" />
     </RelativeLayout>
 
     <View
@@ -78,19 +78,19 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tvUserID"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvUserID"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
         </LinearLayout>
 

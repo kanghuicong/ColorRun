@@ -40,7 +40,6 @@ public class RegisterPwd extends Activity {
         // 获取从上一个activity传过来的数据
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        tvnumber.setText(bundle.getString("number"));
         number = bundle.getString("number");
         type = bundle.getString("type");
         // 获取布局控件
@@ -48,7 +47,7 @@ public class RegisterPwd extends Activity {
         pwd = (EditText) findViewById(R.id.et_registered3_pwd);
         repwd = (EditText) findViewById(R.id.et_registered3_repwd);
         commit = (Button) findViewById(R.id.btn_registered3_commit);
-
+        tvnumber.setText(bundle.getString("number"));
 
         if ("find_pwd".equals(type)){
             tv_text.setText("您的账号为：");

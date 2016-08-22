@@ -112,7 +112,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         ShareSDK.initSDK(parent.getContext());
         Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
-        holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.show_listview, null);
@@ -168,6 +168,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             holder.show_like.setCompoundDrawables(drawable, null, null, null);
         }
 
+
         //gridview图片
         String result = mShowEntity.getShow_image();
         try {
@@ -175,10 +176,8 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             imagepath = new ArrayList<String>();
             for (int i = 0; i < ImageList.size(); i++) {
                 String paths = ImageList.get(i);
-                System.out.println("list d  chang du1111111111111111111  " + ImageList.size());
                 imagepath.add(paths);
                 ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,activity ,imagepath, imagepath.size());
-                System.out.println("list d  chang du2222222222222222222  " + imagepath.size());
                 holder.show_image.setAdapter(adapter);
             }
         } catch (JSONException e) {
@@ -191,9 +190,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 return false; //不终止路由事件让父级控件处理事件
             }
         });
-
         holder.show_like.setOnClickListener(new LikeListener(position, like_state));
-
         holder.show_share.setOnClickListener(new ShareListener(position) );
         holder.show_comment.setOnClickListener(this);
         return view;
@@ -212,11 +209,8 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             like_pos = position;
-            if (ContentCommon.user_id == null) {
-                Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
-            } else {
+            if (ContentCommon.login_state.equals("1")) {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
-                
                 if (list.get(like_pos).equals("0")) {
                     index = "8";
                     new Thread(runnable).start();
@@ -224,6 +218,8 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     index = "6";
                     new Thread(runnable).start();
                 }
+            } else {
+                Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
             }
         }
     }

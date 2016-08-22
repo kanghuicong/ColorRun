@@ -101,7 +101,7 @@ public class HttpUtils {
             // 创建http客户端
             DefaultHttpClient client = new DefaultHttpClient();
             // 请求超时
-            client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
+            client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 100000);
             // 读取超时
             client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 100000);
 

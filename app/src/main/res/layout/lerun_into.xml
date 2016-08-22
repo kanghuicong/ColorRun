@@ -30,7 +30,7 @@
                     <ImageView
                         android:id="@+id/into_lerun_poster"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="250dp"
                         android:scaleType="fitXY"
                         android:src="@mipmap/splash1" />
 
@@ -38,7 +38,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="60dp"
                     android:background="@mipmap/line_back"
                     android:orientation="horizontal">
 
@@ -68,7 +68,8 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 android:textColor="@color/white"
-                                android:textSize="45sp" />
+                                android:layout_marginLeft="5dp"
+                                android:textSize="40sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -83,14 +84,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="剩余名额"
                                 android:textColor="@color/white"
-                                android:textSize="18sp" />
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/into_lerun_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:textSize="23sp" />
+                                android:textSize="20sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -156,13 +157,12 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:orientation="horizontal">
 
                             <ImageView
@@ -178,7 +178,7 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -200,7 +200,7 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="18sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -232,14 +232,13 @@
                         android:background="@color/grey" />
 
                     <Button
-
                         android:layout_width="120dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:background="@drawable/shape_youknow"
                         android:text="乐跑须知"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:textSize="17sp" />
 
                     <TextView
 
@@ -265,7 +264,7 @@
                         android:layout_marginTop="10dp"
                         android:text="1、赛事时刻表"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -274,16 +273,16 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
-
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/start_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:padding="3dp"
                             android:text=""
                             android:textColor="@color/red"
-                            android:textSize="18dp" />
+                            android:textSize="16dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -291,7 +290,7 @@
                             android:padding="3dp"
                             android:text="开始活动报名"
                             android:textColor="@color/red"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -309,7 +308,7 @@
                             android:padding="3dp"
                             android:text=""
                             android:textColor="@color/red"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -317,7 +316,7 @@
                             android:padding="3dp"
                             android:text="活动报名截至"
                             android:textColor="@color/red"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -334,7 +333,7 @@
                             android:padding="3dp"
                             android:text=""
                             android:textColor="@color/red"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <TextView
 
@@ -343,7 +342,7 @@
                             android:padding="3dp"
                             android:text="举行活动"
                             android:textColor="@color/red"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
 
@@ -361,7 +360,7 @@
                             android:layout_marginTop="10dp"
                             android:text="2、注意事项"
                             android:textColor="@color/black"
-                            android:textSize="20sp"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
 
@@ -387,6 +386,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:text="从奥体中心南出发绕地球一圈到达师大2桥" />
 
                         </LinearLayout>
@@ -462,6 +462,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -494,7 +495,7 @@
                         android:layout_marginTop="10dp"
                         android:text="3、报名须知"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -557,6 +558,6 @@
             android:background="#FFA500"
             android:text="报名"
             android:textColor="@color/white"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
     </FrameLayout>
 </LinearLayout>

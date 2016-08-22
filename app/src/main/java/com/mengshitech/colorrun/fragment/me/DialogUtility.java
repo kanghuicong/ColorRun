@@ -311,8 +311,10 @@ public class DialogUtility {
 
     //注销账号
     public static void DialogCancel(final Context context, final ImageView header, final TextView name,final TextView id){
+        Log.i("DialogCancel",name.getText().toString()+"---"+id.getText().toString());
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
+
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_cancel, null);
         Button bt_cancel_yes = (Button)layout.findViewById(R.id.bt_cancel_yes);
@@ -329,15 +331,18 @@ public class DialogUtility {
         bt_cancel_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("DialogCancel","1111");
+                header.setImageResource(R.mipmap.default_avtar);
+                name.setText("未登录");
+                id.setText("1");
+                Log.i("DialogCancel","2222");
+                Log.i("DialogCancel",id.getText().toString()+"9");
                 SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("user_type", "0");
                 editor.putString("user_id","");
                 editor.commit();
                 ContentCommon.login_state="0";
-                header.setImageResource(R.mipmap.default_avtar);
-                name.setText("未登录");
-                id.setText("");
                 dialog.dismiss();
             }
         });

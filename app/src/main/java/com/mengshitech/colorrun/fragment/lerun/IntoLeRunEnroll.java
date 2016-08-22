@@ -251,7 +251,8 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                                size = "2XL";
                                                                            } else if (rb_size_3xl.isChecked()) {
                                                                                size = "3XL";
-                                                                           } new Thread(runnable).start();
+                                                                           }
+                                                                           new Thread(runnable).start();
                                                                        }
                                                                    } else {
                                                                        if (rb_sex_man.isChecked()) {
@@ -359,15 +360,18 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else if (result.equals("1")) {
                 Toast.makeText(context, "您已经报过名啦", Toast.LENGTH_SHORT).show();
             } else if (result.equals("2")) {
-                Bundle bundle = new Bundle();
-                bundle.putString("user_name",user_name.getText().toString());
-                bundle.putString("lerun_title",enroll_name.getText().toString());
-                bundle.putInt("lerun_price",choose_price);
-//                LeRunPayment leRunPayment = new LeRunPayment();
-//                leRunPayment.setArguments(bundle);
-                AlipayFragment alipayFragment=new AlipayFragment();
-                alipayFragment.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
+                if (choose_price == 0){
+                    Toast.makeText(context,"报名成功！",Toast.LENGTH_SHORT).show();
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user_name", user_name.getText().toString());
+                    bundle.putString("lerun_title", enroll_name.getText().toString());
+                    bundle.putInt("lerun_price", choose_price);
+                    Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
+                    AlipayFragment alipayFragment = new AlipayFragment();
+                    alipayFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
+                }
             }
         }
     };

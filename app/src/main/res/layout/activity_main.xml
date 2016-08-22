@@ -23,38 +23,37 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        >
+        android:paddingTop="5dp">
 
         <RadioButton
             android:id="@+id/rbRun"
             style="@style/rgMainBottonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:drawableTop="@drawable/btn_tab_lerun_selector"
             android:text="乐跑" />
 
         <RadioButton
             android:id="@+id/rbShow"
             style="@style/rgMainBottonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:drawableTop="@drawable/btn_tab_show_selector"
             android:text="秀" />
 
         <RadioButton
             android:id="@+id/rbHistory"
             style="@style/rgMainBottonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:drawableTop="@drawable/btn_tab_history_selector"
             android:text="回顾" />
 
         <RadioButton
             android:id="@+id/rbMe"
             style="@style/rgMainBottonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:drawableTop="@drawable/btn_tab_me_selector"
             android:text="我的" />
     </RadioGroup>

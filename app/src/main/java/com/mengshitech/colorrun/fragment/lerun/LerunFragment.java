@@ -178,16 +178,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         hotImage.setOnClickListener(this);
 
         tvLeRunActivity.setOnClickListener(this);
-//        Utility.changeTopDrawableSize(tvLeRunActivity, R.mipmap.icon_activity, 80, 80);
-//        tvLeRunTheme.setOnClickListener(this);
-//        Utility.changeTopDrawableSize(tvLeRunTheme, R.mipmap.icon_theme, 80, 80);
-//        tvLeRunFootPrint.setOnClickListener(this);
-//        Utility.changeTopDrawableSize(tvLeRunFootPrint, R.mipmap.icon_footer, 80, 80);
-//        tvLeRunSignUp.setOnClickListener(this);
-//        Utility.changeTopDrawableSize(tvLeRunSignUp, R.mipmap.icon_sign, 80, 80);
-////        Utility.changeDrawableSize(img_hotfire,R.mipmap.hot_fire,40,40);
-//        Utility.changeRightDrawableSize(tvHotActivity, R.mipmap.hot_fire, 30, 30);
-//        Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
+        tvLeRunTheme.setOnClickListener(this);
+        tvLeRunFootPrint.setOnClickListener(this);
+        tvLeRunSignUp.setOnClickListener(this);
+        Utility.changeRightDrawableSize(tvHotActivity, R.mipmap.hot_fire, 30, 30);
+        Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
 
 
     }

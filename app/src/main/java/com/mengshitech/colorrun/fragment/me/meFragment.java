@@ -57,7 +57,6 @@ public class meFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
-
         mActivity = getActivity();
         context = getActivity();
         initView();
@@ -132,22 +131,20 @@ public class meFragment extends Fragment implements OnClickListener {
                     getActivity().startActivity(intent);
                 }
                 break;
+            // 点击我的乐跑事件
             case R.id.llMyLeRun:
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
                 } else {
-
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
-                // 点击我的乐跑事件
-
                 break;
+            //我的show
             case R.id.llMyShow:
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myShowFragment());
                 } else {
-
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
@@ -158,15 +155,13 @@ public class meFragment extends Fragment implements OnClickListener {
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:
-
                 if (ContentCommon.login_state.equals("1")) {
-                    DialogUtility.DialogCancel(getActivity(), ivUserHead, tvUserName, tvUserID);
+                    DialogUtility.DialogCancel(mActivity, ivUserHead, tvUserName, tvUserID);
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
                 break;
-
             default:
                 break;
         }
@@ -243,13 +238,11 @@ public class meFragment extends Fragment implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         if (receiver != null) {
-
             try {
                 mActivity.unregisterReceiver(receiver);
             } catch (Exception e) {
                 // already unregistered
             }
-
         }
     }
 

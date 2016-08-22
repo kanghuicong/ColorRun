@@ -11,7 +11,7 @@
         android:id="@+id/rl_show_title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#11cd6e">
+        android:background="@mipmap/nav_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/ivShow_CreateShow"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
@@ -51,8 +51,6 @@
             android:text="无法连接网络"
             android:textSize="17sp" />
     </LinearLayout>
-
-
 
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout"

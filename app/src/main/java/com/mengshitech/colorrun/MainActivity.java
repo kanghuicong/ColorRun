@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -68,7 +69,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
-
         initView();
     }
 
@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         rbMe.setOnClickListener(this);
         rbRun.setOnClickListener(this);
         rbShow.setOnClickListener(this);
+
     }
 
     private void initFragment() {

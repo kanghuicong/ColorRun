@@ -8,8 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#11cd6e">
+        android:layout_height="40dp"
+        android:background="@mipmap/nav_bg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="我"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <View
@@ -116,7 +116,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="8dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -131,7 +131,7 @@
             android:layout_weight="1"
             android:text="我的乐跑"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="8dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -167,7 +167,7 @@
             android:layout_weight="1"
             android:text="我的show"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -194,7 +194,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="8dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -209,7 +209,7 @@
             android:layout_weight="1"
             android:text="关于我们"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"

@@ -59,7 +59,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         mLeRunList = leRunList;
         mListView = listView;
         mFragmentManager = fm;
-        Log.i("mLeRunList.size():",mLeRunList.size()+"");
+
     }
 
     @Override

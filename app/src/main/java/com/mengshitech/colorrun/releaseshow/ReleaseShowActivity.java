@@ -157,7 +157,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                         Intent intent = new Intent(ReleaseShowActivity.this,
                                 ImgFileListActivity.class);
                         intent.putExtra("evaluate_content", evaluate_content);
-                        Log.i("ReleaseShowEvaluate", evaluate_content);
 
                         startActivity(intent);
 
@@ -253,9 +252,9 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             String result = (String) msg.obj;
 
-            Log.i("上传图片返回的值", result + "");
             if (result.equals("failure") || result.equals("") || result == null) {
                 Toast.makeText(ReleaseShowActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
                 try {
                     deleteFile(compressfile);
@@ -263,6 +262,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                     new Thread(ReleaseShowRunnable).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.dismiss();
                 }
 
             }
@@ -369,7 +369,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             FileInputStream fis = null;
             fis = new FileInputStream(file);
             long size = fis.available();
-            Log.i("文件的大小", "" + size);
 
             //当图片小于1M时 不进行图片压缩
             if (size < 1048576) {
@@ -391,7 +390,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             if (file.exists() && file.isFile()) {
                 if (file.delete()) {
-                    Log.i("正在删除文件：", list.get(i) + "");
 
                 } else {
                     System.out.println("删除旧头像失败！");

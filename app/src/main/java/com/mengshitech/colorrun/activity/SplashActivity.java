@@ -80,7 +80,7 @@ public class SplashActivity extends Activity {
 
             ContentCommon.user_id= sharedPreferences.getString("user_id", "");
 
-            Log.i("登陆状态",type+"");
+
             ContentCommon.login_state = type;
 
 

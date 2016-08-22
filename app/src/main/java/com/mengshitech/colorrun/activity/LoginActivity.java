@@ -240,7 +240,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                             userEntiy.getUser_weight(),
                             userEntiy.getUser_address(),
                             userEntiy.getUser_sign());
-                    Log.i("getUser_height1",userEntiy.getUser_weight());
+
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

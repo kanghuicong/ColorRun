@@ -175,7 +175,6 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result", result);
             if (result.equals("timeout")) {
 
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
@@ -191,7 +190,6 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_weight.setText(userEntiy.getUser_weight());
                     tv_address.setText(userEntiy.getUser_address());
                     tv_sign.setText(userEntiy.getUser_sign());
-                    Log.i("用户头像地址",userEntiy.getUser_header());
                     if (userEntiy.getUser_header()!=null){
                         header_path = ContentCommon.path+userEntiy.getUser_header();
                         ContentCommon.user_log=header_path;

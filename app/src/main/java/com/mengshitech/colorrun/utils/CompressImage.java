@@ -128,7 +128,6 @@ public class CompressImage {
             if (isDelSrc) srcFile.deleteOnExit();
         } catch (Exception e) {
             // TODO: handle exception
-            Log.i("BitmapHelper", e.getMessage()+"");
         }
         return desPath;
     }

@@ -83,7 +83,6 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
         map.put("flag", "lerun");
         map.put("index", "0");
         String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
-        Log.i("获取主题信息:", result);
         return result;
     }
 
@@ -125,7 +124,6 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     //下拉刷新
     @Override
     public void onRefresh() {
-        Log.i("sssssss","vvvvvvvv");
         new Thread(getLeRunRunnable).start();
     }
 }

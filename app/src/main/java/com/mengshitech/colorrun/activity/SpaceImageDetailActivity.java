@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.zxing.NotFoundException;
+import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.utils.SmoothImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 /**
  * 作者：wschenyongyin on 2016/8/15 14:06
@@ -33,8 +40,6 @@ public class SpaceImageDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//		mDatas = (ArrayList<String>) getIntent().getSerializableExtra("images");
         image_path = getIntent().getStringExtra("image_path");
         mPosition = getIntent().getIntExtra("position", 0);
         mLocationX = getIntent().getIntExtra("locationX", 0);
@@ -50,9 +55,33 @@ public class SpaceImageDetailActivity extends Activity {
         setContentView(imageView);
 
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(SpaceImageDetailActivity.this));
-        imageLoader.displayImage(image_path, imageView);
+
+        imageLoader.displayImage(image_path, imageView, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                imageView.setImageResource(R.mipmap.defaut_error_square);
+                Toast.makeText(SpaceImageDetailActivity.this, "图片加载失败", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
+            }
+        });
 
 
         imageView.setOnClickListener(new View.OnClickListener() {

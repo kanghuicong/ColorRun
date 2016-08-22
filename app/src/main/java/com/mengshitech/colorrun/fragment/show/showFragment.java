@@ -72,19 +72,23 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         context = getActivity();
         mActivity = getActivity();
         fm = getFragmentManager();
+        setRetainInstance(true);
+
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (showView == null) {
             showView = View.inflate(mActivity, R.layout.fragment_show, null);
             findById();
+            Log.i("执行了这里","11是的");
         }
         ViewGroup parent = (ViewGroup) showView.getParent();
         if (parent != null) {
             parent.removeView(showView);
+            Log.i("执行了这里","222是的");
         }
 
 
         lvShowContent.setOnItemClickListener(new ItemClickListener());
-
+        Log.i("执行了这里","333是的");
         return showView;
     }
 
@@ -165,7 +169,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -177,7 +180,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result111", result);
             if (result.equals("timeout")) {
                 Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
@@ -186,7 +188,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                     mShowList = JsonTools.getShowInfo("datas", result);
 
-                    Log.i("mshowlist", mShowList.toString());
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
 
                     lvShowContent.setAdapter(mShowAdapter);
@@ -204,7 +205,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         currentPage = 1;
         new Thread(runnable).start();
-        Log.i("自动执行", "sss");
     }
 
     @Override
@@ -228,7 +228,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("loadresult", result);
             Message msg = new Message();
             msg.obj = result;
             loadhandler.sendMessage(msg);
@@ -240,7 +239,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("loadresult", result);
             if (result.equals("timeout")) {
 
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
@@ -252,17 +250,13 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         List<ShowEntity> list = JsonTools.getShowInfo("datas", result);
 
                         for (int i = 0; i < list.size(); i++) {
-                            Log.i("list的循环", list.get(i) + "");
                             mShowList.add(list.get(i));
-                            Log.i("list的循环", list.get(i) + "");
                         }
-                        Log.i("mshowlist", mShowList.size() + "");
                         mShowAdapter.addItem(mShowList.size());
                         mShowAdapter.notifyDataSetChanged();
                         mShowAdapter.notifyDataSetInvalidated();
                         swipeRefreshLayout.setLoading(false);
                     } else {
-                        Log.i("取消加载", "sss");
                         swipeRefreshLayout.setLoading(false);
                     }
 
@@ -291,7 +285,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             if ((phoneinfo.isConnected()) || (wifiinfo.isConnected())) {
 
                 no_network.setVisibility(View.GONE);
-                swipeRefreshLayout.autoRefresh();
+//                swipeRefreshLayout.autoRefresh();
                 lvShowContent.setVisibility(View.VISIBLE);
             }
         }

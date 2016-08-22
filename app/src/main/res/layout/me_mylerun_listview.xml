@@ -8,26 +8,27 @@
 
     <ImageView
         android:id="@+id/iv_mylerun_poster"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="95dp"
+        android:layout_weight="5"
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
         android:src="@mipmap/defaut_error_long" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp">
+        android:layout_height="95dp"
+        android:layout_weight="4">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-
                 android:id="@+id/tv_mylerun_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:text="卡乐泡泡跑"
@@ -64,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/ivLeRunBackground"
                 android:text="07月11日"
                 android:textColor="@color/black" />
@@ -88,8 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-
-
                 android:text="奥体中心"
                 android:textColor="@color/black" />
         </LinearLayout>

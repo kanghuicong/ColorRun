@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:background="#efefef"
     android:orientation="vertical">
-
     <include layout="@layout/main_back"></include>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:fillViewport="false">
 
         <LinearLayout

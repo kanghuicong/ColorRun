@@ -69,7 +69,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         user_name = getArguments().getString("user_name");
         lerun_title = getArguments().getString("lerun_title");
         lerun_price = getArguments().getInt("lerun_price") + "";
-        Log.i("payment_name", getArguments().getString("user_name"));
+
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
         payment_price.setText(getArguments().getInt("lerun_price") + "");

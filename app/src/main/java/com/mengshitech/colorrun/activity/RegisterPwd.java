@@ -40,7 +40,6 @@ public class RegisterPwd extends Activity {
         // 获取从上一个activity传过来的数据
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        tvnumber.setText(bundle.getString("number"));
         number = bundle.getString("number");
         type = bundle.getString("type");
         // 获取布局控件
@@ -48,7 +47,7 @@ public class RegisterPwd extends Activity {
         pwd = (EditText) findViewById(R.id.et_registered3_pwd);
         repwd = (EditText) findViewById(R.id.et_registered3_repwd);
         commit = (Button) findViewById(R.id.btn_registered3_commit);
-
+        tvnumber.setText(bundle.getString("number"));
 
         if ("find_pwd".equals(type)){
             tv_text.setText("您的账号为：");
@@ -113,7 +112,7 @@ public class RegisterPwd extends Activity {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("result",result);
+
             // 判断从服务器端返回来的值是否为1，如果为1则注册成功，同时将用户信息存入sqlite数据库并跳转到注册成功页面
             if (result.equals("timeout")){
                 Toast.makeText(RegisterPwd.this, "连接服务器失败！",
@@ -166,7 +165,7 @@ public class RegisterPwd extends Activity {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("result",result);
+
             // 判断从服务器端返回来的值是否为1，如果为1则注册成功，同时将用户信息存入sqlite数据库并跳转到注册成功页面
             if (result.equals("timeout")){
                 Toast.makeText(RegisterPwd.this, "连接服务器失败！",

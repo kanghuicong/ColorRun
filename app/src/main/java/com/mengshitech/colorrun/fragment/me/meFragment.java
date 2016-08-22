@@ -51,7 +51,6 @@ public class meFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
-
         mActivity = getActivity();
         initView();
         GetDate();
@@ -116,22 +115,20 @@ public class meFragment extends Fragment implements OnClickListener {
                     getActivity().startActivity(intent);
                 }
                 break;
+            // 点击我的乐跑事件
             case R.id.llMyLeRun:
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myLeRunFragment());
                 } else {
-
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
-                // 点击我的乐跑事件
-
                 break;
+            //我的show
             case R.id.llMyShow:
                 if (ContentCommon.login_state.equals("1")) {
                     Utility.replace2DetailFragment(fm, new myShowFragment());
                 } else {
-
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
@@ -142,15 +139,13 @@ public class meFragment extends Fragment implements OnClickListener {
                 Utility.replace2DetailFragment(fm, new AboutUsFragment());
                 break;
             case R.id.llCancel:
-
                 if (ContentCommon.login_state.equals("1")) {
-                    DialogUtility.DialogCancel(getActivity(), ivUserHead, tvUserName, tvUserID);
+                    DialogUtility.DialogCancel(mActivity, ivUserHead, tvUserName, tvUserID);
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
                 }
                 break;
-
             default:
                 break;
         }
@@ -197,7 +192,6 @@ public class meFragment extends Fragment implements OnClickListener {
                     if (userEntiy.getUser_header().equals("")){
                     }else{
                         String header_path = ContentCommon.path+userEntiy.getUser_header();
-                        Log.i("header_path:",header_path);
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }
                 } catch (JSONException e) {
@@ -208,27 +202,11 @@ public class meFragment extends Fragment implements OnClickListener {
         }
     };
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        //监听返回按钮
-//        exit();
-//    }
-//
-//    private void exit() {
-//        if (!isExit) {
-//            isExit = true;
-//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-//                    Toast.LENGTH_SHORT).show();
-//            // 利用handler延迟发送更改状态信息
-//            mHandler.sendEmptyMessageDelayed(0, 2000);
-//            //如果2秒内没有退出，则变成false。重新按两次才能退出。
-//        } else {
-//            finish();
-//            System.exit(0);
-//        }
-//    }
-
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        mActivity = getActivity();
+        initView();
+        GetDate();
+    }
 }

@@ -43,6 +43,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/et_code"
             android:layout_width="wrap_content"
@@ -55,8 +56,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/btn_getcode"
             android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@mipmap/nav_bg"
             android:text="获取验证码" />
 
         <TextView
@@ -64,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
+            android:gravity="center"
             android:text=""
             android:textColor="@color/grey"
             />
@@ -77,8 +83,7 @@
         android:id="@+id/btn_registered"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@mipmap/nav_bg"
-        android:textColor="#ffffff"
+        android:background="@drawable/loginshape"
         android:text="立即注册" />
 
 

@@ -42,7 +42,6 @@ public class ShowMap extends Fragment {
                              Bundle savedInstanceState) {
         showmap_view = View.inflate(getActivity(), R.layout.lerun_into_showmap, null);
         ImageView showmap = (ImageView)showmap_view.findViewById(R.id.into_lerun_showmap);
-        Log.i("map_path",map_path+"");
         Glide.with(context).load(map_path).into(showmap);
         showmap_view.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {

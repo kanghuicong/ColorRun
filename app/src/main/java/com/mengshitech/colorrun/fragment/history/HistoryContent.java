@@ -77,6 +77,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = getActivity();
+        context=getActivity();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,7 +132,6 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             map.put("flag", "historylerun");
             map.put("index", "2");
             map.put("lerun_id", lerun_id + "");
-            Log.i("lerun_id1:", lerun_id + "");
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
@@ -155,15 +155,12 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                     Glide.with(mActivity).load(ContentCommon.path + entity.getLerun_poster()).into(history_poster);
                     DecimalFormat df = new DecimalFormat("######0.0");
                     AverageStar = Double.valueOf(entity.getAverageStar().toString());
-                    Log.i("AverageStar", df.format(AverageStar));
                     if ((int) AverageStar == 0) {
                         tv_score.setText("5.0分");
-                        Log.i("AverageStar", (int) AverageStar + "");
                         ratingBar.setRating(5);
 
                     } else {
                         tv_score.setText(df.format(AverageStar) + "分");
-                        Log.i("AverageStar", (int) AverageStar + "");
                         ratingBar.setRating((int) AverageStar);
                     }
                     footview.setVisibility(View.VISIBLE);
@@ -207,14 +204,12 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                     if (onload) {
 
                         int state = JsonTools.getState("state", result);
-                        Log.i("result:", "result");
                         if (state == 1) {
                             List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
 
                             for (int i = 0; i < mlist.size(); i++) {
                                 list.add(mlist.get(i));
                             }
-                            Log.i("lissize:", list.size() + "result");
                             adapter.changeCount(list.size());
                             adapter.notifyDataSetChanged();
                             adapter.notifyDataSetInvalidated();
@@ -238,7 +233,6 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                             for (int i = 0; i < mlist.size(); i++) {
                                 list.add(mlist.get(i));
                             }
-                            Log.i("下拉刷新后list的大小", list.size() + "");
                             adapter.changeCount(list.size());
                             adapter.notifyDataSetChanged();
                             adapter.notifyDataSetInvalidated();
@@ -252,7 +246,6 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                     //进入页面进行listview数据加载
                     {
                         int state = JsonTools.getState("state", result);
-                        Log.i("result:", "result");
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
                             history_listview.addHeaderView(view);
@@ -277,7 +270,6 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
     //下拉刷新
     @Override
     public void onRefresh() {
-        Log.i("下拉刷新", "成功");
         onRefresh = true;
         currentPage = 1;
 

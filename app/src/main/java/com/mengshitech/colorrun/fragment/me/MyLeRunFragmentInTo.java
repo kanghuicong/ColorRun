@@ -104,7 +104,6 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
-            Log.i("result", result);
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
@@ -116,7 +115,6 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
 
-            Log.i("result111", result);
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {

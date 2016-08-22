@@ -43,7 +43,7 @@ public class HistoryAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         HistoryEntity mHistoryEntity = mHistotyList.get(position);
-        Log.i("item的值：","2222"+mHistoryEntity.getLerun_id());
+
         return mHistoryEntity.getLerun_id();
     }
 

@@ -75,7 +75,9 @@ public class ShowGridViewAdapter extends BaseAdapter  {
         holder.grid_image.setLayoutParams(ps);
 
         final String image_path = imagepath.get(position);
-        Log.i("image_path:",image_path);
+
+
+
         Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override

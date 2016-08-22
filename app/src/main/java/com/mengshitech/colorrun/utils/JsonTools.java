@@ -32,6 +32,7 @@ public class JsonTools {
     public static int getState(String key, String jsonString) throws JSONException {
         JSONObject object = new JSONObject(jsonString);
         int state = object.getInt(key);
+
         Log.i("state",state+"");
         return state;
     }
@@ -175,6 +176,7 @@ public class JsonTools {
     //图片
     public static List<String> getImageInfo(String jsonString)
             throws JSONException {
+
 
         JSONArray jsonArray = new JSONArray(jsonString);
 
@@ -380,6 +382,7 @@ public class JsonTools {
     public static String getUserLog(String jsonString)
             throws JSONException {
 
+
         JSONArray jsonArray = new JSONArray(jsonString);
 
         List<String> list = new ArrayList<>();
@@ -387,6 +390,7 @@ public class JsonTools {
 
         JSONObject jsonObject = jsonArray.getJSONObject(0);
         String imagePath = jsonObject.getString("imagePath");
+
 
         return imagePath;
     }

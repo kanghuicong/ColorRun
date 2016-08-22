@@ -236,13 +236,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             map.put("index", "0");
 
             String jsonString = HttpUtils.sendHttpClientPost(path, map, "utf-8");
-            Log.i("jsonString:", jsonString);
 //            if(jsonString.equals("timeout")){
 //                mSwipeLayout.setRefreshing(false);
 //            }
             try {
                 List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
-                Log.i("list的数据22:", result.toString() + "");
                 Message msg = new Message();
                 msg.obj = result;
 
@@ -259,7 +257,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
         public void handleMessage(Message msg) {
             List<LunBoEntity> list = (List<LunBoEntity>) msg.obj;
-            Log.i("list的数据:", list.toString() + "");
             imgList = new ArrayList<ImageView>();
             for (int i = 0; i < list.size(); i++) {
                 LunBoEntity entity = list.get(i);
@@ -313,7 +310,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
                         gideviewlist.add(entity);
                     }
-                    Log.i("gridlist的大小:", gideviewlist.size() + "");
                     gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
                     mSwipeLayout.setRefreshing(false);
 
@@ -338,7 +334,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             map.put("flag", "lunbo");
             map.put("index", "1");
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
-            Log.i("result信息", result);
             Message msg = new Message();
             msg.obj = result;
             videoHandler.sendMessage(msg);
@@ -352,18 +347,15 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             super.handleMessage(msg);
             String result = (String) msg.obj;
 
-            Log.i("获取热门信息：",""+result);
             if (result.equals("timeout")) {
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 mSwipeLayout.setRefreshing(false);
             } else {
                 try {
 
-                    Log.i("videoImagezhixingle", "内容");
                     List<VideoEntity> list = JsonTools.getVideoInfo(result);
 
                     VideoEntity entity = list.get(0);
-                    Log.i("图片地址", entity.getVideo_url());
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
                     mSwipeLayout.setRefreshing(false);
@@ -389,7 +381,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             map.put("user_id", user_id);
             map.put("user_telphone", user_id);
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
-            Log.i("result信息", result);
             Message msg = new Message();
             msg.obj = result;
             QrcodeHanler.sendMessage(msg);

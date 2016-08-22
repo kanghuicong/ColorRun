@@ -66,18 +66,11 @@ public class TimeCount extends DigitalClock {
                 if (mTickerStopped)
                     return;
                 long currentTime = System.currentTimeMillis();
-                Log.i("Runnable的时间",endTime+"");
-                Log.i("currentTime的时间",currentTime+"");
-                Log.i("currentTime",currentTime+"");
                 if (currentTime / 1000 == endTime / 1000 - 5 * 60) {
                     mClockListener.remainFiveMinutes();
-                    Log.i("mClockListener","ss");
                 }
-                Log.i("endTime",endTime+"");
                 distanceTime =  endTime - currentTime;
                 distanceTime /= 1000;
-                Log.i("distanceTime的时间",distanceTime+"");
-                Log.i("distanceTime",distanceTime+"");
                 if (distanceTime == 0) {
                     setText("00:00:00");
                     onDetachedFromWindow();
@@ -168,10 +161,8 @@ public class TimeCount extends DigitalClock {
         this.endTime = endTime;
 
 
-        Log.i("传进来的时间",endTime+"");
 
         onAttachedToWindow();
-        Log.i("EndTime",endTime+"");
     }
     /**
      * Pulls 12/24 mode from system settings

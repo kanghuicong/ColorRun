@@ -164,9 +164,8 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         String datas = JsonTools.getDatas(result);
                         ScuessImagePath = JsonTools.getUserLog(datas);
 //                        ScuessImagePath=list.get(0);
-//                        UserDao dao=new UserDao(UserLogActivity.this);
-//                        dao.update_data("user_header",ScuessImagePath,ContentCommon.user_id);
-                        Log.i("ScuessImagePath",ScuessImagePath+"ssss");
+
+                        Log.i("ScuessImagePath", ScuessImagePath + "ssss");
                         new Thread(updateRunable).start();
                     } else {
                         Toast.makeText(UserLogActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
@@ -191,6 +190,10 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
             map.put("update_type", "user_header");
             map.put("update_values", ScuessImagePath);
             String result = HttpUtils.sendHttpClientPost(servlet, map, "utf-8");
+            Message msg = new Message();
+            msg.obj = result;
+
+            handler.sendMessage(msg);
 
         }
     };
@@ -199,10 +202,11 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-
+            Log.i("result", result + ":shsiss");
             if (result.equals("1")) {
                 Toast.makeText(UserLogActivity.this, "更改头像成功", Toast.LENGTH_SHORT).show();
-                Log.i("result",result+":shsiss");
+                UserDao dao = new UserDao(UserLogActivity.this);
+                dao.update_data("user_header", ScuessImagePath, ContentCommon.user_id);
 
             } else if (result.equals("0")) {
                 Toast.makeText(UserLogActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
@@ -267,7 +271,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
                         user_image.setImageBitmap(bmp);
                         //压缩图片
-                        String image=CompressImage.compressBitmap(UserLogActivity.this,imageFilePath,200,200,false);
+                        String image = CompressImage.compressBitmap(UserLogActivity.this, imageFilePath, 200, 200, false);
 
 
                         temp = new File(image);
@@ -284,7 +288,6 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         }
 
     }
-
 
 
 }

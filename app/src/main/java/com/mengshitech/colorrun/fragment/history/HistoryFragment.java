@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.history;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.MyPagerAdapter;
@@ -29,6 +30,8 @@ public class HistoryFragment extends BaseFragment{
         if (historyview == null) {
             historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
             ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
+            PagerTabStrip pagerTabStrip = (PagerTabStrip) historyview.findViewById(R.id.pts);
+            pagerTabStrip.setTabIndicatorColorResource(R.color.green);
             context=getActivity();
             fragmentList.add(new HistoryTheme(getActivity(),"1"));
             fragmentList.add(new HistoryTheme(getActivity(),"2"));

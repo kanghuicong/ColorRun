@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +28,7 @@ import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -46,6 +51,7 @@ public class meFragment extends Fragment implements OnClickListener {
     FragmentManager fm;
     TextView tvUserName, tvUserID;
     private Activity mActivity;
+    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +59,7 @@ public class meFragment extends Fragment implements OnClickListener {
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
 
         mActivity = getActivity();
+        context = getActivity();
         initView();
         GetDate();
 
@@ -60,22 +67,29 @@ public class meFragment extends Fragment implements OnClickListener {
     }
 
     private void GetDate() {
-        UserDao dao = new UserDao(getActivity());
+        UserDao dao = new UserDao(context);
         UserEntiy modler = new UserEntiy();
         modler = dao.find(ContentCommon.user_id);
         if (modler == null) {
             if (ContentCommon.user_id != null) {
                 new Thread(runnable).start();
             }
+
         } else {
+            Log.i("用户姓名", modler.getUser_name() + "");
+
+
             tvUserName.setText(modler.getUser_name());
             tvUserID.setText(modler.getUser_id());
-            Log.i("tvUserID",modler.getUser_id());
-            if (modler.getUser_header()!=null){
-                String header_path = ContentCommon.path+modler.getUser_header();
+            Log.i("tvUserID", modler.getUser_id());
+            if (modler.getUser_header() != null) {
+                String header_path = ContentCommon.path + modler.getUser_header();
                 Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
+
             }
+
         }
+
     }
 
     private void initView() {
@@ -84,6 +98,8 @@ public class meFragment extends Fragment implements OnClickListener {
         ivUserHead = (ImageView) meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView) meView.findViewById(R.id.tvUserName);
         tvUserID = (TextView) meView.findViewById(R.id.tvUserID);
+
+
         // 头像那一行
         llUserHead.setOnClickListener(this);
         llMyLeRun = (LinearLayout) meView.findViewById(R.id.llMyLeRun);
@@ -156,13 +172,6 @@ public class meFragment extends Fragment implements OnClickListener {
         }
     }
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context arg0, Intent arg1) {
-            initView();
-        }
-    };
-
 
     Runnable runnable = new Runnable() {
         @Override
@@ -170,9 +179,9 @@ public class meFragment extends Fragment implements OnClickListener {
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
-            map.put("user_id",ContentCommon.user_id);
-            map.put("index","4");
-            String result = HttpUtils.sendHttpClientPost(path,map,"utf-8");
+            map.put("user_id", ContentCommon.user_id);
+            map.put("index", "4");
+            String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
 
             Message msg = new Message();
             msg.obj = result;
@@ -194,9 +203,9 @@ public class meFragment extends Fragment implements OnClickListener {
                         tvUserName.setText(userEntiy.getUser_name());
                     }
                     tvUserID.setText(userEntiy.getUser_id());
-                    if (userEntiy.getUser_header().equals("")){
-                    }else{
-                        String header_path = ContentCommon.path+userEntiy.getUser_header();
+                    if (userEntiy.getUser_header().equals("")) {
+                    } else {
+                        String header_path = ContentCommon.path + userEntiy.getUser_header();
                         Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).into(ivUserHead);
                     }
                 } catch (JSONException e) {
@@ -207,16 +216,50 @@ public class meFragment extends Fragment implements OnClickListener {
         }
     };
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+
+            Log.i("broadcast", "zhixingle");
+            refreshhandler.sendEmptyMessage(0);
+        }
+    };
+
+
+    //注册广播
     @Override
     public void onStart() {
         super.onStart();
 
-        mActivity = getActivity();
-        initView();
-        GetDate();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("refresh");
+        mActivity.registerReceiver(receiver, filter);
+        Log.i("onStart", "zhixingle");
     }
 
+    //注销广播
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
 
+            try {
+                mActivity.unregisterReceiver(receiver);
+            } catch (Exception e) {
+                // already unregistered
+            }
+
+        }
+    }
+
+    Handler refreshhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            GetDate();
+        }
+    };
 
 
 }

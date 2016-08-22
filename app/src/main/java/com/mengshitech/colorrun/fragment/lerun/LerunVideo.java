@@ -51,7 +51,7 @@ public class LerunVideo extends BaseFragment {
     private void init() {
         browser = (WebView) lerun_theme_view.findViewById(R.id.web_video);
         //WebView加载web资源
-        browser.loadUrl("http://baidu.com");
+        browser.loadUrl(uri);
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         browser.setWebViewClient(new WebViewClient() {
             @Override

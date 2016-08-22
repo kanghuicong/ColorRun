@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="#11cd6e">
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:text="乐跑"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
@@ -67,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_activity"
+                        android:drawableTop="@drawable/icon_activity"
                         android:gravity="center_horizontal"
                         android:text="活动" />
 
@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_theme"
+                        android:drawableTop="@drawable/icon_theme"
                         android:gravity="center_horizontal"
                         android:text="主题" />
 
@@ -85,7 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_footer"
+                        android:drawableTop="@drawable/icon_footer"
                         android:gravity="center_horizontal"
                         android:text="足迹" />
 
@@ -94,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_sign"
+                        android:drawableTop="@drawable/icon_sign"
                         android:gravity="center_horizontal"
                         android:text="签到" />
                 </LinearLayout>

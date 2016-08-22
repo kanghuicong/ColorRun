@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.history;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
@@ -77,7 +79,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = getActivity();
-        context=getActivity();
+        context = getActivity();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +110,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
         tv_peoplenum = (TextView) view.findViewById(R.id.tv_peoplenum);
         btn_send = (Button) history_content_view.findViewById(R.id.btn_send);
         et_content = (EditText) history_content_view.findViewById(R.id.et_content);
-        footview= (LinearLayout) history_content_view.findViewById(R.id.footview);
+        footview = (LinearLayout) history_content_view.findViewById(R.id.footview);
         footview.setVisibility(View.GONE);
 
         new Thread(lerunInfoRunnable).start();
@@ -225,8 +227,8 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                     //下拉刷新后刷新listview
                     else if (onRefresh) {
 
-                        int state=JsonTools.getState("state",result);
-                        if(state==1){
+                        int state = JsonTools.getState("state", result);
+                        if (state == 1) {
                             list.clear();
                             List<CommentEntity> mlist = JsonTools.getLeRunEvaluate("datas", result);
 
@@ -237,7 +239,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                             adapter.notifyDataSetChanged();
                             adapter.notifyDataSetInvalidated();
                             pullSwipeRefreshLayout.setRefreshing(false);
-                        }else{
+                        } else {
                             pullSwipeRefreshLayout.setRefreshing(false);
                         }
 
@@ -287,8 +289,12 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onClick(View v) {
-        evaluate_content = et_content.getText().toString();
-        new Thread(evaluateRunnable).start();
+        if (ContentCommon.login_state.equals("1")) {
+            evaluate_content = et_content.getText().toString();
+            new Thread(evaluateRunnable).start();
+        } else {
+            startActivity(new Intent(mActivity, LoginActivity.class));
+        }
     }
 
 
@@ -320,8 +326,8 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                 if (state == 1) {
                     Toast.makeText(context, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 } else {
 
                 }

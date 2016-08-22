@@ -139,16 +139,23 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-
-        String header_path = ContentCommon.path + mShowEntity.getUser_header();
-        Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
+        int show_id = Integer.valueOf(mShowEntity.getShow_id());
+        holder.user_name.setTag(show_id);
+        //头像
+//        if (holder.user_header.getTag() != null && holder.user_header.getTag().equals(show_id)) {
+            String header_path = ContentCommon.path + mShowEntity.getUser_header();
+            Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
+//        }
         //读取基本数据
-        holder.user_name.setText(mShowEntity.getUser_name());
+        if (holder.user_name.getTag() != null && holder.user_name.getTag().equals(show_id)) {
+            holder.user_name.setText(mShowEntity.getUser_name());
+        }
         if (mShowEntity.getShow_content().equals("")){
             holder.show_content.setVisibility(View.GONE);
         } else {
             holder.show_content.setText(mShowEntity.getShow_content());
         }
+
         holder.show_time.setText(mShowEntity.getShow_time());
         holder.show_comment_num.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
@@ -167,8 +174,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
             holder.show_like.setCompoundDrawables(drawable, null, null, null);
         }
-
-
         //gridview图片
         String result = mShowEntity.getShow_image();
         try {

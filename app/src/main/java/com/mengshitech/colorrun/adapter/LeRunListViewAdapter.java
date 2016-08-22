@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,14 +47,14 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
     List<LeRunEntity> mLeRunList;
     ListView mListView;
     FragmentManager mFragmentManager;
-    private Activity mActivity;
+    Context mActivity;
     List<String> list = new ArrayList<String>();
     int pos;
     int lerun_id;
     long time = 0;
     private android.view.animation.Animation animation;
 
-    public LeRunListViewAdapter(Activity activity, List<LeRunEntity> leRunList, FragmentManager fm,
+    public LeRunListViewAdapter(Context activity, List<LeRunEntity> leRunList, FragmentManager fm,
                                 ListView listView) {
         mActivity = activity;
         mLeRunList = leRunList;

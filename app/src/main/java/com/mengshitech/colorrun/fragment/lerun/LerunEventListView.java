@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.LeRunEventListviewAdapter;
+import com.mengshitech.colorrun.adapter.LeRunListViewAdapter;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
@@ -113,7 +114,7 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
 
                     List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
                     count=lerunlist.size();
-                    lerun_listView.setAdapter(new LeRunEventListviewAdapter(context, lerunlist,mFragmentManagr));
+                    lerun_listView.setAdapter(new LeRunListViewAdapter(context, lerunlist,mFragmentManagr,lerun_listView));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

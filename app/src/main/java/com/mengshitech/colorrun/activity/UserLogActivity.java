@@ -130,12 +130,9 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
             case R.id.userlog_btn_back:
                 finish();
                 break;
-
-
             default:
                 break;
         }
-
     }
 
     //执行上传证件照的线程
@@ -211,7 +208,6 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
             } else if (result.equals("0")) {
                 Toast.makeText(UserLogActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
             }
-            ;
         }
     };
 

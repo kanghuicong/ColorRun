@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
+import com.mengshitech.colorrun.activity.RegisterPwd;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.LogOutDiaLog;

@@ -57,7 +57,7 @@ public class SpaceImageDetailActivity extends Activity {
         imageView.setScaleType(ScaleType.FIT_CENTER);
         setContentView(imageView);
 
-        progressDialog=ProgressDialog.show(SpaceImageDetailActivity.this,"正在加载图片");
+
         final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(SpaceImageDetailActivity.this));
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -65,30 +65,7 @@ public class SpaceImageDetailActivity extends Activity {
                 .cacheOnDisc(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-        imageLoader.displayImage(image_path, imageView, options,new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {
-                progressDialog.show();
-            }
-
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-
-                imageView.setImageResource(R.mipmap.defaut_error_square);
-                Toast.makeText(SpaceImageDetailActivity.this, "图片加载失败", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onLoadingCancelled(String s, View view) {
-
-            }
-        });
+        imageLoader.displayImage(image_path, imageView, options);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {

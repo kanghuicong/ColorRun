@@ -29,7 +29,7 @@ public class RegisterActivity extends Activity {
     private Button btn_registered, btn_getcode;
     private ImageView vc_image;// 用于显示验证码
     private String getcode = null;// 获取验证码的值֤���ֵ
-    private TextView tv_now, tv_title, tv_conment;
+    private TextView tv_title, tv_conment;
     private EditText et_code, et_phone;
     private String number;
     String type;
@@ -44,7 +44,6 @@ public class RegisterActivity extends Activity {
         et_code = (EditText) findViewById(R.id.et_code);
         et_phone = (EditText) findViewById(R.id.registered_et_usernumber);
         btn_getcode = (Button) findViewById(R.id.btn_getcode);
-        tv_now = (TextView) findViewById(R.id.timer1);
         tv_title = (TextView) findViewById(R.id.tv_register_title);
         tv_conment = (TextView) findViewById(R.id.tv_register_conment);
 
@@ -88,7 +87,7 @@ public class RegisterActivity extends Activity {
                         iPhone = et_phone.getText().toString().trim();
                         SMSSDK.getVerificationCode("86", iPhone);
                         et_code.requestFocus();
-                        btn_getcode.setVisibility(View.GONE);
+//                        btn_getcode.setVisibility(View.GONE);
                     } else {
                         Toast.makeText(RegisterActivity.this, "请输入完整电话号码",
                                 Toast.LENGTH_LONG).show();
@@ -127,7 +126,7 @@ public class RegisterActivity extends Activity {
     }
 
     private void reminderText() {
-        tv_now.setVisibility(View.VISIBLE);
+//        tv_now.setVisibility(View.VISIBLE);
         handlerText.sendEmptyMessageDelayed(1, 1000);
     }
 
@@ -135,25 +134,26 @@ public class RegisterActivity extends Activity {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (time > 0) {
-                    tv_now.setText("验证码已发送" + time + "秒");
+                    btn_getcode.setText("验证码已发送" + time + "秒");
+                    //tv_now.setText("验证码已发送" + time + "秒");
                     time--;
                     handlerText.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    tv_now.setText("提示信息");
+                    btn_getcode.setText("提示信息");
+                    //tv_now.setText("提示信息");
                     time = 60;
-                    tv_now.setVisibility(View.GONE);
+//                    tv_now.setVisibility(View.GONE);
                     btn_getcode.setVisibility(View.VISIBLE);
                 }
             } else {
                 et_code.setText("");
-                tv_now.setText("提示信息");
+                btn_getcode.setText("提示信息");
+                //tv_now.setText("提示信息");
                 time = 60;
-                tv_now.setVisibility(View.GONE);
+//                tv_now.setVisibility(View.GONE);
                 btn_getcode.setVisibility(View.VISIBLE);
             }
-        }
-
-        ;
+        };
     };
 
     Handler handler = new Handler() {

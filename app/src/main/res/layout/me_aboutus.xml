@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="版本号：1.0"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="版本更新"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
 
                 <ImageView
@@ -87,7 +87,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="反馈"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="联系我们"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -102,11 +102,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         if (bundle != null) {
             if (bundle.getStringArrayList("files") != null) {
                 listfile = bundle.getStringArrayList("files");
-
-
                 count = listfile.size() + 1;
-
-
                 try {
                     compressfile = compressImage(listfile);
                     ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
@@ -321,7 +317,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         switch (v.getId()) {
             case R.id.ll_send:
                 content = et_text.getText().toString();
-                System.out.println("内容:" + content + "图片内容:" + listfile);
                 if (listfile != null && listfile.size() != 0 && content != null) {
                     progressDialog.show();
                     new Thread(runnable).start();

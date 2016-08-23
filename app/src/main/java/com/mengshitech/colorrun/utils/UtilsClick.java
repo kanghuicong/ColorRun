@@ -10,6 +10,7 @@ public class UtilsClick {
         if ( time - lastClickTime < 1500) {
             return true;
         }
+
         lastClickTime = time;
         return false;
     }

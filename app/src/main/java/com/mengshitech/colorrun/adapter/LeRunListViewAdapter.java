@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,14 +47,14 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
     List<LeRunEntity> mLeRunList;
     ListView mListView;
     FragmentManager mFragmentManager;
-    private Activity mActivity;
+    Context mActivity;
     List<String> list = new ArrayList<String>();
     int pos;
     int lerun_id;
     long time = 0;
     private android.view.animation.Animation animation;
 
-    public LeRunListViewAdapter(Activity activity, List<LeRunEntity> leRunList, FragmentManager fm,
+    public LeRunListViewAdapter(Context activity, List<LeRunEntity> leRunList, FragmentManager fm,
                                 ListView listView) {
         mActivity = activity;
         mLeRunList = leRunList;
@@ -96,7 +97,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder.tvLeRunState = (TextView)convertView.findViewById(R.id.tvLeRunState);
             holder.tvLeRunLike = (TextView)convertView.findViewById(R.id.tvLeRunLike);
             holder.tvLeRunBrowsenum = (TextView)convertView.findViewById(R.id.tvLeRunBrowse);
-            holder.tvLeRunShare = (ImageView)convertView.findViewById(R.id.ivLeRunShare) ;
+            holder.tvLeRunShare = (TextView)convertView.findViewById(R.id.ivLeRunShare) ;
             holder.like_anim = (TextView)convertView.findViewById(R.id.tv_one);
             convertView.setTag(holder);
         } else {
@@ -108,7 +109,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         holder.tvLeRunName.setText(mLeRunEntity.getLerun_title());
         holder.tvLeRunLocation.setText(mLeRunEntity.getLerun_address());
         holder.tvLeRunTime.setText(mLeRunEntity.getLerun_time());
-        holder.tvLeRunBrowsenum.setText("浏览量："+mLeRunEntity.getLerun_browsenum());
+        holder.tvLeRunBrowsenum.setText("浏览"+mLeRunEntity.getLerun_browsenum()+"次");
         holder.tvLeRunLike.setText(mLeRunEntity.getLerun_likenum());
         lerun_id = mLeRunEntity.getLerun_id();
 
@@ -125,9 +126,11 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
             holder.tvLeRunState.setTextColor(mActivity.getResources().getColor(R.color.orange));
         }
 
-        Drawable drawable = mActivity.getResources().getDrawable(R.mipmap.show_heart);
-        drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
-        holder.tvLeRunLike.setCompoundDrawables(drawable, null, null, null);
+        Drawable drawable_share = mActivity.getResources().getDrawable(R.mipmap.show_share);
+        holder.tvLeRunShare.setCompoundDrawablesWithIntrinsicBounds(drawable_share, null, null, null);
+
+        Drawable drawable_like = mActivity.getResources().getDrawable(R.mipmap.show_heart);
+        holder.tvLeRunLike.setCompoundDrawablesWithIntrinsicBounds(drawable_like, null, null, null);
 
         holder.tvLeRunLike.setOnClickListener(new MyAdapterListener(position,holder.tvLeRunLike,holder.like_anim));
         mListView.setOnItemClickListener(this);
@@ -202,7 +205,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         TextView tvLeRunState;
         TextView tvLeRunBrowsenum;
         TextView tvLeRunLike;
-        ImageView tvLeRunShare;
+        TextView tvLeRunShare;
         TextView like_anim;
 
     }

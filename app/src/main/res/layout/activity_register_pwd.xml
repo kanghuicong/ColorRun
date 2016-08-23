@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/layout_full"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/ViewBackground">
 
     <include layout="@layout/main_back" />
 
@@ -16,7 +17,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="注册账号"
+            android:text=""
             android:textSize="20sp" />
 
         <LinearLayout
@@ -30,9 +31,8 @@
                 android:id="@+id/tv_register_pwd_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您注册的手机号码为"
+                android:text="您注册的手机号码为:"
                 android:textColor="#2E2E2E"
-                android:textStyle="italic"
                 android:textSize="16sp" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="@color/orange"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 />
 
         </LinearLayout>
@@ -50,7 +50,7 @@
             style="@style/layout_vertical"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center|left"
+            android:gravity="center|left|top"
             android:text="请设置您的密码"
             android:textSize="16sp" />
 
@@ -84,19 +84,19 @@
 
         <View
             style="@style/layout_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
 
         <Button
             android:id="@+id/btn_registered3_commit"
             style="@style/layout_vertical"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:background="@mipmap/nav_bg"
+            android:background="@drawable/login_shape_bt"
             android:text="提交"
             android:textColor="#ffffff" />
         <View
             style="@style/layout_vertical"
-            android:layout_weight="5"/>
+            android:layout_weight="4.5"/>
     </LinearLayout>
 
 </LinearLayout>

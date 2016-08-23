@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/layout_full"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/ViewBackground">
 
     <include layout="@layout/main_back"/>
 
@@ -14,9 +15,8 @@
     <LinearLayout
         style="@style/layout_vertical"
         android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal">
 
         <EditText
@@ -24,12 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
-            android:background="#ffffff"
+            android:background="@android:drawable/editbox_background_normal"
             android:ems="10"
             android:hint="请输入手机号码"
-            android:textSize="16sp">
+            android:textSize="14sp">
 
             <requestFocus />
         </EditText>
@@ -40,17 +38,18 @@
         android:layout_marginTop="20dp"
         style="@style/layout_vertical"
         android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_code"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:hint="请输入验证码"
             android:background="@android:drawable/editbox_background_normal"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:ems="10" />
 
         <Button
@@ -58,17 +57,19 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
             android:id="@+id/btn_getcode"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:gravity="center"
-            android:background="@mipmap/nav_bg"
-            android:text="获取验证码" />
+            android:background="@drawable/login_shape_bt"
+            android:text="  获取验证码  "
+            android:textSize="12dp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/timer1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text=""
             android:textColor="@color/grey"
@@ -81,10 +82,12 @@
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
         android:id="@+id/btn_registered"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/loginshape"
-        android:text="立即注册" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/login_shape_bt"
+        android:text="立即注册"
+        android:textSize="15dp"
+        android:textColor="@color/white"/>
 
 
     <TextView
@@ -93,8 +96,8 @@
         android:layout_weight="7"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:text="点击“立即注册”，表示您同意并愿意遵守卡乐跑用户协议和隐私政策。"
         android:textColor="@color/grey" />
 

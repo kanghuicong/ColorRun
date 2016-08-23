@@ -31,8 +31,8 @@
                         android:id="@+id/into_lerun_poster"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/splash1" />
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/defaut_error_long" />
 
                 </LinearLayout>
 
@@ -133,7 +133,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -157,7 +157,7 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="17sp" />
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -178,13 +178,12 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="17sp" />
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:orientation="horizontal">
 
                             <ImageView
@@ -200,7 +199,7 @@
                                 android:padding="5dp"
                                 android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="17sp" />
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -211,7 +210,7 @@
                         android:layout_height="250dp"
                         android:padding="10dp"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/into_lerun_map" />
+                        android:src="@mipmap/defaut_error_long" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -270,7 +269,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal">
@@ -296,7 +295,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="10dp"
 
                         android:orientation="horizontal">
@@ -322,7 +321,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="10dp"
                         android:orientation="horizontal">
 
@@ -378,10 +377,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="活动路线:"
                                 android:textColor="@color/black"
+                                android:layout_gravity="top"
                                 android:textSize="16sp"
-                                android:textStyle="bold"
-
-                                />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -485,7 +483,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_marginTop="5dp"
-                            android:text="*活动签到通过现场工作人员扫描二维码的方式签到，为防止网络拥堵，参赛人员可以提前将二维码保存到手机相册中" />
+                            android:text="*  活动签到通过现场工作人员扫描二维码的方式签到，为防止网络拥堵，参赛人员可以提前将二维码保存到手机相册中" />
                     </LinearLayout>
 
                     <TextView

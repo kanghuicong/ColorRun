@@ -352,9 +352,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 mSwipeLayout.setRefreshing(false);
             } else {
                 try {
-
                     List<VideoEntity> list = JsonTools.getVideoInfo(result);
-
                     VideoEntity entity = list.get(0);
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();

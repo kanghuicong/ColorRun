@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,22 +51,18 @@ import java.util.Map;
 /**
  * wschenyongyin
  */
-public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
-    private View history_content_view;
-    private TextView history_title, history_time, history_content;
+public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
+    private TextView history_title, history_time,history_content;
     private ImageView history_poster;
     private ListView history_listview;
-
+    private View view;
     int lerun_id;
     private BottomPullSwipeRefreshLayout pullSwipeRefreshLayout;
-    private Context context;
-    private static Activity mActivity;
     private double AverageStar;
     private RatingBar ratingBar;
     private TextView tv_score, tv_host, tv_peoplenum;
     private int pageSize = 10;
     private int currentPage = 1;
-    private View view;
     private boolean onload = false;
     private boolean onRefresh = false;
     private List<CommentEntity> list;
@@ -76,25 +73,20 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
     private LinearLayout footview;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = getActivity();
-        context = getActivity();
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        history_content_view = View.inflate(getActivity(), R.layout.history_content, null);
-
-        MainBackUtility.MainBack(history_content_view, "详情", getFragmentManager());
-        view = View.inflate(getActivity(), R.layout.historycontent_listview_headerview, null);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.history_content);
+        MainBackUtility.MainBackActivity(HistoryContent.this, "详情");
+        view = View.inflate(HistoryContent.this, R.layout.historycontent_listview_headerview, null);
         GetData();
         FindId();
-        return history_content_view;
     }
 
     private void GetData() {
-        lerun_id = getArguments().getInt("lerun_id");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        lerun_id = bundle.getInt("lerun_id");
+        Log.i("lerun_id",lerun_id+"");
     }
 
     private void FindId() {
@@ -103,27 +95,25 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
         history_content = (TextView) view.findViewById(R.id.tv_history_content);
         history_content.setMovementMethod(ScrollingMovementMethod.getInstance());
         history_poster = (ImageView) view.findViewById(R.id.iv_history_content_poster);
-        history_listview = (ListView) history_content_view.findViewById(R.id.lv_history_content);
+        history_listview = (ListView) findViewById(R.id.lv_history_content);
         ratingBar = (RatingBar) view.findViewById(R.id.rb_history_content_ratingbar);
         tv_score = (TextView) view.findViewById(R.id.tv_score);
         tv_host = (TextView) view.findViewById(R.id.tv_host);
         tv_peoplenum = (TextView) view.findViewById(R.id.tv_peoplenum);
-        btn_send = (Button) history_content_view.findViewById(R.id.btn_send);
-        et_content = (EditText) history_content_view.findViewById(R.id.et_content);
-        footview = (LinearLayout) history_content_view.findViewById(R.id.footview);
+        btn_send = (Button) findViewById(R.id.btn_send);
+        et_content = (EditText) findViewById(R.id.et_content);
+        footview = (LinearLayout) findViewById(R.id.footview);
         footview.setVisibility(View.GONE);
 
         new Thread(lerunInfoRunnable).start();
         new Thread(EvaluateRunnable).start();
-        pullSwipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
-        pullSwipeRefreshLayout = (BottomPullSwipeRefreshLayout) history_content_view.findViewById(R.id.bottomRefesh);
+        pullSwipeRefreshLayout = new BottomPullSwipeRefreshLayout(HistoryContent.this);
+        pullSwipeRefreshLayout = (BottomPullSwipeRefreshLayout)findViewById(R.id.bottomRefesh);
         pullSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
 //        pullSwipeRefreshLayout.autoRefresh();
         pullSwipeRefreshLayout.setOnRefreshListener(this);
         pullSwipeRefreshLayout.setOnLoadListener(this);
         btn_send.setOnClickListener(this);
-
-
     }
 
     Runnable lerunInfoRunnable = new Runnable() {
@@ -145,16 +135,17 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryContent.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     LeRunEntity entity = JsonTools.getHistoryLerunDetail("datas", result);
+                    Log.i("getHistoryLerunDetail",entity.getLerun_title());
                     history_title.setText(entity.getLerun_title());
                     history_time.setText(entity.getLerun_time());
                     history_content.setText(entity.getLerun_content());
                     tv_host.setText("承办方：" + entity.getLerun_host());
                     tv_peoplenum.setText("参与人数:" + entity.getLerun_maxuser() + "");
-                    Glide.with(mActivity).load(ContentCommon.path + entity.getLerun_poster()).into(history_poster);
+                    Glide.with(HistoryContent.this).load(ContentCommon.path + entity.getLerun_poster()).into(history_poster);
                     DecimalFormat df = new DecimalFormat("######0.0");
                     AverageStar = Double.valueOf(entity.getAverageStar().toString());
                     if ((int) AverageStar == 0) {
@@ -169,8 +160,6 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-
-
                 }
             }
         }
@@ -198,7 +187,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-                Toast.makeText(getActivity(), "连接服务器超时", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryContent.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 pullSwipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
@@ -251,13 +240,12 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
                             history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(mActivity, list, history_listview);
+                            adapter = new ShowDetailCommentAdpter(HistoryContent.this, list, history_listview);
                             history_listview.setAdapter(adapter);
                             pullSwipeRefreshLayout.setRefreshing(false);
                         } else if (state == 0) {
-
                             history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(mActivity);
+                            adapter = new ShowDetailCommentAdpter(HistoryContent.this);
                             history_listview.setAdapter(adapter);
                             pullSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -293,7 +281,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             evaluate_content = et_content.getText().toString();
             new Thread(evaluateRunnable).start();
         } else {
-            startActivity(new Intent(mActivity, LoginActivity.class));
+            startActivity(new Intent(HistoryContent.this, LoginActivity.class));
         }
     }
 
@@ -324,7 +312,7 @@ public class HistoryContent extends Fragment implements SwipeRefreshLayout.OnRef
             try {
                 int state = JsonTools.getState("state", result);
                 if (state == 1) {
-                    Toast.makeText(context, "发表成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryContent.this, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
 //                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

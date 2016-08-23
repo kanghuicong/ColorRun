@@ -1,37 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rlShowDetail"
 
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rlShowHead"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@mipmap/nav_bg">
-        <ImageView
-            android:id="@+id/show_back"
-            android:layout_marginLeft="5dp"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/btn_back" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="秀帖"
-            android:textColor="@color/white"
-            android:textSize="@dimen/navigation" />
-    </RelativeLayout>
+    <include layout="@layout/main_back"/>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:scrollbars="none"
         android:layout_below="@+id/rlShowHead">
 
@@ -140,4 +122,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

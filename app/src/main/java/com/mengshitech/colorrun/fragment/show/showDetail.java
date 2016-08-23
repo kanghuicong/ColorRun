@@ -29,6 +29,7 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONException;
@@ -44,8 +45,8 @@ import java.util.Map;
  * E-address:atenk@qq.com.
  */
 public class showDetail extends Activity implements View.OnClickListener{
-    ImageView showdetail_hear,showdetail_comment,showdetail_share;
-    TextView showdetail_username,showdetail_content,showdetail_time,showdetail_comment_num,comment_text;
+    ImageView showdetail_hear;
+    TextView showdetail_username,showdetail_content,showdetail_time,comment_text;
     GridView showdetail_image,gv_like;
     EditText et_show_comment;
     Button bt_show_comment;
@@ -59,12 +60,12 @@ public class showDetail extends Activity implements View.OnClickListener{
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
     List<CommentEntity> commentlist;
-    ImageView show_back;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_detail);
+        MainBackUtility.MainBackActivity(showDetail.this,"秀帖");
         FindId();
         ll_like.setVisibility(View.GONE);
         GetData();
@@ -81,7 +82,6 @@ public class showDetail extends Activity implements View.OnClickListener{
         showdetail_username.setText(bundle.getString("user_name"));
         showdetail_content.setText(bundle.getString("show_content"));
         showdetail_time.setText(bundle.getString("show_time"));
-        showdetail_comment_num.setText(bundle.getString("show_comment_num"));
         String show_hear = bundle.getString("user_header");
         String show_Image = bundle.getString("show_image");
         String header_path = ContentCommon.path+show_hear;
@@ -105,11 +105,7 @@ public class showDetail extends Activity implements View.OnClickListener{
         showdetail_username = (TextView)findViewById(R.id.tv_show_username);
         showdetail_content = (TextView)findViewById(R.id.tv_show_content);
         showdetail_image = (GridView)findViewById(R.id.gv_show_image);
-        showdetail_comment = (ImageView)findViewById(R.id.im_show_comment);
-        showdetail_comment_num = (TextView)findViewById(R.id.tv_show_comment_num);
-        showdetail_share = (ImageView)findViewById(R.id.im_show_share);
         showdetail_time = (TextView)findViewById(R.id.tv_show_time);
-        show_back= (ImageView) findViewById(R.id.show_back);
         ll_like = (LinearLayout)findViewById(R.id.ll_showlistview_like);
         ll_show_like = (LinearLayout)findViewById(R.id.ll_show_like);
         show_view = (View)findViewById(R.id.show_view);
@@ -119,7 +115,6 @@ public class showDetail extends Activity implements View.OnClickListener{
         et_show_comment = (EditText)findViewById(R.id.et_show_comment);
         bt_show_comment = (Button)findViewById(R.id.bt_show_comment);
         bt_show_comment.setOnClickListener(this);
-        show_back.setOnClickListener(this);
 
     }
 
@@ -136,9 +131,7 @@ public class showDetail extends Activity implements View.OnClickListener{
                     Toast.makeText(showDetail.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.show_back:
-                finish();
-
+            default:
                 break;
         }
     }

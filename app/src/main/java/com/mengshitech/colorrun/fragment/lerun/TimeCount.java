@@ -33,6 +33,7 @@ public class TimeCount extends DigitalClock {
     private ClockListener mClockListener;
     private static boolean isFirst;
     private boolean mTickerStopped;
+    Button bt;
     @SuppressWarnings("unused")
     private String mFormat;
 
@@ -76,8 +77,8 @@ public class TimeCount extends DigitalClock {
                     onDetachedFromWindow();
                 } else if (distanceTime < 0) {
                     setText("00:00:00");
-//                    layout.setBackgroundColor(Color.parseColor("#cccccc"));
-//                    tv.setText("报名结束啦");
+//                    bt.setBackgroundColor(Color.parseColor("#cccccc"));
+//                    bt.setText("报名结束啦");
 //                    layout.setEnabled(false);
                     onDetachedFromWindow();
                 } else {
@@ -157,11 +158,9 @@ public class TimeCount extends DigitalClock {
      *
      * @param endTime
      */
-    public void setEndTime(long endTime) {
+    public void setEndTime(long endTime,Button bt) {
         this.endTime = endTime;
-
-
-
+        this.bt = bt;
         onAttachedToWindow();
     }
     /**

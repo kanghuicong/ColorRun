@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,14 +39,14 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/8/2 19:11
  * 说明: 我的乐跑
  */
-public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private int entry_number = 3;
     View mLeRunView;
     List<QrcodeBean> qrcode_list;
     final List<ImageEntity> bmlist = new ArrayList<ImageEntity>();
-    private  Bitmap bm;
-    private  ImageEntity ib = null;
-    private  OrderEntity order_info;
+    private Bitmap bm;
+    private ImageEntity ib = null;
+    private OrderEntity order_info;
     private ProgressDialog progressDialog;
     private ListView mylerun_listview;
     private MyLerunInToListViewAdapter adapter;
@@ -60,26 +61,35 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
 
         mActivity = getActivity();
         lerun_id = getArguments().getInt("lerun_id");
-        mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
-        context=getActivity();
+
+        context = getActivity();
         MainActivity.rgMainBottom.setVisibility(View.GONE);
 
 
-        MainBackUtility.MainBack(mLeRunView,"乐跑详情",getFragmentManager());
+
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
-        mFragmentManager=getFragmentManager();
-        find();
+        mFragmentManager = getFragmentManager();
 
+        if (mLeRunView == null) {
+            mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
+            find();
+            MainBackUtility.MainBack(mLeRunView, "乐跑详情", getFragmentManager());
+        }
+
+        ViewGroup parent = (ViewGroup) mLeRunView.getParent();
+        if (parent != null) {
+            parent.removeView(mLeRunView);
+        }
 
 
         return mLeRunView;
     }
 
     private void find() {
-        autoSwipeRefreshLayout=new AutoSwipeRefreshLayout(mActivity);
-        autoSwipeRefreshLayout= (AutoSwipeRefreshLayout) mLeRunView.findViewById(R.id.id_swipe_ly);
+        autoSwipeRefreshLayout = new AutoSwipeRefreshLayout(mActivity);
+        autoSwipeRefreshLayout = (AutoSwipeRefreshLayout) mLeRunView.findViewById(R.id.id_swipe_ly);
         autoSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         autoSwipeRefreshLayout.setOnRefreshListener(this);
         autoSwipeRefreshLayout.autoRefresh();
@@ -90,7 +100,6 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
     }
 
 
-
     Runnable runnable = new Runnable() {
 
         @Override
@@ -99,7 +108,7 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("user_id", userid);
-            map.put("lerun_id",lerun_id+"");
+            map.put("lerun_id", lerun_id + "");
             map.put("index", "8");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
@@ -121,7 +130,7 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);
                     qrcode_list = JsonTools.getQrCodeInfo(result);
-                    adapter=new MyLerunInToListViewAdapter(context,qrcode_list,mylerun_listview,mFragmentManager);
+                    adapter = new MyLerunInToListViewAdapter(context, qrcode_list, mylerun_listview, mFragmentManager);
                     mylerun_listview.setAdapter(adapter);
 //
 

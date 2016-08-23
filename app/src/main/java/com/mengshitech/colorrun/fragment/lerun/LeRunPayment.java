@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mengshitech.colorrun.R;
-
+import com.mengshitech.colorrun.utils.MainBackUtility;
 
 
 /**
@@ -28,6 +28,7 @@ public class LeRunPayment extends Fragment implements View.OnClickListener{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         payment_view = inflater.inflate(R.layout.lerun_enroll_payment, null);
+        MainBackUtility.MainBack(payment_view, "详情", getFragmentManager());
         FindId();
         GetData();
         return payment_view;
@@ -55,13 +56,13 @@ public class LeRunPayment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_zfb:
-                iv_zfb.setImageResource(R.mipmap.btn_play_checked);
-                iv_wx.setImageResource(R.mipmap.btn_play_normal);
+//                iv_zfb.setImageResource(R.mipmap.checkbox_pressed);
+//                iv_wx.setImageResource(R.mipmap.checkbox_normal);
                 pay_way = "zfb";
                 break;
             case R.id.rl_wxzf:
-                iv_zfb.setImageResource(R.mipmap.btn_play_normal);
-                iv_wx.setImageResource(R.mipmap.btn_play_checked);
+//                iv_zfb.setImageResource(R.mipmap.checkbox_pressed);
+//                iv_wx.setImageResource(R.mipmap.checkbox_normal);
                 pay_way = "wx";
         }
     }

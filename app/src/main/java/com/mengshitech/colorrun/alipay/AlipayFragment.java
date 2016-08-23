@@ -47,13 +47,24 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private String lerun_title;
     private String lerun_price;
 
-    // 商户PID
     public static final String PARTNER = "2088911677454020";
     // 商户收款账号
-    public static final String SELLER = "juyao@cocotek.cn";
+    public static final String SELLER = "752664184@qq.com";
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJ7VdfgvPD4Hux/vnD+V134ixPLbR6UIXab2quOusWZevhIlPgiIZlq4BoV7rp9C4DOxleEl533Efz3VWabgs+vz/fgiKPD1c0argn40DDw0yClZrwgK+Lt/U50SZUplTjGb3rHw+GY25gPjz5lapLpXlvoZKClrFWBXB4jqJ7TpAgMBAAECgYA05tv34aOq9WA57tCXzQyNEn+Oc8KVEQhAR//6/YBQnFWqLYVPyj5tEMX7R4qNuPR7wzYsWzeTCBNpQNovXsAN3CsPhqiUDkwCPj6v+zFHkmfzGyhALSrp3ixV6NJQEF3NRPTQbbnAT3AnvnhsefPQEQm2mif9lDqM95mZzZ1SEQJBANMakVI4d5PTGAk9IhM8hY9OPn7h8gYiBY8eEa9x6bM7Oo++BuP8QCeSEFGJ8Ps6BRmzVXSNaxPL5s4EgSRBA8MCQQDAnRVyQSGfLH2DiFMNU/k38RqHKgblgxPYBgV8R9sy64ohus40gaMRJuzhCSc+DxCR412qlC3NRQ0MhgosvjXjAkAqABwvnppz58jddbNE3oK4K1oVxoBvpe8zNUlRfbmAdmVFWgpm67Yb6VyjzG0MntOK9HopEUXfj27hSFYlT2YfAkEAiBr4GqJXhcjEcHuWZGagRp2Cp1xVPz0eepnWqnmENTknhKoiKAwrFGWzIVl8d2fhx5UojO7kZpaSn/Tfn7pRDQJAKASdNi8n5IU01CuyQZt3GBy99P4hTbwKbIaBPnxPFy2LQPXZgrdpNJXKZ1sfwv4y2WhPTl/ic+RJ85BsBA7vAA==";
-    // 支付宝公钥
+    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAN+YiddUabYk2z92\n" +
+            "rn9ed4/zZN8Fz0rB+KMweWnWjlVHdpnLfqNEO7jf37eMAd+3PaVeMXZ1egpnHXyo\n" +
+            "oLTtpf1g+3YHTFmaOGOLpHy2Tj5eU0y6ljjnweQZ7rM0qe/D3ool84UIZzqUbgPn\n" +
+            "t1rkEZkjwIGx8A8kNeWZcaj77xshAgMBAAECgYB/bcmxBJSyj9K8GoFcaZQuYAJu\n" +
+            "8DqxWla/elLXtMWtaGr5P3ZOygZXWI+BZbNzslTZuBLsdgs1forZjqj4NDBSZCMz\n" +
+            "MCYgbrtYSVoNIWr92VHLX4onGaj8LEACZoBnF1zsgO1ErzRkzE7UQYNKHrbUiPN1\n" +
+            "3x0npGJwNhzs6WKMmQJBAPzGZVlUMWese8Y9Rqzdi44YCSz0ze3xYBBRqBo5W0jm\n" +
+            "PAeRAHbruOTLt4bLMdiHpTh3K5AY3L4t84hbDaWp3/cCQQDicta51OVIMXcx4ySv\n" +
+            "nBqDd9zpO1QqrvybKl6/O9x2qlyG6UIRFZmdn76pRv4/hwY/l3snbS+6hxIuY3mj\n" +
+            "48enAkAEjxd42vnhIs1AsA48Q+qmb2yK8QddyUKwSKi9gFdTI0Pl5wmZG3tENSBk\n" +
+            "P/nwK9IhCJUyjiA9FdsUlH/UgxHVAkEA2SS9+xzHcF7eqZvihfLvCbpav9wAbZ22\n" +
+            "5SPQDxjb436hk00B6VgJIjkYn0JQc6KKv1gG5FuzNO5o5MrGzf2SaQJBANqYIsLq\n" +
+            "TBpTpMX1uuh1RxyNDy3d/f00acSpHMsPaMITz52wdcHLwyZuW46Dwv/3v2OoraoY\n" +
+            "DA2mSPzy2u1coFI=\n";    // 支付宝公钥
     public static final String RSA_PUBLIC = "";
     public static final int SDK_PAY_FLAG = 1;
 
@@ -94,13 +105,13 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_zfb:
-                iv_zfb.setImageResource(R.mipmap.btn_play_checked);
-                iv_wx.setImageResource(R.mipmap.btn_play_normal);
+                iv_zfb.setImageResource(R.mipmap.checkbox_pressed);
+                iv_wx.setImageResource(R.mipmap.checkbox_normal);
                 pay_way = "zfb";
                 break;
             case R.id.rl_wxzf:
-                iv_zfb.setImageResource(R.mipmap.btn_play_normal);
-                iv_wx.setImageResource(R.mipmap.btn_play_checked);
+                iv_zfb.setImageResource(R.mipmap.checkbox_normal);
+                iv_wx.setImageResource(R.mipmap.checkbox_pressed);
                 pay_way = "wx";
                 break;
             case R.id.btn_play:

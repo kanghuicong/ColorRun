@@ -30,9 +30,22 @@ public class PayDemoActivity extends FragmentActivity {
 	// 商户PID
 	public static final String PARTNER = "2088911677454020";
 	// 商户收款账号
-	public static final String SELLER = "";
+	public static final String SELLER = "752664184@qq.com";
 	// 商户私钥，pkcs8格式
-	public static final String RSA_PRIVATE = "";
+	public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAN+YiddUabYk2z92\n" +
+			"rn9ed4/zZN8Fz0rB+KMweWnWjlVHdpnLfqNEO7jf37eMAd+3PaVeMXZ1egpnHXyo\n" +
+			"oLTtpf1g+3YHTFmaOGOLpHy2Tj5eU0y6ljjnweQZ7rM0qe/D3ool84UIZzqUbgPn\n" +
+			"t1rkEZkjwIGx8A8kNeWZcaj77xshAgMBAAECgYB/bcmxBJSyj9K8GoFcaZQuYAJu\n" +
+			"8DqxWla/elLXtMWtaGr5P3ZOygZXWI+BZbNzslTZuBLsdgs1forZjqj4NDBSZCMz\n" +
+			"MCYgbrtYSVoNIWr92VHLX4onGaj8LEACZoBnF1zsgO1ErzRkzE7UQYNKHrbUiPN1\n" +
+			"3x0npGJwNhzs6WKMmQJBAPzGZVlUMWese8Y9Rqzdi44YCSz0ze3xYBBRqBo5W0jm\n" +
+			"PAeRAHbruOTLt4bLMdiHpTh3K5AY3L4t84hbDaWp3/cCQQDicta51OVIMXcx4ySv\n" +
+			"nBqDd9zpO1QqrvybKl6/O9x2qlyG6UIRFZmdn76pRv4/hwY/l3snbS+6hxIuY3mj\n" +
+			"48enAkAEjxd42vnhIs1AsA48Q+qmb2yK8QddyUKwSKi9gFdTI0Pl5wmZG3tENSBk\n" +
+			"P/nwK9IhCJUyjiA9FdsUlH/UgxHVAkEA2SS9+xzHcF7eqZvihfLvCbpav9wAbZ22\n" +
+			"5SPQDxjb436hk00B6VgJIjkYn0JQc6KKv1gG5FuzNO5o5MrGzf2SaQJBANqYIsLq\n" +
+			"TBpTpMX1uuh1RxyNDy3d/f00acSpHMsPaMITz52wdcHLwyZuW46Dwv/3v2OoraoY\n" +
+			"DA2mSPzy2u1coFI=\n";
 	// 支付宝公钥
 	public static final String RSA_PUBLIC = "";
 	private static final int SDK_PAY_FLAG = 1;

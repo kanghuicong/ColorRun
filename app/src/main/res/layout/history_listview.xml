@@ -35,11 +35,12 @@
                 android:singleLine="true"
                 android:text="111111"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/title"
+                 />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:orientation="horizontal">
@@ -52,7 +53,7 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                 />
 
             <TextView
                 android:id="@+id/tv_history_address"
@@ -65,8 +66,8 @@
                 android:gravity="center_vertical|right"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                 />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

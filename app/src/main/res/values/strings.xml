@@ -21,6 +21,11 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+
+
+    <string name="logout_hint">注销后不会删除任何历史数据，下次登陆依然可以使用本账号。</string>
+
     <string name="signup_youknow">
         1.先天性心脏病和风湿性心脏病患者"\n"
                                 2.高血压和脑血管疾病患者"\n"

@@ -3,6 +3,7 @@ package com.mengshitech.colorrun.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
@@ -19,6 +21,11 @@ import com.mengshitech.colorrun.fragment.lerun.ShowMap;
 import com.mengshitech.colorrun.fragment.show.showDetail;
 import com.mengshitech.colorrun.utils.GlideRoundTransform;
 import com.mengshitech.colorrun.utils.Utility;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +34,7 @@ import java.util.List;
  * Created by kanghuicong on 2016/7/25  13:41.
  * 515849594@qq.com
  */
-public class ShowGridViewAdapter extends BaseAdapter  {
+public class ShowGridViewAdapter extends BaseAdapter {
     Context context;
     List<String> imagepath = new ArrayList<String>();
     int count;
@@ -35,12 +42,12 @@ public class ShowGridViewAdapter extends BaseAdapter  {
     Activity activity;
     int state;
 
-    public ShowGridViewAdapter(Context context,Activity activity, List<String> imagepath, int count) {
+    public ShowGridViewAdapter(Context context, Activity activity, List<String> imagepath, int count) {
         this.context = context;
         this.imagepath = imagepath;
         this.count = count;
         dm = context.getResources().getDisplayMetrics();
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @Override
@@ -75,7 +82,36 @@ public class ShowGridViewAdapter extends BaseAdapter  {
         holder.grid_image.setLayoutParams(ps);
 
         final String image_path = imagepath.get(position);
-        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
+
+
+//        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
+//        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
+        final ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        imageLoader.displayImage(image_path, holder.grid_image, options, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                holder.grid_image.setImageResource(R.mipmap.defaut_error_square);
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+            }
+        });
+
 
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override

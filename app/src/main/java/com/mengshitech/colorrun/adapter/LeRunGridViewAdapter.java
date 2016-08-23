@@ -86,7 +86,7 @@ public class LeRunGridViewAdapter extends BaseAdapter implements AdapterView.OnI
            mLeRunGridView.setOnItemClickListener(this);
        }else {
 //            holder.ivBackground.setImageResource(R.mipmap.defaut_error_square);
-            Glide.with(mActivity).load(R.mipmap.defaut_error_square).transform(new GlideRoundTransform(mActivity)).into(holder.ivBackground);
+            Glide.with(mActivity).load(R.mipmap.defaut_error_long).transform(new GlideRoundTransform(mActivity)).into(holder.ivBackground);
        }
     return convertView;
     }

@@ -121,10 +121,12 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         int Time_finish = Integer.valueOf(time_finish) * 1000;
         int Time_now = (int) time_now;
 
-
         countdown.setEndTime(System.currentTimeMillis()
-                + (Time_finish - Time_now));
-
+                + (Time_finish - Time_now),ll_entry);
+        if (countdown.getText().toString().equals("00:00:00")){
+            ll_entry.setText("报名结束");
+            ll_entry.setBackgroundColor(Color.parseColor("#cccccc"));
+        }
     }
 
     // 活动结束时间转成时间戳
@@ -171,30 +173,32 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             case R.id.bt_into_lerun_entry:
 
                 if (ContentCommon.login_state.equals("1")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("type", 1);
-                    bundle.putInt("lerun_id", lerun_id);
-                    bundle.putString("title", name.getText().toString());
-                    bundle.putString("time", start_time.getText().toString());
-                    bundle.putString("address", address.getText().toString());
+                    if (countdown.getText().toString().equals("00:00:00")) {
+                        Toast.makeText(mActivity, "报名已经结束了哦~", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("type", 1);
+                        bundle.putInt("lerun_id", lerun_id);
+                        bundle.putString("title", name.getText().toString());
+                        bundle.putString("time", start_time.getText().toString());
+                        bundle.putString("address", address.getText().toString());
+                        bundle.putInt("charge_mode", charge_mode);
+                        bundle.putInt("free_price", free_price);
+                        bundle.putInt("common_price", common_price);
+                        bundle.putInt("vip_price", vip_price);
+                        bundle.putString("free_equipment", free_equipment);
+                        bundle.putString("common_equipment", common_equipment);
+                        bundle.putString("vip_equipment", vip_equipment);
 
-                    bundle.putInt("charge_mode", charge_mode);
-                    bundle.putInt("free_price", free_price);
-                    bundle.putInt("common_price", common_price);
-                    bundle.putInt("vip_price", vip_price);
-                    bundle.putString("free_equipment", free_equipment);
-                    bundle.putString("common_equipment", common_equipment);
-                    bundle.putString("vip_equipment", vip_equipment);
-
-                    IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
-                    mIntoLerunEnroll.setArguments(bundle);
-                    Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
+                        IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
+                        mIntoLerunEnroll.setArguments(bundle);
+                        Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
+                    }
                 } else {
                     Toast.makeText(context, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                 }
-
 
                 break;
             case R.id.into_lerun_map:
@@ -207,7 +211,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                 map.getLocationOnScreen(location);
                 intent.putExtra("locationX", location[0]);
                 intent.putExtra("locationY", location[1]);
-
                 intent.putExtra("width", map.getWidth());
                 intent.putExtra("height", map.getHeight());
                 context.startActivity(intent);

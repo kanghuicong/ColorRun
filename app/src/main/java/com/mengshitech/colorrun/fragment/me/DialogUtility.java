@@ -331,12 +331,9 @@ public class DialogUtility {
         bt_cancel_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("DialogCancel","1111");
                 header.setImageResource(R.mipmap.default_avtar);
                 name.setText("未登录");
-                id.setText("1");
-                Log.i("DialogCancel","2222");
-                Log.i("DialogCancel",id.getText().toString()+"9");
+                id.setText("");
                 SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("user_type", "0");

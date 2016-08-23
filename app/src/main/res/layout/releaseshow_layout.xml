@@ -6,7 +6,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
     <FrameLayout
         android:id="@+id/fm_reshow"
         android:layout_width="match_parent"

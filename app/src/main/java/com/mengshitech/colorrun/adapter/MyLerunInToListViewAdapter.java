@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.fragment.history.HistoryContent;
+import com.mengshitech.colorrun.fragment.history.HistoryFragment;
 import com.mengshitech.colorrun.fragment.lerun.LeRunPayment;
 import com.mengshitech.colorrun.fragment.me.LerunEvaluateFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -176,11 +178,11 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
                 //评价了
                 if (evaluate_state == 1) {
 
-                    HistoryContent historyContent = new HistoryContent();
+                    Intent intent = new Intent(context, HistoryContent.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("lerun_id", lerun_id);
-                    historyContent.setArguments(bundle);
-                    Utility.replace2DetailFragment(mFragmentManager, historyContent);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
                 //未评价
                 else {

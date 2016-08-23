@@ -9,12 +9,7 @@
         android:topRightRadius="10dp" >
     </corners>
 
-    <stroke
-        android:width="2dp"
-        android:color="#ccccff" >
-    </stroke>
-
-    <solid android:color="#ffffff" >
+    <solid android:color="@color/lightgrey" >
     </solid>
 
 </shape>

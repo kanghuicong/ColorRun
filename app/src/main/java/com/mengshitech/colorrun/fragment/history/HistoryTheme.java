@@ -111,13 +111,11 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             int lerun_id = Integer.parseInt(parent.getItemAtPosition(position).toString());
-            HistoryContent historyContent = new HistoryContent();
+            Intent intent = new Intent(mActivity,HistoryContent.class);
             Bundle bundle = new Bundle();
             bundle.putInt("lerun_id", lerun_id);
-            historyContent.setArguments(bundle);
-            Utility.replace2DetailFragment(getParentFragment().getFragmentManager(), historyContent);
-
-
+            intent.putExtras(bundle);
+            mActivity.startActivity(intent);
         }
     }
 

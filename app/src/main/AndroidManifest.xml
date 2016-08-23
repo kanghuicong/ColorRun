@@ -80,7 +80,7 @@
             android:name=".activity.SpaceImageDetailActivity"
             android:theme="@style/ActivityTransparent" />
         <activity android:name=".MainActivity" />
-
+        <activity android:name=".fragment.history.HistoryContent" />
         <activity android:name=".activity.GuideActivity" />
         <activity android:name=".activity.UserLogActivity" />
         <activity android:name=".releaseshow.ReleaseShowActivity" />

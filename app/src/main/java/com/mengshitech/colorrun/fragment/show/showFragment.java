@@ -78,17 +78,13 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         if (showView == null) {
             showView = View.inflate(mActivity, R.layout.fragment_show, null);
             findById();
-            Log.i("执行了这里","11是的");
         }
         ViewGroup parent = (ViewGroup) showView.getParent();
         if (parent != null) {
             parent.removeView(showView);
-            Log.i("执行了这里","222是的");
         }
 
-
         lvShowContent.setOnItemClickListener(new ItemClickListener());
-        Log.i("执行了这里","333是的");
         return showView;
     }
 
@@ -240,7 +236,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             String result = (String) msg.obj;
 
             if (result.equals("timeout")) {
-
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
 
@@ -271,8 +266,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
 
     //当没有网络连接时将listview隐藏  并动态加入一个提示的TextView
-
-
     private BroadcastReceiver Receiver = new BroadcastReceiver() {
 
         @Override

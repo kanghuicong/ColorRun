@@ -44,18 +44,18 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     FragmentManager fm;
     ViewHolder holder;
-    View view;
+    //    View view;
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
     ListView mListView;
     ShowEntity mShowEntity;
     List<ShowEntity> mShowList;
     String index;
-    private Context context;
+    Context context;
     int count;
     TextView show_like;
     int yes_state, no_state;
-    int like_pos,share_pos;
+    int like_pos, share_pos;
     String sta;
     List<String> list = new ArrayList<String>();
     Activity activity;
@@ -67,10 +67,9 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         private EmptyGridView show_image;
         private TextView show_content;
         private TextView show_time;
-        private TextView show_comment_num;
         private TextView show_like;
-        private ImageView show_comment;
-        private ImageView show_share;
+        private TextView show_comment;
+        private TextView show_share;
     }
 
     public ShowAdapter(int count, Context context, FragmentManager fm, List<ShowEntity> showList,
@@ -81,14 +80,15 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         this.fm = fm;
         this.mListView = mListView;
     }
-    public ShowAdapter(int count,Activity activity ,Context context, FragmentManager fm, List<ShowEntity> showList,
+
+    public ShowAdapter(int count, Activity activity, Context context, FragmentManager fm, List<ShowEntity> showList,
                        ListView mListView) {
         this.count = count;
         this.context = context;
         this.mShowList = showList;
         this.fm = fm;
         this.mListView = mListView;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @Override
@@ -108,87 +108,97 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     }
 
     @Override
-    public View getView(final int position, final View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ShareSDK.initSDK(parent.getContext());
         Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
-        ViewHolder holder;
+        ViewHolder holder = new ViewHolder();
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.show_listview, null);
-
-            holder = new ViewHolder();
-            holder.user_header = (ImageView) view
-                    .findViewById(R.id.im_show_userhear);
-            holder.user_name = (TextView) view
-                    .findViewById(R.id.tv_show_username);
-            holder.show_image = (EmptyGridView) view
-                    .findViewById(R.id.gv_show_image);
-            holder.show_content = (TextView) view
-                    .findViewById(R.id.tv_show_content);
-            holder.show_time = (TextView) view
-                    .findViewById(R.id.tv_show_time);
-            holder.show_comment_num = (TextView) view
-                    .findViewById(R.id.tv_show_comment_num);
-            holder.show_comment = (ImageView) view.findViewById(R.id.im_show_comment);
-            holder.show_like = (TextView) view.findViewById(R.id.tv_show_like);
-            holder.show_share = (ImageView) view.findViewById(R.id.im_show_share);
-
-            view.setTag(holder);
+//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            view = inflater.inflate(R.layout.show_listview, null);
+                convertView = View.inflate(context, R.layout.show_listview, null);
+                holder.user_header = (ImageView) convertView
+                        .findViewById(R.id.im_show_userhear);
+                holder.user_name = (TextView) convertView
+                        .findViewById(R.id.tv_show_username);
+                holder.show_image = (EmptyGridView) convertView
+                        .findViewById(R.id.gv_show_image);
+                holder.show_content = (TextView) convertView
+                        .findViewById(R.id.tv_show_content);
+                holder.show_time = (TextView) convertView
+                        .findViewById(R.id.tv_show_time);
+                holder.show_comment = (TextView) convertView.findViewById(R.id.im_show_comment);
+                holder.show_like = (TextView) convertView.findViewById(R.id.tv_show_like);
+                holder.show_share = (TextView) convertView.findViewById(R.id.im_show_share);
+                convertView.setTag(holder);
         } else {
-            view = convertView;
-            holder = (ViewHolder) view.getTag();
+//            view = convertView;
+//            holder.show_image = (EmptyGridView) convertView.findViewById(R.id.gv_show_image);
+            holder = (ViewHolder) convertView.getTag();
         }
-        int show_id = Integer.valueOf(mShowEntity.getShow_id());
-        holder.user_name.setTag(show_id);
         //头像
-//        if (holder.user_header.getTag() != null && holder.user_header.getTag().equals(show_id)) {
-            String header_path = ContentCommon.path + mShowEntity.getUser_header();
-            Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
-//        }
-        //读取基本数据
-        if (holder.user_name.getTag() != null && holder.user_name.getTag().equals(show_id)) {
-            holder.user_name.setText(mShowEntity.getUser_name());
-        }
-        if (mShowEntity.getShow_content().equals("")){
-            holder.show_content.setVisibility(View.GONE);
-        } else {
-            holder.show_content.setText(mShowEntity.getShow_content());
-        }
+        String header_path = ContentCommon.path + mShowEntity.getUser_header();
+        Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
+        Log.i("header_path", header_path);
 
+        //读取基本数据
+        holder.user_name.setText(mShowEntity.getUser_name());
+        holder.show_content.setText(mShowEntity.getShow_content());
         holder.show_time.setText(mShowEntity.getShow_time());
-        holder.show_comment_num.setText(mShowEntity.getComment_num());
+        holder.show_comment.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
 
         String like_state = mShowEntity.getLike_state();
-        list.add(like_state);
+        list.add(position, like_state);
+        Log.i("like_state", like_state + "-------" + position + "------" + list.get(position));
+
         //根据like_state判断爱心初始状态
         if (like_state.equals("0")) {
             Log.i("state初始状态0====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
-            holder.show_like.setCompoundDrawables(drawable, null, null, null);
+//            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+//            holder.show_like.setCompoundDrawables(drawable, null, null, null);
+            holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (like_state.equals("1")) {
             Log.i("state初始状态1====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
-            holder.show_like.setCompoundDrawables(drawable, null, null, null);
-        }
-        //gridview图片
-        String result = mShowEntity.getShow_image();
-        try {
-            ImageList = JsonTools.getImageInfo(result);
-            imagepath = new ArrayList<String>();
-            for (int i = 0; i < ImageList.size(); i++) {
-                String paths = ImageList.get(i);
-                imagepath.add(paths);
-                ShowGridViewAdapter adapter = new ShowGridViewAdapter(context,activity ,imagepath, imagepath.size());
-                holder.show_image.setAdapter(adapter);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+//            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+//            holder.show_like.setCompoundDrawables(drawable, null, null, null);
+            holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
         }
 
+        //设置图片大小
+        Drawable drawable_share = context.getResources().getDrawable(R.mipmap.show_share);
+//        drawable_share.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+        holder.show_share.setCompoundDrawablesWithIntrinsicBounds(drawable_share, null, null, null);
+        Drawable drawable_comment = context.getResources().getDrawable(R.mipmap.show_comment);
+//        drawable_comment.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+        holder.show_comment.setCompoundDrawablesWithIntrinsicBounds(drawable_comment, null, null, null);
+
+        //gridview图片
+        String result = mShowEntity.getShow_image();
+        if (result == null || result.equals("")) {
+            holder.show_image.setVisibility(View.GONE);
+            Log.i("Show_image", position + "");
+        } else {
+            holder.show_image.setVisibility(View.VISIBLE);
+            try {
+                ImageList = JsonTools.getImageInfo(result);
+                imagepath = new ArrayList<String>();
+                for (int i = 0; i < ImageList.size(); i++) {
+                    String paths = ImageList.get(i);
+                    imagepath.add(paths);
+                    ShowGridViewAdapter adapter = new ShowGridViewAdapter(context, activity, imagepath, imagepath.size());
+                    holder.show_image.setAdapter(adapter);
+                    Log.i("Show_image", position + "-----" + paths);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //gridview空白部分点击事件
         holder.show_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
             @Override
             public boolean onTouchInvalidPosition(int motionEvent) {
@@ -196,9 +206,9 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             }
         });
         holder.show_like.setOnClickListener(new LikeListener(position, like_state));
-        holder.show_share.setOnClickListener(new ShareListener(position) );
+        holder.show_share.setOnClickListener(new ShareListener(position));
         holder.show_comment.setOnClickListener(this);
-        return view;
+        return convertView;
     }
 
     class LikeListener implements View.OnClickListener {
@@ -214,6 +224,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             like_pos = position;
+            Log.i("like_state_bt", list.get(like_pos) + "------" + like_pos);
             if (ContentCommon.login_state.equals("1")) {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
                 if (list.get(like_pos).equals("0")) {
@@ -229,27 +240,28 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
     }
 
-    class ShareListener implements View.OnClickListener{
+    class ShareListener implements View.OnClickListener {
         int position;
 
         public ShareListener(int pos) {
             position = pos;
         }
+
         @Override
         public void onClick(View v) {
             share_pos = position;
             if (ContentCommon.user_id == null) {
                 Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
             } else {
-                OnekeyShare onkeyShare =new OnekeyShare();
+                OnekeyShare onkeyShare = new OnekeyShare();
                 onkeyShare.disableSSOWhenAuthorize();
                 ShowEntity showEntity = mShowList.get(share_pos);
-                onkeyShare.setTitle(showEntity.getUser_name()+"的卡乐彩色跑");
+                onkeyShare.setTitle(showEntity.getUser_name() + "的卡乐彩色跑");
                 onkeyShare.setText(showEntity.getShow_content());
 
-               if(ImageList.size()!=0){
-                   onkeyShare.setImageUrl(ImageList.get(0));
-               }
+                if (ImageList.size() != 0) {
+                    onkeyShare.setImageUrl(ImageList.get(0));
+                }
                 onkeyShare.setImageUrl(ImageList.get(0));
                 onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
@@ -307,14 +319,14 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     try {
                         yes_state = JsonTools.getState("state", result);
                         if (yes_state == 1) {
-                            list.set(like_pos,"1");
+                            list.set(like_pos, "1");
                             mShowEntity = mShowList.get(like_pos);
                             show_like.setText(Integer.valueOf(show_like.getText().toString()) + 1 + "");
                             mShowEntity.setLike_state("1");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-                            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
-                            show_like.setCompoundDrawables(drawable, null, null, null);
+//                            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+                            show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "点赞失败...", Toast.LENGTH_SHORT).show();
                         }
@@ -326,14 +338,14 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     try {
                         no_state = JsonTools.getState("state", result);
                         if (no_state == 1) {
-                            list.set(like_pos,"0");
+                            list.set(like_pos, "0");
                             mShowEntity = mShowList.get(like_pos);
                             show_like.setText(Integer.valueOf(show_like.getText().toString()) - 1 + "");
                             mShowEntity.setLike_state("0");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-                            drawable.setBounds(0, 0, 40, 40);//必须设置图片大小，否则不显示
-                            show_like.setCompoundDrawables(drawable, null, null, null);
+//                            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
+                            show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "取消赞失败...", Toast.LENGTH_SHORT).show();
                         }

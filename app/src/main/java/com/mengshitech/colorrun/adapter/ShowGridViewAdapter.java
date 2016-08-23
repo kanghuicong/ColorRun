@@ -33,6 +33,7 @@ public class ShowGridViewAdapter extends BaseAdapter  {
     int count;
     DisplayMetrics dm;
     Activity activity;
+    int state;
 
     public ShowGridViewAdapter(Context context,Activity activity, List<String> imagepath, int count) {
         this.context = context;
@@ -70,15 +71,12 @@ public class ShowGridViewAdapter extends BaseAdapter  {
         }
 
         ViewGroup.LayoutParams ps = holder.grid_image.getLayoutParams();
-        ps.height = (dm.widthPixels/7*2);
-
+        ps.height = (dm.widthPixels / 7 * 2);
         holder.grid_image.setLayoutParams(ps);
 
         final String image_path = imagepath.get(position);
-
-
-
         Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
+
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

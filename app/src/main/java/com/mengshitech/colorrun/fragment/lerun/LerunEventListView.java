@@ -111,7 +111,6 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-
                     List<LeRunEntity> lerunlist = JsonTools.getLerunInfo("result", result);
                     count=lerunlist.size();
                     lerun_listView.setAdapter(new LeRunListViewAdapter(context, lerunlist,mFragmentManagr,lerun_listView));

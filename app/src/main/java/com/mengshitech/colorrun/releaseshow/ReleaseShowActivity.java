@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ReleaseShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
@@ -91,7 +95,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         linearLayout = (LinearLayout) findViewById(R.id.ll_reshow);
         frameLayout = (FrameLayout) findViewById(R.id.fm_reshow);
 
-        progressDialog=ProgressDialog.show(ReleaseShowActivity.this,"正在发表");
+        progressDialog = ProgressDialog.show(ReleaseShowActivity.this, "正在发表");
         intDatas();
         Bundle bundle = getIntent().getExtras();
 
@@ -142,6 +146,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
                                 + "/showpicture.jpg";
+                        listfile.add(imageFilePath);
                         temp = new File(imageFilePath);
                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                         Intent it = new Intent(

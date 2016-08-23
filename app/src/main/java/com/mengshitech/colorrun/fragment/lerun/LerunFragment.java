@@ -36,6 +36,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.VideoActivity;
 import com.mengshitech.colorrun.adapter.LeRunGridViewAdapter;
 import com.mengshitech.colorrun.adapter.LeRunListViewAdapter;
 import com.mengshitech.colorrun.adapter.LeRunVpAdapter;
@@ -212,7 +213,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 // 城市选择按钮
                 break;
             case R.id.ivHotView:
-                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(), video_url));
+//                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(), video_url));、
+
+                Intent intent=new Intent(context,VideoActivity.class);
+                intent.putExtra("video_url",video_url);
+                startActivity(intent);
                 break;
 
             default:

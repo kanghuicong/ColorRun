@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rlShowDetail"
-    android:background="@color/ViewBackground"
+
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rlShowHead"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#11cd6e">
+        android:background="@mipmap/nav_bg">
         <ImageView
             android:id="@+id/show_back"
             android:layout_marginLeft="5dp"
@@ -26,7 +26,7 @@
             android:layout_centerInParent="true"
             android:text="秀帖"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="@dimen/navigation" />
     </RelativeLayout>
 
     <ScrollView

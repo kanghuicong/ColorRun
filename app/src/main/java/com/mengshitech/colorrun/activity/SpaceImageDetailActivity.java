@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.zxing.NotFoundException;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.utils.SmoothImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -35,6 +37,7 @@ public class SpaceImageDetailActivity extends Activity {
     private int mHeight;
     SmoothImageView imageView = null;
     private String image_path;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -54,14 +57,18 @@ public class SpaceImageDetailActivity extends Activity {
         imageView.setScaleType(ScaleType.FIT_CENTER);
         setContentView(imageView);
 
-
+        progressDialog=ProgressDialog.show(SpaceImageDetailActivity.this,"正在加载图片");
         final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(SpaceImageDetailActivity.this));
-
-        imageLoader.displayImage(image_path, imageView, new ImageLoadingListener() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        imageLoader.displayImage(image_path, imageView, options,new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-
+                progressDialog.show();
             }
 
             @Override
@@ -69,12 +76,12 @@ public class SpaceImageDetailActivity extends Activity {
 
                 imageView.setImageResource(R.mipmap.defaut_error_square);
                 Toast.makeText(SpaceImageDetailActivity.this, "图片加载失败", Toast.LENGTH_SHORT).show();
-
+                progressDialog.dismiss();
             }
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-
+                progressDialog.dismiss();
             }
 
             @Override
@@ -92,14 +99,7 @@ public class SpaceImageDetailActivity extends Activity {
         });
 
 
-//		Glide.with(SpaceImageDetailActivity.this).load(image_path).into(imageView);
-//		imageView.setImageResource(R.drawable.temp);
-        // ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1.0f, 0.5f,
-        // 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-        // 0.5f);
-        // scaleAnimation.setDuration(300);
-        // scaleAnimation.setInterpolator(new AccelerateInterpolator());
-        // imageView.startAnimation(scaleAnimation);
+
 
     }
 

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,10 +15,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +33,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.LogOutDiaLog;
 import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -52,6 +57,7 @@ public class meFragment extends Fragment implements OnClickListener {
     TextView tvUserName, tvUserID;
     private Activity mActivity;
     Context context;
+    LogOutDiaLog diaLog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -156,7 +162,8 @@ public class meFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.llCancel:
                 if (ContentCommon.login_state.equals("1")) {
-                    DialogUtility.DialogCancel(mActivity, ivUserHead, tvUserName, tvUserID);
+//                    DialogUtility.DialogCancel(mActivity, ivUserHead, tvUserName, tvUserID);
+                    LogOut();
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
@@ -253,6 +260,44 @@ public class meFragment extends Fragment implements OnClickListener {
             GetDate();
         }
     };
+
+    private void LogOut(){
+        diaLog=new LogOutDiaLog(context, R.layout.dialog_logout, R.style.dialog, new LogOutDiaLog.LeaveMyDialogListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_logout:
+                        ivUserHead.setImageResource(R.mipmap.default_avtar);
+                        tvUserName.setText("未登录");
+                        tvUserID.setText("");
+
+                        SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = mySharedPreferences.edit();
+                        editor.putString("user_type", "0");
+                        editor.putString("user_id","");
+                        editor.commit();
+                        ContentCommon.login_state="0";
+                       diaLog.dismiss();
+                        break;
+                    case R.id.btn_cancel:
+                        diaLog.dismiss();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+
+        Window window = diaLog.getWindow();
+        diaLog.show();
+        window.setGravity(Gravity.BOTTOM);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = WindowManager.LayoutParams.FILL_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+    }
 
 
 }

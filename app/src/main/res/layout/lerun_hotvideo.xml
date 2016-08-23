@@ -5,7 +5,9 @@
 
     <include layout="@layout/main_back"/>
 
-    <WebView android:id="@+id/web_video"
+    <WebView
+        android:layerType="hardware"
+        android:id="@+id/web_video"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="vertical"/>

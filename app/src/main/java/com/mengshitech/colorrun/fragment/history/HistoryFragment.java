@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.history;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,10 @@ import com.mengshitech.colorrun.fragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,8 +35,11 @@ public class HistoryFragment extends BaseFragment{
         if (historyview == null) {
             historyview = View.inflate(getActivity(), R.layout.history_fragment, null);
             ViewPager vp = (ViewPager)historyview.findViewById(R.id.viewPager);
-            PagerTabStrip pagerTabStrip = (PagerTabStrip) historyview.findViewById(R.id.pts);
+            final PagerTabStrip pagerTabStrip = (PagerTabStrip) historyview.findViewById(R.id.pts);
             pagerTabStrip.setTabIndicatorColorResource(R.color.green);
+
+            // 正常文字颜色
+            pagerTabStrip.setTextColor(Color.BLACK);
             context=getActivity();
             fragmentList.add(new HistoryTheme(getActivity(),"1"));
             fragmentList.add(new HistoryTheme(getActivity(),"2"));
@@ -44,6 +52,27 @@ public class HistoryFragment extends BaseFragment{
             titleList.add("卡乐水枪跑");
             titleList.add("卡乐荧光跑");
             vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
+            vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+
+
+
+                    Log.i("postion",""+position);
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
         }
         ViewGroup parent = (ViewGroup) historyview.getParent();
         if (parent != null) {

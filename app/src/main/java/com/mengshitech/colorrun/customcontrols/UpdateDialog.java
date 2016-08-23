@@ -28,10 +28,18 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
 
 
     public UpdateDialog(Context context, int layout, VersionEntiy entiy, int theme,
-                        LeaveMyDialogListener listener) {
+                          LeaveMyDialogListener listener) {
         super(context, theme);
         this.context = context;
         this.theme = theme;
+        this.layout = layout;
+        this.listener = listener;
+        this.entiy = entiy;
+    }
+    public UpdateDialog(Context context, int layout, VersionEntiy entiy,
+                        LeaveMyDialogListener listener) {
+        super(context);
+        this.context = context;
         this.layout = layout;
         this.listener = listener;
         this.entiy = entiy;

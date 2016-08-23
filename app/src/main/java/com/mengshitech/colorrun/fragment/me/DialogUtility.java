@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * Created by kanghuicong on 2016/7/21  9:36.
  * 515849594@qq.com
  */
-public class DialogUtility {
+public class DialogUtility implements View.OnClickListener {
     static String userid;
     static String update_type;
     static String update_values;
@@ -50,26 +50,28 @@ public class DialogUtility {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_phone, null);
-        final EditText et_inputnumber = (EditText) layout.findViewById(R.id.et_inputnumber);
-        Button inputnumber_cancel = (Button) layout.findViewById(R.id.btn_inputnumber_cancel);
-        Button inputnumner_ok = (Button) layout.findViewById(R.id.btn_inputnumner_ok);
-        Button inputnumber_clear = (Button) layout.findViewById(R.id.btn_inputnumber_clear);
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_physique, null);
+        TextView title = (TextView) layout.findViewById(R.id.tv_physique_title);
+        final EditText et_physique = (EditText) layout.findViewById(R.id.et_physique);
+//        TextView tv_physique_bar = (TextView) layout.findViewById(R.id.tv_physique_bar);
+        Button bt_conservation = (Button) layout.findViewById(R.id.bt_physique_conservation);
+        Button bt_canal = (Button) layout.findViewById(R.id.bt_physique_canal);
 
         addDialog(dialog, layout);
-        et_inputnumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        title.setText("电话号码");
+        et_physique.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         //取消退出对话框
-        inputnumber_cancel.setOnClickListener(new View.OnClickListener() {
+        bt_canal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
         //确认输入的号码
-        inputnumner_ok.setOnClickListener(new View.OnClickListener() {
+        bt_conservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone = et_inputnumber.getText().toString();
+                String phone = et_physique.getText().toString();
                 userid = user_id;
                 update_type = "user_phone";
                 update_values = phone;
@@ -86,10 +88,10 @@ public class DialogUtility {
 
         });
         //清除输入的号码
-        inputnumber_clear.setOnClickListener(new View.OnClickListener() {
+        et_physique.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                et_inputnumber.setText("");
+                et_physique.setText("");
             }
         });
     }
@@ -133,17 +135,20 @@ public class DialogUtility {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_nickname, null);
-        final EditText revise_nickname = (EditText) layout.findViewById(R.id.et_me_revise_nickname);
-        Button bt_nickname_conservation = (Button) layout.findViewById(R.id.bt_me_nickname_conservation);
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_physique, null);
+        TextView title = (TextView) layout.findViewById(R.id.tv_physique_title);
+        final EditText et_physique = (EditText) layout.findViewById(R.id.et_physique);
+//        TextView tv_physique_bar = (TextView) layout.findViewById(R.id.tv_physique_bar);
+        Button bt_conservation = (Button) layout.findViewById(R.id.bt_physique_conservation);
+        Button bt_canal = (Button) layout.findViewById(R.id.bt_physique_canal);
 
         addDialog(dialog, layout);
-        revise_nickname.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-
-        bt_nickname_conservation.setOnClickListener(new View.OnClickListener() {
+        et_physique.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+        title.setText("昵称");
+        bt_conservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nickname = revise_nickname.getText().toString();
+                String nickname = et_physique.getText().toString();
                 userid = user_id;
                 update_type = "user_name";
                 update_values = nickname;
@@ -158,6 +163,12 @@ public class DialogUtility {
                 }
             }
         });
+        bt_canal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     //修改地区、个性签名和邮箱
@@ -166,20 +177,23 @@ public class DialogUtility {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_autograph, null);
-        final EditText revise_content = (EditText) layout.findViewById(R.id.et_autograph);
-        TextView title_content = (TextView) layout.findViewById(R.id.title_autograph);
-        Button bt_content_conservation = (Button) layout.findViewById(R.id.bt_autograph_conservation);
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_physique, null);
+        TextView title = (TextView) layout.findViewById(R.id.tv_physique_title);
+        final EditText et_physique = (EditText) layout.findViewById(R.id.et_physique);
+//        TextView tv_physique_bar = (TextView) layout.findViewById(R.id.tv_physique_bar);
+        Button bt_conservation = (Button) layout.findViewById(R.id.bt_physique_conservation);
+        Button bt_canal = (Button) layout.findViewById(R.id.bt_physique_canal);
 
         addDialog(dialog, layout);
 
         switch (type) {
             case ("sign"):
-                revise_content.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
-                bt_content_conservation.setOnClickListener(new View.OnClickListener() {
+                title.setText("个性签名");
+                et_physique.setFilters(new InputFilter[]{new InputFilter.LengthFilter(50)});
+                bt_conservation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String sign = revise_content.getText().toString();
+                        String sign = et_physique.getText().toString();
                         userid = user_id;
                         update_type = "user_sign";
                         update_values = sign;
@@ -194,13 +208,19 @@ public class DialogUtility {
                         }
                     }
                 });
-                break;
-            case ("email"):
-                title_content.setText("邮箱");
-                bt_content_conservation.setOnClickListener(new View.OnClickListener() {
+                bt_canal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String email = revise_content.getText().toString();
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case ("email"):
+                title.setText("邮箱");
+                bt_conservation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String email = et_physique.getText().toString();
                         userid = user_id;
                         update_type = "user_email";
                         update_values = email;
@@ -218,14 +238,20 @@ public class DialogUtility {
                         }
                     }
                 });
-                break;
-            case ("address"):
-                revise_content.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
-                title_content.setText("地区");
-                bt_content_conservation.setOnClickListener(new View.OnClickListener() {
+                bt_canal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String address = revise_content.getText().toString();
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case ("address"):
+                et_physique.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                title.setText("地区");
+                bt_conservation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String address = et_physique.getText().toString();
                         userid = user_id;
                         update_type = "user_address";
                         update_values = address;
@@ -238,6 +264,12 @@ public class DialogUtility {
                             new Thread(runnable).start();
                             dialog.dismiss();
                         }
+                    }
+                });
+                bt_canal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
                 break;
@@ -254,16 +286,17 @@ public class DialogUtility {
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_detail_physique, null);
         TextView title = (TextView) layout.findViewById(R.id.tv_physique_title);
         final EditText et_physique = (EditText) layout.findViewById(R.id.et_physique);
-        TextView tv_physique_bar = (TextView) layout.findViewById(R.id.tv_physique_bar);
+//        TextView tv_physique_bar = (TextView) layout.findViewById(R.id.tv_physique_bar);
         Button bt_conservation = (Button) layout.findViewById(R.id.bt_physique_conservation);
+        Button bt_canal = (Button) layout.findViewById(R.id.bt_physique_canal);
 
         addDialog(dialog, layout);
         et_physique.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
 
         switch (type) {
             case ("height"):
-                title.setText("身高");
-                tv_physique_bar.setText("cm");
+                title.setText("身高(cm)");
+//                tv_physique_bar.setText("cm");
                 bt_conservation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -282,10 +315,18 @@ public class DialogUtility {
                         }
                     }
                 });
+
+
+                bt_canal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
                 break;
             case ("weight"):
-                title.setText("体重");
-                tv_physique_bar.setText("kg");
+                title.setText("体重(kg)");
+//                tv_physique_bar.setText("kg");
                 bt_conservation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -305,20 +346,28 @@ public class DialogUtility {
                         }
                     }
                 });
+
+
+                bt_canal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
                 break;
         }
     }
 
     //注销账号
-    public static void DialogCancel(final Context context, final ImageView header, final TextView name,final TextView id){
-        Log.i("DialogCancel",name.getText().toString()+"---"+id.getText().toString());
+    public static void DialogCancel(final Context context, final ImageView header, final TextView name, final TextView id) {
+        Log.i("DialogCancel", name.getText().toString() + "---" + id.getText().toString());
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
 
         final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_cancel, null);
-        Button bt_cancel_yes = (Button)layout.findViewById(R.id.bt_cancel_yes);
-        Button bt_cancel_no = (Button)layout.findViewById(R.id.bt_cancel_no);
+        Button bt_cancel_yes = (Button) layout.findViewById(R.id.bt_cancel_yes);
+        Button bt_cancel_no = (Button) layout.findViewById(R.id.bt_cancel_no);
         addDialog(dialog, layout);
 
         bt_cancel_no.setOnClickListener(new View.OnClickListener() {
@@ -331,18 +380,18 @@ public class DialogUtility {
         bt_cancel_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("DialogCancel","1111");
+                Log.i("DialogCancel", "1111");
                 header.setImageResource(R.mipmap.default_avtar);
                 name.setText("未登录");
                 id.setText("1");
-                Log.i("DialogCancel","2222");
-                Log.i("DialogCancel",id.getText().toString()+"9");
+                Log.i("DialogCancel", "2222");
+                Log.i("DialogCancel", id.getText().toString() + "9");
                 SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("user_type", "0");
-                editor.putString("user_id","");
+                editor.putString("user_id", "");
                 editor.commit();
-                ContentCommon.login_state="0";
+                ContentCommon.login_state = "0";
                 dialog.dismiss();
             }
         });
@@ -387,13 +436,18 @@ public class DialogUtility {
                 if (result.equals("1")) {
                     tv_title.setText(update_values);
                     UserDao dao = new UserDao(Context);
-                    Log.i("Dialog",update_type+"---"+update_values+"---"+userid);
+                    Log.i("Dialog", update_type + "---" + update_values + "---" + userid);
                     dao.update_data(update_type, update_values, userid);
                     Toast.makeText(Context, "修改成功！", Toast.LENGTH_SHORT).show();
-                }else if (result.equals("0")){
+                } else if (result.equals("0")) {
                     Toast.makeText(Context, "修改失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+//        dialog.dismiss();
+    }
 }

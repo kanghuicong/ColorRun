@@ -78,7 +78,12 @@ public class ShowGridViewAdapter extends BaseAdapter  {
 
 
 
-        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
+//        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
+        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
+
+
+
+
         holder.grid_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

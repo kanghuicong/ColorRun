@@ -129,7 +129,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
                     progressDialog.dismiss();
 
-                    updateDialog = new UpdateDialog(context, R.layout.dialog_updateversion, entiy, R.style.dialog, new UpdateDialog.LeaveMyDialogListener() {
+                    updateDialog = new UpdateDialog(context, R.layout.dialog_updateversion, entiy, new UpdateDialog.LeaveMyDialogListener() {
                         @Override
                         public void onClick(View view) {
                             switch (view.getId()) {

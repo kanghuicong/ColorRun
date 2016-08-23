@@ -1,8 +1,12 @@
 package com.mengshitech.colorrun.adapter;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import java.util.List;
 
@@ -28,11 +32,20 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return (titleList.size() > position) ? titleList.get(position) : "";
+                    SpannableStringBuilder ssb = new SpannableStringBuilder(" "
+                            + titleList.get(position));
+                    ForegroundColorSpan fcs = new ForegroundColorSpan(android.graphics.Color.parseColor("#11cd6e"));//字体颜色设置为绿色
+                    ssb.setSpan(fcs, 1, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体颜色
+
+
+//        return (titleList.size() > position) ? titleList.get(position) : "";
+        return ssb;
+
     }
 
     @Override
     public int getCount() {
         return fragmentList == null ? 0 : fragmentList.size();
     }
+
 }

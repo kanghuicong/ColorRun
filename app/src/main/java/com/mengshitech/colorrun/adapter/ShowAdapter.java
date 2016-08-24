@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -31,6 +32,7 @@ import com.mengshitech.colorrun.view.EmptyGridView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,38 +134,37 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 holder.show_share = (TextView) convertView.findViewById(R.id.im_show_share);
                 convertView.setTag(holder);
         } else {
-//            view = convertView;
-//            holder.show_image = (EmptyGridView) convertView.findViewById(R.id.gv_show_image);
             holder = (ViewHolder) convertView.getTag();
         }
         //头像
         String header_path = ContentCommon.path + mShowEntity.getUser_header();
         Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
-        Log.i("header_path", header_path);
 
         //读取基本数据
         holder.user_name.setText(mShowEntity.getUser_name());
-        holder.show_content.setText(mShowEntity.getShow_content());
-        holder.show_time.setText(mShowEntity.getShow_time());
         holder.show_comment.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
-
-        String like_state = mShowEntity.getLike_state();
-        list.add(position, like_state);
-        Log.i("like_state", like_state + "-------" + position + "------" + list.get(position));
+        if (mShowEntity.getShow_content() != null && !mShowEntity.getShow_content().equals("")){
+            holder.show_content.setVisibility(View.VISIBLE);
+            holder.show_content.setText(mShowEntity.getShow_content());
+        }else {
+            holder.show_content.setVisibility(View.GONE);
+        }
+        //发布show的时间
+        String time_unit;
+        time_unit = DateUtils.getDate(mShowEntity.getShow_time());
+        holder.show_time.setText(time_unit);
 
         //根据like_state判断爱心初始状态
+        String like_state = mShowEntity.getLike_state();
+        //list保存点赞状态
+        list.add(position, like_state);
         if (like_state.equals("0")) {
-            Log.i("state初始状态0====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-//            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
-//            holder.show_like.setCompoundDrawables(drawable, null, null, null);
             holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (like_state.equals("1")) {
-            Log.i("state初始状态1====", like_state + "");
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-//            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
-//            holder.show_like.setCompoundDrawables(drawable, null, null, null);
+
             holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
         }
@@ -265,7 +266,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 onkeyShare.setImageUrl(ImageList.get(0));
                 onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
-
                 onkeyShare.show(context);
             }
         }
@@ -325,7 +325,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                             mShowEntity.setLike_state("1");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-//                            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
                             show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "点赞失败...", Toast.LENGTH_SHORT).show();
@@ -344,7 +343,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                             mShowEntity.setLike_state("0");
                             mShowEntity.setLike_num(show_like.getText().toString());
                             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart_no);
-//                            drawable.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
                             show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                         } else {
                             Toast.makeText(context, "取消赞失败...", Toast.LENGTH_SHORT).show();

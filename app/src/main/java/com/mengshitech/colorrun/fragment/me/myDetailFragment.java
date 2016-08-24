@@ -55,7 +55,11 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
 
         FindId();
         Click();
+        GetData();
+        return mDeatilView;
+    }
 
+    private void GetData() {
         UserDao dao = new UserDao(getActivity());
         UserEntiy modler = new UserEntiy();
         modler = dao.find(ContentCommon.user_id);
@@ -77,7 +81,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                 Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
             }
         }
-        return mDeatilView;
+
     }
 
     private void Click() {

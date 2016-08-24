@@ -32,9 +32,12 @@ import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.LeRunEvaluateEntity;
+import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -240,7 +243,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
                             history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(HistoryContent.this, list, history_listview);
+                            adapter = new ShowDetailCommentAdpter(HistoryContent.this, list,history_listview);
                             history_listview.setAdapter(adapter);
                             pullSwipeRefreshLayout.setRefreshing(false);
                         } else if (state == 0) {
@@ -312,8 +315,22 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
             try {
                 int state = JsonTools.getState("state", result);
                 if (state == 1) {
+                    UserDao dao = new UserDao(HistoryContent.this);
+                    UserEntiy modler =  dao.find(ContentCommon.user_id);
+                    String time_now = DateUtils.getCurrentDate();
+                    CommentEntity info = new CommentEntity();
+                    info.setUser_name(modler.getUser_name());
+                    info.setUser_header(modler.getUser_header());
+                    info.setComment_time(time_now);
+                    info.setComment_content(et_content.getText().toString());
+                    list.add(0,info);
+                    adapter.changeCount(list.size());
+                    Log.i("changeCount",list.size()+"");
+                    adapter.notifyDataSetChanged();
+
                     Toast.makeText(HistoryContent.this, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
+
 //                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 //                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 } else {

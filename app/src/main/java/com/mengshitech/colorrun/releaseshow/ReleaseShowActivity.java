@@ -112,14 +112,11 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
             if (bundle.getString("evaluate_content") != null) {
                 String content = bundle.getString("evaluate_content");
                 et_text.setText(content + "");
             }
-
         }
 
         ll_send.setOnClickListener(this);
@@ -176,6 +173,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
             }
         });
+
         // 设置dialog弹出框显示在底部，并且宽度和屏幕一样
         Window window = dialog.getWindow();
         dialog.show();
@@ -223,7 +221,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 frameLayout.setVisibility(View.VISIBLE);
 
             }
-
         }
     }
 
@@ -242,7 +239,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -265,10 +261,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                     e.printStackTrace();
                     progressDialog.dismiss();
                 }
-
             }
-
-
         }
     };
 
@@ -292,6 +285,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
         }
     };
+
     Handler ReleaseShowhanlder = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -328,7 +322,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                     Toast.makeText(ReleaseShowActivity.this, "请输入发布的内容",
                             Toast.LENGTH_SHORT).show();
                 }
-
                 break;
             case R.id.ll_cancel:
 

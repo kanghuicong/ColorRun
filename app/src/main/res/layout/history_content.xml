@@ -23,46 +23,86 @@
             android:scrollbars="none" />
     </com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout>
 
-    <LinearLayout
+    <!--<LinearLayout-->
 
+    <!--android:id="@+id/footview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginRight="5dp"-->
+    <!--android:background="@color/white"-->
+    <!--android:gravity="center">-->
+
+    <!--<LinearLayout-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@android:drawable/editbox_background_normal"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginLeft="15dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:background="#ffffff"-->
+    <!--android:ems="10"-->
+    <!--android:hint="请输入要评价的内容"-->
+    <!--android:textSize="16sp"></EditText>-->
+    <!--</LinearLayout>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_send"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_marginLeft="5dp"-->
+    <!--android:background="#0099ff"-->
+    <!--android:text="发送"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="17sp" />-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
         android:id="@+id/footview"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="5dp"
-        android:background="@color/white"
-        android:gravity="center">
+        android:background="@color/ViewBackground"
+        android:orientation="vertical">
+
+        <include layout="@layout/mian_splitter" />
 
         <LinearLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_background_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="20dp"
-                android:background="#ffffff"
-                android:ems="10"
-                android:hint="请输入要评价的内容"
-                android:textSize="16sp"></EditText>
-        </LinearLayout>
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/editbox_background_normal"
+                android:hint="说点啥~" />
 
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:background="#0099ff"
-            android:text="发送"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#0099ff"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
     </LinearLayout>
 
 

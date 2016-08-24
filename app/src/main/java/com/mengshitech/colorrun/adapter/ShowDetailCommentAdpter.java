@@ -37,9 +37,9 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         mCommentList = commentList;
         mCommentListView = listView;
         mActivity = activity;
-        count=commentList.size();
+        count = commentList.size();
+        Log.i("ShowDetailCommentAdpter",count+"");
     }
-
 
     @Override
     public int getCount() {
@@ -89,7 +89,6 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         TextView tvCommentContent;
     }
     public void changeCount(int changecount){
-
         count=changecount;
     }
 }

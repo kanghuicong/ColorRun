@@ -112,7 +112,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 } else {
                     transaction.show(lerunFragment);
                 }
-//                Utility.replace2MainFragment(fm, new LerunFragment());
                 break;
             case R.id.rbShow:
                 if (mShowFragment == null) {
@@ -121,7 +120,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 } else {
                     transaction.show(mShowFragment);
                 }
-                //Utility.replace2MainFragment(fm, new showFragment());
                 break;
             case R.id.rbHistory:
                 if (mHistoryFragment == null) {
@@ -130,7 +128,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 } else {
                     transaction.show(mHistoryFragment);
                 }
-//                Utility.replace2MainFragment(fm, new HistoryFragment());
                 break;
             case R.id.rbMe:
                 if (mMeFragment == null) {
@@ -139,7 +136,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 } else {
                     transaction.show(mMeFragment);
                 }
-//                Utility.replace2MainFragment(fm, new meFragment());
                 break;
             default:
                 break;
@@ -192,8 +188,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         registerReceiver(broadcastReceiver, filter);
     }
 
-    ;
-
     // 动态注销广播
     @Override
     protected void onPause() {
@@ -203,6 +197,4 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             unregisterReceiver(broadcastReceiver);
         }
     }
-
-
 }

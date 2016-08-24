@@ -42,13 +42,12 @@ public class JsonTools {
     public static String getDatas(String jsonString) throws JSONException {
         String result;
         int state = getState("state", jsonString);
-        if (state == 1) {
+        if (state == 0) {
             JSONObject object = new JSONObject(jsonString);
             result = object.getString("datas");
         } else {
             result = null;
         }
-
         return result;
     }
 

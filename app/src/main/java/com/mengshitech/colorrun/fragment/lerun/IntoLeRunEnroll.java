@@ -164,7 +164,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             enroll_explain.setText("所有人免费");
         }
         if (charge_mode == 2) {
-            enroll_explain.setText("只有本校学生且上传学生证照片方可免费");
+            enroll_explain.setText("只有承办方人员且上传学生证、工作证等有效材料证明方可免费");
         }
         if (charge_mode == 3) {
             enroll_explain.setText("请选择价格");
@@ -275,16 +275,17 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                            if (enroll_number.getText().toString().length() == 11) {
                                                                if (charge_mode == 2) {
                                                                   Log.i("类型", enroll_spinner_id.getSelectedItem().toString()+"");
-
-                                                                   if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                   if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
                                                                        if (choseimage_state==0) {
-                                                                           Toast.makeText(context, "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
+                                                                           Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
                                                                        } else {
                                                                            Log.i("charge_mode==2", "type==1");
                                                                            signin_type = "1";
                                                                            creatQRcode();
                                                                            new Thread(uploadRunnable).start();
                                                                        }
+                                                                   } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0){
+                                                                       Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
                                                                    } else {
                                                                        creatQRcode();
                                                                        Log.i("charge_mode==2", "type==2");
@@ -447,7 +448,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
-
                         switch (charge_mode) {
                             case 1:
 //                                Intent intent = new Intent(context, RegisterSuccess.class);
@@ -497,11 +497,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                 break;
                         }
 
-
                     } else {
                         //报名失败
                         String datas = JsonTools.getDatas(result);
-                        Toast.makeText(context, datas, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "报名失败..", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

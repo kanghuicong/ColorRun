@@ -492,23 +492,16 @@
                     android:text="* 活动价格:"
                     android:textColor="#444444"
                     android:textSize="13sp" />
-
                 <TextView
                     android:id="@+id/tv_price_explain"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
+                    android:layout_marginRight="20dp"
                     android:gravity="top"
                     android:text="(所有人免费)"
                     android:textColor="#728ea3"
                     android:textSize="13sp" />
-
-                <!--<com.mengshitech.colorrun.view.MyListView-->
-                <!--android:id="@+id/lv_activity_price"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="5">-->
-                <!--</com.mengshitech.colorrun.view.MyListView>-->
             </LinearLayout>
 
             <LinearLayout
@@ -516,7 +509,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-
 
                     <com.mengshitech.colorrun.view.MyListView
                         android:id="@+id/lv_enroll_listview"

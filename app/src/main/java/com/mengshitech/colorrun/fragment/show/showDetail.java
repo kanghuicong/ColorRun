@@ -26,6 +26,7 @@ import com.mengshitech.colorrun.bean.LikeEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -54,7 +55,7 @@ public class showDetail extends Activity implements View.OnClickListener{
     ShowDetailCommentAdpter lv_adapter;
     ShowDetailGridViewAdapter gv_adapter;
     String show_id,comment_userid;
-    int state;
+    int state,count;
     View show_view;
     LinearLayout ll_like,ll_show_like;
     List<String> ImageList;
@@ -121,6 +122,7 @@ public class showDetail extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //评论按钮
             case R.id.bt_show_comment:
                 if (ContentCommon.login_state.equals("1")){
                     if ("".equals(et_show_comment.getText().toString())) {
@@ -136,6 +138,7 @@ public class showDetail extends Activity implements View.OnClickListener{
         }
     }
 
+    //点赞信息
     Runnable like_runnable = new Runnable() {
         @Override
         public void run() {
@@ -181,6 +184,7 @@ public class showDetail extends Activity implements View.OnClickListener{
         }
     };
 
+    //评论信息
     Runnable comment_runnable = new Runnable() {
         @Override
         public void run() {
@@ -203,17 +207,13 @@ public class showDetail extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
-//                progressDialog.dismiss();
                 try {
                     commentlist = JsonTools.getCommentInfo("result",result);
-
-                    lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
-                    lv_comment.setAdapter(lv_adapter);
                     int state = JsonTools.getState("state",result);
                     if (state == 1){
+                        count = commentlist.size();
                         lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
                         lv_comment.setAdapter(lv_adapter);
                     } else {
@@ -227,6 +227,7 @@ public class showDetail extends Activity implements View.OnClickListener{
         }
     };
 
+    //发布评论
     Runnable comment_show_runnable = new Runnable() {
         @Override
         public void run() {
@@ -261,14 +262,16 @@ public class showDetail extends Activity implements View.OnClickListener{
 
                         UserDao dao = new UserDao(showDetail.this);
                         UserEntiy modler =  dao.find(ContentCommon.user_id);
-                        long time_now = new Date().getTime();
 
+                        String time_now = DateUtils.getCurrentDate();
                         CommentEntity info = new CommentEntity();
                         info.setUser_name(modler.getUser_name());
                         info.setUser_header(modler.getUser_header());
-                        info.setComment_time(time_now+"");
+                        info.setComment_time(time_now);
                         info.setComment_content(et_show_comment.getText().toString());
                         commentlist.add(0,info);
+                        lv_adapter.changeCount(commentlist.size());
+                        Log.i("changeCount",commentlist.size()+"");
                         lv_adapter.notifyDataSetChanged();
                         et_show_comment.setText("");
                     } else {

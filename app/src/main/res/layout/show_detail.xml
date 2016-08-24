@@ -114,10 +114,14 @@
 
         <Button
             android:id="@+id/bt_show_comment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/comment_send" />
+            android:background="#0099ff"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 

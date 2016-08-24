@@ -12,8 +12,8 @@
 
     <string-array name="ID">
         <item>请选择</item>
-        <item>本校学生</item>
-        <item>其他</item>
+        <item>承办方</item>
+        <item>非承办方</item>
     </string-array>
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

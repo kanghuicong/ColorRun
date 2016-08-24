@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -40,16 +42,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * atenklsy
  */
 public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
     List<LeRunEntity> mLeRunList;
+    List<String> share_list;
     ListView mListView;
     FragmentManager mFragmentManager;
     Context mActivity;
     List<String> list = new ArrayList<String>();
-    int pos;
+    int pos,share_pos;
     int lerun_id;
     long time = 0;
     private android.view.animation.Animation animation;
@@ -133,6 +138,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         holder.tvLeRunLike.setCompoundDrawablesWithIntrinsicBounds(drawable_like, null, null, null);
 
         holder.tvLeRunLike.setOnClickListener(new MyAdapterListener(position,holder.tvLeRunLike,holder.like_anim));
+        holder.tvLeRunShare.setOnClickListener(new ShareListener(position));
         mListView.setOnItemClickListener(this);
         return convertView;
     }
@@ -148,22 +154,60 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         }
         @Override
         public void onClick(View v) {
-            if (UtilsClick.isFastClick()) {
-                return ;
-            } else {
-                if (v == lerun_like) {
-                    lerun_ainm.setVisibility(View.VISIBLE);
-                    lerun_ainm.startAnimation(animation);
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            lerun_ainm.setVisibility(View.GONE);
-                        }
-                    }, 1000);
+            if (ContentCommon.user_id == null) {
+                Toast.makeText(mActivity, "请先登录...", Toast.LENGTH_SHORT).show();
+            }else {
+                if (UtilsClick.isFastClick()) {
+                    return;
+                } else {
+                    if (v == lerun_like) {
+                        lerun_ainm.setVisibility(View.VISIBLE);
+                        lerun_ainm.startAnimation(animation);
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                lerun_ainm.setVisibility(View.GONE);
+                            }
+                        }, 1000);
+                    }
+                    pos = position;
+                    TextView lerun_like = (TextView) v.findViewById(R.id.tvLeRunLike);
+                    lerun_like.setText(Integer.valueOf(lerun_like.getText().toString()) + 1 + "");
+                    new Thread(lerun_like_runnable).start();
                 }
-                pos = position;
-                TextView lerun_like = (TextView) v.findViewById(R.id.tvLeRunLike);
-                lerun_like.setText(Integer.valueOf(lerun_like.getText().toString()) + 1 + "");
-                new Thread(lerun_like_runnable).start();
+            }
+        }
+    }
+
+    class ShareListener implements View.OnClickListener {
+        int position;
+
+        public ShareListener(int pos) {
+            position = pos;
+        }
+
+        @Override
+        public void onClick(View v) {
+            share_pos = position;
+            if (ContentCommon.user_id == null) {
+                Toast.makeText(mActivity, "请先登录...", Toast.LENGTH_SHORT).show();
+            } else {
+                OnekeyShare onkeyShare = new OnekeyShare();
+                onkeyShare.disableSSOWhenAuthorize();
+
+                LeRunEntity modler = getItem(share_pos);
+                onkeyShare.setTitle(modler.getLerun_title());
+                onkeyShare.setText("一起来参加"+modler.getLerun_title()+"吧！");
+                try {
+                    share_list = JsonTools.getImageInfo(modler.getLerun_poster());
+                    if (share_list.size() != 0) {
+                        onkeyShare.setImageUrl(share_list.get(0));
+                    }
+                    onkeyShare.setUrl("http://www.roay.cn/");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //显示分享列表
+                onkeyShare.show(mActivity);
             }
         }
     }

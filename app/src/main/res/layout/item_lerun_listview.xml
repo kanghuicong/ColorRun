@@ -141,8 +141,7 @@
                 android:drawablePadding="5dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text=""
-                android:textColor="@color/black" />
+                android:text="" />
 
         </LinearLayout>
 

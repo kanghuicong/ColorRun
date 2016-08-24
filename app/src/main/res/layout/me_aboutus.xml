@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="檬视科技有限公司     版权所有"
+            android:text="乐跑科技有限公司     版权所有"
             android:textSize="12sp"
             android:textColor="@color/grey"/>
 

@@ -47,7 +47,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     FragmentManager fm;
     ViewHolder holder;
     //    View view;
-    List<String> ImageList;
+    List<String> ImageList,share_list;
     List<String> imagepath = new ArrayList<String>();
     ListView mListView;
     ShowEntity mShowEntity;
@@ -192,7 +192,6 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     imagepath.add(paths);
                     ShowGridViewAdapter adapter = new ShowGridViewAdapter(context, activity, imagepath, imagepath.size());
                     holder.show_image.setAdapter(adapter);
-                    Log.i("Show_image", position + "-----" + paths);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -206,7 +205,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 return false; //不终止路由事件让父级控件处理事件
             }
         });
-        holder.show_like.setOnClickListener(new LikeListener(position, like_state));
+        holder.show_like.setOnClickListener(new LikeListener(position));
         holder.show_share.setOnClickListener(new ShareListener(position));
         holder.show_comment.setOnClickListener(this);
         return convertView;
@@ -215,17 +214,14 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
     class LikeListener implements View.OnClickListener {
 
         private int position;
-        private String like_state;
 
-        public LikeListener(int pos, String state) {
+        public LikeListener(int pos) {
             position = pos;
-            like_state = state;
         }
 
         @Override
         public void onClick(View v) {
             like_pos = position;
-            Log.i("like_state_bt", list.get(like_pos) + "------" + like_pos);
             if (ContentCommon.login_state.equals("1")) {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
                 if (list.get(like_pos).equals("0")) {
@@ -260,11 +256,17 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 onkeyShare.setTitle(showEntity.getUser_name() + "的卡乐彩色跑");
                 onkeyShare.setText(showEntity.getShow_content());
 
-                if (ImageList.size() != 0) {
-                    onkeyShare.setImageUrl(ImageList.get(0));
+                mShowEntity = mShowList.get(share_pos);
+                String share_result = mShowEntity.getShow_image();
+                try {
+                    share_list = JsonTools.getImageInfo(share_result);
+                    if (share_list.size() != 0) {
+                        onkeyShare.setImageUrl(share_list.get(0));
+                    }
+                    onkeyShare.setUrl("http://www.roay.cn/");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                onkeyShare.setImageUrl(ImageList.get(0));
-                onkeyShare.setUrl("http://www.roay.cn/");
                 //显示分享列表
                 onkeyShare.show(context);
             }

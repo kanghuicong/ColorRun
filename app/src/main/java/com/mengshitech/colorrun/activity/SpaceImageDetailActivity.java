@@ -65,7 +65,24 @@ public class SpaceImageDetailActivity extends Activity {
                 .cacheOnDisc(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-        imageLoader.displayImage(image_path, imageView, options);
+        imageLoader.displayImage(image_path, imageView, options ,new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                imageView.setImageResource(R.mipmap.defaut_error_square);
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

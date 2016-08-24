@@ -67,17 +67,12 @@ public class SpaceImageDetailActivity extends Activity {
                 .build();
         imageLoader.displayImage(image_path, imageView, options);
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancel();
             }
         });
-
-
-
-
     }
 
     private void cancel() {

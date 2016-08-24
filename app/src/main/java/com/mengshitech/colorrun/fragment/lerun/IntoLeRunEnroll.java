@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
 import android.app.Activity;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -38,16 +40,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.RegisterSuccess;
 import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
 import com.mengshitech.colorrun.alipay.AlipayFragment;
+import com.mengshitech.colorrun.bean.CreateQrBean;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.fragment.PaySuccessFragment;
+import com.mengshitech.colorrun.utils.CompressImage;
+import com.mengshitech.colorrun.utils.CreateQrCode;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
+import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.Utility;
 import com.mengshitech.colorrun.utils.upload;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,27 +89,37 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     ChoseImageDiaLog dialog;
     String imageFilePath;
     File temp;
+
+    File qrcodeFile;
     //图片上传成功后返回的图片路径
     String ScuessImagePath;
     String user_id;
     View enroll_view;
-    int lerun_id, charge_mode, free_price, common_price, vip_price, choose_price=-2,type;
+    int lerun_id, charge_mode, free_price, common_price, vip_price, choose_price = -2, type;
     String free_equipment, common_equipment, vip_equipment;
     LerunEnrollListViewAdapter adapter;
     List<EnrollEntity> list = new ArrayList<EnrollEntity>();
     protected WeakReference<View> mRootView;
     LinearLayout ll_enroll_content;
     int index;
-    int flag=100;
+    int flag = 100;
     private Context context;
+    String signin_type = "";//报名类型
+    private String QRcodeImage;
+    private int choseimage_state=0;
+    FragmentManager fragmentManager;
+    Activity activity;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context=getActivity();
+        context = getActivity();
+        fragmentManager=getFragmentManager();
+        activity=getActivity();
         if (mRootView == null || mRootView.get() == null) {
 
             enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
             MainBackUtility.MainBack(enroll_view, "报名", getFragmentManager());
+            MainActivity.rgMainBottom.setVisibility(View.GONE);
             FindId();
             GetData();
             EnrollClick();
@@ -104,15 +127,15 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
             ll_enroll_content.setOnTouchListener(new View.OnTouchListener() {
 
-        public boolean onTouch(View v, MotionEvent event) {
-            // TODO Auto-generated method stub
-            ll_enroll_content.setFocusable(true);
-            ll_enroll_content.setFocusableInTouchMode(true);
-            ll_enroll_content.requestFocus();
+                public boolean onTouch(View v, MotionEvent event) {
+                    // TODO Auto-generated method stub
+                    ll_enroll_content.setFocusable(true);
+                    ll_enroll_content.setFocusableInTouchMode(true);
+                    ll_enroll_content.requestFocus();
 
-            return false;
-        }
-    });
+                    return false;
+                }
+            });
             mRootView = new WeakReference<View>(enroll_view);
         } else {
             ViewGroup parent = (ViewGroup) mRootView.get().getParent();
@@ -165,7 +188,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             entity.setEnroll_equipment(vip_equipment);
             list.add(entity);
         }
-        adapter = new LerunEnrollListViewAdapter(getActivity(), list, enroll_listview,new LerunEnrollListViewAdapter.CallBack() {
+        adapter = new LerunEnrollListViewAdapter(getActivity(), list, enroll_listview, new LerunEnrollListViewAdapter.CallBack() {
             @Override
             public void returnInfo(int price) {
                 choose_price = price;
@@ -188,7 +211,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         user_id = sharedPreferences.getString("user_id", "");
 
-        ll_enroll_content = (LinearLayout)enroll_view.findViewById(R.id.ll_enroll_content);
+        ll_enroll_content = (LinearLayout) enroll_view.findViewById(R.id.ll_enroll_content);
         enroll_name = (TextView) enroll_view.findViewById(R.id.tv_enroll_university);
         enroll_time = (TextView) enroll_view.findViewById(R.id.tv_enroll_time);
         enroll_address = (TextView) enroll_view.findViewById(R.id.tv_enroll_add);
@@ -218,6 +241,25 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     }
 
     private void EnrollClick() {
+        if (rb_sex_man.isChecked()) {
+            sex = "男";
+        } else if (rb_sex_woman.isChecked()) {
+            sex = "女";
+        } else if (rb_size_s.isChecked()) {
+            size = "S";
+        } else if (rb_size_m.isChecked()) {
+            size = "M";
+        } else if (rb_size_l.isChecked()) {
+            size = "L";
+        } else if (rb_size_xl.isChecked()) {
+            size = "XL";
+        } else if (rb_size_2xl.isChecked()) {
+            size = "2XL";
+        } else if (rb_size_3xl.isChecked()) {
+            size = "3XL";
+        }
+
+
         bt_enroll_agree.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
@@ -227,71 +269,47 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                            !"".equals(enroll_number.getText().toString()) &&
                                                            !"请选择".equals(enroll_spinner_card.getSelectedItem().toString()) &&
                                                            !"请选择".equals(enroll_spinner_id.getSelectedItem().toString()) &&
-                                                           choose_price>=0) {
+                                                           choose_price >= 0) {
                                                        if (user_name.getText().toString().length() <= 10) {
                                                            if (enroll_number.getText().toString().length() == 11) {
                                                                if (charge_mode == 2) {
-                                                                   if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price==0) {
-                                                                       if (enroll_authentication.getDrawable().getCurrent().getConstantState().equals(getResources().getDrawable(R.mipmap.enroll_add_image).getConstantState())) {
+                                                                  Log.i("类型", enroll_spinner_id.getSelectedItem().toString()+"");
+
+                                                                   if ("本校学生".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                       if (choseimage_state==0) {
                                                                            Toast.makeText(context, "请将学生证图片上传！", Toast.LENGTH_SHORT).show();
                                                                        } else {
-                                                                           if (rb_sex_man.isChecked()) {
-                                                                               sex = "男";
-                                                                           } else if (rb_sex_woman.isChecked()) {
-                                                                               sex = "女";
-                                                                           } else if (rb_size_s.isChecked()) {
-                                                                               size = "S";
-                                                                           } else if (rb_size_m.isChecked()) {
-                                                                               size = "M";
-                                                                           } else if (rb_size_l.isChecked()) {
-                                                                               size = "L";
-                                                                           } else if (rb_size_xl.isChecked()) {
-                                                                               size = "XL";
-                                                                           } else if (rb_size_2xl.isChecked()) {
-                                                                               size = "2XL";
-                                                                           } else if (rb_size_3xl.isChecked()) {
-                                                                               size = "3XL";
-                                                                           }
-                                                                           new Thread(runnable).start();
+                                                                           Log.i("charge_mode==2", "type==1");
+                                                                           signin_type = "1";
+                                                                           creatQRcode();
+                                                                           new Thread(uploadRunnable).start();
                                                                        }
                                                                    } else {
-                                                                       if (rb_sex_man.isChecked()) {
-                                                                           sex = "男";
-                                                                       } else if (rb_sex_woman.isChecked()) {
-                                                                           sex = "女";
-                                                                       } else if (rb_size_s.isChecked()) {
-                                                                           size = "S";
-                                                                       } else if (rb_size_m.isChecked()) {
-                                                                           size = "M";
-                                                                       } else if (rb_size_l.isChecked()) {
-                                                                           size = "L";
-                                                                       } else if (rb_size_xl.isChecked()) {
-                                                                           size = "XL";
-                                                                       } else if (rb_size_2xl.isChecked()) {
-                                                                           size = "2XL";
-                                                                       } else if (rb_size_3xl.isChecked()) {
-                                                                           size = "3XL";
-                                                                       } new Thread(runnable).start();
+                                                                       creatQRcode();
+                                                                       Log.i("charge_mode==2", "type==2");
+                                                                       signin_type = "2";
+                                                                       new Thread(QrcodeRunnable).start();
                                                                    }
                                                                } else {
-                                                                   if (rb_sex_man.isChecked()) {
-                                                                       sex = "男";
-                                                                   } else if (rb_sex_woman.isChecked()) {
-                                                                       sex = "女";
-                                                                   } else if (rb_size_s.isChecked()) {
-                                                                       size = "S";
-                                                                   } else if (rb_size_m.isChecked()) {
-                                                                       size = "M";
-                                                                   } else if (rb_size_l.isChecked()) {
-                                                                       size = "L";
-                                                                   } else if (rb_size_xl.isChecked()) {
-                                                                       size = "XL";
-                                                                   } else if (rb_size_2xl.isChecked()) {
-                                                                       size = "2XL";
-                                                                   } else if (rb_size_3xl.isChecked()) {
-                                                                       size = "3XL";
+                                                                   creatQRcode();
+                                                                   switch (charge_mode) {
+                                                                       //全部免费
+                                                                       case 1:
+                                                                           signin_type = "";
+                                                                           new Thread(QrcodeRunnable).start();
+                                                                           Log.i("charge_mode==1", "type==1");
+                                                                           break;
+
+                                                                       //全部收费
+                                                                       case 3:
+                                                                           signin_type = "";
+                                                                           new Thread(QrcodeRunnable).start();
+                                                                           Log.i("charge_mode==3", "type==1");
+                                                                           break;
+
+                                                                       default:
+                                                                           break;
                                                                    }
-                                                                   new Thread(runnable).start();
                                                                }
                                                            } else {
                                                                Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
@@ -311,16 +329,84 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     }
 
 
-    //执行报名的请求的线程
-    Runnable runnable = new Runnable() {
+    //执行上传证件照的线程
+    Runnable uploadRunnable = new Runnable() {
         @Override
         public void run() {
-            String signin_type;
-            if (enroll_spinner_card.getSelectedItem().toString().equals("本校学生")) {
-                signin_type = "1";
+            String servletPath = ContentCommon.ImagePath;
+            ScuessImagePath = upload.uploadImage(temp, servletPath);
+
+            Message msg = new Message();
+            msg.obj = ScuessImagePath;
+            uploadHandle.sendMessage(msg);
+
+        }
+    };
+    Handler uploadHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String imagepath = (String) msg.obj;
+            if (imagepath.equals("failure")) {
+                Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
-                signin_type = "2";
+
+                try {
+                    String datas=JsonTools.getDatas(imagepath);
+                    ScuessImagePath=JsonTools.getUserLog(datas);
+                    Log.i("上传证件照imagepath", ScuessImagePath);
+                    new Thread(QrcodeRunnable).start();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
+        }
+    };
+
+
+    //上传二维码
+    Runnable QrcodeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String servletPath = ContentCommon.ImagePath;
+            ScuessImagePath = upload.uploadImage(qrcodeFile, servletPath);
+            Message msg = new Message();
+            msg.obj = ScuessImagePath;
+            QrcodeHandle.sendMessage(msg);
+
+        }
+    };
+    Handler QrcodeHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String imagepath = (String) msg.obj;
+            if (imagepath.equals("failure")) {
+                Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    String datas=JsonTools.getDatas(imagepath);
+                    QRcodeImage=JsonTools.getUserLog(datas);
+                    Log.i("上传二维码imagepath", QRcodeImage);
+
+                    new Thread(Mode1runnable).start();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    };
+
+
+    //执行免费报名的请求的线程
+    Runnable Mode1runnable = new Runnable() {
+        @Override
+        public void run() {
+
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
@@ -338,64 +424,77 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             map.put("payment", choose_price + "");
             map.put("certificate_image", ScuessImagePath);
             map.put("user_sex", sex);
+            map.put("QRcode_Path", QRcodeImage);
+            map.put("charge_mode", charge_mode + "");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
             Message msg = new Message();
             msg.obj = result;
-            handler.sendMessage(msg);
+            mode1handler.sendMessage(msg);
         }
     };
-    //执行报名的请求的handler
-    Handler handler = new Handler() {
+    //执行免费报名的请求的handler
+    Handler mode1handler = new Handler() {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-
             if (result.equals("timeout")) {
-//                progressDialog.dismiss();
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
-            } else if (result.equals("0")) {
-                Toast.makeText(context, "报名失败...", Toast.LENGTH_SHORT).show();
-            } else if (result.equals("1")) {
-                Toast.makeText(context, "您已经报过名啦", Toast.LENGTH_SHORT).show();
-            } else if (result.equals("2")) {
-                if (choose_price == 0){
-                    Toast.makeText(context,"报名成功！",Toast.LENGTH_SHORT).show();
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("user_name", user_name.getText().toString());
-                    bundle.putString("lerun_title", enroll_name.getText().toString());
-                    bundle.putInt("lerun_price", choose_price);
-                    Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
-                    AlipayFragment alipayFragment = new AlipayFragment();
-                    alipayFragment.setArguments(bundle);
-                    Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
-                }
-            }
-        }
-    };
-    //执行上传证件照的线程
-    Runnable uploadRunnable = new Runnable() {
-        @Override
-        public void run() {
-            String servletPath = ContentCommon.ImagePath;
-            ScuessImagePath = upload.uploadImage(temp, servletPath);
-            Message msg = new Message();
-            msg.obj = ScuessImagePath;
-            uploadHandle.sendMessage(msg);
-
-        }
-    };
-    Handler uploadHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            String imagepath = (String) msg.obj;
-            if (imagepath.equals("failure")) {
-                Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
-                new Thread(runnable).start();
+                try {
+                    int state = JsonTools.getState("state", result);
+                    if (state == 1) {
+                        //报名成功的操作
+
+                        switch (charge_mode) {
+                            case 1:
+                                Intent intent = new Intent(context, RegisterSuccess.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type", "sign_up");
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                                break;
+                            case 2:
+                                if (signin_type.equals("1")) {
+                                    PaySuccessFragment fragment=new PaySuccessFragment();
+                                    getFragmentManager().popBackStack();
+                                    Utility.replace2DetailFragment(fragmentManager,fragment );
+
+                                } else {
+                                    Bundle bundle3 = new Bundle();
+                                    bundle3.putString("user_name", user_name.getText().toString());
+                                    bundle3.putString("lerun_title", enroll_name.getText().toString());
+                                    bundle3.putInt("lerun_price", choose_price);
+                                    Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
+                                    AlipayFragment alipayFragment = new AlipayFragment();
+                                    alipayFragment.setArguments(bundle3);
+                                    Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
+                                }
+
+                                break;
+                            case 3:
+                                Bundle bundle4 = new Bundle();
+                                bundle4.putString("user_name", user_name.getText().toString());
+                                bundle4.putString("lerun_title", enroll_name.getText().toString());
+                                bundle4.putInt("lerun_price", choose_price);
+                                Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
+                                AlipayFragment alipayFragment = new AlipayFragment();
+                                alipayFragment.setArguments(bundle4);
+                                Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
+                                break;
+                        }
+
+
+                    } else {
+                        //报名失败
+                        String datas = JsonTools.getDatas(result);
+                        Toast.makeText(context, datas, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -414,6 +513,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         }
     }
 
+
+    /***************************************************************************
+     * 选择证件照
+     *********************************************************************************/
     public void showDailog() {
         dialog = new ChoseImageDiaLog(getActivity(), R.layout.dialog_choseimage,
                 R.style.dialog, new ChoseImageDiaLog.LeaveMyDialogListener() {
@@ -429,14 +532,16 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                         imageFilePath = Environment
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
-                                + "/filename.jpg";
-                        temp = new File(imageFilePath);
-                        Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
+                                + "/"+ RandomUtils.getRandomInt()+".jpg";
+                        File file = new File(imageFilePath);
+                        Uri imageFileUri = Uri.fromFile(file);// 获取文件的Uri
                         Intent it = new Intent(
                                 MediaStore.ACTION_IMAGE_CAPTURE);// 跳转到相机Activity
                         it.putExtra(
                                 android.provider.MediaStore.EXTRA_OUTPUT,
                                 imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
+                        String compressImage = CompressImage.compressBitmap(context, imageFilePath, 300, 300, false);
+                        temp = new File(compressImage);
                         startActivityForResult(it, 102);
                         dialog.dismiss();
                         break;
@@ -484,6 +589,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
 //                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
                     enroll_authentication.setImageBitmap(bmp);
+                    choseimage_state=1;
 
                 }
                 break;
@@ -521,10 +627,12 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     imageFilePath = cursor.getString(column_index);
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
                     enroll_authentication.setImageBitmap(bmp);
+                    //压缩图片
+                    String compressImage = CompressImage.compressBitmap(context, imageFilePath, 300, 300, false);
+                    temp = new File(compressImage);
+                    choseimage_state=1;
 
-                    temp = new File(imageFilePath);
-
-                    System.out.println(imageFilePath);
+//                    System.out.println(imageFilePath);
                 }
 
                 break;
@@ -532,16 +640,21 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
     }
 
-//    ll_enroll_content.setOnTouchListener(new View.OnTouchListener() {
-//
-//        public boolean onTouch(View v, MotionEvent event) {
-//            // TODO Auto-generated method stub
-//            ll_enroll_content.setFocusable(true);
-//            ll_enroll_content.setFocusableInTouchMode(true);
-//            ll_enroll_content.requestFocus();
-//
-//            return false;
-//        }
-//    });
+
+    //创建二维码
+    private void creatQRcode() {
+        CreateQrBean bean = new CreateQrBean();
+        bean.setLerun_id(lerun_id);
+        bean.setUser_id(user_id);
+        bean.setUser_telphone(enroll_number.getText().toString());
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(bean);
+        Log.i("jsonString", "" + jsonString);
+        String qrcodeImage = CreateQrCode.createImage(jsonString, 200, 200);
+        Log.i("qrcodeImage", qrcodeImage);
+        qrcodeFile = new File(qrcodeImage);
+    }
+
 
 }

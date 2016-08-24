@@ -30,6 +30,7 @@ import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.upload;
 
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                                         imageFilePath = Environment
                                                 .getExternalStorageDirectory()
                                                 .getAbsolutePath()
-                                                + "/filename.jpg";
+                                                + "/"+ RandomUtils.getRandomInt()+".jpg";;
                                         temp = new File(imageFilePath);
                                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                                         Intent it = new Intent(

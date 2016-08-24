@@ -272,7 +272,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                         Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
                         user_image.setImageBitmap(bmp);
                         //压缩图片
-                        String image = CompressImage.compressBitmap(UserLogActivity.this, imageFilePath, 200, 200, false);
+                        String image = CompressImage.compressBitmap(UserLogActivity.this, imageFilePath, 200, 200, true);
 
 
                         temp = new File(image);

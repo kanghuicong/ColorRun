@@ -26,7 +26,7 @@ public class GuideActivity extends AbsGuideActivity{
         List<SinglePage> guideContent = new ArrayList<SinglePage>();
 
         SinglePage page01 = new SinglePage();
-        page01.mBackground = getResources().getDrawable(R.mipmap.bg_page_01);
+        page01.mBackground = getResources().getDrawable(R.drawable.bg_page_01);
         SingleElement e01 = new SingleElement(200, 200, 400, 400, 0.0f, 1.0f,
                 BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_stuff));
@@ -38,7 +38,7 @@ public class GuideActivity extends AbsGuideActivity{
         guideContent.add(page01);
 
         SinglePage page02 = new SinglePage();
-        page02.mBackground = getResources().getDrawable(R.mipmap.bg_page_02);
+        page02.mBackground = getResources().getDrawable(R.drawable.bg_page_02);
         SingleElement e03 = new SingleElement(400, 400, -100, -100, 1.0f, 0.0f,
                 BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_stuff));
@@ -50,7 +50,7 @@ public class GuideActivity extends AbsGuideActivity{
         guideContent.add(page02);
 
         SinglePage page03 = new SinglePage();
-        page03.mBackground = getResources().getDrawable(R.mipmap.bg_page_03);
+        page03.mBackground = getResources().getDrawable(R.drawable.bg_page_03);
         SingleElement e05 = new SingleElement(-100, 2000, 100, 100, 1.0f, 1.0f,
                 BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_stuff));
@@ -70,7 +70,7 @@ public class GuideActivity extends AbsGuideActivity{
         guideContent.add(page03);
 
         SinglePage page04 = new SinglePage();
-        page04.mBackground = getResources().getDrawable(R.mipmap.bg_page_04);
+        page04.mBackground = getResources().getDrawable(R.drawable.bg_page_04);
         SingleElement e09 = new SingleElement(100, 100, 3000, 3000, 1.0f, 1.0f,
                 BitmapFactory.decodeResource(getResources(),
                         R.mipmap.ic_stuff));

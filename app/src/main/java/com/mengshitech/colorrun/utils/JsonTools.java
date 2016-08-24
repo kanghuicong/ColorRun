@@ -372,6 +372,7 @@ public class JsonTools {
             entity.setLerun_id(object.getInt("lerun_id"));
             entity.setEvaluate_state(object.getInt("evaluate_state"));
             entity.setUser_telphone(object.getString("user_telphone"));
+            entity.setCheck_state(object.getInt("check_state"));
             list.add(entity);
         }
 

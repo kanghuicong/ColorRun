@@ -19,8 +19,17 @@ public class QrcodeBean {
     private int evaluate_state;
     private int lerun_id;
     private String user_telphone;
+    private int check_state;
 
     public QrcodeBean() {
+    }
+
+    public int getCheck_state() {
+        return check_state;
+    }
+
+    public void setCheck_state(int check_state) {
+        this.check_state = check_state;
     }
 
     public String getUser_telphone() {

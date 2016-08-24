@@ -62,13 +62,13 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
     @Override
     public View initView() {
-
+        context = getActivity();
+        activity = getActivity();
         if (mRootView == null || mRootView.get() == null) {
-            into_lerun_view = View.inflate(getActivity(), R.layout.lerun_into, null);
+            into_lerun_view = View.inflate(context, R.layout.lerun_into, null);
             MainBackUtility.MainBack(into_lerun_view, "活动详情", getFragmentManager());
             lerun_id = getArguments().getInt("lerun_id");
-            context = getActivity();
-            activity = getActivity();
+
             new Thread(runnable).start();
             find();
             click();
@@ -278,8 +278,8 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                     String poster_path = ContentCommon.path + leRunEntity.getLerun_poster();
                     map_path = ContentCommon.path + leRunEntity.getLerun_map();
-                    Glide.with(getActivity()).load(poster_path).into(poster);
-                    Glide.with(getActivity()).load(map_path).into(map);
+                    Glide.with(context).load(poster_path).into(poster);
+                    Glide.with(context).load(map_path).into(map);
                     Time(time);// 倒计时
                 } catch (JSONException e) {
                     e.printStackTrace();

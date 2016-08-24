@@ -50,6 +50,7 @@ import com.mengshitech.colorrun.bean.CreateQrBean;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.fragment.PaySuccessFragment;
+import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.CreateQrCode;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -449,18 +450,28 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                         switch (charge_mode) {
                             case 1:
-                                Intent intent = new Intent(context, RegisterSuccess.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("type", "sign_up");
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+//                                Intent intent = new Intent(context, RegisterSuccess.class);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("type", "sign_up");
+//                                intent.putExtras(bundle);
+//                                startActivity(intent);
+                                Bundle bundle=new Bundle();
+                                bundle.putString("qrcode_image",QRcodeImage+"");
+                                bundle.putInt("type",2);
+                                DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
 
+                                displayQRcodeFragment.setArguments(bundle);
+                                Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
                                 break;
                             case 2:
                                 if (signin_type.equals("1")) {
-                                    PaySuccessFragment fragment=new PaySuccessFragment();
-                                    getFragmentManager().popBackStack();
-                                    Utility.replace2DetailFragment(fragmentManager,fragment );
+                                    Bundle bundle2=new Bundle();
+                                    bundle2.putString("qrcode_image",QRcodeImage+"");
+                                    bundle2.putInt("type",2);
+                                    DisplayQRcodeFragment displayQRcodeFragment2=new DisplayQRcodeFragment();
+
+                                    displayQRcodeFragment2.setArguments(bundle2);
+                                    Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment2);
 
                                 } else {
                                     Bundle bundle3 = new Bundle();
@@ -651,7 +662,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         Gson gson = new Gson();
         String jsonString = gson.toJson(bean);
         Log.i("jsonString", "" + jsonString);
-        String qrcodeImage = CreateQrCode.createImage(jsonString, 200, 200);
+        String qrcodeImage = CreateQrCode.createImage(jsonString, 400, 400);
         Log.i("qrcodeImage", qrcodeImage);
         qrcodeFile = new File(qrcodeImage);
     }

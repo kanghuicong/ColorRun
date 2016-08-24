@@ -224,7 +224,7 @@ public class meFragment extends Fragment implements OnClickListener {
         @Override
         public void onReceive(Context arg0, Intent arg1) {
 
-            Log.i("broadcast", "zhixingle");
+
             refreshhandler.sendEmptyMessage(0);
         }
     };

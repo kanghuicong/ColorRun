@@ -192,7 +192,9 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                         IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
                         mIntoLerunEnroll.setArguments(bundle);
+                        getFragmentManager().popBackStack();
                         Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
+
                     }
                 } else {
                     Toast.makeText(context, "您还没有登陆哦,请先登录", Toast.LENGTH_SHORT).show();
@@ -289,6 +291,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getFragmentManager().popBackStack();
+//        getFragmentManager().popBackStack();
     }
 }

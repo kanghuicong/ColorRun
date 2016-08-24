@@ -29,6 +29,10 @@ public class RegisterSuccess extends Activity {
         if (type.equals("find_pwd")){
             tv_register_success.setText("修改密码成功！");
         }
+        if (type.equals("sign_up")){
+            tv_register_success.setText("报名成功！");
+
+        }
         new Thread(runnable).start();
     }
 

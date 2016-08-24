@@ -95,6 +95,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         //使用缓存 使fragment保持原有状态
         mActivity = getActivity();
         context = getActivity();
+        fm = getFragmentManager();
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
@@ -173,7 +174,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     private void initView() {
 
 
-        fm = getFragmentManager();
+//        fm = getFragmentManager();
         //初始化fm给ListView、GridView用
 //热播图片的点击事件
         hotImage.setOnClickListener(this);

@@ -15,7 +15,6 @@ public class CommentEntity implements Serializable {
     private String comment_content;
     private String user_id;
 
-
     public CommentEntity(){}
 
     public String getUser_header() {

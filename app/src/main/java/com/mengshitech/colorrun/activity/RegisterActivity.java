@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -83,6 +84,9 @@ public class RegisterActivity extends Activity {
                 if (!TextUtils.isEmpty(et_phone.getText().toString().trim())) {
                     if (et_phone.getText().toString().trim().length() == 11) {
                         // 发送短信
+                        btn_getcode.setClickable(false);
+                        btn_getcode.setBackgroundResource(R.drawable.login_shape_bt_no);
+                        btn_getcode.setText("验证码已发送60秒");
                         number = et_phone.getText().toString().trim();
                         iPhone = et_phone.getText().toString().trim();
                         SMSSDK.getVerificationCode("86", iPhone);
@@ -122,11 +126,9 @@ public class RegisterActivity extends Activity {
                 }
             }
         });
-
     }
 
     private void reminderText() {
-//        tv_now.setVisibility(View.VISIBLE);
         handlerText.sendEmptyMessageDelayed(1, 1000);
     }
 
@@ -135,22 +137,21 @@ public class RegisterActivity extends Activity {
             if (msg.what == 1) {
                 if (time > 0) {
                     btn_getcode.setText("验证码已发送" + time + "秒");
-                    //tv_now.setText("验证码已发送" + time + "秒");
                     time--;
                     handlerText.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    btn_getcode.setText("提示信息");
-                    //tv_now.setText("提示信息");
+                    btn_getcode.setText("重新发送");
                     time = 60;
-//                    tv_now.setVisibility(View.GONE);
+                    btn_getcode.setClickable(true);
+                    btn_getcode.setBackgroundResource(R.drawable.login_shape_bt);
                     btn_getcode.setVisibility(View.VISIBLE);
                 }
             } else {
                 et_code.setText("");
-                btn_getcode.setText("提示信息");
-                //tv_now.setText("提示信息");
+                btn_getcode.setText("重新发送");
                 time = 60;
-//                tv_now.setVisibility(View.GONE);
+                btn_getcode.setClickable(true);
+                btn_getcode.setBackgroundResource(R.drawable.login_shape_bt);
                 btn_getcode.setVisibility(View.VISIBLE);
             }
         };
@@ -165,7 +166,6 @@ public class RegisterActivity extends Activity {
             int event = msg.arg1;
             int result = msg.arg2;
             Object data = msg.obj;
-            Log.e("event", "event=" + event);
             if (result == SMSSDK.RESULT_COMPLETE) {
                 // 短信注册成功后返回MainActivity,Ȼ����ʾ�º���
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
@@ -190,19 +190,19 @@ public class RegisterActivity extends Activity {
             } else {
                 if (flag) {
                     btn_getcode.setVisibility(View.VISIBLE);
+                    btn_getcode.setClickable(true);
+                    btn_getcode.setBackgroundResource(R.drawable.login_shape_bt_no);
+                    btn_getcode.setText("重新发送");
                     Toast.makeText(RegisterActivity.this, "验证码获取失败",
                             Toast.LENGTH_SHORT).show();
                     et_phone.requestFocus();
                 } else {
                     ((Throwable) data).printStackTrace();
-                    // int resId = getStringRes(Registered_activity.this,
-                    // "smssdk_network_error");
+                    btn_getcode.setClickable(true);
+                    btn_getcode.setBackgroundResource(R.drawable.login_shape_bt_no);
+                    btn_getcode.setText("重新发送");
                     Toast.makeText(RegisterActivity.this, "验证码错误",
                             Toast.LENGTH_SHORT).show();
-                    // et_code.selectAll();
-                    // if (resId > 0) {
-                    // Toast.makeText(Registered_activity.this, resId,
-                    // Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -199,6 +199,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 }
 
 
+
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;

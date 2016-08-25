@@ -70,6 +70,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by kanghuicong on 2016/7/27  17:58.
@@ -107,7 +109,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     private Context context;
     String signin_type = "";//报名类型
     private String QRcodeImage;
-    private int choseimage_state=0;
+    private int choseimage_state = 0;
     FragmentManager fragmentManager;
     Activity activity;
     private String user_telphone;
@@ -115,8 +117,8 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
-        fragmentManager=getFragmentManager();
-        activity=getActivity();
+        fragmentManager = getFragmentManager();
+        activity = getActivity();
         if (mRootView == null || mRootView.get() == null) {
 
             enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
@@ -275,12 +277,19 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                            !"请选择".equals(enroll_spinner_card.getSelectedItem().toString()) &&
                                                            !"请选择".equals(enroll_spinner_id.getSelectedItem().toString()) &&
                                                            choose_price >= 0) {
-                                                       if (user_name.getText().toString().length() <= 10) {
-                                                           if (enroll_number.getText().toString().length() == 11) {
+
+                                                       Pattern p_phone = Pattern.compile("^1[34578]\\d{9}$");
+                                                       Matcher m_phone = p_phone.matcher(enroll_number.getText().toString());
+
+                                                       Pattern p_name = Pattern.compile("^[\u4e00-\u9fa5]+$");
+                                                       Matcher m_name = p_name.matcher(user_name.getText().toString());
+
+                                                       if (m_name.matches()) {
+                                                           if (m_phone.matches()) {
                                                                if (charge_mode == 2) {
-                                                                  Log.i("类型", enroll_spinner_id.getSelectedItem().toString()+"");
+                                                                   Log.i("类型", enroll_spinner_id.getSelectedItem().toString() + "");
                                                                    if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
-                                                                       if (choseimage_state==0) {
+                                                                       if (choseimage_state == 0) {
                                                                            Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
                                                                        } else {
                                                                            Log.i("charge_mode==2", "type==1");
@@ -288,7 +297,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                            creatQRcode();
                                                                            new Thread(uploadRunnable).start();
                                                                        }
-                                                                   } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0){
+                                                                   } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
                                                                        Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
                                                                    } else {
                                                                        creatQRcode();
@@ -305,7 +314,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                            new Thread(QrcodeRunnable).start();
                                                                            Log.i("charge_mode==1", "type==1");
                                                                            break;
-
                                                                        //全部收费
                                                                        case 3:
                                                                            signin_type = "";
@@ -319,7 +327,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                }
                                                            } else {
                                                                Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
-                                                               enroll_number.setText("");
                                                            }
                                                        } else {
                                                            Toast.makeText(context, "请输入正确的姓名!", Toast.LENGTH_SHORT).show();
@@ -359,12 +366,12 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                 try {
                     ScuessImagePath=JsonTools.getUserLog(imagepath);
+
                     Log.i("上传证件照imagepath", ScuessImagePath);
                     new Thread(QrcodeRunnable).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
 
             }
@@ -393,7 +400,9 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+
                     QRcodeImage=JsonTools.getUserLog(imagepath);
+
                     Log.i("上传二维码imagepath", QRcodeImage);
 
                     new Thread(Mode1runnable).start();
@@ -453,25 +462,20 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                         //报名成功的操作
                         switch (charge_mode) {
                             case 1:
-//                                Intent intent = new Intent(context, RegisterSuccess.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("type", "sign_up");
-//                                intent.putExtras(bundle);
-//                                startActivity(intent);
-                                Bundle bundle=new Bundle();
-                                bundle.putString("qrcode_image",QRcodeImage+"");
-                                bundle.putInt("type",2);
-                                DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("qrcode_image", QRcodeImage + "");
+                                bundle.putInt("type", 2);
+                                DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
 
                                 displayQRcodeFragment.setArguments(bundle);
                                 Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
                                 break;
                             case 2:
                                 if (signin_type.equals("1")) {
-                                    Bundle bundle2=new Bundle();
-                                    bundle2.putString("qrcode_image",QRcodeImage+"");
-                                    bundle2.putInt("type",2);
-                                    DisplayQRcodeFragment displayQRcodeFragment2=new DisplayQRcodeFragment();
+                                    Bundle bundle2 = new Bundle();
+                                    bundle2.putString("qrcode_image", QRcodeImage + "");
+                                    bundle2.putInt("type", 2);
+                                    DisplayQRcodeFragment displayQRcodeFragment2 = new DisplayQRcodeFragment();
 
                                     displayQRcodeFragment2.setArguments(bundle2);
                                     Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment2);
@@ -508,7 +512,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     } else {
                         //报名失败
                         String datas = JsonTools.getDatas(result);
-                        Toast.makeText(context, "报名失败..", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, datas, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -550,7 +554,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                         imageFilePath = Environment
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
-                                + "/"+ RandomUtils.getRandomInt()+".jpg";
+                                + "/" + RandomUtils.getRandomInt() + ".jpg";
                         File file = new File(imageFilePath);
                         Uri imageFileUri = Uri.fromFile(file);// 获取文件的Uri
                         Intent it = new Intent(
@@ -607,7 +611,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
 //                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
                     enroll_authentication.setImageBitmap(bmp);
-                    choseimage_state=1;
+                    choseimage_state = 1;
 
                 }
                 break;
@@ -648,7 +652,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     //压缩图片
                     String compressImage = CompressImage.compressBitmap(context, imageFilePath, 300, 300, false);
                     temp = new File(compressImage);
-                    choseimage_state=1;
+                    choseimage_state = 1;
 
 //                    System.out.println(imageFilePath);
                 }

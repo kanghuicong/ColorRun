@@ -44,13 +44,14 @@ public class RegisterPwd extends Activity {
         type = bundle.getString("type");
         // 获取布局控件
         tvnumber = (TextView) findViewById(R.id.tv_registered_3_number);
+        tv_text = (TextView)findViewById(R.id.tv_register_pwd_text) ;
         pwd = (EditText) findViewById(R.id.et_registered3_pwd);
         repwd = (EditText) findViewById(R.id.et_registered3_repwd);
         commit = (Button) findViewById(R.id.btn_registered3_commit);
         tvnumber.setText(bundle.getString("number"));
 
         if ("find_pwd".equals(type)){
-            tv_text.setText("您的账号为：");
+            tv_text.setText("您的账号为:");
             MainBackUtility.MainBackActivity(RegisterPwd.this, "修改密码");
         }else if ("register".equals(type)){
             MainBackUtility.MainBackActivity(RegisterPwd.this, "填写密码");

@@ -21,7 +21,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_head"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -34,16 +34,16 @@
                     android:layout_weight="1"
                     android:text="头像"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:id="@+id/iv_me_head"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/default_avtar"
-                    android:padding="10dp" />
+                    android:padding="5dp" />
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -51,7 +51,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:text="昵称"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_nickname"
@@ -72,7 +72,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -80,7 +80,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_phone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -92,7 +92,7 @@
                     android:layout_weight="1"
                     android:text="电话"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_phone"
@@ -101,7 +101,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -109,7 +109,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -122,7 +122,7 @@
                     android:layout_weight="1"
                     android:text="邮箱"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_email"
@@ -131,13 +131,13 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_me_sex"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -150,7 +150,7 @@
                     android:layout_weight="1"
                     android:text="性别"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_sex"
@@ -160,7 +160,7 @@
                     android:layout_marginRight="20dp"
                     android:text=""
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -168,7 +168,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_height"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -180,7 +180,7 @@
                     android:layout_weight="1"
                     android:text="身高"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_height"
@@ -189,7 +189,7 @@
                     android:layout_gravity="center"
                     android:text=""
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
 
@@ -199,7 +199,7 @@
                     android:layout_marginRight="20dp"
                     android:text="cm"
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
@@ -208,7 +208,7 @@
             <LinearLayout
                 android:id="@+id/ll_me_weight"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -220,7 +220,7 @@
                     android:layout_weight="1"
                     android:text="体重"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_weight"
@@ -229,7 +229,7 @@
                     android:layout_gravity="center"
                     android:text=""
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -238,14 +238,14 @@
                     android:layout_marginRight="20dp"
                     android:text="kg"
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_me_land"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -258,7 +258,7 @@
                     android:layout_weight="1"
                     android:text="地区"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_me_land"
@@ -268,7 +268,7 @@
                     android:layout_marginRight="20dp"
                     android:text=""
                     android:textColor="@color/ViewLine"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <include layout="@layout/mian_splitter" />
@@ -276,54 +276,48 @@
             <LinearLayout
                 android:id="@+id/ll_me_autograph"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
+                    android:layout_gravity="center">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
                         android:layout_weight="1"
                         android:text="个性签名"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="16dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/tv_me_autograph"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="20dp"
-                        android:gravity="center_vertical|right"
+                        android:gravity="center|right"
                         android:singleLine="true"
                         android:text="未填写"
                         android:textColor="@color/ViewLine"
-                        android:textSize="18dp" />
+                        android:textSize="16dp" />
 
                 </LinearLayout>
-
             </LinearLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp" />
+            android:layout_height="45dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -8,8 +8,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,28 +20,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.dao.UserDao;
-import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
-import com.mengshitech.colorrun.utils.Utility;
-
 import org.json.JSONException;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * atenklsy
  */
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends Activity implements OnClickListener, TextWatcher {
     EditText etUserId, etUserPwd;
     Button btnLogin;
     TextView tvRegister, tvFindpwd;
@@ -62,9 +57,11 @@ public class LoginActivity extends Activity implements OnClickListener {
         // 用户名输入框
         etUserId = (EditText) findViewById(R.id.et_name);
         etUserId.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        etUserId.addTextChangedListener(this);
         etUserId.setOnClickListener(this);
         // 密码输入框
         etUserPwd = (EditText) findViewById(R.id.et_pwd);
+        etUserPwd.addTextChangedListener(this);
         etUserPwd.setOnClickListener(this);
         etUserPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16)});
         // 登录按钮
@@ -246,4 +243,22 @@ public class LoginActivity extends Activity implements OnClickListener {
             }
         }
     };
+
+    //监听Editext内容控制按钮变化
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (TextUtils.isEmpty(etUserId.getText().toString()) || TextUtils.isEmpty(etUserPwd.getText().toString())){
+            btnLogin.setBackgroundResource(R.drawable.login_shape_bt_no);
+            btnLogin.setClickable(false);
+        } else {
+            btnLogin.setBackgroundResource(R.drawable.login_shape_bt);
+            btnLogin.setClickable(true);
+        }
+    }
 }

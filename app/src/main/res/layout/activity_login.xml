@@ -57,6 +57,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="20dp"
                 android:background="#ffffff"
+                android:inputType="number"
                 android:ems="10"
                 android:hint="User Id"
                 android:textSize="16sp">
@@ -103,7 +104,8 @@
                 style="@style/layout_vertical"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:background="@drawable/login_shape_bt"
+                android:background="@drawable/login_shape_bt_no"
+                android:clickable="false"
                 android:text="登陆"
                 android:textColor="#FFFFFF" />
 

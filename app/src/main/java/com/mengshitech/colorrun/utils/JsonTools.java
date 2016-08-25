@@ -44,7 +44,7 @@ public class JsonTools {
     public static String getDatas(String jsonString) throws JSONException {
         String result;
         int state = getState("state", jsonString);
-        if (state == 0) {
+        if (state == 1) {
             JSONObject object = new JSONObject(jsonString);
             result = object.getString("datas");
         } else {
@@ -132,9 +132,9 @@ public class JsonTools {
         List<LikeEntity> list = new ArrayList<LikeEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray("datas");
-        if (jsonArray.length()>6){
-            count =6;
-        }else{
+        if (jsonArray.length() > 6) {
+            count = 6;
+        } else {
             count = jsonArray.length();
         }
 
@@ -154,12 +154,15 @@ public class JsonTools {
     //点评信息
     public static List<CommentEntity> getCommentInfo(String key, String jsonString)
             throws JSONException {
+        Log.i("histroy_jsonString", "jsonString");
         List<CommentEntity> list = new ArrayList<CommentEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         int state = jsonObject.getInt("state");
-        if(state == 0){
+        if (state == 0) {
+            Log.i("histroy_state", "111");
             return list;
-        }else {
+
+        } else {
             JSONArray jsonArray = jsonObject.getJSONArray("datas");
             for (int i = 0; i < jsonArray.length(); i++) {
                 CommentEntity info = new CommentEntity();
@@ -173,7 +176,9 @@ public class JsonTools {
                 list.add(info);
             }
         }
+        Log.i("histroy_list", list.size() + "");
         return list;
+
     }
 
     //图片
@@ -386,14 +391,11 @@ public class JsonTools {
     public static String getUserLog(String jsonString)
             throws JSONException {
 
-JSONObject jsonObject=new JSONObject(jsonString);
-        JSONArray jsonArray =jsonObject.getJSONArray("datas");
-
-
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
 
 
         JSONObject object = jsonArray.getJSONObject(0);
-
 
 
         String imagePath = object.getString("imagePath");

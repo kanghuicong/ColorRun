@@ -205,8 +205,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 Toast.makeText(mActivity, "足迹", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLeRunSignUp:
-                new Thread(getQrCodeRunnable).start();
-
+                if (ContentCommon.login_state.equals("1")) {
+                    new Thread(getQrCodeRunnable).start();
+                }else {
+                    Toast.makeText(mActivity,"请先登录...",Toast.LENGTH_SHORT).show();
+                }
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;

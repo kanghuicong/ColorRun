@@ -181,10 +181,10 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         String result = mShowEntity.getShow_image();
         if (result == null || result.equals("")) {
             holder.show_image.setVisibility(View.GONE);
-            Log.i("Show_image", position + "");
         } else {
             holder.show_image.setVisibility(View.VISIBLE);
             try {
+                Log.i("Show_image", position + "");
                 ImageList = JsonTools.getImageInfo(result);
                 imagepath = new ArrayList<String>();
                 for (int i = 0; i < ImageList.size(); i++) {

@@ -1,17 +1,14 @@
 package com.mengshitech.colorrun.fragment.me;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,23 +17,20 @@ import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
-import com.mengshitech.colorrun.fragment.show.CreateShowFragment;
 import com.mengshitech.colorrun.fragment.show.showDetail;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
-import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     View myshowView;
     ShowAdapter mShowAdapter;
     ListView lv_myshow;
@@ -76,7 +70,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         }
     }
 
-
     private void findById() {
 
         lv_myshow = (ListView) myshowView.findViewById(R.id.lv_myshow);
@@ -85,18 +78,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.autoRefresh();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ivShow_CreateShow:
-                CreateShowFragment mCreateShowFragment = new CreateShowFragment();
-                Utility.replace2DetailFragment(fm, mCreateShowFragment);
-                break;
-            default:
-                break;
-        }
     }
 
 

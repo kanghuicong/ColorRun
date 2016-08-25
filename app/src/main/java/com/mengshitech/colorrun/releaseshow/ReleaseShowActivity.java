@@ -256,6 +256,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 try {
                     deleteFile(compressfile);
                     success_imagePath = JsonTools.getDatas(result);
+                    Log.i("success_imagePath",success_imagePath+"");
                     new Thread(ReleaseShowRunnable).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -277,6 +278,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             map.put("user_id", ContentCommon.user_id);
 
             String result = HttpUtils.sendHttpClientPost(ContentCommon.PATH, map, "utf-8");
+            Log.i("success_result",result+"");
 
             Message msg = new Message();
             msg.obj = result;

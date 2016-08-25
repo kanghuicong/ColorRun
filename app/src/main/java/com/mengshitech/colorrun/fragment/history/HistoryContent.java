@@ -47,6 +47,7 @@ import com.mengshitech.colorrun.utils.Utility;
 import org.json.JSONException;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -194,7 +195,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                 pullSwipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
-//上拉加载刷新listview
+                //上拉加载刷新listview
                     if (onload) {
 
                         int state = JsonTools.getState("state", result);
@@ -234,20 +235,9 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                         } else {
                             pullSwipeRefreshLayout.setRefreshing(false);
                         }
-
-
                     } else
                     //进入页面进行listview数据加载
                     {
-//                        try {
-//                            list = JsonTools.getCommentInfo("result",result);
-//                            adapter = new ShowDetailCommentAdpter(HistoryContent.this,list,history_listview);
-//                            history_listview.setAdapter(adapter);
-//                            pullSwipeRefreshLayout.setRefreshing(false);
-//                        }catch (JSONException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//                        }
                         int state = JsonTools.getState("state", result);
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
@@ -257,7 +247,8 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                             pullSwipeRefreshLayout.setRefreshing(false);
                         } else if (state == 0) {
                             history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(HistoryContent.this);
+                            list = new ArrayList<CommentEntity>();
+                            adapter = new ShowDetailCommentAdpter(HistoryContent.this,list,history_listview);
                             history_listview.setAdapter(adapter);
                             pullSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -289,11 +280,15 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onClick(View v) {
-        if (ContentCommon.login_state.equals("1")) {
-            evaluate_content = et_content.getText().toString();
-            new Thread(evaluateRunnable).start();
-        } else {
+        if (ContentCommon.login_state.equals("1")){
+            if ("".equals(et_content.getText().toString())) {
+                Toast.makeText(HistoryContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
+            }else {
+                evaluate_content = et_content.getText().toString();
+                new Thread(evaluateRunnable).start();}
+        } else{
             startActivity(new Intent(HistoryContent.this, LoginActivity.class));
+            Toast.makeText(HistoryContent.this,"请先登录...",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -326,6 +321,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                 if (state == 1) {
                     UserDao dao = new UserDao(HistoryContent.this);
                     UserEntiy modler =  dao.find(ContentCommon.user_id);
+
                     String time_now = DateUtils.getCurrentDate();
                     CommentEntity info = new CommentEntity();
                     info.setUser_name(modler.getUser_name());

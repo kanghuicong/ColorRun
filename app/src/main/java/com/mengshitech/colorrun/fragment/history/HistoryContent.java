@@ -239,6 +239,15 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                     } else
                     //进入页面进行listview数据加载
                     {
+//                        try {
+//                            list = JsonTools.getCommentInfo("result",result);
+//                            adapter = new ShowDetailCommentAdpter(HistoryContent.this,list,history_listview);
+//                            history_listview.setAdapter(adapter);
+//                            pullSwipeRefreshLayout.setRefreshing(false);
+//                        }catch (JSONException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        }
                         int state = JsonTools.getState("state", result);
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
@@ -325,7 +334,6 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                     info.setComment_content(et_content.getText().toString());
                     list.add(0,info);
                     adapter.changeCount(list.size());
-                    Log.i("changeCount",list.size()+"");
                     adapter.notifyDataSetChanged();
 
                     Toast.makeText(HistoryContent.this, "发表成功", Toast.LENGTH_SHORT).show();

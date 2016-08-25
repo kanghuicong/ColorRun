@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * 作者：wschenyongyin on 2016/7/15 14:06
  * 说明:json解析工具类
@@ -153,22 +155,24 @@ public class JsonTools {
     public static List<CommentEntity> getCommentInfo(String key, String jsonString)
             throws JSONException {
         List<CommentEntity> list = new ArrayList<CommentEntity>();
-
         JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        int state = jsonObject.getInt("state");
+        if(state == 0){
+            return list;
+        }else {
+            JSONArray jsonArray = jsonObject.getJSONArray("datas");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                CommentEntity info = new CommentEntity();
+                JSONObject Object = jsonArray.getJSONObject(i);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
-            CommentEntity info = new CommentEntity();
-            JSONObject Object = jsonArray.getJSONObject(i);
+                info.setUser_name(Object.getString("user_name"));
+                info.setUser_header(Object.getString("user_header"));
+                info.setComment_time(Object.getString("comment_time"));
+                info.setComment_content(Object.getString("comment_content"));
 
-            info.setUser_name(Object.getString("user_name"));
-            info.setUser_header(Object.getString("user_header"));
-            info.setComment_time(Object.getString("comment_time"));
-            info.setComment_content(Object.getString("comment_content"));
-
-            list.add(info);
+                list.add(info);
+            }
         }
-
         return list;
     }
 

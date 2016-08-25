@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowDetailCommentAdpter;
 import com.mengshitech.colorrun.adapter.ShowDetailGridViewAdapter;
 import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
@@ -36,9 +38,12 @@ import com.nostra13.universalimageloader.utils.L;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -52,7 +57,7 @@ public class showDetail extends Activity implements View.OnClickListener{
     EditText et_show_comment;
     Button bt_show_comment;
     ListView lv_comment;
-    ShowDetailCommentAdpter lv_adapter;
+
     ShowDetailGridViewAdapter gv_adapter;
     String show_id,comment_userid;
     int state,count;
@@ -60,7 +65,8 @@ public class showDetail extends Activity implements View.OnClickListener{
     LinearLayout ll_like,ll_show_like;
     List<String> ImageList;
     List<String> imagepath = new ArrayList<String>();
-    List<CommentEntity> commentlist;
+    List<CommentEntity> commentlist = new ArrayList<CommentEntity>();
+    ShowDetailCommentAdpter lv_adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -130,7 +136,8 @@ public class showDetail extends Activity implements View.OnClickListener{
                     }else {
                         new Thread(comment_show_runnable).start();}
                 } else{
-                    Toast.makeText(showDetail.this,"没有登录，不能评论哦~",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(showDetail.this, LoginActivity.class));
+                    Toast.makeText(showDetail.this,"请先登录...",Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -165,17 +172,13 @@ public class showDetail extends Activity implements View.OnClickListener{
             } else {
                 try {
                     List<LikeEntity> likelist = JsonTools.getLikeInfo("result",result);
+                    if (likelist != null && !likelist.equals("")) {
+                        show_view.setVisibility(View.VISIBLE);
+                        ll_show_like.setVisibility(View.VISIBLE);
+                    }
                     gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
                     gv_like.setAdapter(gv_adapter);
-                    int state = JsonTools.getState("state",result);
-                    Log.i("点赞state",state+"");
-                    if (state == 1){
-                        gv_adapter = new ShowDetailGridViewAdapter(showDetail.this,likelist,likelist.size());
-                        gv_like.setAdapter(gv_adapter);
-                    } else {
-                        show_view.setVisibility(View.GONE);
-                        ll_show_like.setVisibility(View.GONE);
-                    }
+
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -211,14 +214,11 @@ public class showDetail extends Activity implements View.OnClickListener{
             } else {
                 try {
                     commentlist = JsonTools.getCommentInfo("result",result);
-                    int state = JsonTools.getState("state",result);
-                    if (state == 1){
-                        count = commentlist.size();
-                        lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
-                        lv_comment.setAdapter(lv_adapter);
-                    } else {
-                        comment_text.setVisibility(View.VISIBLE);
+                    lv_adapter = new ShowDetailCommentAdpter(showDetail.this,commentlist,lv_comment);
+                    if (commentlist != null && commentlist.size()!=0) {
+                        comment_text.setVisibility(View.GONE);
                     }
+                    lv_comment.setAdapter(lv_adapter);
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -269,7 +269,7 @@ public class showDetail extends Activity implements View.OnClickListener{
                         info.setUser_header(modler.getUser_header());
                         info.setComment_time(time_now);
                         info.setComment_content(et_show_comment.getText().toString());
-                        commentlist.add(0,info);
+                        commentlist.add(0, info);
                         lv_adapter.changeCount(commentlist.size());
                         Log.i("changeCount",commentlist.size()+"");
                         lv_adapter.notifyDataSetChanged();

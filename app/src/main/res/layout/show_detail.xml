@@ -34,6 +34,7 @@
                 android:id="@+id/ll_show_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -59,6 +60,7 @@
             <View
                 android:id="@+id/show_view"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="1dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/ViewLine" />
@@ -75,8 +77,8 @@
                 android:gravity="center"
                 android:layout_marginTop="50dp"
                 android:text="暂时没人评论哦~"
-                android:textSize="20sp"
-                android:visibility="gone"
+                android:textSize="16sp"
+
                 android:textColor="@color/grey"/>
 
             <View

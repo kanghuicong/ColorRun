@@ -36,6 +36,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.activity.VideoActivity;
 import com.mengshitech.colorrun.adapter.LeRunGridViewAdapter;
 import com.mengshitech.colorrun.adapter.LeRunListViewAdapter;
@@ -81,6 +82,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     // 广告栏是否自动滑动
     List<LeRunEntity> gideviewlist = null;
     private AutoSwipeRefreshLayout mSwipeLayout;
+    private int flag = 0;
 
     //声明AMapLocationClient类对象
     private AMapLocationClient locationClient = null;
@@ -88,6 +90,8 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     private AMapLocationClientOption mLocationOption = null;
 
     Context context;
+    private String lerun_province;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,28 +108,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         if (parent != null) {
             parent.removeView(lerunView);
         }
-        //初始化locationManager方法
-        locationClient = new AMapLocationClient(mActivity);
-        //设置定位回调监听，这里要实现AMapLocationListener接口，AMapLocationListener接口只有onLocationChanged方法可以实现，用于接收异步返回的定位结果，参数是AMapLocation类型。
-        locationClient.setLocationListener(this);
-        //初始化定位参数
-        mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为Hight_Accuracy高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置是否返回地址信息（默认返回地址信息）
-        mLocationOption.setNeedAddress(true);
-        //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(false);
-        //设置是否强制刷新WIFI，默认为强制刷新
-        mLocationOption.setWifiActiveScan(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
-        //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000000);
-        //给定位客户端对象设置定位参数
-        locationClient.setLocationOption(mLocationOption);
-        //启动定位
-        locationClient.startLocation();
+
 
         return lerunView;
 
@@ -168,6 +151,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         lvLerun = (MyListView) lerunView.findViewById(R.id.lvLerun);
         gvHotActivity = (GridView) lerunView.findViewById(R.id.gvHotActivity);
         // 活动的listView
+        Location();
         initView();
     }
 
@@ -178,7 +162,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         //初始化fm给ListView、GridView用
 //热播图片的点击事件
         hotImage.setOnClickListener(this);
-
+        tvleRunCity.setOnClickListener(this);
         tvLeRunActivity.setOnClickListener(this);
         tvLeRunTheme.setOnClickListener(this);
         tvLeRunFootPrint.setOnClickListener(this);
@@ -192,6 +176,8 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+
             case R.id.tvLeRunActivity:
                 // 活动按钮
                 Utility.replace2DetailFragment(fm, new LerunEventListView());
@@ -205,19 +191,37 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 Toast.makeText(mActivity, "足迹", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLeRunSignUp:
-                new Thread(getQrCodeRunnable).start();
+                if (ContentCommon.login_state.equals("1")) {
+                    new Thread(getQrCodeRunnable).start();
+                } else {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    getActivity().startActivity(intent);
+                }
+
 
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvleRunCity:
+//                Utility.replace2DetailFragment(fm,new ChoseProvinceFragment());
+                Utility.replace2DetailFragment(fm, new ChoseProvinceFragment(new ChoseProvinceFragment.GetProvince() {
+                    @Override
+                    public String getprovince(String provice) {
+
+                        Log.i("provice", provice + "");
+                        tvleRunCity.setText(provice);
+                        lerun_province = provice;
+                        handler.sendEmptyMessage(0);
+                        return null;
+                    }
+                }));
                 // 城市选择按钮
                 break;
             case R.id.ivHotView:
 //                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(), video_url));、
 
-                Intent intent=new Intent(context,VideoActivity.class);
-                intent.putExtra("video_url",video_url);
+                Intent intent = new Intent(context, VideoActivity.class);
+                intent.putExtra("video_url", video_url);
                 startActivity(intent);
                 break;
 
@@ -282,6 +286,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "0");
+            map.put("lerun_province", "江西省");
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
@@ -311,6 +316,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
                         gideviewlist.add(entity);
                     }
+
                     gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
                     mSwipeLayout.setRefreshing(false);
 
@@ -319,8 +325,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     e.printStackTrace();
                 }
             }
-
-
         }
     };
 
@@ -357,7 +361,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     VideoEntity entity = list.get(0);
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
-                    Log.i("video_url",video_url+"");
+                    Log.i("video_url", video_url + "");
                     mSwipeLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
@@ -403,10 +407,10 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //                    }
 //                }, qr_image);
 //                dialog.show();
-                Bundle bundle=new Bundle();
-                bundle.putString("qrcode_image",qr_image+"");
-                bundle.putInt("type",1);
-                DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("qrcode_image", qr_image + "");
+                bundle.putInt("type", 1);
+                DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
 
                 displayQRcodeFragment.setArguments(bundle);
                 Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
@@ -418,10 +422,38 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
     @Override
     public void onRefresh() {
-        gvHotActivity.setAdapter(new LeRunGridViewAdapter(mActivity, gideviewlist, fm, gvHotActivity));
+
+
         new Thread(getLunBOimageRunnable).start();
         new Thread(getLeRunRunnable).start();
         new Thread(videoRunnable).start();
+
+    }
+
+
+    private void Location() {
+        //初始化locationManager方法
+        locationClient = new AMapLocationClient(mActivity);
+        //设置定位回调监听，这里要实现AMapLocationListener接口，AMapLocationListener接口只有onLocationChanged方法可以实现，用于接收异步返回的定位结果，参数是AMapLocation类型。
+        locationClient.setLocationListener(this);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为Hight_Accuracy高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(false);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000000);
+        //给定位客户端对象设置定位参数
+        locationClient.setLocationOption(mLocationOption);
+        //启动定位
+        locationClient.startLocation();
     }
 
     @Override
@@ -447,17 +479,33 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //                aMapLocation.getStreetNum();//街道门牌号信息
 //                aMapLocation.getCityCode();//城市编码
 //                aMapLocation.getAdCode();//地区编码
-                tvleRunCity.setText(aMapLocation.getCity());
+                tvleRunCity.setText(aMapLocation.getProvince());
+                lerun_province = aMapLocation.getProvince();
+
+                mSwipeLayout.autoRefresh();
                 Log.e("AmapS", aMapLocation.getCity());
             } else {
+                tvleRunCity.setText("江西省");
+                lerun_province = "江西省";
+                mSwipeLayout.autoRefresh();
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
                         + aMapLocation.getErrorInfo());
+
             }
         }
 
     }
+
+    //handler 更新省份后重新请求数据
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            mSwipeLayout.autoRefresh();
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

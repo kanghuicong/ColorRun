@@ -75,7 +75,7 @@ public class HistoryAdapter extends BaseAdapter {
         holder.history_name.setText(mHistoryEntity.getActivityTitle());
         holder.history_time.setText(mHistoryEntity.getActivityTime());
         holder.history_address.setText(mHistoryEntity.getActivityLoc());
-        Glide.with(mActivity).load(ContentCommon.path + mHistoryEntity.getImageposter()).into(holder.image_background);
+        Glide.with(mActivity).load(ContentCommon.path + mHistoryEntity.getImageposter()).error(R.mipmap.defaut_error_long).into(holder.image_background);
 
         return convertView;
     }

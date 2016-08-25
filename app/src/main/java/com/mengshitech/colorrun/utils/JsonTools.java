@@ -35,7 +35,7 @@ public class JsonTools {
         JSONObject object = new JSONObject(jsonString);
         int state = object.getInt(key);
 
-        Log.i("state",state+"");
+
         return state;
     }
 

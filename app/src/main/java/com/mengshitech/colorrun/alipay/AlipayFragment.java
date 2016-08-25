@@ -23,12 +23,22 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.fragment.lerun.DisplayQRcodeFragment;
+import com.mengshitech.colorrun.utils.CompressImage;
+import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.HttpUtils;
+import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.Utility;
+
+import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -46,26 +56,17 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private String user_name;
     private String lerun_title;
     private String lerun_price;
+    private String qrcode_image;
+    private String user_id;
+    private String user_telphone;
+    private String payresult;
 
-    public static final String PARTNER = "2088911677454020";
+    public static final String PARTNER = "2088421712740222";
     // 商户收款账号
     public static final String SELLER = "752664184@qq.com";
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAN+YiddUabYk2z92\n" +
-            "rn9ed4/zZN8Fz0rB+KMweWnWjlVHdpnLfqNEO7jf37eMAd+3PaVeMXZ1egpnHXyo\n" +
-            "oLTtpf1g+3YHTFmaOGOLpHy2Tj5eU0y6ljjnweQZ7rM0qe/D3ool84UIZzqUbgPn\n" +
-            "t1rkEZkjwIGx8A8kNeWZcaj77xshAgMBAAECgYB/bcmxBJSyj9K8GoFcaZQuYAJu\n" +
-            "8DqxWla/elLXtMWtaGr5P3ZOygZXWI+BZbNzslTZuBLsdgs1forZjqj4NDBSZCMz\n" +
-            "MCYgbrtYSVoNIWr92VHLX4onGaj8LEACZoBnF1zsgO1ErzRkzE7UQYNKHrbUiPN1\n" +
-            "3x0npGJwNhzs6WKMmQJBAPzGZVlUMWese8Y9Rqzdi44YCSz0ze3xYBBRqBo5W0jm\n" +
-            "PAeRAHbruOTLt4bLMdiHpTh3K5AY3L4t84hbDaWp3/cCQQDicta51OVIMXcx4ySv\n" +
-            "nBqDd9zpO1QqrvybKl6/O9x2qlyG6UIRFZmdn76pRv4/hwY/l3snbS+6hxIuY3mj\n" +
-            "48enAkAEjxd42vnhIs1AsA48Q+qmb2yK8QddyUKwSKi9gFdTI0Pl5wmZG3tENSBk\n" +
-            "P/nwK9IhCJUyjiA9FdsUlH/UgxHVAkEA2SS9+xzHcF7eqZvihfLvCbpav9wAbZ22\n" +
-            "5SPQDxjb436hk00B6VgJIjkYn0JQc6KKv1gG5FuzNO5o5MrGzf2SaQJBANqYIsLq\n" +
-            "TBpTpMX1uuh1RxyNDy3d/f00acSpHMsPaMITz52wdcHLwyZuW46Dwv/3v2OoraoY\n" +
-            "DA2mSPzy2u1coFI=\n";    // 支付宝公钥
-    public static final String RSA_PUBLIC = "";
+    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAN+YiddUabYk2z92rn9ed4/zZN8Fz0rB+KMweWnWjlVHdpnLfqNEO7jf37eMAd+3PaVeMXZ1egpnHXyooLTtpf1g+3YHTFmaOGOLpHy2Tj5eU0y6ljjnweQZ7rM0qe/D3ool84UIZzqUbgPnt1rkEZkjwIGx8A8kNeWZcaj77xshAgMBAAECgYB/bcmxBJSyj9K8GoFcaZQuYAJu8DqxWla/elLXtMWtaGr5P3ZOygZXWI+BZbNzslTZuBLsdgs1forZjqj4NDBSZCMzMCYgbrtYSVoNIWr92VHLX4onGaj8LEACZoBnF1zsgO1ErzRkzE7UQYNKHrbUiPN13x0npGJwNhzs6WKMmQJBAPzGZVlUMWese8Y9Rqzdi44YCSz0ze3xYBBRqBo5W0jmPAeRAHbruOTLt4bLMdiHpTh3K5AY3L4t84hbDaWp3/cCQQDicta51OVIMXcx4ySvnBqDd9zpO1QqrvybKl6/O9x2qlyG6UIRFZmdn76pRv4/hwY/l3snbS+6hxIuY3mj48enAkAEjxd42vnhIs1AsA48Q+qmb2yK8QddyUKwSKi9gFdTI0Pl5wmZG3tENSBkP/nwK9IhCJUyjiA9FdsUlH/UgxHVAkEA2SS9+xzHcF7eqZvihfLvCbpav9wAbZ225SPQDxjb436hk00B6VgJIjkYn0JQc6KKv1gG5FuzNO5o5MrGzf2SaQJBANqYIsLqTBpTpMX1uuh1RxyNDy3d/f00acSpHMsPaMITz52wdcHLwyZuW46Dwv/3v2OoraoYDA2mSPzy2u1coFI=";    // 支付宝公钥
+    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfmInXVGm2JNs/dq5/XneP82Tf Bc9KwfijMHlp1o5VR3aZy36jRDu439+3jAHftz2lXjF2dXoKZx18qKC07aX9YPt2 B0xZmjhji6R8tk4+XlNMupY458HkGe6zNKnvw96KJfOFCGc6lG4D57da5BGZI8CB sfAPJDXlmXGo++8bIQIDAQAB";
     public static final int SDK_PAY_FLAG = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +80,10 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private void GetData() {
         user_name = getArguments().getString("user_name");
         lerun_title = getArguments().getString("lerun_title");
+        qrcode_image = getArguments().getString("qrcode_image");
         lerun_price = getArguments().getInt("lerun_price") + "";
+        user_id = ContentCommon.user_id;
+        user_telphone = getArguments().getString("user_telphone");
 
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -116,77 +120,72 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_play:
 
-                if(pay_way.equals("zfb")){
+                if (pay_way.equals("zfb")) {
                     //支付宝支付
                     pay();
-                }else if(pay_way.equals("wx")){
+                } else if (pay_way.equals("wx")) {
                     //微信支付
-                    Toast.makeText(getActivity(),"微信支付还未完善",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(),"请选择付款方式",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "微信支付还未完善", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "请选择付款方式", Toast.LENGTH_SHORT).show();
                 }
 
-                    break;
+                break;
 
             default:
                 break;
+        }
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    PayResult payResult = new PayResult((String) msg.obj);
+                    /**
+                     * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
+                     * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
+                     * docType=1) 建议商户依赖异步通知
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+
+                    Log.i("支付宝状态:", resultStatus + "");
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        Toast.makeText(context, "支付成功", Toast.LENGTH_LONG).show();
+                        payresult=payResult.getResult();
+                        new Thread(runnable).start();
+                    } else {
+                        // 判断resultStatus 为非"9000"则代表可能支付失败
+                        // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                        if (TextUtils.equals(resultStatus, "8000")) {
+                            Toast.makeText(context, "支付结果确认中", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                            Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                    break;
                 }
+                default:
+                    break;
+            }
         }
 
-
-        @SuppressLint("HandlerLeak")
-        private Handler mHandler = new Handler() {
-            @SuppressWarnings("unused")
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case SDK_PAY_FLAG: {
-                        PayResult payResult = new PayResult((String) msg.obj);
-                        /**
-                         * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
-                         * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
-                         * docType=1) 建议商户依赖异步通知
-                         */
-                        String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-
-                        String resultStatus = payResult.getResultStatus();
-                        // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-                        if (TextUtils.equals(resultStatus, "9000")) {
-                            Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // 判断resultStatus 为非"9000"则代表可能支付失败
-                            // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                            if (TextUtils.equals(resultStatus, "8000")) {
-                                Toast.makeText(context, "支付结果确认中", Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                                Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                        break;
-                    }
-                    default:
-                        break;
-                }
-            }
-
-            ;
-        };
+        ;
+    };
 
     public void pay() {
-//        if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE) || TextUtils.isEmpty(SELLER)) {
-//            new AlertDialog.Builder(context).setTitle("警告").setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
-//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialoginterface, int i) {
-//                            //
-//                            getActivity().finish();
-//                        }
-//                    }).show();
-//            return;
-//        }
+
         //订单信息
-        String orderInfo = getOrderInfo(lerun_title, "该测试商品的详细描述", lerun_price);
+        String orderInfo = getOrderInfo(lerun_title+"(卡乐体育)", user_id+"", lerun_price);
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -339,5 +338,56 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private String getSignType() {
         return "sign_type=\"RSA\"";
     }
+
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            String path = ContentCommon.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "lerun");
+            map.put("index", "5");
+            map.put("user_id", user_id);
+            map.put("payment", lerun_price);
+            map.put("user_phone", user_telphone);
+            map.put("payResult",payresult+"");
+
+            String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
+            Message msg = new Message();
+            msg.obj = result;
+            handle.sendMessage(msg);
+        }
+    };
+
+    Handler handle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String result = (String) msg.obj;
+            if (result.equals("timeout")) {
+                //连接服务器超时
+
+            } else {
+                try {
+                    int state = JsonTools.getState("state", result);
+                    if (state == 1) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("qrcode_image", qrcode_image + "");
+                        bundle.putInt("type", 5);
+                        DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
+
+                        displayQRcodeFragment.setArguments(bundle);
+                        Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                    } else {
+                        //更新付款状态失败
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
 }

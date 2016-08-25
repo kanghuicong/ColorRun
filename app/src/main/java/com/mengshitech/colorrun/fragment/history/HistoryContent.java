@@ -239,28 +239,29 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                     } else
                     //进入页面进行listview数据加载
                     {
-//                        try {
-//                            list = JsonTools.getCommentInfo("result",result);
-//                            adapter = new ShowDetailCommentAdpter(HistoryContent.this,list,history_listview);
+                        try {
+                            list = JsonTools.getCommentInfo("result",result);
+                            adapter = new ShowDetailCommentAdpter(HistoryContent.this,list,history_listview);
+                            history_listview.setAdapter(adapter);
+                            history_listview.addHeaderView(view);
+                            pullSwipeRefreshLayout.setRefreshing(false);
+                        }catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+//                        int state = JsonTools.getState("state", result);
+//                        if (state == 1) {
+//                            list = JsonTools.getLeRunEvaluate("datas", result);
+//                            history_listview.addHeaderView(view);
+//                            adapter = new ShowDetailCommentAdpter(HistoryContent.this, list,history_listview);
 //                            history_listview.setAdapter(adapter);
 //                            pullSwipeRefreshLayout.setRefreshing(false);
-//                        }catch (JSONException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
+//                        } else if (state == 0) {
+//                            history_listview.addHeaderView(view);
+//                            adapter = new ShowDetailCommentAdpter(HistoryContent.this);
+//                            history_listview.setAdapter(adapter);
+//                            pullSwipeRefreshLayout.setRefreshing(false);
 //                        }
-                        int state = JsonTools.getState("state", result);
-                        if (state == 1) {
-                            list = JsonTools.getLeRunEvaluate("datas", result);
-                            history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(HistoryContent.this, list,history_listview);
-                            history_listview.setAdapter(adapter);
-                            pullSwipeRefreshLayout.setRefreshing(false);
-                        } else if (state == 0) {
-                            history_listview.addHeaderView(view);
-                            adapter = new ShowDetailCommentAdpter(HistoryContent.this);
-                            history_listview.setAdapter(adapter);
-                            pullSwipeRefreshLayout.setRefreshing(false);
-                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -323,11 +324,14 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
             String result = (String) msg.obj;
             try {
                 int state = JsonTools.getState("state", result);
+                Log.i("state","状态"+state);
                 if (state == 1) {
                     UserDao dao = new UserDao(HistoryContent.this);
                     UserEntiy modler =  dao.find(ContentCommon.user_id);
                     String time_now = DateUtils.getCurrentDate();
+                    Log.i("state2","状态"+state);
                     CommentEntity info = new CommentEntity();
+                    Log.i("state3","状态"+state);
                     info.setUser_name(modler.getUser_name());
                     info.setUser_header(modler.getUser_header());
                     info.setComment_time(time_now);

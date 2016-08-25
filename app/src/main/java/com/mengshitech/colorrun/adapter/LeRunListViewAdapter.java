@@ -110,7 +110,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
         }
 
         animation= AnimationUtils.loadAnimation(mActivity,R.anim.lerun_like);
-        Glide.with(mActivity).load(ContentCommon.path+mLeRunEntity.getLerun_poster()).into( holder.ivLeRunBackground);
+        Glide.with(mActivity).load(ContentCommon.path+mLeRunEntity.getLerun_poster()).error(R.mipmap.defaut_error_square).into( holder.ivLeRunBackground);
         holder.tvLeRunName.setText(mLeRunEntity.getLerun_title());
         holder.tvLeRunLocation.setText(mLeRunEntity.getLerun_address());
         holder.tvLeRunTime.setText(mLeRunEntity.getLerun_time());

@@ -102,6 +102,29 @@
             android:text="上拉加载或者说滚动到底部时自动加载，都是通过判断是否滚动到了ListView或者其他View的底部，然后触发相应的操作，这里我们以ListView来说明。因此我们需要在监听ListView的滚动事件,当ListView滚动到底部时自动触发加载操作；但是当用户支持手指滑动屏幕，没有滚动时，我们也需要让它加载，因此这种情形就是上拉加载更多。所以我们需要在触摸事件里面进行判断，如果到了底部，且用户是上拉操作，那么执行加载更多。更多关于下拉刷新、上拉加载请参考打造通用的Android下拉刷新组件(适用于ListView、GridView等各类View)"
             android:textSize="15sp" />
 
+        <include layout="@layout/mian_splitter"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@mipmap/temp_icon"
+            android:text="评论"
+            android:textSize="16dp"
+            android:drawablePadding="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_history_comment_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="暂时没人评论哦~"
+            android:textSize="16sp"
+            android:textColor="@color/grey"/>
+
     </LinearLayout>
 
 </LinearLayout>

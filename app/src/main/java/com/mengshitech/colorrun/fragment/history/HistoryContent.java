@@ -56,7 +56,7 @@ import java.util.Map;
  * wschenyongyin
  */
 public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRefreshListener, BottomPullSwipeRefreshLayout.OnLoadListener, View.OnClickListener {
-    private TextView history_title, history_time,history_content;
+    private TextView history_title, history_time,history_content,history_text;
     private ImageView history_poster;
     private ListView history_listview;
     private View view;
@@ -90,7 +90,6 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         lerun_id = bundle.getInt("lerun_id");
-        Log.i("lerun_id",lerun_id+"");
     }
 
     private void FindId() {
@@ -104,6 +103,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
         tv_score = (TextView) view.findViewById(R.id.tv_score);
         tv_host = (TextView) view.findViewById(R.id.tv_host);
         tv_peoplenum = (TextView) view.findViewById(R.id.tv_peoplenum);
+        history_text = (TextView) view.findViewById(R.id.tv_history_comment_text) ;
         btn_send = (Button) findViewById(R.id.btn_send);
         et_content = (EditText) findViewById(R.id.et_content);
         footview = (LinearLayout) findViewById(R.id.footview);
@@ -244,6 +244,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                             history_listview.addHeaderView(view);
                             adapter = new ShowDetailCommentAdpter(HistoryContent.this, list,history_listview);
                             history_listview.setAdapter(adapter);
+                            history_text.setVisibility(View.GONE);
                             pullSwipeRefreshLayout.setRefreshing(false);
                         } else if (state == 0) {
                             history_listview.addHeaderView(view);
@@ -334,9 +335,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
 
                     Toast.makeText(HistoryContent.this, "发表成功", Toast.LENGTH_SHORT).show();
                     et_content.setText("");
-
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    history_text.setVisibility(View.GONE);
                 } else {
 
                 }

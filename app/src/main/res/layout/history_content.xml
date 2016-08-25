@@ -6,9 +6,6 @@
 
     <include layout="@layout/main_back" />
 
-
-
-
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/bottomRefesh"
         android:layout_width="match_parent"

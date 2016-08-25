@@ -382,16 +382,17 @@ public class JsonTools {
     public static String getUserLog(String jsonString)
             throws JSONException {
 
-
-        JSONArray jsonArray = new JSONArray(jsonString);
-
-        List<String> list = new ArrayList<>();
+JSONObject jsonObject=new JSONObject(jsonString);
+        JSONArray jsonArray =jsonObject.getJSONArray("datas");
 
 
-        JSONObject jsonObject = jsonArray.getJSONObject(0);
-        String imagePath = jsonObject.getString("imagePath");
 
 
+        JSONObject object = jsonArray.getJSONObject(0);
+
+
+
+        String imagePath = object.getString("imagePath");
         return imagePath;
     }
 

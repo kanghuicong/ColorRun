@@ -271,7 +271,6 @@ public class showDetail extends Activity implements View.OnClickListener{
                         info.setComment_content(et_show_comment.getText().toString());
                         commentlist.add(0, info);
                         lv_adapter.changeCount(commentlist.size());
-                        Log.i("changeCount",commentlist.size()+"");
                         lv_adapter.notifyDataSetChanged();
                         et_show_comment.setText("");
                     } else {

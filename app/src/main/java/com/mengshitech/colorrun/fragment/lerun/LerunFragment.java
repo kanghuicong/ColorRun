@@ -396,14 +396,20 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             try {
                 String qr_image = JsonTools.getDatas(result);
 
-                dialog = new QrcodeDialog(mActivity, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                }, qr_image);
-                dialog.show();
+//                dialog = new QrcodeDialog(mActivity, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                }, qr_image);
+//                dialog.show();
+                Bundle bundle=new Bundle();
+                bundle.putString("qrcode_image",qr_image+"");
+                bundle.putInt("type",1);
+                DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
 
+                displayQRcodeFragment.setArguments(bundle);
+                Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

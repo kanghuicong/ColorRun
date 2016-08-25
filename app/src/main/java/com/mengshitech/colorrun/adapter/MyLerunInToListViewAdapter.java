@@ -23,6 +23,7 @@ import com.mengshitech.colorrun.bean.QrcodeBean;
 import com.mengshitech.colorrun.customcontrols.QrcodeDialog;
 import com.mengshitech.colorrun.fragment.history.HistoryContent;
 import com.mengshitech.colorrun.fragment.history.HistoryFragment;
+import com.mengshitech.colorrun.fragment.lerun.DisplayQRcodeFragment;
 import com.mengshitech.colorrun.fragment.lerun.LeRunPayment;
 import com.mengshitech.colorrun.fragment.me.LerunEvaluateFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -101,7 +102,7 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
             holder = (Holder) view.getTag();
         }
         if (info.getImagePath() != null && !info.getImagePath().equals("")) {
-           Drawable drawable=context.getResources().getDrawable(R.drawable.defaut_error_square);
+            Drawable drawable = context.getResources().getDrawable(R.drawable.defaut_error_square);
             FileNotFoundException e;
             Glide.with(context).load(ContentCommon.path + info.getImagePath()).into(holder.mylerun_qrcode);
         }
@@ -111,26 +112,31 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
         int evaluate_state = info.getEvaluate_state();
         int charge_state = info.getCharge_state();
         int sign_state = info.getSign_state();
-        switch (charge_state) {
+        int check_state = info.getCheck_state();
+        switch (check_state) {
             case 0:
-                holder.charge_state.setText("未付款");
+                holder.charge_state.setText("审核中");
                 break;
             case 1:
-                if (sign_state == 0) {
-                    holder.charge_state.setText("未签到");
-                } else if (sign_state == 1) {
+                if (charge_state == 1) {
+                    if (sign_state == 0) {
+                        holder.charge_state.setText("未签到");
+                    } else if (sign_state == 1) {
 
-                    if (evaluate_state == 1) {
-                        holder.charge_state.setText("已评价");
-                    } else {
-                        holder.charge_state.setText("未评价");
+                        if (evaluate_state == 1) {
+                            holder.charge_state.setText("已评价");
+                        } else {
+                            holder.charge_state.setText("未评价");
+                        }
                     }
+                } else {
+                    holder.charge_state.setText("未付款");
                 }
 
-
-//                holder.charge_state.setText("已付款");
                 break;
-
+            case 2:
+                holder.charge_state.setText("审核未通过");
+                break;
             default:
                 break;
         }
@@ -146,57 +152,75 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         QrcodeBean info = list.get(position);
-        lerun_id=info.getLerun_id();
+        String qr_image = info.getImagePath();
+        lerun_id = info.getLerun_id();
         int evaluate_state = info.getEvaluate_state();
         int charge_state = info.getCharge_state();
         int sign_state = info.getSign_state();
-        String user_telphone=info.getUser_telphone();
+        int check_state = info.getCheck_state();
+        String user_telphone = info.getUser_telphone();
 
-        if (charge_state == 0) {
-            Bundle bundle = new Bundle();
-            bundle.putString("user_name", info.getPersonal_name());
-            bundle.putString("lerun_title", info.getLerun_title());
-            bundle.putInt("lerun_price", info.getPayment());
+        if(check_state==0){
+            Bundle bundle=new Bundle();
+            bundle.putString("qrcode_image",qr_image+"");
+            bundle.putInt("type",3);
+            DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
+            displayQRcodeFragment.setArguments(bundle);
+            Utility.replace2DetailFragment(mFragmentManager, displayQRcodeFragment);
 
-            AlipayFragment alipayFragment = new AlipayFragment();
-            alipayFragment.setArguments(bundle);
-            Utility.replace2DetailFragment(mFragmentManager, alipayFragment);
-        } else if (charge_state == 1) {
-            String qr_image = info.getImagePath();
+        }else if(check_state==1){
+            if (charge_state == 0) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_name", info.getPersonal_name());
+                bundle.putString("lerun_title", info.getLerun_title());
+                bundle.putInt("lerun_price", info.getPayment());
 
-            if (sign_state == 0) {
-                dialog = new QrcodeDialog(context, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
+                AlipayFragment alipayFragment = new AlipayFragment();
+                alipayFragment.setArguments(bundle);
+                Utility.replace2DetailFragment(mFragmentManager, alipayFragment);
+            } else if (charge_state == 1) {
+
+
+                if (sign_state == 0) {
+                    Bundle bundle=new Bundle();
+                    bundle.putString("qrcode_image",qr_image+"");
+                    bundle.putInt("type",4);
+                    DisplayQRcodeFragment displayQRcodeFragment=new DisplayQRcodeFragment();
+                    displayQRcodeFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(mFragmentManager, displayQRcodeFragment);
+                }
+                //已经签到
+                else if (sign_state == 1) {
+                    //评价了
+                    if (evaluate_state == 1) {
+
+                        Intent intent = new Intent(context, HistoryContent.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("lerun_id", lerun_id);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
-                }, qr_image);
-                dialog.show();
-            }
-            //已经签到
-            else if (sign_state == 1) {
-                //评价了
-                if (evaluate_state == 1) {
+                    //未评价
+                    else {
+                        LerunEvaluateFragment lerunEvaluateFragment = new LerunEvaluateFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("lerun_id", lerun_id);
+                        bundle.putString("user_telphone", user_telphone);
+                        lerunEvaluateFragment.setArguments(bundle);
+                        Utility.replace2DetailFragment(mFragmentManager, lerunEvaluateFragment);
+                    }
+                }
 
-                    Intent intent = new Intent(context, HistoryContent.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("lerun_id", lerun_id);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                }
-                //未评价
-                else {
-                    LerunEvaluateFragment lerunEvaluateFragment=new LerunEvaluateFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("lerun_id", lerun_id);
-                    bundle.putString("user_telphone",user_telphone);
-                    lerunEvaluateFragment.setArguments(bundle);
-                    Utility.replace2DetailFragment(mFragmentManager, lerunEvaluateFragment);
-                }
+
             }
 
+        }else if(check_state==2){
 
         }
+
+
+
+
 
 
     }

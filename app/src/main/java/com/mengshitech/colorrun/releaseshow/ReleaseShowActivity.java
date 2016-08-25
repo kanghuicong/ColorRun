@@ -368,7 +368,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 compressimage = imagepath;
             } else {
 
-                compressimage = CompressImage.compressBitmap(ReleaseShowActivity.this, imagepath, 300, 300, false);
+                compressimage = CompressImage.compressBitmap(ReleaseShowActivity.this, imagepath, 300, 300, true);
             }
             imageList.add(compressimage);
         }

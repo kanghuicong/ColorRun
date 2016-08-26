@@ -104,7 +104,7 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
         if (info.getImagePath() != null && !info.getImagePath().equals("")) {
             Drawable drawable = context.getResources().getDrawable(R.drawable.defaut_error_square);
             FileNotFoundException e;
-            Glide.with(context).load(ContentCommon.path + info.getImagePath()).into(holder.mylerun_qrcode);
+            Glide.with(context).load(ContentCommon.path + info.getImagePath()).error(R.mipmap.defaut_error_square).into(holder.mylerun_qrcode);
         }
         holder.mylerun_username.setText(info.getPersonal_name());
         holder.mylerun_title.setText(info.getLerun_title());

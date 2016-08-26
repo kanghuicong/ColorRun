@@ -75,7 +75,7 @@ public class LeRunEventListviewAdapter extends BaseAdapter implements OnClickLis
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(ContentCommon.path+entity.getLerun_poster()).into(holder.imageview);
+        Glide.with(context).load(ContentCommon.path+entity.getLerun_poster()).error(R.mipmap.defaut_error_long).into(holder.imageview);
         holder.lerun_envent_time.setText(entity.getLerun_time());
         holder.lerun_event_address.setText(entity.getLerun_address());
         holder.lerun_event_name.setText(entity.getLerun_title());

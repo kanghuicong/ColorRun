@@ -166,8 +166,8 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                 try {
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
-                        String datas = JsonTools.getDatas(result);
-                        ScuessImagePath = JsonTools.getUserLog(datas);
+//                        String datas = JsonTools.getDatas(result);
+                        ScuessImagePath = JsonTools.getUserLog(result);
 //                        ScuessImagePath=list.get(0);
 
                         Log.i("ScuessImagePath", ScuessImagePath + "ssss");

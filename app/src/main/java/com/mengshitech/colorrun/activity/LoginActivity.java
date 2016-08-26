@@ -168,24 +168,9 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                         ContentCommon.login_state = "1";
                         ContentCommon.user_id = userId;
                         editor.commit();
+                        new Thread(user_runnable).start();
+                        Log.i("aaaaaaaa", "fffffffff");
 
-                        UserDao dao = new UserDao(LoginActivity.this);
-                        UserEntiy modler = dao.find(userId);
-                        Log.i("UserEntiy modler", modler + "");
-                        Log.i("UserEntiy", "UserEntiy");
-                        if (modler == null) {
-                            new Thread(user_runnable).start();    Log.i("aaaaaaaa", "fffffffff");
-                        }
-
-//                        Intent inetnt = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(inetnt);
-                        Context context=LoginActivity.this;
-                        Intent intent = new Intent();
-
-                        intent.setAction("refresh");
-                        context.sendBroadcast(intent);
-                        Log.i("sssssssssss", "fffffffff");
-                        finish();
                         break;
                     default:
                         break;
@@ -216,36 +201,41 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
             try {
                 UserEntiy userEntiy = JsonTools.getUserInfo("result", result);
                 Log.i("result", result + "");
+
+
                 UserDao dao = new UserDao(LoginActivity.this);
-//                    UserEntiy modler = new UserEntiy(userEntiy.getUser_bankid(),
-//                            userEntiy.getUser_id(),
-//                            userEntiy.getUser_pwd(),
-//                            userEntiy.getUser_name(),
-//                            userEntiy.getUser_birthday(),
-//                            userEntiy.getUser_sex(),
-//                            userEntiy.getUser_header(),
-//                            userEntiy.getUser_identity(),
-//                            userEntiy.getUser_address(),
-//                            userEntiy.getUser_fullname(),
-//                            userEntiy.getUser_level(),
-//                            userEntiy.getUser_height(),
-//                            userEntiy.getUser_health(),
-//                            userEntiy.getUser_weight(),
-//                            userEntiy.getUser_sign(),
-//                            userEntiy.getUser_phone(),
-//                            userEntiy.getUser_email(),
-//                            userEntiy.getUser_state(),
-//                            userEntiy.getUser_otherid());
-                dao.add(userEntiy.getUser_id(),
-                        userEntiy.getUser_name(),
-                        userEntiy.getUser_header(),
-                        userEntiy.getUser_phone(),
-                        userEntiy.getUser_email(),
-                        userEntiy.getUser_sex(),
-                        userEntiy.getUser_height(),
-                        userEntiy.getUser_weight(),
-                        userEntiy.getUser_address(),
-                        userEntiy.getUser_sign());
+                UserEntiy modler = dao.find(userId);
+
+                if (modler == null) {
+                    dao.add(userEntiy.getUser_id(),
+                            userEntiy.getUser_name(),
+                            userEntiy.getUser_header(),
+                            userEntiy.getUser_phone(),
+                            userEntiy.getUser_email(),
+                            userEntiy.getUser_sex(),
+                            userEntiy.getUser_height(),
+                            userEntiy.getUser_weight(),
+                            userEntiy.getUser_address(),
+                            userEntiy.getUser_sign());
+                } else {
+                    dao.updateAll(userEntiy.getUser_id(),
+                            userEntiy.getUser_name(),
+                            userEntiy.getUser_header(),
+                            userEntiy.getUser_phone(),
+                            userEntiy.getUser_email(),
+                            userEntiy.getUser_sex(),
+                            userEntiy.getUser_height(),
+                            userEntiy.getUser_weight(),
+                            userEntiy.getUser_address(),
+                            userEntiy.getUser_sign());
+                }
+
+                Context context = LoginActivity.this;
+                Intent intent = new Intent();
+                intent.setAction("refresh");
+                context.sendBroadcast(intent);
+                finish();
+
 
             } catch (JSONException e) {
                 // TODO Auto-generated catch block

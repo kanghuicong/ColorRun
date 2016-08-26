@@ -138,7 +138,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
         //头像
         String header_path = ContentCommon.path + mShowEntity.getUser_header();
-        Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).into(holder.user_header);
+        Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).error(R.mipmap.default_avtar).into(holder.user_header);
 
         //读取基本数据
         holder.user_name.setText(mShowEntity.getUser_name());

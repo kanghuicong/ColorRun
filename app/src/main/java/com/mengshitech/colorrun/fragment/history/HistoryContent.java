@@ -238,6 +238,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                     } else
                     //进入页面进行listview数据加载
                     {
+
                         int state = JsonTools.getState("state", result);
                         if (state == 1) {
                             list = JsonTools.getLeRunEvaluate("datas", result);
@@ -319,12 +320,15 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
             String result = (String) msg.obj;
             try {
                 int state = JsonTools.getState("state", result);
+                Log.i("state","状态"+state);
                 if (state == 1) {
                     UserDao dao = new UserDao(HistoryContent.this);
                     UserEntiy modler =  dao.find(ContentCommon.user_id);
 
                     String time_now = DateUtils.getCurrentDate();
+                    Log.i("state2","状态"+state);
                     CommentEntity info = new CommentEntity();
+                    Log.i("state3","状态"+state);
                     info.setUser_name(modler.getUser_name());
                     info.setUser_header(modler.getUser_header());
                     info.setComment_time(time_now);

@@ -89,7 +89,7 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
             view = convertView;
             holder = (Holder) view.getTag();
         }
-        Glide.with(context).load(ContentCommon.path + info.getLerun_poster()).into(holder.mylerun_poster);
+        Glide.with(context).load(ContentCommon.path + info.getLerun_poster()).error(R.mipmap.defaut_error_long).into(holder.mylerun_poster);
         holder.mylerun_name.setText(info.getLerun_title());
         holder.mylerun_time.setText(info.getLerun_time());
         holder.mylerun_address.setText(info.getLerun_address());

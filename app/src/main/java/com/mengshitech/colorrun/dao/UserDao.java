@@ -129,6 +129,15 @@ public class UserDao {
         }
     }
 
+    public void updateAll(String user_id,String user_name,String user_header,String user_phone,String user_email,String user_sex,String user_height,String user_weight,String user_address,String user_sign){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL(
+                "update  user set user_name=?,user_header=?,user_phone=?,user_email=?,user_sex=? ,user_height=?,user_weight=?,user_address=?,user_sign=? where user_id=?",
+                new Object[] { user_name,user_header,user_phone,user_email,user_sex,user_height,user_weight,user_address,user_sign,user_id });
+        db.close();
+    }
+
+
     public void delete_user (String user_id) {
         db = dbHelper.getWritableDatabase();
         db.execSQL("delete from user where user_id = ?" +

@@ -112,6 +112,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     private int choseimage_state = 0;
     FragmentManager fragmentManager;
     Activity activity;
+    private String user_telphone;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -266,6 +267,9 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         bt_enroll_agree.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
+
+                                                   user_telphone=enroll_number.getText().toString();
+
                                                    if (!"".equals(user_name.getText().toString()) &&
                                                            !"".equals(card_number.getText().toString()) &&
                                                            !"".equals(enroll_unit.getText().toString()) &&
@@ -361,8 +365,8 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else {
 
                 try {
-                    String datas = JsonTools.getDatas(imagepath);
-                    ScuessImagePath = JsonTools.getUserLog(datas);
+                    ScuessImagePath=JsonTools.getUserLog(imagepath);
+
                     Log.i("上传证件照imagepath", ScuessImagePath);
                     new Thread(QrcodeRunnable).start();
                 } catch (JSONException e) {
@@ -396,8 +400,9 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    String datas = JsonTools.getDatas(imagepath);
-                    QRcodeImage = JsonTools.getUserLog(datas);
+
+                    QRcodeImage=JsonTools.getUserLog(imagepath);
+
                     Log.i("上传二维码imagepath", QRcodeImage);
 
                     new Thread(Mode1runnable).start();
@@ -451,6 +456,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    Log.i("报名",result+"sssssss");
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
@@ -478,7 +484,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     Bundle bundle3 = new Bundle();
                                     bundle3.putString("user_name", user_name.getText().toString());
                                     bundle3.putString("lerun_title", enroll_name.getText().toString());
+                                    bundle3.putString("qrcode_image", QRcodeImage+"");
                                     bundle3.putInt("lerun_price", choose_price);
+                                    bundle3.putString("user_telphone",user_telphone);
+
                                     Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                     AlipayFragment alipayFragment = new AlipayFragment();
                                     alipayFragment.setArguments(bundle3);
@@ -491,6 +500,8 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                 bundle4.putString("user_name", user_name.getText().toString());
                                 bundle4.putString("lerun_title", enroll_name.getText().toString());
                                 bundle4.putInt("lerun_price", choose_price);
+                                bundle4.putString("qrcode_image", QRcodeImage+"");
+                                bundle4.putString("user_telphone",user_telphone);
                                 Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                 AlipayFragment alipayFragment = new AlipayFragment();
                                 alipayFragment.setArguments(bundle4);

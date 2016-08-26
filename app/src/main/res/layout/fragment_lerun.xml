@@ -11,15 +11,28 @@
         android:layout_height="40dp"
         android:background="@mipmap/nav_bg">
 
-        <TextView
-            android:id="@+id/tvleRunCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+       <LinearLayout
+           android:gravity="center"
+           android:layout_centerVertical="true"
+           android:orientation="horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent">
+           <ImageView
+               android:src="@mipmap/localtion"
+               android:layout_width="30dp"
+               android:layout_height="30dp" />
+           <TextView
+               android:id="@+id/tvleRunCity"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+
+               android:layout_marginLeft="3dp"
+               android:text="江西省"
+               android:textColor="@color/white"
+               android:textSize="15sp" />
+       </LinearLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"

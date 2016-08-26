@@ -13,9 +13,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -53,6 +55,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
     private String imageFilePath;
     private File temp;
     String ScuessImagePath;
+    DisplayMetrics dm;
     private static final String IMAGE_FILE_LOCATION = "file:///sdcard/temp.jpg";//temp file
     Uri imageUri = Uri.parse(IMAGE_FILE_LOCATION);//The Uri to store the big bitmap
 
@@ -60,6 +63,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.me_detail_userlog);
+        dm = getResources().getDisplayMetrics();
         init();
 
     }
@@ -67,6 +71,9 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
     private void init() {
         image_chose = (ImageView) findViewById(R.id.image_chose);
         user_image = (ImageView) findViewById(R.id.user_image);
+        ViewGroup.LayoutParams ps = user_image.getLayoutParams();
+        ps.height = dm.widthPixels;
+        user_image.setLayoutParams(ps);
         ll_back = (LinearLayout) findViewById(R.id.userlog_btn_back);
         Glide.with(UserLogActivity.this).load(ContentCommon.user_log).into(user_image);
         ll_back.setOnClickListener(this);

@@ -37,6 +37,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
+import com.mengshitech.colorrun.activity.SpaceImageDetailActivity;
 import com.mengshitech.colorrun.activity.VideoActivity;
 import com.mengshitech.colorrun.adapter.LeRunGridViewAdapter;
 import com.mengshitech.colorrun.adapter.LeRunListViewAdapter;
@@ -188,7 +189,20 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 break;
             case R.id.tvLeRunFootPrint:
                 // 足迹按钮
-                Toast.makeText(mActivity, "足迹", Toast.LENGTH_SHORT).show();
+                String image_path = ContentCommon.path + "lerunposter/footmark.png";
+                Intent intent1 = new Intent(context, SpaceImageDetailActivity.class);
+                intent1.putExtra("image_path", image_path);
+                intent1.putExtra("position", 0);
+                int[] location = new int[2];
+//                holder.grid_image.getLocationOnScreen(location);
+                intent1.putExtra("locationX", location[0]);
+                intent1.putExtra("locationY", location[1]);
+                intent1.putExtra("width", 0);
+                intent1.putExtra("height", 0);
+                mActivity.startActivity(intent1);
+                mActivity.overridePendingTransition(0, 0);
+
+
                 break;
             case R.id.tvLeRunSignUp:
                 if (ContentCommon.login_state.equals("1")) {
@@ -199,12 +213,10 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 }
 
 
-
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvleRunCity:
-//                Utility.replace2DetailFragment(fm,new ChoseProvinceFragment());
                 Utility.replace2DetailFragment(fm, new ChoseProvinceFragment(new ChoseProvinceFragment.GetProvince() {
                     @Override
                     public String getprovince(String provice) {
@@ -219,7 +231,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 // 城市选择按钮
                 break;
             case R.id.ivHotView:
-//                Utility.replace2DetailFragment(fm, new LerunVideo(getActivity(), video_url));、
 
                 Intent intent = new Intent(context, VideoActivity.class);
                 intent.putExtra("video_url", video_url);

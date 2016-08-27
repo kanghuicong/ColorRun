@@ -1,5 +1,9 @@
 package com.mengshitech.colorrun.utils;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -32,6 +36,18 @@ public class RandomUtils {
 			sb.append(base.charAt(number));
 		}
 		return sb.toString();
+	}
+
+	//产生随机的订单号
+	public static String LerunOrderId(){
+
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String time = sdf.format(date);
+		String ran=getRandomInt()+"";
+		String LerunOrderId=time+ran;
+		Log.i("order_id",LerunOrderId+"ss");
+		return LerunOrderId;
 	}
 
 }

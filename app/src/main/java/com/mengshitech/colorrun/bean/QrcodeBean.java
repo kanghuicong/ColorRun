@@ -20,6 +20,7 @@ public class QrcodeBean {
     private int lerun_id;
     private String user_telphone;
     private int check_state;
+    private String order_id;
 
     public QrcodeBean() {
     }
@@ -112,5 +113,11 @@ public class QrcodeBean {
         Payment = payment;
     }
 
+    public String getOrder_id() {
+        return order_id;
+    }
 
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
 }

@@ -113,6 +113,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     FragmentManager fragmentManager;
     Activity activity;
     private String user_telphone;
+    private String order_id;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -268,7 +269,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                @Override
                                                public void onClick(View v) {
 
-                                                   user_telphone=enroll_number.getText().toString();
+                                                   user_telphone = enroll_number.getText().toString();
 
                                                    if (!"".equals(user_name.getText().toString()) &&
                                                            !"".equals(card_number.getText().toString()) &&
@@ -365,7 +366,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else {
 
                 try {
-                    ScuessImagePath=JsonTools.getUserLog(imagepath);
+                    ScuessImagePath = JsonTools.getUserLog(imagepath);
 
                     Log.i("上传证件照imagepath", ScuessImagePath);
                     new Thread(QrcodeRunnable).start();
@@ -401,7 +402,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else {
                 try {
 
-                    QRcodeImage=JsonTools.getUserLog(imagepath);
+                    QRcodeImage = JsonTools.getUserLog(imagepath);
 
                     Log.i("上传二维码imagepath", QRcodeImage);
 
@@ -419,7 +420,8 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Runnable Mode1runnable = new Runnable() {
         @Override
         public void run() {
-
+            order_id = RandomUtils.LerunOrderId();
+            Log.i("order_id2",order_id+"aa");
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
@@ -439,6 +441,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             map.put("user_sex", sex);
             map.put("QRcode_Path", QRcodeImage);
             map.put("charge_mode", charge_mode + "");
+            map.put("order_id", order_id);
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -456,7 +459,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    Log.i("报名",result+"sssssss");
+                    Log.i("报名", result + "sssssss");
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
@@ -484,10 +487,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     Bundle bundle3 = new Bundle();
                                     bundle3.putString("user_name", user_name.getText().toString());
                                     bundle3.putString("lerun_title", enroll_name.getText().toString());
-                                    bundle3.putString("qrcode_image", QRcodeImage+"");
+                                    bundle3.putString("qrcode_image", QRcodeImage + "");
                                     bundle3.putInt("lerun_price", choose_price);
-                                    bundle3.putString("user_telphone",user_telphone);
-                                    bundle3.putInt("lerun_id",lerun_id);
+                                    bundle3.putString("user_telphone", user_telphone);
+                                    bundle3.putInt("lerun_id", lerun_id);
+                                    bundle3.putString("order_id", order_id);
 
                                     Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                     AlipayFragment alipayFragment = new AlipayFragment();
@@ -501,9 +505,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                 bundle4.putString("user_name", user_name.getText().toString());
                                 bundle4.putString("lerun_title", enroll_name.getText().toString());
                                 bundle4.putInt("lerun_price", choose_price);
-                                bundle4.putString("qrcode_image", QRcodeImage+"");
-                                bundle4.putString("user_telphone",user_telphone);
-                                bundle4.putInt("lerun_id",lerun_id);
+                                bundle4.putString("qrcode_image", QRcodeImage + "");
+                                bundle4.putString("user_telphone", user_telphone);
+                                bundle4.putInt("lerun_id", lerun_id);
+                                bundle4.putString("order_id", order_id);
                                 Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                 AlipayFragment alipayFragment = new AlipayFragment();
                                 alipayFragment.setArguments(bundle4);

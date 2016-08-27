@@ -30,5 +30,5 @@ public class ContentCommon {
     public static String user_log=null;
     public static String user_name=null;
     public static Boolean INTENT_STATE=true;
-
+    public static int into_lerun_type = 0;
 }

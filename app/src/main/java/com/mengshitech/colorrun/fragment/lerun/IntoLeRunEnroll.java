@@ -114,10 +114,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Activity activity;
     private String user_telphone;
 
-
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         fragmentManager = getFragmentManager();
+
         activity = getActivity();
         if (mRootView == null || mRootView.get() == null) {
 

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -19,6 +20,7 @@ import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
+import com.mengshitech.colorrun.fragment.lerun.IntoLeRunEnroll;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -55,6 +57,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
 
         activity = getActivity();
         context = getActivity();
+
         mFragmentManager = getFragmentManager();
         if (mLeRunView == null) {
             mLeRunView = View.inflate(mActivity, R.layout.me_mylerun, null);
@@ -64,10 +67,11 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         if (parent != null) {
             parent.removeView(mLeRunView);
         }
+
         MainActivity.rgMainBottom.setVisibility(View.GONE);
         MainBackUtility.MainBack(mLeRunView, "我的乐跑", mFragmentManager);
 
-        SharedPreferences sharedPreferences = getActivity()
+        SharedPreferences sharedPreferences = context
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
         userid = sharedPreferences.getString("user_id", "");
 
@@ -81,6 +85,8 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         autoSwipeRefreshLayout.setOnRefreshListener(this);
         autoSwipeRefreshLayout.autoRefresh();
         mylerun_listview = (ListView) mLeRunView.findViewById(R.id.lv_me_mylerun);
+
+
     }
 
     Runnable runnable = new Runnable() {
@@ -128,5 +134,4 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         new Thread(runnable).start();
     }
 
-    
 }

@@ -63,9 +63,7 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
     View rainbowView;
 
     @Override
-    public View initView() {
-
-        MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
+    public View initView() {MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
        if(rainbowView==null){
            rainbowView = View.inflate(mActivity, R.layout.history_theme, null);
            init();

@@ -369,10 +369,8 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
             super.handleMessage(msg);
             String result = (String) msg.obj;
 
-            Log.i("支付结果",""+result);
             if (result.equals("timeout")) {
                 //连接服务器超时
-
             } else {
                 try {
                     int state = JsonTools.getState("state", result);
@@ -381,7 +379,6 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                         bundle.putString("qrcode_image", qrcode_image + "");
                         bundle.putInt("type", 5);
                         DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
-
                         displayQRcodeFragment.setArguments(bundle);
                         Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
                     } else {

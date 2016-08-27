@@ -83,19 +83,26 @@
                     android:textColor="#444444"
                     android:textSize="13sp" />
 
-
-
-                <EditText
-                    android:id="@+id/et_enroll_name"
-                    android:paddingLeft="10dp"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:maxLength="10"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/enroll_bg_et"
-                    android:layout_weight="5">
+                    android:background="@drawable/enroll_bg_et">
+
+                    <EditText
+                        android:id="@+id/et_enroll_name"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:background="@null"
+                        android:maxLength="10">
                     </EditText>
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -215,17 +222,25 @@
                     android:textColor="#444444"
                     android:textSize="13sp" />
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/enroll_bg_et">
+
+
                 <EditText
                     android:id="@+id/et_card_number"
                     android:paddingLeft="10dp"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:layout_marginRight="20dp"
+                    android:padding="2dp"
+                    android:layout_marginLeft="10dp"
                     android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:maxLength="20"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
+                    android:background="@null" />
+                    </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -382,16 +397,23 @@
                     android:textColor="#444444"
                     android:textSize="13sp" />
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/enroll_bg_et">
+
+
                 <EditText
                     android:id="@+id/et_enroll_unit"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:layout_marginRight="20dp"
-                    android:paddingLeft="10dp"
+                    android:padding="2dp"
+                    android:layout_marginLeft="10dp"
                     android:maxLength="30"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
+                    android:background="@null" />
+                    </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -412,18 +434,24 @@
                     android:textColor="#444444"
                     android:textSize="13sp" />
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/enroll_bg_et">
+
                 <EditText
                     android:id="@+id/et_contact_number"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:padding="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="2dp"
                     android:singleLine="true"
                     android:inputType="number"
                     android:maxLength="11"
-                    android:paddingLeft="10dp"
-                    android:layout_weight="5"
-                    android:background="@drawable/enroll_bg_et" />
+                    android:background="@null" />
+                    </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -472,7 +500,7 @@
                     android:layout_height="70dp"
                     android:gravity="top|left"
                     android:inputType="number"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/enroll_add_image" />
 
                 <TextView

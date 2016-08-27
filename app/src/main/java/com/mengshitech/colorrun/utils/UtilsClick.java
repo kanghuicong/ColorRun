@@ -5,12 +5,11 @@ package com.mengshitech.colorrun.utils;
  */
 public class UtilsClick {
     private static long lastClickTime;
-    public synchronized static boolean isFastClick() {
+    public synchronized static boolean isFastClick(int wait_time) {
         long time = System.currentTimeMillis();
-        if ( time - lastClickTime < 1500) {
+        if ( time - lastClickTime < wait_time) {
             return true;
         }
-
         lastClickTime = time;
         return false;
     }

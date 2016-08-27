@@ -11,13 +11,16 @@ package cn.sharesdk.onekeyshare.themes.classic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -111,32 +114,31 @@ public abstract class PlatformPage extends OnekeySharePage {
 		mvp.setAdapter(adapter);
 
 		///////////////增加取消按钮layout
-		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
-		lp.setMargins(0,0,0,0);
-		lp.setLayoutDirection(Gravity.CENTER);
-		LinearLayout buttonLayout2 = new LinearLayout(activity);
-		buttonLayout2.setBackgroundColor(Color.WHITE);
-
-		LinearLayout.LayoutParams lp22 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,150);
-		lp22.setMargins(20, 20, 20, 20);
-		lp.setLayoutDirection(Gravity.CENTER_VERTICAL);
-		Button button2 = new Button(activity);
-		button2.setHeight(60);
-//		button2.setLayoutDirection(Gravity.);
-		button2.setText("取消分享");
-		button2.setTextSize(16);
-		button2.setTextColor(Color.WHITE);
-		button2.setBackgroundColor(Color.rgb(17,205,110));
-		button2.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-		buttonLayout2.addView(button2,lp22);
-		llPanel.addView(buttonLayout2,lp);
+//		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
+//		lp.setMargins(0,0,0,0);
+//		lp.setLayoutDirection(Gravity.CENTER);
+//		LinearLayout buttonLayout2 = new LinearLayout(activity);
+//		buttonLayout2.setBackgroundColor(Color.WHITE);
+//
+//		LinearLayout.LayoutParams lp22 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,150);
+//		lp22.setMargins(20, 20, 20, 20);
+//		lp.setLayoutDirection(Gravity.CENTER_VERTICAL);
+//		Button button2 = new Button(activity);
+//		button2.setHeight(50);
+//		button2.setText("取消分享");
+//		button2.setTextSize(16);
+//		button2.setTextColor(Color.WHITE);
+//		button2.setBackgroundColor(Color.rgb(17,205,110));
+//		button2.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				finish();
+//			}
+//		});
+//		buttonLayout2.addView(button2,lp22);
+//		llPanel.addView(buttonLayout2,lp);
 
 	}
 

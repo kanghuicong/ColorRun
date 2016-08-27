@@ -169,7 +169,6 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                         ContentCommon.user_id = userId;
                         editor.commit();
                         new Thread(user_runnable).start();
-                        Log.i("aaaaaaaa", "fffffffff");
 
                         break;
                     default:
@@ -200,9 +199,6 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
             String result = (String) msg.obj;
             try {
                 UserEntiy userEntiy = JsonTools.getUserInfo("result", result);
-                Log.i("result", result + "");
-
-
                 UserDao dao = new UserDao(LoginActivity.this);
                 UserEntiy modler = dao.find(userId);
 

@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,6 +37,7 @@ import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.LogOutDiaLog;
 import com.mengshitech.colorrun.dao.UserDao;
+import com.mengshitech.colorrun.fragment.lerun.IntoLeRunEnroll;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -299,6 +301,5 @@ public class meFragment extends Fragment implements OnClickListener {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
     }
-
 
 }

@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -19,7 +18,6 @@ import com.mengshitech.colorrun.adapter.MyLerunListViewAdapter;
 import com.mengshitech.colorrun.bean.ImageEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
-import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -43,9 +41,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
     List<OrderEntity> order_list;
     final List<ImageEntity> bmlist = new ArrayList<ImageEntity>();
 
-
-    private OrderEntity order_info;
-    private ProgressDialog progressDialog;
     private ListView mylerun_listview;
     private MyLerunListViewAdapter adapter;
     private String userid;
@@ -53,6 +48,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
     private AutoSwipeRefreshLayout autoSwipeRefreshLayout;
     FragmentManager mFragmentManager;
     private Activity activity;
+
 
     @Override
     public View initView() {
@@ -69,7 +65,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
             parent.removeView(mLeRunView);
         }
         MainActivity.rgMainBottom.setVisibility(View.GONE);
-        MainBackUtility.MainBack(mLeRunView, "我的乐跑", getFragmentManager());
+        MainBackUtility.MainBack(mLeRunView, "我的乐跑", mFragmentManager);
 
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("user_type", Activity.MODE_PRIVATE);
@@ -85,9 +81,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         autoSwipeRefreshLayout.setOnRefreshListener(this);
         autoSwipeRefreshLayout.autoRefresh();
         mylerun_listview = (ListView) mLeRunView.findViewById(R.id.lv_me_mylerun);
-
     }
-
 
     Runnable runnable = new Runnable() {
 
@@ -133,4 +127,6 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
     public void onRefresh() {
         new Thread(runnable).start();
     }
+
+    
 }

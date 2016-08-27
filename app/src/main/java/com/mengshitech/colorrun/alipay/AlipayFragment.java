@@ -60,6 +60,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private String user_id;
     private String user_telphone;
     private String payresult;
+    private int lerun_id;
 
     public static final String PARTNER = "2088421712740222";
     // 商户收款账号
@@ -84,6 +85,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         lerun_price = getArguments().getInt("lerun_price") + "";
         user_id = ContentCommon.user_id;
         user_telphone = getArguments().getString("user_telphone");
+        lerun_id=getArguments().getInt("lerun_id");
 
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -159,6 +161,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(context, "支付成功", Toast.LENGTH_LONG).show();
                         payresult=payResult.getResult();
+                        Log.i("payresult",payresult+"");
                         new Thread(runnable).start();
                     } else {
                         // 判断resultStatus 为非"9000"则代表可能支付失败
@@ -185,7 +188,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     public void pay() {
 
         //订单信息
-        String orderInfo = getOrderInfo(lerun_title+"(卡乐体育)", user_id+"", lerun_price);
+        String orderInfo = getOrderInfo(lerun_title+"(卡乐体育)", user_id+"", "0.01");
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -279,7 +282,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm" + "\"";
+        orderInfo += "&notify_url=" + "\"" + "http://121.43.172.150:8080/LeRun/servlet/AliPayServlet" + "\"";
 
         // 服务接口名称， 固定值
         orderInfo += "&service=\"mobile.securitypay.pay\"";
@@ -349,8 +352,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
             map.put("index", "5");
             map.put("user_id", user_id);
             map.put("payment", lerun_price);
-            map.put("user_phone", user_telphone);
+            map.put("user_telphone", user_telphone);
             map.put("payResult",payresult+"");
+            map.put("lerun_id",lerun_id+"");
 
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
@@ -364,6 +368,8 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+
+            Log.i("支付结果",""+result);
             if (result.equals("timeout")) {
                 //连接服务器超时
 

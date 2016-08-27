@@ -174,6 +174,10 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
                 bundle.putString("user_name", info.getPersonal_name());
                 bundle.putString("lerun_title", info.getLerun_title());
                 bundle.putInt("lerun_price", info.getPayment());
+                bundle.putInt("lerun_id",info.getLerun_id());
+                bundle.putString("user_telphone",info.getUser_telphone());
+                bundle.putString("qrcode_image",info.getImagePath());
+                Log.i("user_telphone",""+info.getUser_telphone());
 
                 AlipayFragment alipayFragment = new AlipayFragment();
                 alipayFragment.setArguments(bundle);

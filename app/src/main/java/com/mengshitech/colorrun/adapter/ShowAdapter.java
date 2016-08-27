@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.ArrayMap;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.UtilsClick;
 import com.mengshitech.colorrun.view.EmptyGridView;
 
 import org.json.JSONException;
@@ -224,12 +226,16 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             like_pos = position;
             if (ContentCommon.login_state.equals("1")) {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
-                if (list.get(like_pos).equals("0")) {
-                    index = "8";
-                    new Thread(runnable).start();
-                } else if (list.get(like_pos).equals("1")) {
-                    index = "6";
-                    new Thread(runnable).start();
+                if (UtilsClick.isFastClick(500)) {
+                    return ;
+                } else {
+                    if (list.get(like_pos).equals("0")) {
+                        index = "8";
+                        new Thread(runnable).start();
+                    } else if (list.get(like_pos).equals("1")) {
+                        index = "6";
+                        new Thread(runnable).start();
+                    }
                 }
             } else {
                 Toast.makeText(context, "请先登录...", Toast.LENGTH_SHORT).show();
@@ -255,6 +261,8 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 ShowEntity showEntity = mShowList.get(share_pos);
                 onkeyShare.setTitle(showEntity.getUser_name() + "的卡乐彩色跑");
                 onkeyShare.setText(showEntity.getShow_content());
+//                DisplayMetrics dm = context.getResources().getDisplayMetrics();
+//                onkeyShare.setHeight(dm.heightPixels/16);
 
                 mShowEntity = mShowList.get(share_pos);
                 String share_result = mShowEntity.getShow_image();
@@ -317,6 +325,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
+
                 if (index.equals("8")) {
                     try {
                         yes_state = JsonTools.getState("state", result);

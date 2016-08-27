@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
@@ -73,7 +74,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mActivity = getActivity();
         fm = getFragmentManager();
         setRetainInstance(true);
-
+        MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (showView == null) {
             showView = View.inflate(mActivity, R.layout.fragment_show, null);

@@ -35,6 +35,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.activity.SpaceImageDetailActivity;
@@ -101,6 +102,8 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         mActivity = getActivity();
         context = getActivity();
         fm = getFragmentManager();
+        ContentCommon.into_lerun_type = 0;
+        MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
@@ -181,6 +184,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
             case R.id.tvLeRunActivity:
                 // 活动按钮
+                ContentCommon.into_lerun_type = 1;
                 Utility.replace2DetailFragment(fm, new LerunEventListView());
                 break;
             case R.id.tvLeRunTheme:
@@ -211,7 +215,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
                 }
-
 
                 // 签到按钮
 //                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();

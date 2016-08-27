@@ -5,12 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,13 +22,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.mengshitech.colorrun.activity.AdvertisementActivity;
-import com.mengshitech.colorrun.activity.SplashActivity;
-import com.mengshitech.colorrun.bean.LeRunEntity;
 import com.mengshitech.colorrun.fragment.history.HistoryFragment;
-import com.mengshitech.colorrun.fragment.lerun.LerunEventListView;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
 import com.mengshitech.colorrun.fragment.me.meFragment;
+import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.fragment.show.showFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
@@ -61,6 +58,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private meFragment mMeFragment;
     private long mExitTime;
     private ConnectivityManager connectivityManager;
+    private Fragment fg;    // fg记录当前的Fragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

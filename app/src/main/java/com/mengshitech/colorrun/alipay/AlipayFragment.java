@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.bean.AlipayInfo;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.fragment.lerun.DisplayQRcodeFragment;
 import com.mengshitech.colorrun.utils.CompressImage;
@@ -40,6 +41,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 作者：wschenyongyin on 2016/8/4 10:53
@@ -63,11 +66,11 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     private int lerun_id;
     private String order_id;
 
-    public static final String PARTNER = "2088421712740222";
+    public static String PARTNER = null;
     // 商户收款账号
-    public static final String SELLER = "752664184@qq.com";
+    public static String SELLER = null;
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAN+YiddUabYk2z92rn9ed4/zZN8Fz0rB+KMweWnWjlVHdpnLfqNEO7jf37eMAd+3PaVeMXZ1egpnHXyooLTtpf1g+3YHTFmaOGOLpHy2Tj5eU0y6ljjnweQZ7rM0qe/D3ool84UIZzqUbgPnt1rkEZkjwIGx8A8kNeWZcaj77xshAgMBAAECgYB/bcmxBJSyj9K8GoFcaZQuYAJu8DqxWla/elLXtMWtaGr5P3ZOygZXWI+BZbNzslTZuBLsdgs1forZjqj4NDBSZCMzMCYgbrtYSVoNIWr92VHLX4onGaj8LEACZoBnF1zsgO1ErzRkzE7UQYNKHrbUiPN13x0npGJwNhzs6WKMmQJBAPzGZVlUMWese8Y9Rqzdi44YCSz0ze3xYBBRqBo5W0jmPAeRAHbruOTLt4bLMdiHpTh3K5AY3L4t84hbDaWp3/cCQQDicta51OVIMXcx4ySvnBqDd9zpO1QqrvybKl6/O9x2qlyG6UIRFZmdn76pRv4/hwY/l3snbS+6hxIuY3mj48enAkAEjxd42vnhIs1AsA48Q+qmb2yK8QddyUKwSKi9gFdTI0Pl5wmZG3tENSBkP/nwK9IhCJUyjiA9FdsUlH/UgxHVAkEA2SS9+xzHcF7eqZvihfLvCbpav9wAbZ225SPQDxjb436hk00B6VgJIjkYn0JQc6KKv1gG5FuzNO5o5MrGzf2SaQJBANqYIsLqTBpTpMX1uuh1RxyNDy3d/f00acSpHMsPaMITz52wdcHLwyZuW46Dwv/3v2OoraoYDA2mSPzy2u1coFI=";    // 支付宝公钥
+    public static String RSA_PRIVATE = null;
     public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfmInXVGm2JNs/dq5/XneP82Tf Bc9KwfijMHlp1o5VR3aZy36jRDu439+3jAHftz2lXjF2dXoKZx18qKC07aX9YPt2 B0xZmjhji6R8tk4+XlNMupY458HkGe6zNKnvw96KJfOFCGc6lG4D57da5BGZI8CB sfAPJDXlmXGo++8bIQIDAQAB";
     public static final int SDK_PAY_FLAG = 1;
 
@@ -86,8 +89,8 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         lerun_price = getArguments().getInt("lerun_price") + "";
         user_id = ContentCommon.user_id;
         user_telphone = getArguments().getString("user_telphone");
-        lerun_id=getArguments().getInt("lerun_id");
-        order_id=getArguments().getString("oder_id");
+        lerun_id = getArguments().getInt("lerun_id");
+        order_id = getArguments().getString("oder_id");
 
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -126,7 +129,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
 
                 if (pay_way.equals("zfb")) {
                     //支付宝支付
-                    pay();
+                    new Thread(getAlipayRunnable).start();
                 } else if (pay_way.equals("wx")) {
                     //微信支付
                     Toast.makeText(getActivity(), "微信支付还未完善", Toast.LENGTH_SHORT).show();
@@ -161,9 +164,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
 
                     Log.i("支付宝状态:", resultStatus + "");
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(context, "支付成功", Toast.LENGTH_LONG).show();
-                        payresult=payResult.getResult();
-                        Log.i("payresult",payresult+"");
+
+                        payresult = payResult.getResult();
+                        Log.i("payresult", payresult + "");
                         new Thread(runnable).start();
                     } else {
                         // 判断resultStatus 为非"9000"则代表可能支付失败
@@ -190,7 +193,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     public void pay() {
 
         //订单信息
-        String orderInfo = getOrderInfo(lerun_title+"(卡乐体育)",order_id+"", "0.01");
+        String orderInfo = getOrderInfo(lerun_title + "(卡乐体育)", order_id + "", "0.01");
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -355,9 +358,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
             map.put("user_id", user_id);
             map.put("payment", lerun_price);
             map.put("user_telphone", user_telphone);
-            map.put("payResult",payresult+"");
-            map.put("lerun_id",lerun_id+"");
-            map.put("from","android");
+            map.put("payResult", payresult + "");
+            map.put("lerun_id", lerun_id + "");
+            map.put("from", "android");
 
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();
@@ -372,10 +375,8 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
             super.handleMessage(msg);
             String result = (String) msg.obj;
 
-            Log.i("支付结果",""+result);
             if (result.equals("timeout")) {
                 //连接服务器超时
-
             } else {
                 try {
                     int state = JsonTools.getState("state", result);
@@ -384,7 +385,6 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                         bundle.putString("qrcode_image", qrcode_image + "");
                         bundle.putInt("type", 5);
                         DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
-
                         displayQRcodeFragment.setArguments(bundle);
                         Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
                     } else {
@@ -398,5 +398,37 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
             }
         }
     };
+
+    Runnable getAlipayRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String Path = ContentCommon.PATH;
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("flag", "getAlipayInfo");
+            map.put("index", "1");
+
+            String jsonString = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
+            Message msg = new Message();
+            msg.obj = jsonString;
+            getAlipayHandler.sendMessage(msg);
+        }
+    };
+    Handler getAlipayHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String jsonString = (String) msg.obj;
+            try {
+                AlipayInfo info = JsonTools.getAlipayInfo(jsonString);
+                PARTNER = info.getPARTNER();
+                SELLER = info.getSELLER();
+                RSA_PRIVATE = info.getRSA_PRIVATE();
+                pay();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
 
 }

@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.utils;
 
 import android.util.Log;
 
+import com.mengshitech.colorrun.bean.AlipayInfo;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.bean.LeRunEntity;
@@ -388,7 +389,7 @@ public class JsonTools {
         return list;
     }
 
-
+    //获取用户头像
     public static String getUserLog(String jsonString)
             throws JSONException {
 
@@ -403,5 +404,17 @@ public class JsonTools {
         return imagePath;
     }
 
+    //解析Alipay信息
+    public static AlipayInfo getAlipayInfo(String jsonString)
+            throws JSONException {
 
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject object = jsonObject.getJSONObject("datas");
+        AlipayInfo info = new AlipayInfo();
+        info.setPARTNER(object.getString("PARTNER"));
+        info.setRSA_PRIVATE(object.getString("RSA_PRIVATE"));
+        info.setSELLER(object.getString("SELLER"));
+
+        return info;
+    }
 }

@@ -157,7 +157,7 @@ public class LeRunListViewAdapter extends BaseAdapter implements AdapterView.OnI
             if (ContentCommon.user_id == null) {
                 Toast.makeText(mActivity, "请先登录...", Toast.LENGTH_SHORT).show();
             }else {
-                if (UtilsClick.isFastClick()) {
+                if (UtilsClick.isFastClick(1500)) {
                     return;
                 } else {
                     if (v == lerun_like) {

@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -58,7 +59,6 @@ public class DisplayQRcodeFragment extends BaseFragment {
 
             case 1:
                 Log.i("codeimage",codeimage+"");
-
                 tv_state.setText("凭此二维码进行签到");
                 btn_back.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -95,6 +95,32 @@ public class DisplayQRcodeFragment extends BaseFragment {
                 handler.sendEmptyMessageDelayed(0,1000);
             }else {
                 fm.popBackStack();
+                int n =0;
+                if (ContentCommon.into_lerun_type==0){
+                    switch (type){
+                        case 2:
+                            n=2;
+                            break;
+                        case 5:
+                            n=3;
+                            break;
+                    }
+                    for (int i=0;i<n;i++){
+                        getActivity().getSupportFragmentManager().popBackStack(null, 0);
+                    }
+                }else if (ContentCommon.into_lerun_type==1) {
+                    switch (type) {
+                        case 2:
+                            n = 3;
+                            break;
+                        case 5:
+                            n = 4;
+                            break;
+                    }
+                    for (int i = 0; i < n; i++) {
+                        getActivity().getSupportFragmentManager().popBackStack(null, 0);
+                    }
+                }
                 Utility.replace2DetailFragment(fm,new myLeRunFragment());
             }
 

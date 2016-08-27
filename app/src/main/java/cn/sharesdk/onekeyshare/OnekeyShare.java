@@ -225,6 +225,8 @@ public class OnekeyShare {
 		params.put("theme", theme.getValue());
 	}
 
+
+
 	@SuppressWarnings("unchecked")
 	public void show(Context context) {
 		HashMap<String, Object> shareParamsMap = new HashMap<String, Object>();
@@ -239,6 +241,7 @@ public class OnekeyShare {
 		try {
 			iTheme = R.parseInt(String.valueOf(shareParamsMap.remove("theme")));
 		} catch (Throwable t) {}
+
 		OnekeyShareTheme theme = OnekeyShareTheme.fromValue(iTheme);
 		OnekeyShareThemeImpl themeImpl = theme.getImpl();
 
@@ -252,8 +255,6 @@ public class OnekeyShare {
 		if (shareParamsMap.containsKey("disableSSO") ? ((Boolean) shareParamsMap.remove("disableSSO")) : false) {
 			themeImpl.disableSSO();
 		}
-
 		themeImpl.show(context);
 	}
-
 }

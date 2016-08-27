@@ -59,7 +59,6 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
         mFragmentManagr = getFragmentManager();
         context = getActivity();
         lerunevent = View.inflate(getActivity(), R.layout.lerun_event, null);
-
         MainActivity.rgMainBottom.setVisibility(View.GONE);
         MainBackUtility.MainBack(lerunevent, "活动", getFragmentManager());
         init();
@@ -76,7 +75,6 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
         mSwipeLayout.autoRefresh();
 
     }
-
     //获取数据的请求
     private String getData() {
         String Path = ContentCommon.PATH;

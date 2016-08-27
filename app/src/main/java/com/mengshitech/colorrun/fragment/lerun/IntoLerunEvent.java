@@ -82,8 +82,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
         return mRootView.get();}
 
 
-
-
     // 人数状态
     private void number_type() {
         // TODO Auto-generated method stub
@@ -192,7 +190,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                         IntoLeRunEnroll mIntoLerunEnroll = new IntoLeRunEnroll();
                         mIntoLerunEnroll.setArguments(bundle);
-                        getFragmentManager().popBackStack();
+
                         Utility.replace2DetailFragment(getFragmentManager(), mIntoLerunEnroll);
 
                     }

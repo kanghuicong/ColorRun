@@ -487,6 +487,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     bundle3.putString("qrcode_image", QRcodeImage+"");
                                     bundle3.putInt("lerun_price", choose_price);
                                     bundle3.putString("user_telphone",user_telphone);
+                                    bundle3.putInt("lerun_id",lerun_id);
 
                                     Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                     AlipayFragment alipayFragment = new AlipayFragment();
@@ -502,6 +503,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                 bundle4.putInt("lerun_price", choose_price);
                                 bundle4.putString("qrcode_image", QRcodeImage+"");
                                 bundle4.putString("user_telphone",user_telphone);
+                                bundle4.putInt("lerun_id",lerun_id);
                                 Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                 AlipayFragment alipayFragment = new AlipayFragment();
                                 alipayFragment.setArguments(bundle4);

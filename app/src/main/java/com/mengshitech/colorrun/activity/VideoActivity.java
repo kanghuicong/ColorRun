@@ -50,11 +50,15 @@ public class VideoActivity extends Activity {
 
         waitdialog = ProgressDialog.show(VideoActivity.this, "正在加载");
 
-        waitdialog.show();
+
         Intent intent=getIntent();
          video_url= intent.getStringExtra("video_url");
 
+        if(video_url==null||video_url.equals("")){
+            video_url="http://www.jxkuafu.com/";
+        }
 
+        waitdialog.show();
         webView = (WebView) findViewById(R.id.webView);
         video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
         back = (ImageView) findViewById(R.id.title_back);

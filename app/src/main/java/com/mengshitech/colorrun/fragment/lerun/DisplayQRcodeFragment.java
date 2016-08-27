@@ -79,6 +79,7 @@ public class DisplayQRcodeFragment extends BaseFragment {
                 tv_state.setText("凭此二维码到现场签到！");
                 break;
             case 5:
+                handler.sendEmptyMessageDelayed(0,1000);
                 tv_state.setText("凭此二维码到现场签到！");
                 break;
         }

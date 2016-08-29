@@ -193,7 +193,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     public void pay() {
 
         //订单信息
-        String orderInfo = getOrderInfo(lerun_title + "(卡乐体育)", order_id + "", "0.01");
+        String orderInfo = getOrderInfo(lerun_title + "(卡乐体育)", order_id + "", lerun_price);
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！

@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,6 +103,10 @@ public class meFragment extends Fragment implements OnClickListener {
 
     private void initView() {
         meView = View.inflate(getActivity(), R.layout.fragment_me, null);
+        meView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
+        meView.setFocusableInTouchMode(true);
+        meView.setOnKeyListener(backlistener);
+
         llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
         ivUserHead = (ImageView) meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView) meView.findViewById(R.id.tvUserName);
@@ -301,5 +306,23 @@ public class meFragment extends Fragment implements OnClickListener {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
     }
+
+    long mPressedTime = 0;
+    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+                    long mNowTime = System.currentTimeMillis();
+                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+                        Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+                        mPressedTime = mNowTime;
+                    }
+                }
+            }
+            return false;
+        }
+    };
 
 }

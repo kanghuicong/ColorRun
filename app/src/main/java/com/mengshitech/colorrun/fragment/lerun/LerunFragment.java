@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,6 +103,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         context = getActivity();
         fm = getFragmentManager();
         ContentCommon.into_lerun_type = 0;
+
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
@@ -513,5 +515,32 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    long mPressedTime = 0;
+    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+                    long mNowTime = System.currentTimeMillis();
+                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+                        Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+                        mPressedTime = mNowTime;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
+        lerunView.setFocusableInTouchMode(true);
+        lerunView.setOnKeyListener(backlistener);
+        Log.i("backlistener","backlistener");
     }
 }

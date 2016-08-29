@@ -89,7 +89,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                 Utility.replace2DetailFragment(getFragmentManager(), new AboutUsFeedBack());
                 break;
             case R.id.me_aboutus_connection:
-                Utility.replace2DetailFragment(getFragmentManager(), new AboutUsConnection());
+                DialogUtility.DialogConnection(context,ContentCommon.user_id);
                 break;
             case R.id.me_aboutus_agreement:
                 break;
@@ -126,9 +126,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                 try {
                     String gsonString = JsonTools.getDatas(result);
                     final VersionEntiy entiy = GsonTools.getEntity(gsonString, VersionEntiy.class);
-
                     progressDialog.dismiss();
-
                     updateDialog = new UpdateDialog(context, R.layout.dialog_updateversion, entiy, new UpdateDialog.LeaveMyDialogListener() {
                         @Override
                         public void onClick(View view) {
@@ -155,19 +153,14 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                     WindowManager.LayoutParams lp = window.getAttributes();
                     lp.width = WindowManager.LayoutParams.FILL_PARENT;
                     lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
                     window.setAttributes(lp);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
     };
-
 
     TimerTask timerTask = new TimerTask() {
         @Override
@@ -175,7 +168,6 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
             new Thread(updateRunnable).start();
         }
     };
-
 
     private int getVersionCode(Context context)
     {

@@ -285,7 +285,7 @@ public class meFragment extends Fragment implements OnClickListener {
                         editor.putString("user_id","");
                         editor.commit();
                         ContentCommon.login_state="0";
-                       diaLog.dismiss();
+                        diaLog.dismiss();
                         break;
                     case R.id.btn_cancel:
                         diaLog.dismiss();

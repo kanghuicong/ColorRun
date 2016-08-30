@@ -5,14 +5,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -123,7 +127,6 @@ public class DisplayQRcodeFragment extends BaseFragment {
                 }
                 Utility.replace2DetailFragment(fm,new myLeRunFragment());
             }
-
         }
     };
 }

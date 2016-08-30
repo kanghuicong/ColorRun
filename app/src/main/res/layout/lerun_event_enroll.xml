@@ -258,7 +258,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="5"
                     android:layout_marginRight="20dp"
-                    android:text="请填写真实证件号码，购买保险使用。"
+                    android:text="请填写真实证件号码，购买保险使用，允许输入数字及大写字母。"
                     android:textColor="#728ea3"
                     android:textSize="13sp" />
 
@@ -563,16 +563,18 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:button="@drawable/enroll_rb_agree"
-                android:checked="true"
                 android:text="同意购买保险"
                 android:textSize="15sp" />
 
             <Button
                 android:id="@+id/bt_enroll_agree"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@mipmap/enroll_btn_bg"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/login_shape_bt"
                 android:text="立即报名"
                 android:textSize="17sp"/>
 

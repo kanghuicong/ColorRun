@@ -1,11 +1,16 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.util.Log;
@@ -358,43 +363,36 @@ public class DialogUtility implements View.OnClickListener {
         }
     }
 
-    //注销账号
-    public static void DialogCancel(final Context context, final ImageView header, final TextView name, final TextView id) {
-        Log.i("DialogCancel", name.getText().toString() + "---" + id.getText().toString());
+    //联系我们
+    public static void DialogConnection(final Context context, String id) {
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
-
-        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.me_cancel, null);
-        Button bt_cancel_yes = (Button) layout.findViewById(R.id.bt_cancel_yes);
-        Button bt_cancel_no = (Button) layout.findViewById(R.id.bt_cancel_no);
+        final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_connectipn, null);
+        final TextView tv_phone = (TextView) layout.findViewById(R.id.tv_connection_phone);
+        final Button bt_connection = (Button) layout.findViewById(R.id.bt_connection);
         addDialog(dialog, layout);
 
-        bt_cancel_no.setOnClickListener(new View.OnClickListener() {
+        bt_connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                String phone = tv_phone.getText().toString();
+                Uri uri = Uri.parse("tel:" + phone);
+                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                context.startActivity(intent);
             }
         });
-
-        bt_cancel_yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("DialogCancel", "1111");
-
-                header.setImageResource(R.mipmap.default_avtar);
-                name.setText("未登录");
-                id.setText("");
-                SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = mySharedPreferences.edit();
-                editor.putString("user_type", "0");
-                editor.putString("user_id", "");
-                editor.commit();
-                ContentCommon.login_state = "0";
-                dialog.dismiss();
-            }
-        });
-    }
+}
 
     //添加窗口
     private static void addDialog(Dialog dialog, LinearLayout layout) {

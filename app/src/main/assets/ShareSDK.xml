@@ -65,7 +65,7 @@
         AppKey="2259831372"
         AppSecret="8353c86d9a8c29a7ab3ff16bfa6616f8"
         RedirectUrl="http://weibo.com/dengdaigeduoluv/n"
-        ShareByAppClient="false"
+        ShareByAppClient="true"
         Enable="true" />
 
     <TencentWeibo

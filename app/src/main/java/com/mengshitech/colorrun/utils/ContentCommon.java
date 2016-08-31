@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
  */
 public class ContentCommon {
 
-//121.43.172.150
 
     public static final String PATH="http://121.43.172.150:8080/LeRun/servlet/LeRunServlet";
 
@@ -31,4 +30,5 @@ public class ContentCommon {
     public static String user_name=null;
     public static Boolean INTENT_STATE=true;
     public static int into_lerun_type = 0;
+
 }

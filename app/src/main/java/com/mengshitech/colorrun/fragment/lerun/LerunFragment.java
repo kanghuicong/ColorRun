@@ -20,6 +20,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -109,6 +110,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         context = getActivity();
         fm = getFragmentManager();
         ContentCommon.into_lerun_type = 0;
+
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
@@ -159,6 +161,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         tvHotVideo = (TextView) lerunView.findViewById(R.id.tvHotVideo);
         // 签到按钮
         tvleRunCity = (TextView) lerunView.findViewById(R.id.tvleRunCity);
+        tvleRunCity.setText("江西");
         // 城市选择按钮
         lvLerun = (MyListView) lerunView.findViewById(R.id.lvLerun);
         gvHotActivity = (GridView) lerunView.findViewById(R.id.gvHotActivity);
@@ -312,7 +315,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "0");
-            map.put("lerun_province", "江西省");
+            map.put("lerun_province", lerun_province);
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
@@ -327,6 +330,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+            Log.i("主题信息:",""+result);
             if (result.equals("timeout")) {
 
                 mSwipeLayout.setRefreshing(false);
@@ -511,8 +515,8 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 mSwipeLayout.autoRefresh();
                 Log.e("AmapS", aMapLocation.getProvince());
             } else {
-                tvleRunCity.setText("江西省");
-                lerun_province = "江西省";
+                tvleRunCity.setText("江西");
+                lerun_province = "江西";
                 mSwipeLayout.autoRefresh();
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
@@ -537,6 +541,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
 
     //轮播
@@ -644,5 +649,33 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         ;
     };
 
+
+
+    long mPressedTime = 0;
+    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+                    long mNowTime = System.currentTimeMillis();
+                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+                        Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+                        mPressedTime = mNowTime;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
+        lerunView.setFocusableInTouchMode(true);
+        lerunView.setOnKeyListener(backlistener);
+        Log.i("backlistener","backlistener");
+    }
 
 }

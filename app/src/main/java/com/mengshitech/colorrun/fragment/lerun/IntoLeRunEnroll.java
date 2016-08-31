@@ -49,6 +49,7 @@ import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.CreateQrBean;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.PaySuccessFragment;
 import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.CompressImage;
@@ -114,11 +115,12 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Activity activity;
     private String user_telphone;
     private String order_id;
+    private ProgressDialog progressDialog;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         fragmentManager = getFragmentManager();
-
+        progressDialog=ProgressDialog.show(context,"");
         activity = getActivity();
         if (mRootView == null || mRootView.get() == null) {
 
@@ -296,6 +298,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                            Log.i("charge_mode==2", "type==1");
                                                                            signin_type = "1";
                                                                            creatQRcode();
+                                                                           progressDialog.show();
                                                                            new Thread(uploadRunnable).start();
                                                                        }
                                                                    } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
@@ -304,6 +307,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                        creatQRcode();
                                                                        Log.i("charge_mode==2", "type==2");
                                                                        signin_type = "2";
+                                                                       progressDialog.show();
                                                                        new Thread(QrcodeRunnable).start();
                                                                    }
                                                                } else {
@@ -311,13 +315,16 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                                    switch (charge_mode) {
                                                                        //全部免费
                                                                        case 1:
+
                                                                            signin_type = "";
+                                                                           progressDialog.show();
                                                                            new Thread(QrcodeRunnable).start();
                                                                            Log.i("charge_mode==1", "type==1");
                                                                            break;
                                                                        //全部收费
                                                                        case 3:
                                                                            signin_type = "";
+                                                                           progressDialog.show();
                                                                            new Thread(QrcodeRunnable).start();
                                                                            Log.i("charge_mode==3", "type==1");
                                                                            break;
@@ -363,6 +370,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
 
                 try {
@@ -399,6 +407,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
                 try {
 
@@ -456,6 +465,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
+                progressDialog.dismiss();
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
@@ -463,6 +473,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
+                        progressDialog.dismiss();
                         switch (charge_mode) {
                             case 1:
                                 Bundle bundle = new Bundle();
@@ -518,6 +529,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                     } else {
                         //报名失败
+                        progressDialog.dismiss();
                         String datas = JsonTools.getDatas(result);
                         Toast.makeText(context, datas, Toast.LENGTH_SHORT).show();
                     }
@@ -633,11 +645,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 if (data != null) {
                     Uri originalUri = data.getData(); // 获得图片的uri
 
-                    try {
-                        Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+////                        Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 
                     // 这里开始的第二部分，获取图片的路径：
 

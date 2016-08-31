@@ -42,7 +42,7 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     View lerunevent;
     TextView title_bar;
     ImageView title_back;
-    Context context;
+
     private Handler mHandler;
     private ListView lerun_listView;
     Timer timer;
@@ -53,7 +53,7 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
 
     int count;//用来标记是否有新的数据
 
-
+Context context;
     @Override
     public View initView() {
         mFragmentManagr = getFragmentManager();
@@ -68,7 +68,7 @@ public class LerunEventListView extends BaseFragment implements SwipeRefreshLayo
     private void init() {
 
         lerun_listView = (ListView) lerunevent.findViewById(R.id.lerun_listView);
-        mSwipeLayout=new AutoSwipeRefreshLayout(mActivity);
+        mSwipeLayout=new AutoSwipeRefreshLayout(context);
         mSwipeLayout= (AutoSwipeRefreshLayout) lerunevent.findViewById(R.id.id_swipe_ly);
         mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);

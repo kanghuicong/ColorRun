@@ -44,13 +44,15 @@ public class JsonTools {
     //解析返回的数据
     public static String getDatas(String jsonString) throws JSONException {
         String result;
-        int state = getState("state", jsonString);
-        if (state == 1) {
-            JSONObject object = new JSONObject(jsonString);
-            result = object.getString("datas");
-        } else {
-            result = null;
-        }
+//        int state = getState("state", jsonString);
+//        if (state == 1) {
+//            JSONObject object = new JSONObject(jsonString);
+//            result = object.getString("datas");
+//        } else {
+//            result = null;
+//        }
+        JSONObject object = new JSONObject(jsonString);
+        result = object.getString("datas");
         return result;
     }
 

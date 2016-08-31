@@ -46,6 +46,12 @@ public class DisplayQRcodeFragment extends BaseFragment {
         tv_countdown = (TextView) view.findViewById(R.id.tv_countdown);
         qrcodeImage = (ImageView) view.findViewById(R.id.qrcodeImage);
         btn_back = (ImageView) view.findViewById(R.id.title_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fm.popBackStack();
+            }
+        });
         getDatas();
         return view;
     }

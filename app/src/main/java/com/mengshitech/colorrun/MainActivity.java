@@ -195,4 +195,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
             unregisterReceiver(broadcastReceiver);
         }
     }
+
+//    // 双击退出
+//    long mPressedTime = 0;
+//
+//    @Override
+//    public void onBackPressed() {
+//        long mNowTime = System.currentTimeMillis();// 获取第一次按键事件
+//        if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+//            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+//            mPressedTime = mNowTime;
+//        } else {
+//            // 退出程序
+//            this.finish();
+//            System.exit(0);
+//        }
+//    }
 }

@@ -18,6 +18,7 @@ import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -78,6 +79,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (showView == null) {
             showView = View.inflate(mActivity, R.layout.fragment_show, null);
+            showView.setFocusable(true);
+            showView.setFocusableInTouchMode(true);
+            showView.setOnKeyListener(backlistener);
             findById();
         }
         ViewGroup parent = (ViewGroup) showView.getParent();
@@ -307,4 +311,24 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
         mActivity.registerReceiver(Receiver, filter);
     }
+
+    //双击退出
+    long mPressedTime = 0;
+    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+                    long mNowTime = System.currentTimeMillis();
+                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+                        Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+                        mPressedTime = mNowTime;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+
 }

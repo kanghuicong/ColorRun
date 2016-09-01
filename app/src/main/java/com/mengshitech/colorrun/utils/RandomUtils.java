@@ -49,5 +49,18 @@ public class RandomUtils {
 		Log.i("order_id",LerunOrderId+"ss");
 		return LerunOrderId;
 	}
+	public static String Randompictrue(){
+
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String time = sdf.format(date);
+		Random random=new Random();
+		int randNum = random.nextInt(100000-1)+1;
+		String Randompictrue=time+randNum;
+//		Log.i("order_id",LerunOrderId+"ss");
+		return Randompictrue;
+	}
+
+
 
 }

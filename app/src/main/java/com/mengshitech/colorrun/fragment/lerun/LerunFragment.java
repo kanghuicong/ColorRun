@@ -110,31 +110,35 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         context = getActivity();
         fm = getFragmentManager();
         ContentCommon.into_lerun_type = 0;
-
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         if (lerunView == null) {
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
         }
-        ViewGroup parent = (ViewGroup) lerunView.getParent();
-        if (parent != null) {
-            parent.removeView(lerunView);
-        }
+//        ViewGroup parent = (ViewGroup) lerunView.getParent();
+//        if (parent != null) {
+//            parent.removeView(lerunView);
+//        }
 
-
+//        lerunView.setFocusable(true);
+//        lerunView.setFocusableInTouchMode(true);
+//        lerunView.setOnKeyListener(backlistener);
+        Log.i("lerunView","lerunView");
         return lerunView;
 
     }
 
     private void findById() {
 
-
         mSwipeLayout = new AutoSwipeRefreshLayout(mActivity);
         mSwipeLayout = (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
         mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);
-        new Thread(getLunBOimageRunnable).start();
 
+
+        new Thread(getLunBOimageRunnable).start();
+        mSwipeLayout.autoRefresh();
+        new Thread(videoRunnable).start();
         if (ContentCommon.INTENT_STATE) {
 //            Toast.makeText(context,"网络状态:"+ContentCommon.INTENT_STATE,Toast.LENGTH_SHORT).show();
             mSwipeLayout.autoRefresh();
@@ -191,8 +195,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-
             case R.id.tvLeRunActivity:
                 // 活动按钮
                 ContentCommon.into_lerun_type = 1;
@@ -216,8 +218,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 intent1.putExtra("height", 0);
                 mActivity.startActivity(intent1);
                 mActivity.overridePendingTransition(0, 0);
-
-
                 break;
             case R.id.tvLeRunSignUp:
                 if (ContentCommon.login_state.equals("1")) {
@@ -227,8 +227,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     getActivity().startActivity(intent);
                 }
 
-                // 签到按钮
-//                Toast.makeText(mActivity, "签到", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvleRunCity:
                 Utility.replace2DetailFragment(fm, new ChoseProvinceFragment(new ChoseProvinceFragment.GetProvince() {
@@ -301,7 +299,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //            vpLeRunAd
 //                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
             initViewPager();
-            mSwipeLayout.setRefreshing(false);
+//            mSwipeLayout.setRefreshing(false);
 
 
         }
@@ -392,7 +390,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
                     Log.i("video_url", video_url + "");
-                    mSwipeLayout.setRefreshing(false);
+//                    mSwipeLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -456,7 +454,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
 
         new Thread(getLeRunRunnable).start();
-        new Thread(videoRunnable).start();
+
 
     }
 
@@ -651,31 +649,33 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
 
 
-    long mPressedTime = 0;
-    private View.OnKeyListener backlistener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
-                    long mNowTime = System.currentTimeMillis();
-                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
-                        Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
-                        mPressedTime = mNowTime;
-                    }
-                }
-            }
-            return false;
-        }
-    };
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
-        lerunView.setFocusableInTouchMode(true);
-        lerunView.setOnKeyListener(backlistener);
-        Log.i("backlistener","backlistener");
-    }
+//    long mPressedTime = 0;
+//    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+//        @Override
+//        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+//                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+//                    long mNowTime = System.currentTimeMillis();
+//                    Log.i("1backmNowTime",mNowTime+"");
+//                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+//                        Toast.makeText(getActivity(),"再按一次退出程序", Toast.LENGTH_SHORT).show();
+//                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+//                        mPressedTime = mNowTime;
+//                        Log.i("1backmPressedTime",mNowTime+"");
+//                    }
+//                }
+//            }
+//            return false;
+//        }
+//    };
+//
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
+//        lerunView.setFocusableInTouchMode(true);
+//        lerunView.setOnKeyListener(backlistener);
+//        Log.i("backlistener","backlistener");
+//    }
 
 }

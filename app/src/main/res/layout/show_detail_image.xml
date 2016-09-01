@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/userlog_btn_back"
+            android:id="@+id/showdetail_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
@@ -28,9 +28,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="个人信息"
+                android:text="返回"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView
@@ -40,17 +40,17 @@
 
             android:text="个人头像"
             android:textColor="@color/white"
-            android:textSize="19sp" />
+            android:textSize="18dp" />
 
         <ImageView
-            android:id="@+id/image_chose"
+            android:id="@+id/image_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center|right"
             android:layout_marginRight="5dp"
-            android:src="@mipmap/btn_mechose" />
+            android:src="@mipmap/delete" />
     </RelativeLayout>
 
     <LinearLayout
@@ -66,7 +66,7 @@
 
 
             <ImageView
-                android:id="@+id/user_image"
+                android:id="@+id/show_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

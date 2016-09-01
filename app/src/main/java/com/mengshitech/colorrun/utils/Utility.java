@@ -32,7 +32,6 @@ public class Utility {
      * @param fragment
      */
     public static void replace2DetailFragment(FragmentManager fragmentManager, Fragment fragment) {
-
         fragmentManager.beginTransaction().replace(R.id.flMain, fragment).addToBackStack(null).commit();
         MainActivity.rgMainBottom.setVisibility(View.GONE);
     }
@@ -43,7 +42,6 @@ public class Utility {
      * ，不把这些fragment加入返回栈的话，返回栈中只有MainActivity
      * ，所以一旦点击了返回键，就会把MainActivity从返回栈中销毁）
      */
-
     /**
      * 主页面四个fragment互相跳转，不需要隐藏RadioGroup，需要传入v4包的FragmentManager,跳转目的地Fragment
      *

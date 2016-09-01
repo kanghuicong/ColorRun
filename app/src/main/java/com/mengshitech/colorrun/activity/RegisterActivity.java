@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity {
                         // 发送短信
                         btn_getcode.setClickable(false);
                         btn_getcode.setBackgroundResource(R.drawable.login_shape_bt_no);
-                        btn_getcode.setText("验证码已发送60秒");
+                        btn_getcode.setText("60秒后重新发送");
                         number = et_phone.getText().toString().trim();
                         iPhone = et_phone.getText().toString().trim();
                         SMSSDK.getVerificationCode("86", iPhone);
@@ -136,7 +136,7 @@ public class RegisterActivity extends Activity {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (time > 0) {
-                    btn_getcode.setText("验证码已发送" + time + "秒");
+                    btn_getcode.setText(time + "秒"+"后重新发送" );
                     time--;
                     handlerText.sendEmptyMessageDelayed(1, 1000);
                 } else {

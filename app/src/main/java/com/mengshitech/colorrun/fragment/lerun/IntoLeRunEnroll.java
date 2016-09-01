@@ -177,7 +177,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             enroll_explain.setText("请选择价格。");
         }
 
-
         if (free_price >= 0) {
             EnrollEntity entity = new EnrollEntity();
             entity.setPrice(free_price);
@@ -274,74 +273,80 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                                                    user_telphone = enroll_number.getText().toString();
 
-                                                   if (!"".equals(user_name.getText().toString()) &&
-                                                           !"".equals(card_number.getText().toString()) &&
-                                                           !"".equals(enroll_unit.getText().toString()) &&
-                                                           !"".equals(enroll_number.getText().toString()) &&
-                                                           !"请选择".equals(enroll_spinner_card.getSelectedItem().toString()) &&
-                                                           !"请选择".equals(enroll_spinner_id.getSelectedItem().toString()) &&
-                                                           choose_price >= 0) {
+                                                   Pattern p_phone = Pattern.compile("^1[34578]\\d{9}$");
+                                                   Matcher m_phone = p_phone.matcher(enroll_number.getText().toString());
 
-                                                       Pattern p_phone = Pattern.compile("^1[34578]\\d{9}$");
-                                                       Matcher m_phone = p_phone.matcher(enroll_number.getText().toString());
+                                                   Pattern p_name = Pattern.compile("^[\u4e00-\u9fa5]+$");
+                                                   Matcher m_name = p_name.matcher(user_name.getText().toString());
 
-                                                       Pattern p_name = Pattern.compile("^[\u4e00-\u9fa5]+$");
-                                                       Matcher m_name = p_name.matcher(user_name.getText().toString());
-
-                                                       if (enroll_agree.isChecked()) {
-                                                           if (m_name.matches()) {
-                                                               if (m_phone.matches()) {
-                                                                   if (charge_mode == 2) {
-                                                                       Log.i("类型", enroll_spinner_id.getSelectedItem().toString() + "");
-                                                                       if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
-                                                                           if (choseimage_state == 0) {
-                                                                               Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
+                                                   if (!"".equals(user_name.getText().toString())){
+                                                       if (m_name.matches()) {
+                                                           if (!"请选择".equals(enroll_spinner_card.getSelectedItem().toString())) {
+                                                               if(!"".equals(card_number.getText().toString())) {
+                                                                   if (!"请选择".equals(enroll_spinner_id.getSelectedItem().toString())) {
+                                                                       if (!"".equals(enroll_number.getText().toString())) {
+                                                                           if (m_phone.matches()) {
+                                                                               if (enroll_agree.isChecked()) {
+                                                                                   if (charge_mode == 2) {
+                                                                                       if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                                           if (choseimage_state == 0) {
+                                                                                               Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
+                                                                                           } else {
+                                                                                               Log.i("charge_mode==2", "type==1");
+                                                                                               signin_type = "1";
+                                                                                               creatQRcode();
+                                                                                               new Thread(uploadRunnable).start();
+                                                                                           }
+                                                                                       } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                                           Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
+                                                                                       } else {
+                                                                                           creatQRcode();
+                                                                                           Log.i("charge_mode==2", "type==2");
+                                                                                           signin_type = "2";
+                                                                                           new Thread(QrcodeRunnable).start();
+                                                                                       }
+                                                                                   } else {
+                                                                                       creatQRcode();
+                                                                                       switch (charge_mode) {
+                                                                                           //全部免费
+                                                                                           case 1:
+                                                                                               signin_type = "";
+                                                                                               new Thread(QrcodeRunnable).start();
+                                                                                               Log.i("charge_mode==1", "type==1");
+                                                                                               break;
+                                                                                           //全部收费
+                                                                                           case 3:
+                                                                                               signin_type = "";
+                                                                                               new Thread(QrcodeRunnable).start();
+                                                                                               Log.i("charge_mode==3", "type==1");
+                                                                                               break;
+                                                                                           default:
+                                                                                               break;
+                                                                                       }
+                                                                                   }
+                                                                               } else {
+                                                                                   Toast.makeText(context, "为了您的安全，请购买保险!", Toast.LENGTH_SHORT).show();
+                                                                               }
                                                                            } else {
-                                                                               Log.i("charge_mode==2", "type==1");
-                                                                               signin_type = "1";
-                                                                               creatQRcode();
-                                                                               new Thread(uploadRunnable).start();
+                                                                               Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                                                                            }
-                                                                       } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
-                                                                           Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
                                                                        } else {
-                                                                           creatQRcode();
-                                                                           Log.i("charge_mode==2", "type==2");
-                                                                           signin_type = "2";
-                                                                           new Thread(QrcodeRunnable).start();
+                                                                           Toast.makeText(context, "请输入您的电话号码！", Toast.LENGTH_SHORT).show();
                                                                        }
                                                                    } else {
-                                                                       creatQRcode();
-                                                                       switch (charge_mode) {
-                                                                           //全部免费
-                                                                           case 1:
-                                                                               signin_type = "";
-                                                                               new Thread(QrcodeRunnable).start();
-                                                                               Log.i("charge_mode==1", "type==1");
-                                                                               break;
-                                                                           //全部收费
-                                                                           case 3:
-                                                                               signin_type = "";
-                                                                               new Thread(QrcodeRunnable).start();
-                                                                               Log.i("charge_mode==3", "type==1");
-                                                                               break;
-
-                                                                           default:
-                                                                               break;
-                                                                       }
+                                                                       Toast.makeText(context, "请选择您的身份！", Toast.LENGTH_SHORT).show();
                                                                    }
                                                                } else {
-                                                                   Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                                                                   Toast.makeText(context, "请输入您的证件号码！", Toast.LENGTH_SHORT).show();
                                                                }
                                                            } else {
-                                                               Toast.makeText(context, "请输入正确的姓名!", Toast.LENGTH_SHORT).show();
-                                                               user_name.setText("");
+                                                               Toast.makeText(context, "请选择您的证件类型！", Toast.LENGTH_SHORT).show();
                                                            }
                                                        } else {
-                                                           Toast.makeText(context, "为了您的安全，请购买保险!", Toast.LENGTH_SHORT).show();
+                                                           Toast.makeText(context, "请输入正确的姓名！", Toast.LENGTH_SHORT).show();
                                                        }
                                                    } else {
-                                                       Toast.makeText(context, "请将信息填写完整！", Toast.LENGTH_SHORT).show();
+                                                       Toast.makeText(context, "请输入您的姓名！", Toast.LENGTH_SHORT).show();
                                                    }
                                                }
                                            }

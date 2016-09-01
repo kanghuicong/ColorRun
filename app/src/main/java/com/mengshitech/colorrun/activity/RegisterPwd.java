@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.utils.EncryptMD5;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.MainBackUtility;
@@ -34,7 +35,7 @@ public class RegisterPwd extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO �Զ���ɵķ������
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_pwd);
         // 获取从上一个activity传过来的数据
@@ -95,7 +96,10 @@ public class RegisterPwd extends Activity {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
+            //加密
+//            String pwd= EncryptMD5.md5(repassword);
             Map<String, String> map = new HashMap<String, String>();
+
             map.put("user_id", number);
             map.put("user_pwd",repassword);
             map.put("index", "0");
@@ -148,6 +152,7 @@ public class RegisterPwd extends Activity {
         @Override
         public void run() {
             String path = ContentCommon.PATH;
+//            String pwd= EncryptMD5.md5(repassword);
             Map<String, String> map = new HashMap<String, String>();
             map.put("user_id", number);
             map.put("update_values",repassword);

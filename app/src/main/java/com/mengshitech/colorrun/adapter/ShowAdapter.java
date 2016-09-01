@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -275,8 +277,9 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //显示分享列表
+
                 onkeyShare.show(context);
+
             }
         }
     }
@@ -364,7 +367,10 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
                     }
                 }
             }
+
         }
     };
+
+
 }
 

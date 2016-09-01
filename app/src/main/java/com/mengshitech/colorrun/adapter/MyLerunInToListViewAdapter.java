@@ -160,6 +160,7 @@ public class MyLerunInToListViewAdapter extends BaseAdapter implements AdapterVi
         int check_state = info.getCheck_state();
         String user_telphone = info.getUser_telphone();
         String order_id=info.getOrder_id();
+        Log.e("order_id",order_id+"");
 
         if(check_state==0){
             Bundle bundle=new Bundle();

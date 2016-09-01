@@ -11,27 +11,28 @@
         android:layout_height="40dp"
         android:background="@mipmap/nav_bg">
 
-       <LinearLayout
-           android:gravity="center"
-           android:layout_centerVertical="true"
-           android:orientation="horizontal"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent">
-           <ImageView
-               android:src="@mipmap/localtion"
-               android:layout_width="30dp"
-               android:layout_height="30dp" />
-           <TextView
-               android:id="@+id/tvleRunCity"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-               android:layout_marginLeft="3dp"
-               android:text="江西省"
-               android:textColor="@color/white"
-               android:textSize="15sp" />
-       </LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/localtion" />
 
+            <TextView
+                android:id="@+id/tvleRunCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="3dp"
+                android:text="江西省"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
 
 
         <TextView
@@ -44,10 +45,10 @@
     </RelativeLayout>
 
     <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
-        android:descendantFocusability="blocksDescendants"
         android:id="@+id/id_swipe_ly"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
 
         <ScrollView
 
@@ -60,11 +61,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v4.view.ViewPager
-
-                    android:id="@+id/vpLeRunAd"
+                <FrameLayout
+                    android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp" />
+                    android:layout_height="190dp">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/vpLeRunAD"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+
+                        android:padding="5dp"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,7 +94,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
 
-                     <TextView
+                    <TextView
                         android:id="@+id/tvLeRunActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

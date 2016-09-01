@@ -80,6 +80,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         MainBackUtility.MainBack(payment_view, "报名支付", getFragmentManager());
 
         context = getActivity();
+
         FindId();
         GetData();
         return payment_view;
@@ -93,7 +94,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         user_id = ContentCommon.user_id;
         user_telphone = getArguments().getString("user_telphone");
         lerun_id = getArguments().getInt("lerun_id");
-        order_id = getArguments().getString("oder_id");
+        order_id = getArguments().getString("order_id");
+
+        Log.e("order_id222",order_id+"");
 
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -196,7 +199,7 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
     public void pay() {
 
         //订单信息
-        String orderInfo = getOrderInfo(lerun_title + "(卡乐体育)", order_id + "", "0.01");
+        String orderInfo = getOrderInfo(lerun_title + "(卡乐体育)", order_id, "0.01");
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！

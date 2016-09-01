@@ -39,13 +39,16 @@ import java.util.TimerTask;
 public class LerunEventListView extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View lerunevent;
-    Context context;
+    TextView title_bar;
+    ImageView title_back;
+
+    private Handler mHandler;
     private ListView lerun_listView;
     FragmentManager mFragmentManagr;
     private AutoSwipeRefreshLayout mSwipeLayout;
     int count;//用来标记是否有新的数据
 
-
+Context context;
     @Override
     public View initView() {
         mFragmentManagr = getFragmentManager();

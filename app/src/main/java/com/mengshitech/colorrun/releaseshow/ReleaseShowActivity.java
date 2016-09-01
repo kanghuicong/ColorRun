@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,7 @@ import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.upload;
 
 
@@ -79,7 +81,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     String servletPath = "http://192.168.0.19:8080/ServletForUpload/servlet/ImageUploadServlet";
     private String evaluate_content;
     String success_imagePath;
-
+    ReleaseShowGridViewAdapter adapter;
     private FrameLayout frameLayout;
     private LinearLayout linearLayout;
     private ProgressDialog progressDialog;
@@ -134,12 +136,18 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 System.out.println("aaaaaaaaaaaaaa");
                 switch (view.getId()) {
                     case R.id.btn_takephoto:
+//                        Random random=new Random();
+//                        int randNum = random.nextInt(1000000000-1)+1;
 
+                        String pictruename = RandomUtils.Randompictrue();
                         imageFilePath = Environment
                                 .getExternalStorageDirectory()
                                 .getAbsolutePath()
-                                + "/showpicture.jpg";
+                                + "/" + pictruename + ".jpg";
                         listfile.add(imageFilePath);
+
+
+                        Log.e("listfile", listfile.size() + "");
                         temp = new File(imageFilePath);
                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                         Intent it = new Intent(
@@ -197,7 +205,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         bmp = BitmapFactory.decodeResource(res, R.mipmap.icon_addpic_focused);
         count = 1;
-        ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this, bmp,
+         adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this, bmp,
                 count);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new GridViewItemOnClick2());
@@ -213,12 +221,21 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
                 showDailog();
             } else {
-                String image_path = compressfile.get(position);
-                ShowMap show = new ShowMap(ReleaseShowActivity.this, image_path, frameLayout, linearLayout);
 
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.fm_reshow, show).addToBackStack(null).commit();
-                frameLayout.setVisibility(View.VISIBLE);
+                //这个地方报错  下表越界
+//                String image_path = compressfile.get(position);
+//                ShowMap show = new ShowMap(ReleaseShowActivity.this, image_path, frameLayout, linearLayout);
+//
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.fm_reshow, show).addToBackStack(null).commit();
+//                frameLayout.setVisibility(View.VISIBLE);
+
+                String image_path = compressfile.get(position);
+                Intent intent = new Intent(ReleaseShowActivity.this, ShowDltailImage.class);
+                intent.putExtra("image_path", image_path);
+                intent.putExtra("postion", position);
+
+                startActivityForResult(intent, 001);
 
             }
         }
@@ -256,7 +273,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 try {
                     deleteFile(compressfile);
                     success_imagePath = JsonTools.getDatas(result);
-                    Log.i("success_imagePath",success_imagePath+"");
+                    Log.i("success_imagePath", success_imagePath + "");
                     new Thread(ReleaseShowRunnable).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -278,7 +295,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             map.put("user_id", ContentCommon.user_id);
 
             String result = HttpUtils.sendHttpClientPost(ContentCommon.PATH, map, "utf-8");
-            Log.i("success_result",result+"");
+            Log.i("success_result", result + "");
 
             Message msg = new Message();
             msg.obj = result;
@@ -342,15 +359,36 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         if (resultCode == Activity.RESULT_OK && requestCode == 102) {
 
             // Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
-            listfile.add(imageFilePath);
-            count = listfile.size() + 1;
-            ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
-                    listfile, count, bmp);
-            gridView.setAdapter(adapter);
+//            listfile.add(imageFilePath);
+            try {
+                compressfile = compressImage(listfile);
+                count = compressfile.size() + 1;
+                 adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
+                        compressfile, count, bmp);
+                gridView.setAdapter(adapter);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+
+        }else if(resultCode == 001){
+            int postion=data.getIntExtra("postion",1);
+            Log.e("前",compressfile.size()+"");
+            compressfile.remove(postion);
+            Log.e("后",compressfile.size()+"");
+            count=compressfile.size()+1;
+          handler.sendEmptyMessage(0);
         }
     }
-
+Handler handler=new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
+                compressfile, count, bmp);
+        gridView.setAdapter(adapter);
+    }
+};
 
     //对取回来的图片进行压缩
 
@@ -365,8 +403,8 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             fis = new FileInputStream(file);
             long size = fis.available();
 
-            //当图片小于1M时 不进行图片压缩
-            if (size < 1048576) {
+            //当图片小于524kb时 不进行图片压缩
+            if (size < 524288) {
                 compressimage = imagepath;
             } else {
 
@@ -393,5 +431,24 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             }
         }
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.e("onDestroy", "true");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("onPause", "true");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("onResume", "true");
     }
 }

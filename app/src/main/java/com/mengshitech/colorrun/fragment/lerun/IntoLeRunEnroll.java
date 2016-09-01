@@ -19,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,15 +42,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.activity.RegisterSuccess;
 import com.mengshitech.colorrun.adapter.LerunEnrollListViewAdapter;
 import com.mengshitech.colorrun.alipay.AlipayFragment;
 import com.mengshitech.colorrun.bean.CreateQrBean;
 import com.mengshitech.colorrun.bean.EnrollEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
-import com.mengshitech.colorrun.fragment.PaySuccessFragment;
-import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.CreateQrCode;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -66,7 +61,6 @@ import com.mengshitech.colorrun.utils.upload;
 import org.json.JSONException;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,11 +110,12 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Activity activity;
     private String user_telphone;
     private String order_id;
+    private ProgressDialog progressDialog;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         fragmentManager = getFragmentManager();
-
+        progressDialog = ProgressDialog.show(context, "");
         activity = getActivity();
         if (mRootView == null || mRootView.get() == null) {
 
@@ -284,56 +279,60 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                                            if (!"请选择".equals(enroll_spinner_card.getSelectedItem().toString())) {
                                                                if(!"".equals(card_number.getText().toString())) {
                                                                    if (!"请选择".equals(enroll_spinner_id.getSelectedItem().toString())) {
-                                                                       if (!"".equals(enroll_number.getText().toString())) {
-                                                                           if (m_phone.matches()) {
-                                                                               if (enroll_agree.isChecked()) {
-                                                                                   if (charge_mode == 2) {
-                                                                                       if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
-                                                                                           if (choseimage_state == 0) {
-                                                                                               Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
+                                                                       if (!"".equals(enroll_unit.getText().toString())) {
+                                                                           if (!"".equals(enroll_number.getText().toString())) {
+                                                                               if (m_phone.matches()) {
+                                                                                   if (enroll_agree.isChecked()) {
+                                                                                       if (charge_mode == 2) {
+                                                                                           if ("承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                                               if (choseimage_state == 0) {
+                                                                                                   Toast.makeText(context, "请上传材料证明承办方身份！", Toast.LENGTH_SHORT).show();
+                                                                                               } else {
+                                                                                                   Log.i("charge_mode==2", "type==1");
+                                                                                                   signin_type = "1";
+                                                                                                   creatQRcode();
+                                                                                                   new Thread(uploadRunnable).start();
+                                                                                               }
+                                                                                           } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
+                                                                                               Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
                                                                                            } else {
-                                                                                               Log.i("charge_mode==2", "type==1");
-                                                                                               signin_type = "1";
                                                                                                creatQRcode();
-                                                                                               new Thread(uploadRunnable).start();
+                                                                                               Log.i("charge_mode==2", "type==2");
+                                                                                               signin_type = "2";
+                                                                                               new Thread(QrcodeRunnable).start();
                                                                                            }
-                                                                                       } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
-                                                                                           Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
                                                                                        } else {
                                                                                            creatQRcode();
-                                                                                           Log.i("charge_mode==2", "type==2");
-                                                                                           signin_type = "2";
-                                                                                           new Thread(QrcodeRunnable).start();
+                                                                                           switch (charge_mode) {
+                                                                                               //全部免费
+                                                                                               case 1:
+                                                                                                   signin_type = "2";
+                                                                                                   new Thread(QrcodeRunnable).start();
+                                                                                                   Log.i("charge_mode==1", "type==1");
+                                                                                                   break;
+                                                                                               //全部收费
+                                                                                               case 3:
+                                                                                                   signin_type = "2";
+                                                                                                   new Thread(QrcodeRunnable).start();
+                                                                                                   Log.i("charge_mode==3", "type==1");
+                                                                                                   break;
+                                                                                               default:
+                                                                                                   break;
+                                                                                           }
                                                                                        }
                                                                                    } else {
-                                                                                       creatQRcode();
-                                                                                       switch (charge_mode) {
-                                                                                           //全部免费
-                                                                                           case 1:
-                                                                                               signin_type = "";
-                                                                                               new Thread(QrcodeRunnable).start();
-                                                                                               Log.i("charge_mode==1", "type==1");
-                                                                                               break;
-                                                                                           //全部收费
-                                                                                           case 3:
-                                                                                               signin_type = "";
-                                                                                               new Thread(QrcodeRunnable).start();
-                                                                                               Log.i("charge_mode==3", "type==1");
-                                                                                               break;
-                                                                                           default:
-                                                                                               break;
-                                                                                       }
+                                                                                       Toast.makeText(context, "为了您的安全，请购买保险!", Toast.LENGTH_SHORT).show();
                                                                                    }
                                                                                } else {
-                                                                                   Toast.makeText(context, "为了您的安全，请购买保险!", Toast.LENGTH_SHORT).show();
+                                                                                   Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                                                                                }
                                                                            } else {
-                                                                               Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                                                                               Toast.makeText(context, "请输入您的电话号码!", Toast.LENGTH_SHORT).show();
                                                                            }
-                                                                       } else {
-                                                                           Toast.makeText(context, "请输入您的电话号码！", Toast.LENGTH_SHORT).show();
+                                                                       }else {
+                                                                           Toast.makeText(context, "请输入您的来源单位!", Toast.LENGTH_SHORT).show();
                                                                        }
-                                                                   } else {
+                                                                   }else {
                                                                        Toast.makeText(context, "请选择您的身份！", Toast.LENGTH_SHORT).show();
                                                                    }
                                                                } else {
@@ -375,9 +374,11 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
 
                 try {
+                    Log.e("imagepath",imagepath);
                     ScuessImagePath = JsonTools.getUserLog(imagepath);
 
                     Log.i("上传证件照imagepath", ScuessImagePath);
@@ -411,12 +412,13 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             String imagepath = (String) msg.obj;
             if (imagepath.equals("failure")) {
                 Toast.makeText(context, "图片上传失败", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
                 try {
-
+                    Log.i("上传二维码imagepath", imagepath);
                     QRcodeImage = JsonTools.getUserLog(imagepath);
 
-                    Log.i("上传二维码imagepath", QRcodeImage);
+
 
                     new Thread(Mode1runnable).start();
                 } catch (JSONException e) {
@@ -433,7 +435,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         @Override
         public void run() {
             order_id = RandomUtils.LerunOrderId();
-            Log.i("order_id2",order_id+"aa");
+            Log.i("order_id2", order_id + "aa");
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
@@ -468,6 +470,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
             if (result.equals("timeout")) {
+                progressDialog.dismiss();
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
@@ -475,6 +478,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
+                        progressDialog.dismiss();
                         switch (charge_mode) {
                             case 1:
                                 Bundle bundle = new Bundle();
@@ -530,6 +534,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                     } else {
                         //报名失败
+                        progressDialog.dismiss();
                         String datas = JsonTools.getDatas(result);
                         Toast.makeText(context, datas, Toast.LENGTH_SHORT).show();
                     }
@@ -559,14 +564,13 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
      * 选择证件照
      *********************************************************************************/
     public void showDailog() {
-        dialog = new ChoseImageDiaLog(getActivity(), R.layout.dialog_choseimage,
+        dialog = new ChoseImageDiaLog(context, R.layout.dialog_choseimage,
                 R.style.dialog, new ChoseImageDiaLog.LeaveMyDialogListener() {
 
             @Override
 
             public void onClick(View view) {
 
-                System.out.println("aaaaaaaaaaaaaa");
                 switch (view.getId()) {
                     case R.id.btn_takephoto:
 
@@ -628,7 +632,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                     options.inSampleSize = 2;
                     Bitmap bmp = BitmapFactory.decodeFile(imageFilePath, options);
 
-//                    Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
                     enroll_authentication.setImageBitmap(bmp);
                     choseimage_state = 1;
 
@@ -644,22 +647,15 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                 if (data != null) {
                     Uri originalUri = data.getData(); // 获得图片的uri
-
-                    try {
-                        Bitmap bm = MediaStore.Images.Media.getBitmap(resolver, originalUri); // 显得到bitmap图片
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
                     // 这里开始的第二部分，获取图片的路径：
 
                     String[] proj = {MediaStore.Images.Media.DATA};
 
-                    // 好像是android多媒体数据库的封装接口，具体的看Android文档
+                    // android多媒体数据库的封装接口
                     @SuppressWarnings("deprecation")
                     Cursor cursor = getActivity().managedQuery(originalUri, proj, null, null,
                             null);
-                    // 按我个人理解 这个是获得用户选择的图片的索引值
+                    // 获得用户选择的图片的索引值
                     int column_index = cursor
                             .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                     // 将光标移至开头 ，这个很重要，不小心很容易引起越界
@@ -691,9 +687,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(bean);
-        Log.i("jsonString", "" + jsonString);
         String qrcodeImage = CreateQrCode.createImage(jsonString, 400, 400);
-        Log.i("qrcodeImage", qrcodeImage);
         qrcodeFile = new File(qrcodeImage);
     }
 

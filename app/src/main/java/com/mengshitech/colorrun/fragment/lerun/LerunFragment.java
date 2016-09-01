@@ -16,17 +16,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +89,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     List<LeRunEntity> gideviewlist = null;
     private AutoSwipeRefreshLayout mSwipeLayout;
     private int flag = 0;
+//    private TextView tvTitle;
 
     //声明AMapLocationClient类对象
     private AMapLocationClient locationClient = null;
@@ -94,6 +98,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
     Context context;
     private String lerun_province;
+    private LinearLayout llContainer;
+
+    private int mPreviousPos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,14 +115,14 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
             findById();
         }
-        ViewGroup parent = (ViewGroup) lerunView.getParent();
-        if (parent != null) {
-            parent.removeView(lerunView);
-        }
+//        ViewGroup parent = (ViewGroup) lerunView.getParent();
+//        if (parent != null) {
+//            parent.removeView(lerunView);
+//        }
 
-        lerunView.setFocusable(true);
-        lerunView.setFocusableInTouchMode(true);
-        lerunView.setOnKeyListener(backlistener);
+//        lerunView.setFocusable(true);
+//        lerunView.setFocusableInTouchMode(true);
+//        lerunView.setOnKeyListener(backlistener);
         Log.i("lerunView","lerunView");
         return lerunView;
 
@@ -128,6 +135,10 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         mSwipeLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         mSwipeLayout.setOnRefreshListener(this);
 
+
+        new Thread(getLunBOimageRunnable).start();
+        mSwipeLayout.autoRefresh();
+        new Thread(videoRunnable).start();
         if (ContentCommon.INTENT_STATE) {
 //            Toast.makeText(context,"网络状态:"+ContentCommon.INTENT_STATE,Toast.LENGTH_SHORT).show();
             mSwipeLayout.autoRefresh();
@@ -136,8 +147,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
         //热门视频图片
         hotImage = (ImageView) lerunView.findViewById(R.id.ivHotView);
-
-        vpLeRunAd = (ViewPager) lerunView.findViewById(R.id.vpLeRunAd);
+//        tvTitle = (TextView) lerunView.findViewById(R.id.tv_title);
+        llContainer = (LinearLayout) lerunView.findViewById(R.id.ll_container);
+        vpLeRunAd = (ViewPager) lerunView.findViewById(R.id.vpLeRunAD);
         // 顶部ViewPager滚动栏
         tvLeRunActivity = (TextView) lerunView.findViewById(R.id.tvLeRunActivity);
         // 活动按钮
@@ -153,6 +165,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         tvHotVideo = (TextView) lerunView.findViewById(R.id.tvHotVideo);
         // 签到按钮
         tvleRunCity = (TextView) lerunView.findViewById(R.id.tvleRunCity);
+        tvleRunCity.setText("江西");
         // 城市选择按钮
         lvLerun = (MyListView) lerunView.findViewById(R.id.lvLerun);
         gvHotActivity = (GridView) lerunView.findViewById(R.id.gvHotActivity);
@@ -283,9 +296,12 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
             }
 
-            vpLeRunAd
-                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
-            mSwipeLayout.setRefreshing(false);
+//            vpLeRunAd
+//                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
+            initViewPager();
+//            mSwipeLayout.setRefreshing(false);
+
+
         }
     };
 
@@ -297,7 +313,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
             map.put("index", "0");
-            map.put("lerun_province", "江西省");
+            map.put("lerun_province", lerun_province);
             String result = HttpUtils.sendHttpClientPost(Path, map, "utf-8");
             Message msg = new Message();
             msg.obj = result;
@@ -312,6 +328,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+            Log.i("主题信息:",""+result);
             if (result.equals("timeout")) {
 
                 mSwipeLayout.setRefreshing(false);
@@ -373,7 +390,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                     Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
                     video_url = entity.getVideo_url();
                     Log.i("video_url", video_url + "");
-                    mSwipeLayout.setRefreshing(false);
+//                    mSwipeLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -435,9 +452,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     public void onRefresh() {
 
 
-        new Thread(getLunBOimageRunnable).start();
+
         new Thread(getLeRunRunnable).start();
-        new Thread(videoRunnable).start();
+
 
     }
 
@@ -494,10 +511,10 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 lerun_province = aMapLocation.getProvince();
 
                 mSwipeLayout.autoRefresh();
-                Log.e("AmapS", aMapLocation.getCity());
+                Log.e("AmapS", aMapLocation.getProvince());
             } else {
-                tvleRunCity.setText("江西省");
-                lerun_province = "江西省";
+                tvleRunCity.setText("江西");
+                lerun_province = "江西";
                 mSwipeLayout.autoRefresh();
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
@@ -523,23 +540,142 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    long mPressedTime = 0;
-    private View.OnKeyListener backlistener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
-                    long mNowTime = System.currentTimeMillis();
-                    Log.i("1backmNowTime",mNowTime+"");
-                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
-                        Toast.makeText(getActivity(),"再按一次退出程序", Toast.LENGTH_SHORT).show();
-                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
-                        mPressedTime = mNowTime;
-                        Log.i("1backmPressedTime",mNowTime+"");
-                    }
-                }
+
+
+    //轮播
+
+    public void initViewPager() {
+
+
+//        vpLeRunAd.setAdapter(new MyAdapter(context));// 给viewpager设置数据
+        vpLeRunAd
+                .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
+        vpLeRunAd.setCurrentItem(Integer.MAX_VALUE / 2);
+        vpLeRunAd.setCurrentItem(imgList.size() * 10000);
+
+        // 设置滑动监听
+        vpLeRunAd.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            // 某个页面被选中
+            @Override
+            public void onPageSelected(int position) {
+                int pos = position % imgList.size();
+//                tvTitle.setText("新闻");// 更新新闻标题
+
+                // 更新小圆点
+                llContainer.getChildAt(pos).setEnabled(true);// 将选中的页面的圆点设置为红色
+                // 将上一个圆点变为灰色
+                llContainer.getChildAt(mPreviousPos).setEnabled(false);
+
+                // 更新上一个页面位置
+                mPreviousPos = pos;
             }
-            return false;
+
+            // 滑动过程中
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+
+            }
+
+            // 滑动状态变化
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+//        tvTitle.setText("新闻");// 初始化新闻标题
+        Log.i("imgList.size():", imgList.size() + "");
+        // 动态添加5个小圆点
+        for (int i = 0; i < imgList.size(); i++) {
+            ImageView view = new ImageView(context);
+            view.setImageResource(R.drawable.shape_point_selector);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            if (i != 0) {// 从第2个圆点开始设置左边距, 保证圆点之间的间距
+                params.leftMargin = 6;
+                view.setEnabled(false);// 设置不可用, 变为灰色圆点
+            }
+
+            view.setLayoutParams(params);
+
+            llContainer.addView(view);
         }
+
+        // 延时2秒更新广告条的消息
+        mHandler.sendEmptyMessageDelayed(0,3000);
+        vpLeRunAd.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mHandler.removeCallbacksAndMessages(null);// 清除所有消息和Runnable对象
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mHandler.removeCallbacksAndMessages(null);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // 继续轮播广告
+                        mHandler.sendEmptyMessageDelayed(0, 3000);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return false;// 返回false, 让viewpager原生触摸效果正常运行
+            }
+        });
+
+    }
+
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            int currentItem = vpLeRunAd.getCurrentItem();// 获取当前页面位置
+            vpLeRunAd.setCurrentItem(++currentItem);// 跳到下一个页面
+
+            // 继续发送延时2秒的消息, 形成类似递归的效果, 使广告一直循环切换
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        }
+
+        ;
     };
+
+
+
+//    long mPressedTime = 0;
+//    private View.OnKeyListener backlistener = new View.OnKeyListener() {
+//        @Override
+//        public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+//                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
+//                    long mNowTime = System.currentTimeMillis();
+//                    Log.i("1backmNowTime",mNowTime+"");
+//                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
+//                        Toast.makeText(getActivity(),"再按一次退出程序", Toast.LENGTH_SHORT).show();
+//                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
+//                        mPressedTime = mNowTime;
+//                        Log.i("1backmPressedTime",mNowTime+"");
+//                    }
+//                }
+//            }
+//            return false;
+//        }
+//    };
+//
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
+//        lerunView.setFocusableInTouchMode(true);
+//        lerunView.setOnKeyListener(backlistener);
+//        Log.i("backlistener","backlistener");
+//    }
+
 }

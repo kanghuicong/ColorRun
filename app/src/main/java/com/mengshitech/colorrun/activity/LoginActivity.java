@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.dao.UserDao;
+import com.mengshitech.colorrun.utils.EncryptMD5;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -135,6 +136,9 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            //加密
+//            String pwd=EncryptMD5.md5(userPwd);
+
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");

@@ -100,7 +100,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void initFragment() {
         //一开始先初始到lerunFragment
         fm = getSupportFragmentManager();
-        Utility.replace2MainFragment(fm, new LerunFragment());
+        lerunFragment = new LerunFragment();
+        Utility.replace2MainFragment(fm, lerunFragment);
 
     }
 

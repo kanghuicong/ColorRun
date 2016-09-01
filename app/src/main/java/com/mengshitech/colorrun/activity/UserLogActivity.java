@@ -75,7 +75,7 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         ps.height = dm.widthPixels;
         user_image.setLayoutParams(ps);
         ll_back = (LinearLayout) findViewById(R.id.userlog_btn_back);
-        Glide.with(UserLogActivity.this).load(ContentCommon.user_log).into(user_image);
+        Glide.with(UserLogActivity.this).load(ContentCommon.user_log).error(R.mipmap.defaut_error_long).into(user_image);
         ll_back.setOnClickListener(this);
         image_chose.setOnClickListener(this);
     }

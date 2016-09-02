@@ -149,7 +149,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
     private boolean isBottom() {
 
         if (mListView != null && mListView.getAdapter() != null) {
-            return mListView.getLastVisiblePosition() == (mListView.getAdapter().getCount()-1);
+            return mListView.getLastVisiblePosition() == (mListView.getAdapter().getCount() - 1);
         }
         return false;
     }
@@ -172,8 +172,8 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
             setLoading(true);
             //
 //            mOnLoadListener.onLoad();
-            Message msg=new Message();
-            handler.sendMessageDelayed(msg,0);
+            Message msg = new Message();
+            handler.sendMessageDelayed(msg, 0);
 //            handler.sendEmptyMessageDelayed(0,2000);
         }
     }
@@ -186,7 +186,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
         if (isLoading) {
             mListView.addFooterView(mListViewFooter);
         } else {
-            if(mListView.getFooterViewsCount()>0){
+            if (mListView.getFooterViewsCount() > 0) {
                 mListView.removeFooterView(mListViewFooter);
                 mYDown = 0;
                 mLastY = 0;
@@ -243,7 +243,7 @@ public class BottomPullSwipeRefreshLayout extends SwipeRefreshLayout implements 
         }
     }
 
-    Handler handler=new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

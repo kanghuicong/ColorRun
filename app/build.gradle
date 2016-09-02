@@ -56,4 +56,5 @@ dependencies {
     compile files('libs/MobTools-2016.0707.1708.jar')
     compile files('libs/universal-image-loader-1.9.0.jar')
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

@@ -258,6 +258,8 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                     String poster_path = ContentCommon.path + leRunEntity.getLerun_poster();
                     map_path = ContentCommon.path + leRunEntity.getLerun_map();
+
+                    Log.e("map_path",map_path+"sss");
                     Glide.with(context).load(poster_path).into(poster);
                     Glide.with(context).load(map_path).into(map);
                     Time(time);// 倒计时

@@ -12,6 +12,6 @@
         android:layout_marginLeft="5dp"
         android:scaleType="fitXY"
         android:id="@+id/iv_show_detail_gridview"
-        android:background="@mipmap/defaut_error_square"/>
+        android:src="@mipmap/defaut_error_square"/>
 
 </LinearLayout>

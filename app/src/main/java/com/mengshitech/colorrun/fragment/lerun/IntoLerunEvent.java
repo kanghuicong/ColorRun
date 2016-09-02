@@ -29,6 +29,7 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 import com.mengshitech.colorrun.utils.Utility;
+import com.mengshitech.colorrun.utils.UtilsClick;
 
 import org.json.JSONException;
 
@@ -80,33 +81,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
             }
         }
         return mRootView.get();}
-
-
-    // 人数状态
-    private void number_type() {
-        // TODO Auto-generated method stub
-        if (Integer.valueOf(number.getText().toString()) == 0) {
-            ll_entry.setText("报名人数已满");
-            ll_entry.setEnabled(false);
-        }
-    }
-
-    // 查看报名的状态
-    private void entry_type() {
-        // TODO Auto-generated method stub
-
-        SharedPreferences sharedPreferences = getActivity()
-                .getSharedPreferences("entry_type", Activity.MODE_PRIVATE);
-        String type = sharedPreferences.getString("type", "");
-        String num = sharedPreferences.getString("number", "");
-
-        if (type == "success") {
-            number.setText(num + "");
-            ll_entry.setBackgroundColor(Color.parseColor("#cccccc"));
-            ll_entry.setText("已报名");
-            ll_entry.setEnabled(false);
-        }
-    }
 
     // 倒计时
     private void Time(String time) {
@@ -172,7 +146,11 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
 
                 if (ContentCommon.login_state.equals("1")) {
                     if (countdown.getText().toString().equals("00:00:00")) {
-                        Toast.makeText(mActivity, "报名已经结束了哦~", Toast.LENGTH_SHORT).show();
+                        if (UtilsClick.isFastClick(1500)) {
+                            return;
+                        }else {
+                            Toast.makeText(mActivity, "报名已经结束了哦~", Toast.LENGTH_SHORT).show();
+                        }
                     }else {
                         Bundle bundle = new Bundle();
                         bundle.putInt("type", 1);
@@ -257,7 +235,11 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                         price.setText(Free_price + "");
                     }
 
-                    number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
+                    if (countdown.getText().toString().equals("00:00:00")) {
+                        number.setText("0");
+                    }else {
+                        number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
+                    }
                     time = leRunEntity.getLerun_endtime();
                     address.setText(leRunEntity.getLerun_address());
                     lerun_time.setText(leRunEntity.getLerun_time());

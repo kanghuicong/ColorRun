@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:singleLine="true"
         android:text="请输入手机号码"
         android:textSize="18sp"/>
 

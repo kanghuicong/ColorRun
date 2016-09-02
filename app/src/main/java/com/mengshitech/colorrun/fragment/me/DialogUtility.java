@@ -263,8 +263,7 @@ public class DialogUtility implements View.OnClickListener {
                         Context = context;
                         tv_title = tv_conent;
                         if (address.isEmpty()) {
-                            Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT)
-                                    .show();
+                            Toast.makeText(context, "请输入地区", Toast.LENGTH_SHORT).show();
                         } else {
                             new Thread(runnable).start();
                             dialog.dismiss();
@@ -312,7 +311,7 @@ public class DialogUtility implements View.OnClickListener {
                         Context = context;
                         tv_title = tv_physique;
                         Matcher m = number.matcher(physique);
-                        if (m.matches()) {
+                        if (m.matches() && !physique.equals("")) {
                             new Thread(runnable).start();
                             dialog.dismiss();
                         } else {
@@ -342,7 +341,7 @@ public class DialogUtility implements View.OnClickListener {
                         Context = context;
                         tv_title = tv_physique;
                         Matcher m = number.matcher(physique);
-                        if (m.matches()) {
+                        if (m.matches() && !physique.equals("")) {
                             new Thread(runnable).start();
                             dialog.dismiss();
                         } else {

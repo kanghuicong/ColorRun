@@ -2,8 +2,10 @@ package com.mengshitech.colorrun.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.fragment.show.showDetail;
 import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -47,7 +50,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * atenklsy
  */
-public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
+public class ShowAdapter extends BaseAdapter  {
     FragmentManager fm;
     ViewHolder holder;
     //    View view;
@@ -211,7 +214,7 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         });
         holder.show_like.setOnClickListener(new LikeListener(position));
         holder.show_share.setOnClickListener(new ShareListener(position));
-        holder.show_comment.setOnClickListener(this);
+        holder.show_comment.setOnClickListener(new CommentListener(position));
         return convertView;
     }
 
@@ -284,20 +287,36 @@ public class ShowAdapter extends BaseAdapter implements View.OnClickListener {
         }
     }
 
+    class CommentListener implements View.OnClickListener{
+        int position;
+
+        public CommentListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ShowEntity showEntity = mShowList.get(position);
+            Intent intent = new Intent(context, showDetail.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("show_id", showEntity.getShow_id());
+            bundle.putString("comment_userid", showEntity.getUser_id());
+            bundle.putString("user_name", showEntity.getUser_name());
+            bundle.putString("show_content", showEntity.getShow_content());
+            bundle.putString("show_time", showEntity.getShow_time());
+            bundle.putString("show_comment_num", showEntity.getComment_num());
+            bundle.putString("show_like_num", showEntity.getLike_num());
+            bundle.putString("user_header", showEntity.getUser_header());
+            bundle.putString("show_image", showEntity.getShow_image());
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        }
+    }
+
     public void addItem(int item) {
         count = item;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.im_show_comment:
-
-                break;
-            default:
-                break;
-        }
-    }
 
     Runnable runnable = new Runnable() {
 

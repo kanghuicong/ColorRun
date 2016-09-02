@@ -111,6 +111,7 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                 bundle_register.putString("type", "register");
                 intent_register.putExtras(bundle_register);
                 startActivity(intent_register);
+                finish();
                 break;
 
             case R.id.tv_find_pwd:
@@ -120,6 +121,7 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                 bundle_find_pwd.putString("type", "find_pwd");
                 intent_find_pwd.putExtras(bundle_find_pwd);
                 startActivity(intent_find_pwd);
+                finish();
             default:
                 break;
         }

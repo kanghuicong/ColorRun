@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-android:background="@drawable/me_dialog"
+    android:background="@drawable/me_dialog"
     android:weightSum="1">
 
 
@@ -38,6 +38,7 @@ android:background="@drawable/me_dialog"
                 android:gravity="center_vertical"
                 android:hint="请输入"
                 android:id="@+id/et_physique"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

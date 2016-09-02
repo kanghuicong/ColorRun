@@ -120,6 +120,8 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:maxLength="400"
             android:background="@android:drawable/editbox_background_normal"
             android:layout_weight="1"
             android:hint="说点啥~"/>

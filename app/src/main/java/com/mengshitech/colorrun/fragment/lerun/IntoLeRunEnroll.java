@@ -80,6 +80,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     Spinner enroll_spinner_card, enroll_spinner_id;
     ImageView enroll_authentication;
     ListView enroll_listview;
+    LinearLayout ll_enroll_authentication;
     RadioButton enroll_agree, rb_sex_man, rb_sex_woman, rb_size_s, rb_size_m, rb_size_l, rb_size_xl, rb_size_2xl, rb_size_3xl;
     Button bt_enroll_agree;
     String sex = "男";
@@ -164,12 +165,14 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
         if (charge_mode == 1) {
             enroll_explain.setText("所有人免费。");
+            ll_enroll_authentication.setVisibility(View.GONE);
         }
         if (charge_mode == 2) {
             enroll_explain.setText("只有承办方人员且上传学生证、工作证等有效材料证明方可免费。");
         }
         if (charge_mode == 3) {
             enroll_explain.setText("请选择价格。");
+            ll_enroll_authentication.setVisibility(View.GONE);
         }
 
         if (free_price >= 0) {
@@ -236,6 +239,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         enroll_authentication = (ImageView) enroll_view.findViewById(R.id.iv_enroll_authentication);
         enroll_agree = (RadioButton) enroll_view.findViewById(R.id.rb_enroll_agree);
         bt_enroll_agree = (Button) enroll_view.findViewById(R.id.bt_enroll_agree);
+        ll_enroll_authentication = (LinearLayout)enroll_view.findViewById(R.id.ll_enroll_authentication);
         enroll_listview = (ListView) enroll_view.findViewById(R.id.lv_enroll_listview);
         enroll_image = (ImageView) enroll_view.findViewById(R.id.iv_enroll_image);
         enroll_explain = (TextView) enroll_view.findViewById(R.id.tv_price_explain);

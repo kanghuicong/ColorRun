@@ -23,6 +23,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:cursorVisible="true"
+        android:singleLine="true"
         android:id="@+id/et_me_revise_nickname"
         android:layout_gravity="center_horizontal"
         android:background="@android:drawable/editbox_background_normal" />

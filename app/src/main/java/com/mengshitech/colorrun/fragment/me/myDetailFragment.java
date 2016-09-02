@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -66,22 +67,24 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
         if (modler == null) {
             new Thread(runnable).start();
         }else {
-            tv_nickname.setText(modler.getUser_name());
-            tv_phone.setText(modler.getUser_phone());
-            tv_email.setText(modler.getUser_email());
-            tv_sex.setText(modler.getUser_sex());
-            tv_height.setText(modler.getUser_height());
-            tv_weight.setText(modler.getUser_weight());
-            tv_address.setText(modler.getUser_address());
-            tv_sign.setText(modler.getUser_sign());
+            if (modler.getUser_phone()==null || modler.getUser_phone().equals("")){
+                tv_phone.setText(modler.getUser_id());
+            }else {
+                tv_phone.setText(modler.getUser_phone());
+            }
+            setEmpty(tv_nickname,modler.getUser_name());
+            setEmpty(tv_email,modler.getUser_email());
+            setEmpty(tv_sex,modler.getUser_sex());
+            setEmpty(tv_height,modler.getUser_height());
+            setEmpty(tv_weight,modler.getUser_weight());
+            setEmpty(tv_address,modler.getUser_address());
+            setEmpty(tv_sign,modler.getUser_sign());
 
-            if (modler.getUser_header()!=null){
-                header_path = ContentCommon.path+modler.getUser_header();
-                ContentCommon.user_log=header_path;
-                Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
+            if (modler.getUser_header() != null) {
+                String header_path = ContentCommon.path + modler.getUser_header();
+                Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).error(R.mipmap.default_avtar).into(iv_head);
             }
         }
-
     }
 
     private void Click() {
@@ -194,7 +197,7 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
                     tv_weight.setText(userEntiy.getUser_weight());
                     tv_address.setText(userEntiy.getUser_address());
                     tv_sign.setText(userEntiy.getUser_sign());
-                    if (userEntiy.getUser_header()!=null){
+                    if (userEntiy.getUser_header()!=null && !userEntiy.getUser_header().equals("")){
                         header_path = ContentCommon.path+userEntiy.getUser_header();
                         ContentCommon.user_log=header_path;
                         Glide.with(context).load(header_path).transform(new GlideCircleTransform(mActivity)).into(iv_head);
@@ -206,6 +209,17 @@ public class myDetailFragment extends BaseFragment implements View.OnClickListen
             }
         }
     };
+
+    public void setEmpty(TextView tv,String text){
+        if (text == null || text.equals("")) {
+            if (tv.equals(tv_height) || tv.equals(tv_weight)){
+            }else {
+                tv.setText("未填写");
+            }
+        }else {
+            tv.setText(""+text+"");
+        }
+    }
 
     @Override
     public void onResume(){

@@ -129,6 +129,8 @@ public class RegisterPwd extends Activity {
                 Intent intent = new Intent(RegisterPwd.this,RegisterSuccess.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("type",type);
+                bundle.putString("userid",number);
+                bundle.putString("userpwd",repassword);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
@@ -147,7 +149,8 @@ public class RegisterPwd extends Activity {
             return result;
         }
 
-    Runnable runnable_find_pwd = new Runnable() {
+    Runnable
+            runnable_find_pwd = new Runnable() {
 
         @Override
         public void run() {
@@ -183,6 +186,8 @@ public class RegisterPwd extends Activity {
                 Intent intent = new Intent(RegisterPwd.this,RegisterSuccess.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("type",type);
+                bundle.putString("userid",number);
+                bundle.putString("userpwd",repassword);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();

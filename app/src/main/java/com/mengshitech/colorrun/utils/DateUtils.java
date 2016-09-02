@@ -48,8 +48,7 @@ public class DateUtils {
         long time_difference = time_now - time_issuance;
         if (time_difference < 86400000*7) {
             if (time_difference < 60000) {
-                m = time_difference/1000;
-                time_unit = m + "秒前";
+                time_unit = "刚刚";
             }
             if (time_difference >= 60000 && time_difference < 3600000) {
                 m = time_difference / 60000;

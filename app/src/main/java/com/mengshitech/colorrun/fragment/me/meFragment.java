@@ -86,8 +86,6 @@ public class meFragment extends Fragment implements OnClickListener {
 
         } else {
             Log.i("用户姓名", modler.getUser_name() + "");
-
-
             tvUserName.setText(modler.getUser_name());
             tvUserID.setText(modler.getUser_id());
             Log.i("tvUserID", modler.getUser_id());

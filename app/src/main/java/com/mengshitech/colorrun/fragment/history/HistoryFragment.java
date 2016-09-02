@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -58,6 +59,7 @@ public class HistoryFragment extends BaseFragment {
             titleList.add("卡乐水枪跑");
             titleList.add("卡乐荧光跑");
             vp.setAdapter(new MyPagerAdapter(getChildFragmentManager(), fragmentList, titleList));
+
             vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

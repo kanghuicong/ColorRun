@@ -47,6 +47,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -123,7 +124,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
         ll_send.setOnClickListener(this);
         ll_cancel.setOnClickListener(this);
-
     }
 
     public void showDailog() {

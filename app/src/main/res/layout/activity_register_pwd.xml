@@ -61,6 +61,8 @@
             android:layout_gravity="center"
             android:background="@android:drawable/editbox_background_normal"
             android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:singleLine="true"
             android:textSize="14sp"
             />
 
@@ -70,8 +72,10 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+            android:singleLine="true"
             android:background="@android:drawable/editbox_background_normal"
             android:hint="请输入确认密码"
+            android:inputType="textPassword"
             android:textSize="14sp" />
 
         <TextView

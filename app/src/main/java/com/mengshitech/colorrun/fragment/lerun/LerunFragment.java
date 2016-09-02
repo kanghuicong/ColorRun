@@ -678,4 +678,5 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //        Log.i("backlistener","backlistener");
 //    }
 
+
 }

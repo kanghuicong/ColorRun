@@ -4,8 +4,10 @@ package com.mengshitech.colorrun.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,9 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.utils.MainBackUtility;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * 作者：wschenyongyin on 2016/8/22 15:06
@@ -40,6 +45,8 @@ public class VideoActivity extends Activity {
     private ImageView back;
     private TextView title;
     String video_url;
+    Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +55,17 @@ public class VideoActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video);
 
-        waitdialog = ProgressDialog.show(VideoActivity.this, "正在加载");
+//        waitdialog = ProgressDialog.show(VideoActivity.this, "正在加载");
 
 
-        Intent intent=getIntent();
-         video_url= intent.getStringExtra("video_url");
+        Intent intent = getIntent();
+        video_url = intent.getStringExtra("video_url");
 
-        if(video_url==null||video_url.equals("")){
-            video_url="http://www.jxkuafu.com/";
+        if (video_url == null || video_url.equals("")) {
+            video_url = "http://www.jxkuafu.com/";
         }
 
-        waitdialog.show();
+//        waitdialog.show();
         webView = (WebView) findViewById(R.id.webView);
         video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
         back = (ImageView) findViewById(R.id.title_back);
@@ -99,10 +106,24 @@ public class VideoActivity extends Activity {
             return false;
         }
 
+        //设置加载时间
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            timer = new Timer();
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+//                    waitdialog.dismiss();
+                }
+            };
+            timer.schedule(tt, 10000, 1);
+        }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            waitdialog.dismiss();
+//            waitdialog.dismiss();
         }
     }
 
@@ -195,14 +216,15 @@ public class VideoActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        super.onDestroy();
-        video_fullView.removeAllViews();
-        webView.loadUrl("about:blank");
-        webView.stopLoading();
-        webView.setWebChromeClient(null);
-        webView.setWebViewClient(null);
-        webView.destroy();
-        webView = null;
+
+        if(webView != null) {
+            webView.clearHistory();
+            webView.clearCache(true);
+            webView.loadUrl("about:blank"); // clearView() should be changed to loadUrl("about:blank"), since clearView() is deprecated now
+            webView.freeMemory();
+            webView.pauseTimers();
+            webView = null; // Note that mWebView.destroy() and mWebView = null do the exact same thing
+        }
     }
 
     @Override
@@ -213,7 +235,7 @@ public class VideoActivity extends Activity {
                 hideCustomView();
                 return true;
             } else {
-                webView.loadUrl("about:blank");
+//                webView.loadUrl("about:blank");
                 VideoActivity.this.finish();
             }
         }

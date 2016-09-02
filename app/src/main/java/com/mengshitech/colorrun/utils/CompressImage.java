@@ -268,7 +268,7 @@ public class CompressImage {
      * @param context
      * @return
      */
-    private static String getImageCacheDir(Context context) {
+    public static String getImageCacheDir(Context context) {
 
 
         String dir = Environment

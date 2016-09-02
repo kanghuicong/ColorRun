@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/tv_enroll_price"
-            android:layout_width="40dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"

@@ -38,7 +38,6 @@ public class ChoseProvinceFragment extends BaseFragment implements AdapterView.O
 
     private void init() {
 
-
         listview = (ListView) view.findViewById(R.id.listview_province);
         ChoseProvinceAdapter adapter = new ChoseProvinceAdapter(context);
         listview.setAdapter(adapter);

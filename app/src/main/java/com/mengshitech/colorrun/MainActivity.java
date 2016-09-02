@@ -28,6 +28,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.fragment.history.HistoryFragment;
+import com.mengshitech.colorrun.fragment.lerun.DisplayQRcodeFragment;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
 import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
@@ -241,6 +242,4 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
-
 }

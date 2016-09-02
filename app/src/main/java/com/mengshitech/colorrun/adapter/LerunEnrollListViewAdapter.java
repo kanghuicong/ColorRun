@@ -116,7 +116,7 @@ public class LerunEnrollListViewAdapter extends BaseAdapter {
         if (mEnrollEntity.getPrice()==0){
             holder.price.setText("免费");
         }else {
-            holder.price.setText(mEnrollEntity.getPrice() + "");
+            holder.price.setText(mEnrollEntity.getPrice() + "元");
         }
 
         return view;

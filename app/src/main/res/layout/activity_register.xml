@@ -87,7 +87,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/login_shape_bt"
-        android:text="立即注册"
+        android:text="下一步"
         android:textSize="15dp"
         android:textColor="@color/white"/>
 

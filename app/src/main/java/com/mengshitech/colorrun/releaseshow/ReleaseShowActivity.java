@@ -27,6 +27,7 @@ import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.JustifyEdit;
 import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.upload;
 
@@ -75,7 +76,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     Bitmap bmp;
     int count;
     LinearLayout ll_send, ll_cancel;
-    EditText et_text;
+    JustifyEdit et_text;
     String content;
     String imageFilePath;
     File temp;
@@ -94,7 +95,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         listView = (ListView) findViewById(R.id.listView1);
         ll_send = (LinearLayout) findViewById(R.id.ll_send);
         ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);
-        et_text = (EditText) findViewById(R.id.et_text);
+        et_text = (JustifyEdit) findViewById(R.id.et_text);
         linearLayout = (LinearLayout) findViewById(R.id.ll_reshow);
         frameLayout = (FrameLayout) findViewById(R.id.fm_reshow);
 
@@ -125,6 +126,8 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         ll_send.setOnClickListener(this);
         ll_cancel.setOnClickListener(this);
     }
+
+
 
     public void showDailog() {
         dialog = new ChoseImageDiaLog(ReleaseShowActivity.this, R.layout.dialog_choseimage,

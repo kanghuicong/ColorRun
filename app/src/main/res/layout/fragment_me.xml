@@ -64,19 +64,19 @@
                 android:textSize="16sp" />
 
             <LinearLayout
+                android:id="@+id/ll_me_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:text="ID:"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:background="@mipmap/phoneid"
+                    />
 
                 <TextView
                     android:id="@+id/tvUserID"
@@ -88,9 +88,9 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text=""
-                    android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
+
 
         </LinearLayout>
 

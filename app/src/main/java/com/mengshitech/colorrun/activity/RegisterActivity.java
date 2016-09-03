@@ -52,9 +52,7 @@ public class RegisterActivity extends Activity {
         Bundle bundle = intent.getExtras();
         type = bundle.getString("type");
         if ("find_pwd".equals(type)) {
-            MainBackUtility.MainBackActivity(RegisterActivity.this, "忘记密码？");
-            btn_registered.setText("找回密码");
-            tv_title.setText("找回密码");
+            MainBackUtility.MainBackActivity(RegisterActivity.this, "找回密码");
             tv_conment.setText("");
         }else if("register".equals(type)) {
             MainBackUtility.MainBackActivity(RegisterActivity.this, "注册账号");

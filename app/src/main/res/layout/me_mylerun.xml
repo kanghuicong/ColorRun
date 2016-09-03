@@ -7,6 +7,16 @@
 
     <include layout="@layout/main_back" />
 
+    <TextView
+        android:id="@+id/tv_me_mylerun_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="快去参加乐跑活动吧~"
+        android:textSize="16sp"
+        android:textColor="@color/grey"/>
+
     <com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout
         android:id="@+id/id_swipe_ly"
         android:layout_width="match_parent"

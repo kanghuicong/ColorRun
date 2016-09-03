@@ -31,6 +31,7 @@ import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
+import com.mengshitech.colorrun.utils.JustifyText;
 import com.mengshitech.colorrun.utils.UtilsClick;
 import com.mengshitech.colorrun.view.EmptyGridView;
 
@@ -74,7 +75,7 @@ public class ShowAdapter extends BaseAdapter  {
         private ImageView user_header;
         private TextView user_name;
         private EmptyGridView show_image;
-        private TextView show_content;
+        private JustifyText show_content;
         private TextView show_time;
         private TextView show_like;
         private TextView show_comment;
@@ -132,7 +133,7 @@ public class ShowAdapter extends BaseAdapter  {
                         .findViewById(R.id.tv_show_username);
                 holder.show_image = (EmptyGridView) convertView
                         .findViewById(R.id.gv_show_image);
-                holder.show_content = (TextView) convertView
+                holder.show_content = (JustifyText) convertView
                         .findViewById(R.id.tv_show_content);
                 holder.show_time = (TextView) convertView
                         .findViewById(R.id.tv_show_time);

@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
@@ -34,6 +35,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     View myshowView;
     ShowAdapter mShowAdapter;
     ListView lv_myshow;
+    TextView myshow_text;
     List<ShowEntity> mShowList;
     FragmentManager fm;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
@@ -73,6 +75,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     private void findById() {
 
         lv_myshow = (ListView) myshowView.findViewById(R.id.lv_myshow);
+        myshow_text = (TextView)myshowView.findViewById(R.id.tv_me_myshow_text);
         swipeRefreshLayout = new BottomPullSwipeRefreshLayout(mActivity);
         swipeRefreshLayout = (BottomPullSwipeRefreshLayout) myshowView.findViewById(R.id.swipe_layout_myshow);
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
@@ -115,6 +118,9 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
                     mShowList = JsonTools.getShowInfo("result", result);
 
+                    if (mShowList != null && !mShowList.equals("")) {
+                        myshow_text.setVisibility(View.GONE);
+                    }
                     mShowAdapter = new ShowAdapter(mShowList.size(),activity,getActivity(), getFragmentManager(), mShowList, lv_myshow);
                     lv_myshow.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);

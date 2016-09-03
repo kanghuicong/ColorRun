@@ -44,6 +44,7 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
+import com.nostra13.universalimageloader.utils.L;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +56,7 @@ import org.json.JSONException;
  */
 public class meFragment extends Fragment implements OnClickListener {
     View meView;
-    LinearLayout llUserHead, llMyLeRun, llMyShow, llAboutUs, llCancel;
+    LinearLayout llUserHead, llMyLeRun, llMyShow, llAboutUs, llCancel,llId;
     ImageView ivUserHead;
     FragmentManager fm;
     TextView tvUserName, tvUserID;
@@ -76,11 +77,17 @@ public class meFragment extends Fragment implements OnClickListener {
     }
 
     private void GetDate() {
+        if (ContentCommon.login_state == "1"){
+            llId.setVisibility(View.VISIBLE);
+        }else {
+            llId.setVisibility(View.GONE);
+        }
         UserDao dao = new UserDao(context);
         UserEntiy modler = new UserEntiy();
         modler = dao.find(ContentCommon.user_id);
         if (modler == null) {
             if (ContentCommon.user_id != null) {
+//                llId.setVisibility(View.VISIBLE);
                 new Thread(runnable).start();
             }
 
@@ -106,6 +113,7 @@ public class meFragment extends Fragment implements OnClickListener {
         meView.setOnKeyListener(backlistener);
 
         llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
+        llId = (LinearLayout)meView.findViewById(R.id.ll_me_id);
         ivUserHead = (ImageView) meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView) meView.findViewById(R.id.tvUserName);
         tvUserID = (TextView) meView.findViewById(R.id.tvUserID);
@@ -276,7 +284,7 @@ public class meFragment extends Fragment implements OnClickListener {
                         ivUserHead.setImageResource(R.mipmap.default_avtar);
                         tvUserName.setText("未登录");
                         tvUserID.setText("");
-
+                        llId.setVisibility(View.GONE);
                         SharedPreferences mySharedPreferences = context.getSharedPreferences("user_type", Activity.MODE_PRIVATE);
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         editor.putString("user_type", "0");

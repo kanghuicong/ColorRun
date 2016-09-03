@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
@@ -40,6 +41,7 @@ import java.util.Map;
 public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private int entry_number = 3;
     View mLeRunView;
+    TextView mylerun_text;
     List<OrderEntity> order_list;
     final List<ImageEntity> bmlist = new ArrayList<ImageEntity>();
 
@@ -85,6 +87,7 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
         autoSwipeRefreshLayout.setOnRefreshListener(this);
         autoSwipeRefreshLayout.autoRefresh();
         mylerun_listview = (ListView) mLeRunView.findViewById(R.id.lv_me_mylerun);
+        mylerun_text = (TextView)mLeRunView.findViewById(R.id.tv_me_mylerun_text);
 
 
     }
@@ -119,6 +122,10 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);
                     order_list = JsonTools.getOrderInfo("result", result);
+                    Log.i("order_list",order_list+"");
+                    if (order_list != null && !order_list.equals("")) {
+                        mylerun_text.setVisibility(View.GONE);
+                    }
                     adapter = new MyLerunListViewAdapter(entry_number, getActivity(), order_list, mylerun_listview, mFragmentManager);
                     mylerun_listview.setAdapter(adapter);
                 } catch (JSONException e) {

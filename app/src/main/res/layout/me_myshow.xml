@@ -6,6 +6,16 @@
 
     <include layout="@layout/main_back"/>
 
+    <TextView
+        android:id="@+id/tv_me_myshow_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="快去发布show吧~"
+        android:textSize="16sp"
+        android:textColor="@color/grey"/>
+
     <com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout
         android:id="@+id/swipe_layout_myshow"
         android:layout_width="match_parent"

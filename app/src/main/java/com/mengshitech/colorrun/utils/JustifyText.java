@@ -1,102 +1,168 @@
 package com.mengshitech.colorrun.utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
+
+import com.mengshitech.colorrun.R;
+
 /**
  * Created by kk on 2016/9/2.
  */
 public class JustifyText extends TextView {
-    private int mLineY;
-    private int mViewWidth;
-    public static final String TWO_CHINESE_BLANK = "  ";
+    private final String namespace = "rong.android.TextView";
+    private String text;
+    private float textSize;
+    private float paddingLeft;
+    private float paddingRight;
+    private float marginLeft;
+    private float marginRight;
+    private int textColor;
+    private JSONArray colorIndex;
+    private Paint paint1 = new Paint();
+    private Paint paintColor = new Paint();
+    private float textShowWidth;
+    private float Spacing = 0;
+    private float LineSpacing = 1.3f;//行与行的间距
 
     public JustifyText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        text = attrs.getAttributeValue(
+                "http://schemas.android.com/apk/res/android", "text");
+        textSize = attrs.getAttributeIntValue(namespace, "textSize", 28);//字体大小
+        textColor = attrs.getAttributeIntValue(namespace, "textColor", R.color.grey);//字体颜色
+        paddingLeft = attrs.getAttributeIntValue(namespace, "paddingLeft", 0);
+        paddingRight = attrs.getAttributeIntValue(namespace, "paddingRight", 0);
+        marginLeft = attrs.getAttributeIntValue(namespace, "marginLeft", 0);
+        marginRight = attrs.getAttributeIntValue(namespace, "marginRight", 0);
+        paint1.setTextSize(textSize);
+        paint1.setColor(textColor);
+        paint1.setAntiAlias(true);
+        paintColor.setAntiAlias(true);
+        paintColor.setTextSize(textSize);
+        paintColor.setColor(Color.BLACK);
     }
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right,int bottom){
-        super.onLayout(changed, left, top, right, bottom);
+    public JustifyText(Context context, float textSize, int textColor, float paddingLeft, float paddingRight, float marginLeft, float marginRight){
+        super(context);
+        this.textSize = textSize;
+        this.textColor = textColor;
+        this.paddingLeft = paddingLeft;
+        this.paddingRight = paddingRight;
+        this.marginLeft = marginLeft;
+        this.marginRight = marginRight;
+        paint1.setTextSize(textSize);
+        paint1.setColor(textColor);
+        paint1.setAntiAlias(true);
+        paintColor.setAntiAlias(true);
+        paintColor.setTextSize(textSize);
+        paintColor.setColor(Color.BLUE);
     }
+
+    public JSONArray getColorIndex() {
+        return colorIndex;
+    }
+    public void setColorIndex(JSONArray colorIndex) {
+        this.colorIndex = colorIndex;
+    }
+    /**
+     * 传入一个索引，判断当前字是否被高亮
+     * @param index
+     * @return
+     * @throws JSONException
+     */
+    public boolean isColor(int index) throws JSONException{
+        if(colorIndex == null){
+            return false;
+        }
+        for(int i = 0 ; i < colorIndex.length() ; i ++){
+            JSONArray array = colorIndex.getJSONArray(i);
+            int start = array.getInt(0);
+            int end = array.getInt(1)-1;
+            if(index >= start && index <= end){
+                return true;
+            }
+
+        }
+
+
+        return false;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        TextPaint paint = getPaint();
-        paint.setColor(getCurrentTextColor());
-        paint.drawableState = getDrawableState();
-        mViewWidth = getMeasuredWidth();
-        String text = getText().toString();
-        mLineY = 0;
-        mLineY += getTextSize();
-        Layout layout = getLayout();
+//  super.onDraw(canvas);
+        View view=(View)this.getParent();
+        textShowWidth=view.getMeasuredWidth()-paddingLeft - paddingRight - marginLeft - marginRight;
+        int lineCount = 0;
 
-        if (layout == null) {
-            return;
+        text = this.getText().toString();//.replaceAll("\n", "\r\n");
+        if(text==null)return;
+        char[] textCharArray = text.toCharArray();
+        // 已绘的宽度
+        float drawedWidth = 0;
+        float charWidth;
+        for (int i = 0; i < textCharArray.length; i++) {
+            charWidth = paint1.measureText(textCharArray, i, 1);
+
+            if(textCharArray[i]=='\n'){
+                lineCount++;
+                drawedWidth = 0;
+                continue;
+            }
+            if (textShowWidth - drawedWidth < charWidth) {
+                lineCount++;
+                drawedWidth = 0;
+            }
+            boolean color = false;
+            try {
+                color = isColor(i);
+            } catch (JSONException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+            if(color){
+
+                canvas.drawText(textCharArray, i, 1, paddingLeft + drawedWidth,
+                        (lineCount + 1) * textSize * LineSpacing, paintColor);
+            }else{
+
+                canvas.drawText(textCharArray, i, 1, paddingLeft + drawedWidth,
+                        (lineCount + 1) * textSize * LineSpacing, paint1);
+            }
+            if(textCharArray[i] > 127 && textCharArray[i] != '、' && textCharArray[i] != '，' && textCharArray[i] != '。' && textCharArray[i] != '：' && textCharArray[i] != '！'){
+                drawedWidth += charWidth + Spacing;
+
+            }else{
+                drawedWidth += charWidth;
+            }
         }
-        Paint.FontMetrics fm = paint.getFontMetrics();
-        int textHeight = (int) (Math.ceil(fm.descent - fm.ascent));
-        textHeight = (int) (textHeight * layout.getSpacingMultiplier() + layout.getSpacingAdd());
-        for (int i = 0; i < layout.getLineCount(); i++) {
-            int lineStart = layout.getLineStart(i);
-            int lineEnd = layout.getLineEnd(i);
-            float width = StaticLayout.getDesiredWidth(text, lineStart,
-                    lineEnd, getPaint());
-            String line = text.substring(lineStart, lineEnd);
-            if(i < layout.getLineCount() - 1) {
-                if (needScale(line)) {
-                    drawScaledText(canvas, lineStart, line, width);
-                } else {
-                    canvas.drawText(line, 0, mLineY, paint);
-                }
-            } else {
-                canvas.drawText(line, 0, mLineY, paint);
-            }                        mLineY += textHeight;
-        }
+        setHeight((int) ((lineCount + 1) * (int) textSize * LineSpacing + 10));
     }
-    private void drawScaledText(Canvas canvas, int lineStart, String line,float lineWidth) {
-        float x = 0;
-        if (isFirstLineOfParagraph(lineStart, line)) {
-            String blanks = "  ";
-            canvas.drawText(blanks, x, mLineY, getPaint());
-            float bw = StaticLayout.getDesiredWidth(blanks, getPaint());
-            x += bw;
-            line = line.substring(3);
-        }
-        int gapCount = line.length() - 1;
-        int i = 0;
-        if (line.length() > 2 && line.charAt(0) == 12288
-                && line.charAt(1) == 12288) {
-            String substring = line.substring(0, 2);
-            float cw = StaticLayout.getDesiredWidth(substring, getPaint());
-            canvas.drawText(substring, x, mLineY, getPaint());
-            x += cw;
-            i += 2;
-        }
-        float d = (mViewWidth - lineWidth) / gapCount;
-        for (; i < line.length(); i++) {
-            String c = String.valueOf(line.charAt(i));
-            float cw = StaticLayout.getDesiredWidth(c, getPaint());
-            canvas.drawText(c, x, mLineY, getPaint());
-            x += cw + d;
-        }
+    public float getSpacing() {
+        return Spacing;
     }
-
-    private boolean isFirstLineOfParagraph(int lineStart, String line) {
-        return line.length() > 3 && line.charAt(0) == ' '
-                && line.charAt(1) == ' ';
+    public void setSpacing(float spacing) {
+        Spacing = spacing;
     }
-
-    private boolean needScale(String line) {
-        if (line == null || line.length() == 0) {
-            return false;
-        } else {
-            return line.charAt(line.length() - 1) != '\n';
-        }
+    public float getMYLineSpacing() {
+        return LineSpacing;
     }
-
-
+    public void setMYLineSpacing(float lineSpacing) {
+        LineSpacing = lineSpacing;
+    }
+    public float getMYTextSize() {
+        return textSize;
+    }
+    public void setMYTextSize(float textSize) {
+        this.textSize = textSize;
+        paint1.setTextSize(textSize);
+        paintColor.setTextSize(textSize);
+    }
 }

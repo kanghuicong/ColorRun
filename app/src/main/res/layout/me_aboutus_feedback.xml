@@ -19,21 +19,15 @@
         android:orientation="vertical">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/tv_aboutus_feedback_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="请输入遇到的问题或意见..."
-            android:gravity="top|left"
-            android:padding="5dp"
-            android:clickable="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
+            android:padding="8dp"
             android:maxLength="200"
-            android:singleLine="true"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/enroll_bg_et"/>
-
+            android:background="@drawable/enroll_bg_et"
+            android:hint="请输入遇到的问题或意见..."
+            android:gravity="top|left"/>
 
         <LinearLayout
             android:layout_width="match_parent"

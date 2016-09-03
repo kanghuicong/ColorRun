@@ -41,16 +41,15 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"
                     android:text=""
-
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <TextView
+                <com.mengshitech.colorrun.utils.JustifyText
                     android:id="@+id/tv_show_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:text="" />
             </LinearLayout>

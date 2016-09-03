@@ -106,7 +106,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/login_shape_bt_no"
                 android:clickable="false"
-                android:text="登陆"
+                android:text="登录"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
@@ -121,11 +121,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_find_pwd"
+                android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:text="忘记密码？"
+                android:text="注册新用户"
                 android:textColor="#0066cc"/>
 
             <View
@@ -134,12 +134,14 @@
                 android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/tv_register"
+                android:id="@+id/tv_find_pwd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:text="注册新用户"
+                android:text="忘记密码？"
                 android:textColor="#0066cc"/>
+
+
 
         </LinearLayout>
 

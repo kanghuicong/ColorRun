@@ -68,13 +68,14 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <EditText
+            <com.mengshitech.colorrun.utils.JustifyEdit
                 android:id="@+id/et_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:maxLength="200"
+                android:cursorVisible="true"
                 android:background="@drawable/enroll_bg_et"
                 android:hint="这一刻的想法..."
                 android:gravity="top|left"/>

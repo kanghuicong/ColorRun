@@ -59,6 +59,8 @@
                 android:layout_marginRight="8dp"
                 android:text="取消"
                 android:textColor="#ffffff" />
+
+
         </RelativeLayout>
 
         <ScrollView

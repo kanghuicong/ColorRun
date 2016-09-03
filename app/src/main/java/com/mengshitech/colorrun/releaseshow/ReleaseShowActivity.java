@@ -205,7 +205,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         bmp = BitmapFactory.decodeResource(res, R.mipmap.icon_addpic_focused);
         count = 1;
-         adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this, bmp,
+        adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this, bmp,
                 count);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new GridViewItemOnClick2());
@@ -229,13 +229,15 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 //                FragmentManager fragmentManager = getFragmentManager();
 //                fragmentManager.beginTransaction().replace(R.id.fm_reshow, show).addToBackStack(null).commit();
 //                frameLayout.setVisibility(View.VISIBLE);
+                if (compressfile.size() != 0) {
+                    String image_path = compressfile.get(position);
+                    Intent intent = new Intent(ReleaseShowActivity.this, ShowDltailImage.class);
+                    intent.putExtra("image_path", image_path);
+                    intent.putExtra("postion", position);
 
-                String image_path = compressfile.get(position);
-                Intent intent = new Intent(ReleaseShowActivity.this, ShowDltailImage.class);
-                intent.putExtra("image_path", image_path);
-                intent.putExtra("postion", position);
+                    startActivityForResult(intent, 001);
+                }
 
-                startActivityForResult(intent, 001);
 
             }
         }
@@ -271,7 +273,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 progressDialog.dismiss();
             } else {
                 try {
-                    deleteFile(compressfile);
+//                    deleteFile(compressfile);
                     success_imagePath = JsonTools.getDatas(result);
                     Log.i("success_imagePath", success_imagePath + "");
                     new Thread(ReleaseShowRunnable).start();
@@ -343,9 +345,9 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.ll_cancel:
-                if(ContentCommon.ShowImageList!=null){
+                if (ContentCommon.ShowImageList != null) {
                     ContentCommon.ShowImageList.clear();
-                    Log.e("showlist",ContentCommon.ShowImageList.size()+"");
+                    Log.e("showlist", ContentCommon.ShowImageList.size() + "");
                 }
                 finish();
                 break;
@@ -366,7 +368,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             try {
                 compressfile = compressImage(listfile);
                 count = compressfile.size() + 1;
-                 adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
+                adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
                         compressfile, count, bmp);
                 gridView.setAdapter(adapter);
             } catch (IOException e) {
@@ -374,25 +376,26 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             }
 
 
-        }else if(resultCode == 001){
-            int postion=data.getIntExtra("postion",1);
-            Log.e("前",compressfile.size()+"");
+        } else if (resultCode == 001) {
+            int postion = data.getIntExtra("postion", 1);
+            Log.e("前", compressfile.size() + "");
             compressfile.remove(postion);
             ContentCommon.ShowImageList.remove(postion);
-            Log.e("后",compressfile.size()+"");
-            count=compressfile.size()+1;
-          handler.sendEmptyMessage(0);
+            Log.e("后", compressfile.size() + "");
+            count = compressfile.size() + 1;
+            handler.sendEmptyMessage(0);
         }
     }
-Handler handler=new Handler(){
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-        adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
-                compressfile, count, bmp);
-        gridView.setAdapter(adapter);
-    }
-};
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
+                    compressfile, count, bmp);
+            gridView.setAdapter(adapter);
+        }
+    };
 
     //对取回来的图片进行压缩
 
@@ -437,29 +440,13 @@ Handler handler=new Handler(){
         return false;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("onPause", "true");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("onResume", "true");
-    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(ContentCommon.ShowImageList!=null){
-            ContentCommon.ShowImageList=null;
+        if (ContentCommon.ShowImageList != null) {
+            ContentCommon.ShowImageList .clear();
         }
     }
 }

@@ -48,33 +48,32 @@ public class ImgsActivity extends Activity implements OnClickListener {
     HashMap<Integer, ImageView> hashImage;
     LinearLayout btn_ok, btn_back;
     ArrayList<String> filelist;
+
     RelativeLayout back;
     Button count;
-    TextView btn_cancel;
     String evaluate_content;
     public static LinearLayout ll_imageactivity;
+    ArrayList<String> cancelList;
     public static FrameLayout frameLayout;
-    int num=0;
+    int num = 0;
+    private TextView btn_cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photogrally);
-
+        cancelList=new ArrayList<String>();
         imgGridView = (GridView) findViewById(R.id.gridView1);
         bundle = getIntent().getExtras();
         fileTraversal = bundle.getParcelable("data");
         evaluate_content = bundle.getString("evaluate_content");
-        imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
-                onItemClickClass);
-        imgGridView.setAdapter(imgsAdapter);
+        btn_cancel= (TextView) findViewById(R.id.btn_cancel);
         select_layout = (LinearLayout) findViewById(R.id.selected_image_layout);
         relativeLayout2 = (RelativeLayout) findViewById(R.id.relativeLayout2);
         btn_ok = (LinearLayout) findViewById(R.id.btn_ok);
         back = (RelativeLayout) findViewById(R.id.back);
         count = (Button) findViewById(R.id.count);
         btn_back = (LinearLayout) findViewById(R.id.btn_back);
-        btn_cancel = (TextView) findViewById(R.id.btn_cancel);
         ll_imageactivity = (LinearLayout) findViewById(R.id.ll_imageactivity);
         frameLayout = (FrameLayout) findViewById(R.id.fm_image);
 
@@ -87,9 +86,16 @@ public class ImgsActivity extends Activity implements OnClickListener {
             num = ContentCommon.ShowImageList.size();
         }
 
+
+        Log.e("ShowImageList",ContentCommon.ShowImageList.size()+"");
         filelist = ContentCommon.ShowImageList;
         // imgGridView.setOnItemClickListener(this);
         util = new Util(this);
+
+        imgsAdapter = new ImgsAdapter(this, fileTraversal.filecontent,
+                onItemClickClass);
+        imgGridView.setAdapter(imgsAdapter);
+
         btn_ok.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -102,6 +108,7 @@ public class ImgsActivity extends Activity implements OnClickListener {
         btn_cancel.setOnClickListener(this);
 
     }
+
 
     class BottomImgIcon implements OnItemClickListener {
 
@@ -191,12 +198,13 @@ public class ImgsActivity extends Activity implements OnClickListener {
                             checkBox);
 
                     if (imageView != null) {
-                      int Num= num + select_layout.getChildCount();;
-
-
+                        int Num = num + select_layout.getChildCount();
+                        ;
                         if (Num < 6) {
                             hashImage.put(Position, imageView);
                             filelist.add(filapath);
+                            cancelList.add(filapath);
+                            Log.e("cancelListss",cancelList.size()+"sss");
                             select_layout.addView(imageView);
                             count.setText(select_layout.getChildCount() + "");
                         } else {
@@ -213,13 +221,14 @@ public class ImgsActivity extends Activity implements OnClickListener {
         }
     };
 
-    public void tobreak(View view) {
-        finish();
-    }
+//    public void tobreak(View view) {
+//        finish();
+////    }
 
     public void sendfiles() {
-//        ContentCommon.ShowImageList = fileList;
-        ContentCommon.ShowImageList = filelist;
+        Log.e("canaellist111", "ssssss" + ContentCommon.ShowImageList.size());
+
+
         Intent intent = new Intent(this, ReleaseShowActivity.class);
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("files", filelist);
@@ -240,11 +249,20 @@ public class ImgsActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                ContentCommon.ShowImageList.removeAll(cancelList);
                 startActivity(new Intent(ImgsActivity.this, ImgFileListActivity.class));
                 finish();
                 break;
             case R.id.btn_cancel:
+                Log.e("ShowImageList22",ContentCommon.ShowImageList.size()+"");
+                ContentCommon.ShowImageList=filelist;
+                Log.e("ShowImageList22",cancelList.size()+"");
+                ContentCommon.ShowImageList.removeAll(cancelList);
                 Intent intent = new Intent(this, ReleaseShowActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("files", filelist);
+                bundle.putString("evaluate_content", evaluate_content);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
                 break;

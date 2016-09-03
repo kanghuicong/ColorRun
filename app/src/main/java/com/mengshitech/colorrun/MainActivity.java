@@ -73,6 +73,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
+
         initView();
     }
 

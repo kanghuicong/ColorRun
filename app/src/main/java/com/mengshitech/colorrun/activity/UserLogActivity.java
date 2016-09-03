@@ -94,7 +94,8 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                                         imageFilePath = Environment
                                                 .getExternalStorageDirectory()
                                                 .getAbsolutePath()
-                                                + "/"+ RandomUtils.getRandomInt()+".jpg";;
+                                                + "/" + RandomUtils.getRandomInt() + ".jpg";
+                                        ;
                                         temp = new File(imageFilePath);
                                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                                         Intent it = new Intent(

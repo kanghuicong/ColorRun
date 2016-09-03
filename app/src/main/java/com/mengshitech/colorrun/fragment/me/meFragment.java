@@ -91,6 +91,7 @@ public class meFragment extends Fragment implements OnClickListener {
             Log.i("tvUserID", modler.getUser_id());
             if (modler.getUser_header() != null) {
                 String header_path = ContentCommon.path + modler.getUser_header();
+                ContentCommon.user_log=header_path;
                 Glide.with(getActivity()).load(header_path).transform(new GlideCircleTransform(mActivity)).error(R.mipmap.default_avtar).into(ivUserHead);
 
             }

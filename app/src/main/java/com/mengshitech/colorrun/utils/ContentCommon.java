@@ -3,6 +3,9 @@ package com.mengshitech.colorrun.utils;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kanghuicong on 2016/7/22  11:19.
  * 515849594@qq.com
@@ -30,5 +33,7 @@ public class ContentCommon {
     public static String user_name=null;
     public static Boolean INTENT_STATE=true;
     public static int into_lerun_type = 0;
+
+    public static ArrayList<String> ShowImageList=null;
 
 }

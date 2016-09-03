@@ -8,7 +8,7 @@
         android:id="@+id/gridvieww_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         />
 
 </LinearLayout>

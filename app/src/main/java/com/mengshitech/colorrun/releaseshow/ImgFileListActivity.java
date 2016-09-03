@@ -43,19 +43,8 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
         listView = (ListView) findViewById(R.id.listView1);
 
         Log.i("sdk",""+GetSDKVersion.getAndroidSDKVersion());
-        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(ImgFileListActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,Manifest.permission.CAMERA},
-                        001);
-            }else {
-                init();
-            }
-        }else {
-            init();
-        }
-
+        init();
 
     }
 
@@ -113,19 +102,5 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        doNext(requestCode, grantResults);
-    }
 
-    private void doNext(int requestCode, int[] grantResults) {
-        if (requestCode == 001) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                init();
-            } else {
-                // Permission Denied
-            }
-        }
-    }
 }

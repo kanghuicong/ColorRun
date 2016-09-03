@@ -346,7 +346,10 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.ll_cancel:
-
+                if(ContentCommon.ShowImageList!=null){
+                    ContentCommon.ShowImageList.clear();
+                    Log.e("showlist",ContentCommon.ShowImageList.size()+"");
+                }
                 finish();
                 break;
 
@@ -378,6 +381,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             int postion=data.getIntExtra("postion",1);
             Log.e("前",compressfile.size()+"");
             compressfile.remove(postion);
+            ContentCommon.ShowImageList.remove(postion);
             Log.e("后",compressfile.size()+"");
             count=compressfile.size()+1;
           handler.sendEmptyMessage(0);
@@ -440,7 +444,7 @@ Handler handler=new Handler(){
     protected void onDestroy() {
         super.onDestroy();
 
-        Log.e("onDestroy", "true");
+
     }
 
     @Override
@@ -453,5 +457,12 @@ Handler handler=new Handler(){
     protected void onResume() {
         super.onResume();
         Log.e("onResume", "true");
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(ContentCommon.ShowImageList!=null){
+            ContentCommon.ShowImageList=null;
+        }
     }
 }

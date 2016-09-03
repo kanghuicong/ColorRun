@@ -211,7 +211,7 @@ public class SpaceImageDetailActivity extends Activity {
         String imageFilePath = Environment
                 .getExternalStorageDirectory()
                 .getAbsolutePath()
-                + "/Image/" + RandomUtils.getRandomInt() + ".jpg";
+                + "/" + RandomUtils.getRandomInt() + ".jpg";
         Log.i("imageFilePath", imageFilePath);
         File f = new File(imageFilePath);
         if (f.exists()) {

@@ -99,7 +99,7 @@ public class showDetail extends Activity implements View.OnClickListener {
         String show_hear = bundle.getString("user_header");
         String show_Image = bundle.getString("show_image");
         String header_path = ContentCommon.path + show_hear;
-        Glide.with(showDetail.this).load(header_path).transform(new GlideCircleTransform(this)).into(showdetail_hear);
+        Glide.with(showDetail.this).load(header_path).transform(new GlideCircleTransform(this)).error(R.mipmap.default_avtar).into(showdetail_hear);
         try {
             ImageList = JsonTools.getImageInfo(show_Image);
             imagepath = new ArrayList<String>();
@@ -160,8 +160,6 @@ public class showDetail extends Activity implements View.OnClickListener {
                 AlertDialog.Builder builder_show = new AlertDialog.Builder(showDetail.this);
                 builder_show.setMessage("确定删除show?");
                 builder_show.setTitle("提示");
-
-                //添加AlertDialog.Builder对象的setPositiveButton()方法
                 builder_show.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -169,8 +167,6 @@ public class showDetail extends Activity implements View.OnClickListener {
                         finish();
                     }
                 });
-
-                //添加AlertDialog.Builder对象的setNegativeButton()方法
                 builder_show.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -188,11 +184,12 @@ public class showDetail extends Activity implements View.OnClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
             //定义AlertDialog.Builder对象，当长按列表项的时候弹出确认删除对话框
-            if (ContentCommon.user_id.equals(comment_userid)) {
-                comment_position = position;
-                CommentEntity commentEntity = commentlist.get(position);
+            comment_position = position;
+            CommentEntity commentEntity = commentlist.get(position);
+            Log.d("MyClickLong", ContentCommon.user_id+"1111");
+            Log.d("MyClickLong", commentEntity.getUser_id()+"2222");
+            if (ContentCommon.user_id.equals(comment_userid) || ContentCommon.user_id.equals(commentEntity.getUser_id())) {
                 comment_id = commentEntity.getComment_id();
-                Log.d("MyClickLong", comment_id+"1111");
                 AlertDialog.Builder builder = new AlertDialog.Builder(showDetail.this);
                 builder.setMessage("确定删除评论?");
                 builder.setTitle("提示");
@@ -288,7 +285,6 @@ public class showDetail extends Activity implements View.OnClickListener {
                 try {
                     commentlist = JsonTools.getCommentInfo("result", result);
                     list.addAll(commentlist);
-                    Log.i("MyClickLong",list+"list0");
                     lv_adapter = new ShowDetailCommentAdpter(showDetail.this, commentlist, lv_comment);
                     if (commentlist != null && commentlist.size() != 0) {
                         comment_text.setVisibility(View.GONE);
@@ -328,7 +324,6 @@ public class showDetail extends Activity implements View.OnClickListener {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("MyClickLong",result+"5555");
             if (result.equals("timeout")) {
                 Toast.makeText(showDetail.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
@@ -387,7 +382,6 @@ public class showDetail extends Activity implements View.OnClickListener {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            Log.i("MyClickLongresult",result+"1111111111");
             try {
                 int state = JsonTools.getState("state",result);
                 if (state == 1) {
@@ -411,7 +405,6 @@ public class showDetail extends Activity implements View.OnClickListener {
             map.put("flag", "show");
             map.put("index", "9");
             map.put("comment_id", comment_id);
-            Log.d("MyClickLong", comment_id+"2222");
 
             String result = HttpUtils.sendHttpClientPost(path, map,
                     "utf-8");
@@ -429,8 +422,6 @@ public class showDetail extends Activity implements View.OnClickListener {
                 int state = JsonTools.getState("state",result);
                 if (state == 1) {
                     list.remove(comment_position);
-                    Log.i("MyClickLong",list+"list");
-                    Log.i("MyClickLong",comment_position+"position");
                     commentlist.clear();
                     commentlist.addAll(list);
                     lv_adapter.changeCount(commentlist.size());

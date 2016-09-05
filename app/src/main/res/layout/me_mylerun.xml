@@ -27,6 +27,8 @@
             android:id="@+id/lv_me_mylerun"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/lightgrey"
+            android:dividerHeight="10dp"
             android:scrollbars="none"/>
     </com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout>
 

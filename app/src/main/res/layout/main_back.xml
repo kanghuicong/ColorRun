@@ -30,5 +30,15 @@
             android:text="标题"
             android:textColor="#ffffff"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/title_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:src="@mipmap/friendcircle" />
     </RelativeLayout>
 </LinearLayout>

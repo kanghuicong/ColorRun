@@ -15,7 +15,9 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
+import com.nostra13.universalimageloader.utils.L;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +26,7 @@ import java.util.List;
  * E-address:atenk@qq.com.
  */
 public class ShowDetailCommentAdpter extends BaseAdapter{
-    List<CommentEntity> mCommentList;
+    List<CommentEntity> mCommentList = new ArrayList<CommentEntity>();
     ListView mCommentListView;
     Activity mActivity;
     int count;
@@ -38,7 +40,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
         mCommentListView = listView;
         mActivity = activity;
         count = commentList.size();
-        Log.i("ShowDetailCommentAdpter",count+"");
+        Log.i("MyClickLong",commentList+"adapter");
     }
 
     @Override

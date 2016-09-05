@@ -14,6 +14,7 @@
         android:gravity="center"
         android:layout_marginTop="100dp"
         android:text="快去参加乐跑活动吧~"
+        android:visibility="gone"
         android:textSize="16sp"
         android:textColor="@color/grey"/>
 

@@ -95,16 +95,19 @@ public class MyLerunListViewAdapter extends BaseAdapter implements AdapterView.O
         holder.mylerun_address.setText(info.getLerun_address());
         switch (info.getLerun_state()) {
             case 0:
-                holder.mylerun_state.setText("活动报名中");
+                holder.mylerun_state.setText("报名中");
+                holder.mylerun_state.setTextColor(context.getResources().getColor(R.color.green));
                 break;
             case 1:
                 holder.mylerun_state.setText("报名截止");
                 break;
             case 2:
                 holder.mylerun_state.setText("活动进行中");
+                holder.mylerun_state.setTextColor(context.getResources().getColor(R.color.red));
                 break;
             case 3:
-                holder.mylerun_state.setText("已结束");
+                holder.mylerun_state.setText("活动结束");
+                holder.mylerun_state.setTextColor(context.getResources().getColor(R.color.orange));
                 break;
             default:
                 break;

@@ -123,8 +123,8 @@ public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.
                     autoSwipeRefreshLayout.setRefreshing(false);
                     order_list = JsonTools.getOrderInfo("result", result);
                     Log.i("order_list",order_list+"");
-                    if (order_list != null && !order_list.equals("")) {
-                        mylerun_text.setVisibility(View.GONE);
+                    if (order_list == null || order_list.equals("")) {
+                        mylerun_text.setVisibility(View.VISIBLE);
                     }
                     adapter = new MyLerunListViewAdapter(entry_number, getActivity(), order_list, mylerun_listview, mFragmentManager);
                     mylerun_listview.setAdapter(adapter);

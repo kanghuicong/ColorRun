@@ -171,6 +171,7 @@ public class JsonTools {
                 CommentEntity info = new CommentEntity();
                 JSONObject Object = jsonArray.getJSONObject(i);
 
+                info.setComment_id(Object.getString("comment_id"));
                 info.setUser_name(Object.getString("user_name"));
                 info.setUser_header(Object.getString("user_header"));
                 info.setComment_time(Object.getString("comment_time"));

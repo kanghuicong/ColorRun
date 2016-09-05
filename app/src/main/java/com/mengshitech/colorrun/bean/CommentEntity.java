@@ -14,8 +14,17 @@ public class CommentEntity implements Serializable {
     private String comment_time;
     private String comment_content;
     private String user_id;
+    private String comment_id;
 
     public CommentEntity(){}
+
+    public String getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(String comment_id) {
+        this.comment_id = comment_id;
+    }
 
     public String getUser_header() {
         return user_header;

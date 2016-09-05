@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.mengshitech.colorrun.R;
+import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.GetSDKVersion;
 import com.nostra13.universalimageloader.utils.L;
 
@@ -87,9 +88,10 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent intent = new Intent(ImgFileListActivity.this, ReleaseShowActivity.class);
 
+            Intent intent = new Intent(this, ReleaseShowActivity.class);
             Bundle bundle = new Bundle();
+            bundle.putStringArrayList("files", ContentCommon.ShowImageList);
             bundle.putString("evaluate_content", evaluate_content);
             intent.putExtras(bundle);
             startActivity(intent);

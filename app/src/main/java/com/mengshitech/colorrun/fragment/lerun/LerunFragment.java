@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 import android.app.Activity;
@@ -101,6 +103,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     private LinearLayout llContainer;
 
     private int mPreviousPos;
+    List<LunBoEntity> list = null;
+    VideoEntity videoEntity = null;
+    ExecutorService fixedThreadPool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,12 +128,14 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //        lerunView.setFocusable(true);
 //        lerunView.setFocusableInTouchMode(true);
 //        lerunView.setOnKeyListener(backlistener);
-        Log.i("lerunView","lerunView");
+        Log.i("lerunView", "lerunView");
         return lerunView;
 
     }
 
     private void findById() {
+
+        fixedThreadPool = Executors.newFixedThreadPool(4);
 
         mSwipeLayout = new AutoSwipeRefreshLayout(mActivity);
         mSwipeLayout = (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
@@ -285,7 +292,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     Handler LunBOhandler = new Handler() {
 
         public void handleMessage(Message msg) {
-            List<LunBoEntity> list = (List<LunBoEntity>) msg.obj;
+            list = (List<LunBoEntity>) msg.obj;
             imgList = new ArrayList<ImageView>();
             for (int i = 0; i < list.size(); i++) {
                 LunBoEntity entity = list.get(i);
@@ -328,7 +335,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-            Log.i("主题信息:",""+result);
             if (result.equals("timeout")) {
 
                 mSwipeLayout.setRefreshing(false);
@@ -386,9 +392,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             } else {
                 try {
                     List<VideoEntity> list = JsonTools.getVideoInfo(result);
-                    VideoEntity entity = list.get(0);
-                    Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
-                    video_url = entity.getVideo_url();
+                    videoEntity = list.get(0);
+                    Glide.with(mActivity).load(videoEntity.getVideo_image()).into(hotImage);
+                    video_url = videoEntity.getVideo_url();
                     Log.i("video_url", video_url + "");
 //                    mSwipeLayout.setRefreshing(false);
 
@@ -447,16 +453,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             }
         }
     };
-
-    @Override
-    public void onRefresh() {
-
-
-
-        new Thread(getLeRunRunnable).start();
-
-
-    }
 
 
     private void Location() {
@@ -541,7 +537,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     }
 
 
-
     //轮播
 
     public void initViewPager() {
@@ -606,7 +601,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         }
 
         // 延时2秒更新广告条的消息
-        mHandler.sendEmptyMessageDelayed(0,3000);
+        mHandler.sendEmptyMessageDelayed(0, 3000);
         vpLeRunAd.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -649,34 +644,17 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
 
 
-//    long mPressedTime = 0;
-//    private View.OnKeyListener backlistener = new View.OnKeyListener() {
-//        @Override
-//        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-//            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-//                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
-//                    long mNowTime = System.currentTimeMillis();
-//                    Log.i("1backmNowTime",mNowTime+"");
-//                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
-//                        Toast.makeText(getActivity(),"再按一次退出程序", Toast.LENGTH_SHORT).show();
-//                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
-//                        mPressedTime = mNowTime;
-//                        Log.i("1backmPressedTime",mNowTime+"");
-//                    }
-//                }
-//            }
-//            return false;
-//        }
-//    };
-//
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
-//        lerunView.setFocusableInTouchMode(true);
-//        lerunView.setOnKeyListener(backlistener);
-//        Log.i("backlistener","backlistener");
-//    }
 
+
+    @Override
+    public void onRefresh() {
+
+
+        if (list == null) fixedThreadPool.execute(getLunBOimageRunnable);
+        if (videoEntity == null) fixedThreadPool.execute(videoRunnable);
+        fixedThreadPool.execute(getLeRunRunnable);
+
+
+    }
 
 }

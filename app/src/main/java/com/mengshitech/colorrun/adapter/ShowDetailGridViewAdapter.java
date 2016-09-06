@@ -36,8 +36,7 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
         this.likelist = likelist;
         this.count = count;
         dm = context.getResources().getDisplayMetrics();
-        Log.i("点赞头像数",count+"");
-        Log.i("点赞头像数likelist",likelist+"");
+
     }
 
     @Override

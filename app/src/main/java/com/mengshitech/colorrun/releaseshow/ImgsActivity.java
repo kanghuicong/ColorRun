@@ -87,7 +87,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
         }
 
 
-        Log.e("ShowImageList",ContentCommon.ShowImageList.size()+"");
         filelist = ContentCommon.ShowImageList;
         // imgGridView.setOnItemClickListener(this);
         util = new Util(this);
@@ -204,7 +203,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
                             hashImage.put(Position, imageView);
                             filelist.add(filapath);
                             cancelList.add(filapath);
-                            Log.e("cancelListss",cancelList.size()+"sss");
                             select_layout.addView(imageView);
                             count.setText(select_layout.getChildCount() + "");
                         } else {
@@ -226,7 +224,6 @@ public class ImgsActivity extends Activity implements OnClickListener {
 ////    }
 
     public void sendfiles() {
-        Log.e("canaellist111", "ssssss" + ContentCommon.ShowImageList.size());
 
 
         Intent intent = new Intent(this, ReleaseShowActivity.class);
@@ -254,9 +251,7 @@ public class ImgsActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.btn_cancel:
-                Log.e("ShowImageList22",ContentCommon.ShowImageList.size()+"");
                 ContentCommon.ShowImageList=filelist;
-                Log.e("ShowImageList22",cancelList.size()+"");
                 ContentCommon.ShowImageList.removeAll(cancelList);
                 Intent intent = new Intent(this, ReleaseShowActivity.class);
                 Bundle bundle = new Bundle();

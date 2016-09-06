@@ -136,7 +136,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             @Override
             public void onClick(View view) {
 
-                System.out.println("aaaaaaaaaaaaaa");
                 switch (view.getId()) {
                     case R.id.btn_takephoto:
 //                        Random random=new Random();
@@ -150,7 +149,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                         listfile.add(imageFilePath);
 
 
-                        Log.e("listfile", listfile.size() + "");
                         temp = new File(imageFilePath);
                         Uri imageFileUri = Uri.fromFile(temp);// 获取文件的Uri
                         Intent it = new Intent(
@@ -225,13 +223,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 showDailog();
             } else {
 
-                    //这个地方报错  下表越界
-//                String image_path = compressfile.get(position);
-//                ShowMap show = new ShowMap(ReleaseShowActivity.this, image_path, frameLayout, linearLayout);
-//
-//                FragmentManager fragmentManager = getFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.fm_reshow, show).addToBackStack(null).commit();
-//                frameLayout.setVisibility(View.VISIBLE);
                 if (compressfile.size() != 0) {
                     String image_path = compressfile.get(position);
                     Intent intent = new Intent(ReleaseShowActivity.this, ShowDltailImage.class);
@@ -278,7 +269,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
                 try {
 //                    deleteFile(compressfile);
                     success_imagePath = JsonTools.getDatas(result);
-                    Log.i("success_imagePath", success_imagePath + "");
                     new Thread(ReleaseShowRunnable).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -300,7 +290,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             map.put("user_id", ContentCommon.user_id);
 
             String result = HttpUtils.sendHttpClientPost(ContentCommon.PATH, map, "utf-8");
-            Log.i("success_result", result + "");
 
             Message msg = new Message();
             msg.obj = result;
@@ -350,7 +339,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             case R.id.ll_cancel:
                 if (ContentCommon.ShowImageList != null) {
                     ContentCommon.ShowImageList.clear();
-                    Log.e("showlist", ContentCommon.ShowImageList.size() + "");
                 }
                 finish();
                 break;
@@ -381,10 +369,8 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
 
         } else if (resultCode == 001) {
             int postion = data.getIntExtra("postion", 1);
-            Log.e("前", compressfile.size() + "");
             compressfile.remove(postion);
             ContentCommon.ShowImageList.remove(postion);
-            Log.e("后", compressfile.size() + "");
             count = compressfile.size() + 1;
             handler.sendEmptyMessage(0);
         }

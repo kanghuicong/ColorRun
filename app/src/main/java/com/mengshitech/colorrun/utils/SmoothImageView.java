@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
@@ -272,12 +271,6 @@ public class SmoothImageView extends ImageView {
 			}
 
 			if(mTransformStart){
-				Log.d("Dean", "mTransfrom.startScale:"+mTransfrom.startScale);
-				Log.d("Dean", "mTransfrom.startScale:"+mTransfrom.endScale);
-				Log.d("Dean", "mTransfrom.scale:"+mTransfrom.scale);
-				Log.d("Dean", "mTransfrom.startRect:"+mTransfrom.startRect.toString());
-				Log.d("Dean", "mTransfrom.endRect:"+mTransfrom.endRect.toString());
-				Log.d("Dean", "mTransfrom.rect:"+mTransfrom.rect.toString());
 			}
 			
 			mPaint.setAlpha(mBgAlpha);

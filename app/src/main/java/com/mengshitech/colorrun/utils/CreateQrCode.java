@@ -9,7 +9,6 @@ import java.util.Hashtable;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -98,7 +97,6 @@ public class CreateQrCode {
                 .getExternalStorageDirectory()
                 .getAbsolutePath()
                 + "/"+ RandomUtils.getRandomInt()+".jpg";
-        Log.i("imageFilePath",imageFilePath);
         File f = new File(imageFilePath);
         if (f.exists()) {
             f.delete();

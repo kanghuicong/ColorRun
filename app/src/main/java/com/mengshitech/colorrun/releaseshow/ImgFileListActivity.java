@@ -43,7 +43,6 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
         setContentView(R.layout.imgfilelist);
         listView = (ListView) findViewById(R.id.listView1);
 
-        Log.i("sdk",""+GetSDKVersion.getAndroidSDKVersion());
 
         init();
 

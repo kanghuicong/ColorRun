@@ -129,7 +129,6 @@ public class MyLeRunFragmentInTo extends BaseFragment implements SwipeRefreshLay
             } else {
                 try {
                     autoSwipeRefreshLayout.setRefreshing(false);
-                    Log.i("二维码返回的信息:",result+"");
                     qrcode_list = JsonTools.getQrCodeInfo(result);
                     adapter = new MyLerunInToListViewAdapter(context, qrcode_list, mylerun_listview, mFragmentManager);
                     mylerun_listview.setAdapter(adapter);

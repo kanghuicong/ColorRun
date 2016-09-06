@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
     View showView;
-    ImageView ivShow_CreateShow;
+    ImageView ivShow_CreateShow,iv_search;
     ShowAdapter mShowAdapter;
     ListView lvShowContent;
     List<ShowEntity> mShowList;
@@ -117,6 +117,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void findById() {
 //        initShow();
 //        new Thread(runnable).start();
+        iv_search = (ImageView)showView.findViewById(R.id.iv_search);
+        iv_search.setOnClickListener(this);
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
         ivShow_CreateShow.setOnClickListener(this);
@@ -151,6 +153,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }
                 break;
+            case R.id.iv_search:
+                Utility.replace2DetailFragment(fm,new Show_search());
             default:
                 break;
         }

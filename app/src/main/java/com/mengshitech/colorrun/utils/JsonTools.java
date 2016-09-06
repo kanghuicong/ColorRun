@@ -106,6 +106,7 @@ public class JsonTools {
     //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
+        Log.i("search_jsonString",jsonString);
         List<ShowEntity> list = new ArrayList<ShowEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray(key);
@@ -125,6 +126,7 @@ public class JsonTools {
             info.setShow_time(showObject.getString("show_time"));
             list.add(info);
         }
+        Log.i("search_list",list.size()+"");
         return list;
     }
 

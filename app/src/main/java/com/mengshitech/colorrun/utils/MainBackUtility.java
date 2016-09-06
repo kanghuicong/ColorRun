@@ -1,6 +1,8 @@
 package com.mengshitech.colorrun.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.fragment.me.meFragment;
+import com.mengshitech.colorrun.releaseshow.ReleaseShowActivity;
 
 /**
  * Created by kanghuicong on 2016/7/21  14:46.
@@ -41,15 +44,24 @@ public class MainBackUtility {
         });
     }
 
-    public static void MainBackFragment(View view, String title, final FragmentManager fm){
+    public static void MainBack_Show(final Context context, View view, String title, final FragmentManager fm){
         TextView title_bar = (TextView)view.findViewById(R.id.title_barr);
         title_bar.setText(title);
+        ImageView title_image = (ImageView)view.findViewById(R.id.title_image);
+        title_image.setVisibility(View.VISIBLE);
+        title_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, ReleaseShowActivity.class));
+            }
+        });
         ImageView title_back = (ImageView)view.findViewById(R.id.title_back);
         title_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utility.replace2MainFragment(fm,new meFragment());
+                fm.popBackStack();
             }
         });
     }
+
 }

@@ -72,7 +72,7 @@ public class ShowDetailGridViewAdapter extends BaseAdapter {
             ps.width = (dm.widthPixels/10);
             holder.grid_image.setLayoutParams(ps);
             String header_path = ContentCommon.path + likeEntity.getUser_header();
-            Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
+            Glide.with(context).load(header_path).transform(new GlideCircleTransform(context)).error(R.mipmap.default_avtar).into(holder.grid_image);
 
         return convertView;
     }

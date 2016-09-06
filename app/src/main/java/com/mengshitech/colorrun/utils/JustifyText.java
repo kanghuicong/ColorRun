@@ -35,10 +35,13 @@ public class JustifyText extends TextView {
         super(context, attrs);
         text = attrs.getAttributeValue(
                 "http://schemas.android.com/apk/res/android", "text");
-        textSize = attrs.getAttributeIntValue(namespace, "textSize", 28);//字体大小
-        textColor = attrs.getAttributeIntValue(namespace, "textColor", R.color.grey);//字体颜色
+//        textSize = attrs.getAttributeIntValue(namespace, "textSize", 28);//字体大小
+        textSize = this.getTextSize();
+//        textColor = attrs.getAttributeIntValue(namespace, "textColor", R.color.grey);//字体颜色
+        textColor = this.getCurrentTextColor();
         paddingLeft = attrs.getAttributeIntValue(namespace, "paddingLeft", 0);
-        paddingRight = attrs.getAttributeIntValue(namespace, "paddingRight", 0);
+//        paddingRight = attrs.getAttributeIntValue(namespace, "paddingRight", 0);
+        paddingRight = this.getPaddingRight();
         marginLeft = attrs.getAttributeIntValue(namespace, "marginLeft", 0);
         marginRight = attrs.getAttributeIntValue(namespace, "marginRight", 0);
         paint1.setTextSize(textSize);

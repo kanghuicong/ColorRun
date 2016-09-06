@@ -45,7 +45,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     public View initView() {
         activity=getActivity();
         myshowView = View.inflate(mActivity, R.layout.me_myshow, null);
-        MainBackUtility.MainBack(myshowView, "我的show", getFragmentManager());
+        MainBackUtility.MainBack_Show(activity,myshowView, "我的show", getFragmentManager());
         findById();
         new Thread(runnable).start();
         lv_myshow.setOnItemClickListener(new ItemClickListener());
@@ -115,12 +115,14 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             } else {
                 try {
-
                     mShowList = JsonTools.getShowInfo("result", result);
-
-                    if (mShowList != null && !mShowList.equals("")) {
-                        myshow_text.setVisibility(View.GONE);
+                    if (mShowList == null || mShowList.equals("")) {
+                        myshow_text.setVisibility(View.VISIBLE);
                     }
+
+//                    if (mShowList != null && !mShowList.equals("")) {
+//                        myshow_text.setVisibility(View.GONE);
+//                    }
                     mShowAdapter = new ShowAdapter(mShowList.size(),activity,getActivity(), getFragmentManager(), mShowList, lv_myshow);
                     lv_myshow.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);

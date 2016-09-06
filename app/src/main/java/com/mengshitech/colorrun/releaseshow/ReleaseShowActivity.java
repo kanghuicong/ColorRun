@@ -10,29 +10,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ReleaseShowGridViewAdapter;
-import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
-import com.mengshitech.colorrun.fragment.lerun.ShowMap;
 import com.mengshitech.colorrun.utils.CompressImage;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.JustifyEdit;
 import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.upload;
-
-
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,15 +33,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -65,9 +53,10 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-public class ReleaseShowActivity extends Activity implements OnClickListener {
+public class ReleaseShowActivity extends Activity implements OnClickListener,TextWatcher {
     private ChoseImageDiaLog dialog;
-
+    int content_number = 250;
+    int max_number = 280;
     ListView listView;
     GridView gridView;
     // ArrayList<String> listfile = new ArrayList<String>();
@@ -76,7 +65,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
     Bitmap bmp;
     int count;
     LinearLayout ll_send, ll_cancel;
-    JustifyEdit et_text;
+    EditText et_text;
     String content;
     String imageFilePath;
     File temp;
@@ -95,7 +84,9 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         listView = (ListView) findViewById(R.id.listView1);
         ll_send = (LinearLayout) findViewById(R.id.ll_send);
         ll_cancel = (LinearLayout) findViewById(R.id.ll_cancel);
-        et_text = (JustifyEdit) findViewById(R.id.et_text);
+        et_text = (EditText) findViewById(R.id.et_text);
+        et_text.addTextChangedListener(this);
+        et_text.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max_number)});
         linearLayout = (LinearLayout) findViewById(R.id.ll_reshow);
         frameLayout = (FrameLayout) findViewById(R.id.fm_reshow);
 
@@ -325,12 +316,19 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
             case R.id.ll_send:
                 content = et_text.getText().toString();
                 if (listfile != null && listfile.size() != 0 && content != null) {
-                    progressDialog.show();
-                    new Thread(runnable).start();
-
+                    if (content.length()<content_number) {
+                        progressDialog.show();
+                        new Thread(runnable).start();
+                    }else {
+                        Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
+                    }
                 } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
-                    success_imagePath = "";
-                    new Thread(ReleaseShowRunnable).start();
+                    if (content.length()<content_number) {
+                        success_imagePath = "";
+                        new Thread(ReleaseShowRunnable).start();
+                    }else {
+                        Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(ReleaseShowActivity.this, "请输入发布的内容",
                             Toast.LENGTH_SHORT).show();
@@ -429,7 +427,22 @@ public class ReleaseShowActivity extends Activity implements OnClickListener {
         return false;
     }
 
-
+    //监听Editext内容控制按钮变化
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+        int i = 1;
+        if (i==1) {
+            if (et_text.length() > content_number) {
+                Toast.makeText(this, "内容太长，无法发表...", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

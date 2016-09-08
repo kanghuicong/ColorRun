@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:background="@null"
                 android:hint="请输入show的内容或用户ID"
                 android:textSize="16dp" />

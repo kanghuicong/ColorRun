@@ -70,7 +70,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public View initView() {
-
         context = getActivity();
         mActivity = getActivity();
         fm = getFragmentManager();
@@ -190,7 +189,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 swipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
-
                     mShowList = JsonTools.getShowInfo("datas", result);
 
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
@@ -242,7 +240,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {

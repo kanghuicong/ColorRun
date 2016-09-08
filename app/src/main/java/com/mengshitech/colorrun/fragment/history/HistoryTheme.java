@@ -134,14 +134,13 @@ public class HistoryTheme extends BaseFragment implements SwipeRefreshLayout.OnR
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-
+            Log.i("history",result+"");
             if (result.equals("timeout")) {
 
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
-
                     int state=JsonTools.getState("state",result);
                     if(state==1){
                         List<HistoryEntity> lerunlist = JsonTools.getHistoryInfo("datas", result);

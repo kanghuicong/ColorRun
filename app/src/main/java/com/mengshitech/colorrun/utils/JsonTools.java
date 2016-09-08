@@ -11,6 +11,7 @@ import com.mengshitech.colorrun.bean.LikeEntity;
 import com.mengshitech.colorrun.bean.LunBoEntity;
 import com.mengshitech.colorrun.bean.OrderEntity;
 import com.mengshitech.colorrun.bean.QrcodeBean;
+import com.mengshitech.colorrun.bean.SearchEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
 import com.mengshitech.colorrun.bean.VideoEntity;
@@ -106,7 +107,6 @@ public class JsonTools {
     //show
     public static List<ShowEntity> getShowInfo(String key, String jsonString)
             throws JSONException {
-        Log.i("search_jsonString",jsonString);
         List<ShowEntity> list = new ArrayList<ShowEntity>();
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray jsonArray = jsonObject.getJSONArray(key);
@@ -126,7 +126,6 @@ public class JsonTools {
             info.setShow_time(showObject.getString("show_time"));
             list.add(info);
         }
-        Log.i("search_list",list.size()+"");
         return list;
     }
 
@@ -338,6 +337,20 @@ public class JsonTools {
         entity.setLerun_host(object.getString("lerun_host"));
         entity.setLerun_maxuser(object.getInt("lerun_maxuser"));
         return entity;
+    }
+
+    ///热门搜索
+    public static  List<SearchEntity>getHotSearch(String jsonString)throws JSONException{
+        List<SearchEntity> list = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray jsonArray = jsonObject.getJSONArray("datas");
+        for (int i=0;i<jsonArray.length();i++){
+            SearchEntity info = new SearchEntity();
+            JSONObject object = jsonArray.getJSONObject(i);
+            info.setUser_search(object.getString("search_title"));
+            list.add(info);
+        }
+        return list;
     }
 
     //解析主题评论信息

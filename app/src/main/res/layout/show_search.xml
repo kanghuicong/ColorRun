@@ -15,21 +15,21 @@
             android:id="@+id/title_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
             android:src="@mipmap/back" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:background="#EEEEEE"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_show_search"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -42,76 +42,108 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
+                android:singleLine="true"
                 android:background="@null"
                 android:hint="请输入show的内容或用户ID"
                 android:textSize="16dp" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_show_search"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_height="35dp"
+            android:visibility="gone"
+            android:text="搜索"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:background="@drawable/login_shape_bt"/>
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/ll_show_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <LinearLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热门搜索"
+            android:textSize="16dp"
+            android:textColor="@color/red"/>
+
+        <GridView
+            android:id="@+id/gv_show_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none"
+            android:horizontalSpacing="10dip"
+            android:verticalSpacing="10dp"
+            android:numColumns="3">
+
+        </GridView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_show_search_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/sad" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="没有相关内容~"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_show_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="搜索历史"
+            android:textSize="16dp"
+            />
+
+        <ListView
+            android:id="@+id/lv_show_search_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_show_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="热门搜索"
-                    android:textSize="16dp" />
-
-                <com.mengshitech.colorrun.view.MyGridView
-                    android:id="@+id/gv_show_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.mengshitech.colorrun.view.MyGridView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_show_search_nothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@mipmap/sad" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="没有相关内容~"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <com.mengshitech.colorrun.view.MyListView
-                android:id="@+id/lv_show_search"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/white"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+            android:scrollbars="none"
+            android:layout_marginTop="10sp"
+            />
+    </LinearLayout>
 
 
+    <ListView
+        android:id="@+id/lv_show_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 </LinearLayout>

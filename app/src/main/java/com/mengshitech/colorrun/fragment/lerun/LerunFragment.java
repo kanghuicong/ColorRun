@@ -195,8 +195,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         tvLeRunSignUp.setOnClickListener(this);
         Utility.changeRightDrawableSize(tvHotActivity, R.mipmap.hot_fire, 30, 30);
         Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
-
-
     }
 
     @Override
@@ -228,7 +226,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 break;
             case R.id.tvLeRunSignUp:
                 if (ContentCommon.login_state.equals("1")) {
-                    new Thread(getQrCodeRunnable).start();
+                    fixedThreadPool.execute(getQrCodeRunnable);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
@@ -272,9 +270,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             map.put("index", "0");
 
             String jsonString = HttpUtils.sendHttpClientPost(path, map, "utf-8");
-//            if(jsonString.equals("timeout")){
-//                mSwipeLayout.setRefreshing(false);
-//            }
             try {
                 List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
                 Message msg = new Message();
@@ -302,13 +297,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 imgList.add(img);
 
             }
-
-//            vpLeRunAd
-//                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
             initViewPager();
-//            mSwipeLayout.setRefreshing(false);
-
-
         }
     };
 
@@ -431,23 +420,29 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+
             try {
                 String qr_image = JsonTools.getDatas(result);
+                int state = JsonTools.getState("state", result);
 
-//                dialog = new QrcodeDialog(mActivity, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        dialog.dismiss();
-//                    }
-//                }, qr_image);
-//                dialog.show();
-                Bundle bundle = new Bundle();
-                bundle.putString("qrcode_image", qr_image + "");
-                bundle.putInt("type", 1);
-                DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
+                if (state == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrcode_image", qr_image + "");
+                    bundle.putInt("type", 1);
+                    DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
 
-                displayQRcodeFragment.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                    displayQRcodeFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrcode_image", qr_image + "");
+                    bundle.putInt("type", 6);
+                    DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
+
+                    displayQRcodeFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -540,14 +535,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     //轮播
 
     public void initViewPager() {
-
-
 //        vpLeRunAd.setAdapter(new MyAdapter(context));// 给viewpager设置数据
         vpLeRunAd
                 .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
         vpLeRunAd.setCurrentItem(Integer.MAX_VALUE / 2);
         vpLeRunAd.setCurrentItem(imgList.size() * 10000);
-
         // 设置滑动监听
         vpLeRunAd.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -642,19 +634,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         ;
     };
 
-
-
-
-
     @Override
     public void onRefresh() {
-
-
         if (list == null) fixedThreadPool.execute(getLunBOimageRunnable);
         if (videoEntity == null) fixedThreadPool.execute(videoRunnable);
         fixedThreadPool.execute(getLeRunRunnable);
-
-
     }
 
 }

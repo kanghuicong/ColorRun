@@ -54,7 +54,7 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
     String free_equipment, common_equipment, vip_equipment;
     int charge_mode, free_price, common_price, vip_price;
     List<EnrollEntity> list;
-    String time;
+    String time,tiem_countdown;
     String map_path;
     int lerun_id;
     Context context;
@@ -235,11 +235,6 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                         price.setText(Free_price + "");
                     }
 
-                    if (countdown.getText().toString().equals("00:00:00")) {
-                        number.setText("0");
-                    }else {
-                        number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
-                    }
                     time = leRunEntity.getLerun_endtime();
                     address.setText(leRunEntity.getLerun_address());
                     lerun_time.setText(leRunEntity.getLerun_time());
@@ -259,10 +254,14 @@ public class IntoLerunEvent extends BaseFragment implements OnClickListener {
                     String poster_path = ContentCommon.path + leRunEntity.getLerun_poster();
                     map_path = ContentCommon.path + leRunEntity.getLerun_map();
 
-                    Log.e("map_path",map_path+"sss");
                     Glide.with(context).load(poster_path).into(poster);
                     Glide.with(context).load(map_path).into(map);
                     Time(time);// 倒计时
+                    if (countdown.getText().toString().equals("00:00:00")) {
+                        number.setText("0");
+                    }else {
+                        number.setText(String.valueOf(leRunEntity.getLerun_surplus()));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

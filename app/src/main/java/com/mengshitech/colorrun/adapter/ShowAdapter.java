@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -51,11 +52,11 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * atenklsy
  */
-public class ShowAdapter extends BaseAdapter  {
+public class ShowAdapter extends BaseAdapter {
     FragmentManager fm;
     ViewHolder holder;
     //    View view;
-    List<String> ImageList,share_list;
+    List<String> ImageList, share_list;
     List<String> imagepath = new ArrayList<String>();
     ListView mListView;
     ShowEntity mShowEntity;
@@ -69,7 +70,7 @@ public class ShowAdapter extends BaseAdapter  {
     String sta;
     List<String> list = new ArrayList<String>();
     Activity activity;
-    
+    String glidviewImagelist;
 
 
     private static class ViewHolder {
@@ -112,7 +113,6 @@ public class ShowAdapter extends BaseAdapter  {
         return mShowList.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -123,25 +123,25 @@ public class ShowAdapter extends BaseAdapter  {
         ShareSDK.initSDK(parent.getContext());
         Log.i("456", "getView: " + imagepath.size());
         mShowEntity = mShowList.get(position);
-        ViewHolder holder = new ViewHolder();
+        holder = new ViewHolder();
         if (convertView == null) {
 //            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //            view = inflater.inflate(R.layout.show_listview, null);
-                convertView = View.inflate(context, R.layout.show_listview, null);
-                holder.user_header = (ImageView) convertView
-                        .findViewById(R.id.im_show_userhear);
-                holder.user_name = (TextView) convertView
-                        .findViewById(R.id.tv_show_username);
-                holder.show_image = (EmptyGridView) convertView
-                        .findViewById(R.id.gv_show_image);
-                holder.show_content = (JustifyText) convertView
-                        .findViewById(R.id.tv_show_content);
-                holder.show_time = (TextView) convertView
-                        .findViewById(R.id.tv_show_time);
-                holder.show_comment = (TextView) convertView.findViewById(R.id.im_show_comment);
-                holder.show_like = (TextView) convertView.findViewById(R.id.tv_show_like);
-                holder.show_share = (TextView) convertView.findViewById(R.id.im_show_share);
-                convertView.setTag(holder);
+            convertView = View.inflate(context, R.layout.show_listview, null);
+            holder.user_header = (ImageView) convertView
+                    .findViewById(R.id.im_show_userhear);
+            holder.user_name = (TextView) convertView
+                    .findViewById(R.id.tv_show_username);
+            holder.show_image = (EmptyGridView) convertView
+                    .findViewById(R.id.gv_show_image);
+            holder.show_content = (JustifyText) convertView
+                    .findViewById(R.id.tv_show_content);
+            holder.show_time = (TextView) convertView
+                    .findViewById(R.id.tv_show_time);
+            holder.show_comment = (TextView) convertView.findViewById(R.id.im_show_comment);
+            holder.show_like = (TextView) convertView.findViewById(R.id.tv_show_like);
+            holder.show_share = (TextView) convertView.findViewById(R.id.im_show_share);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -153,10 +153,10 @@ public class ShowAdapter extends BaseAdapter  {
         holder.user_name.setText(mShowEntity.getUser_name());
         holder.show_comment.setText(mShowEntity.getComment_num());
         holder.show_like.setText(mShowEntity.getLike_num());
-        if (mShowEntity.getShow_content() != null && !mShowEntity.getShow_content().equals("")){
+        if (mShowEntity.getShow_content() != null && !mShowEntity.getShow_content().equals("")) {
             holder.show_content.setVisibility(View.VISIBLE);
             holder.show_content.setText(mShowEntity.getShow_content());
-        }else {
+        } else {
             holder.show_content.setVisibility(View.GONE);
         }
         //发布show的时间
@@ -187,14 +187,19 @@ public class ShowAdapter extends BaseAdapter  {
         holder.show_comment.setCompoundDrawablesWithIntrinsicBounds(drawable_comment, null, null, null);
 
         //gridview图片
-        String result = mShowEntity.getShow_image();
-        if (result == null || result.equals("")) {
+        glidviewImagelist = mShowEntity.getShow_image();
+
+
+
+        if (glidviewImagelist == null || glidviewImagelist.equals("")) {
             holder.show_image.setVisibility(View.GONE);
+            Log.e("glidviewHandler", "2");
         } else {
             holder.show_image.setVisibility(View.VISIBLE);
             try {
-                Log.i("Show_image", position + "");
-                ImageList = JsonTools.getImageInfo(result);
+//                    Log.i("Show_image", position + "");
+                Log.e("glidviewHandler", "3");
+                ImageList = JsonTools.getImageInfo(glidviewImagelist);
                 imagepath = new ArrayList<String>();
                 for (int i = 0; i < ImageList.size(); i++) {
                     String paths = ImageList.get(i);
@@ -206,7 +211,6 @@ public class ShowAdapter extends BaseAdapter  {
                 e.printStackTrace();
             }
         }
-
         //gridview空白部分点击事件
         holder.show_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
             @Override
@@ -234,7 +238,7 @@ public class ShowAdapter extends BaseAdapter  {
             if (ContentCommon.login_state.equals("1")) {
                 show_like = (TextView) v.findViewById(R.id.tv_show_like);
                 if (UtilsClick.isFastClick(500)) {
-                    return ;
+                    return;
                 } else {
                     if (list.get(like_pos).equals("0")) {
                         index = "8";
@@ -289,10 +293,10 @@ public class ShowAdapter extends BaseAdapter  {
         }
     }
 
-    class CommentListener implements View.OnClickListener{
+    class CommentListener implements View.OnClickListener {
         int position;
 
-        public CommentListener(int position){
+        public CommentListener(int position) {
             this.position = position;
         }
 
@@ -338,6 +342,7 @@ public class ShowAdapter extends BaseAdapter  {
             Message msg = new Message();
             msg.obj = result;
             handler.sendMessage(msg);
+
         }
     };
 
@@ -391,6 +396,9 @@ public class ShowAdapter extends BaseAdapter  {
 
         }
     };
+
+
+
 
 
 }

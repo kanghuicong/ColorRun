@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "user_address varchar(50), user_bankid varchar (50), user_fullname varchar(20), user_level varchar(10), " +
                 "user_health varchar(10), user_height varchar(10), user_weight varchar(10), user_email varchar(20), " +
                 "user_state varchar(10), user_otherid varchar(10),user_sign varchar(100),user_phone varchar(15))");
+        db.execSQL("create table search(user_id varchar(20),user_search varchar (200))");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

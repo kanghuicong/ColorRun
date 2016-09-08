@@ -109,7 +109,6 @@ public class UserDao {
                     cursor.getString(cursor.getColumnIndex("user_state")),
                     cursor.getString(cursor.getColumnIndex("user_otherid")));
 
-
         }
         return null;// 如果没有信息，则返回null
     }

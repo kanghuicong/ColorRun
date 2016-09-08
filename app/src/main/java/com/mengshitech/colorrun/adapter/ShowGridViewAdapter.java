@@ -87,7 +87,9 @@ public class ShowGridViewAdapter extends BaseAdapter {
 //        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).into(holder.grid_image);
 //        Glide.with(context).load(image_path).transform(new GlideRoundTransform(context)).error(R.mipmap.defaut_error_square).into(holder.grid_image);
         final ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+        if(!imageLoader.isInited()) imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+
+
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisc(true)

@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,7 +18,7 @@ import android.widget.ImageView;
 import com.mengshitech.colorrun.R;
 
 public class ReleaseShowGridViewAdapter extends BaseAdapter {
-//	private ArrayList<String> listfile = null;
+	//	private ArrayList<String> listfile = null;
 	List<String> listfile=new ArrayList<String>();
 	private Context context;
 	private Bitmap bitmap;

@@ -69,6 +69,7 @@ public class ShowAdapter extends BaseAdapter  {
     String sta;
     List<String> list = new ArrayList<String>();
     Activity activity;
+    
 
 
     private static class ViewHolder {

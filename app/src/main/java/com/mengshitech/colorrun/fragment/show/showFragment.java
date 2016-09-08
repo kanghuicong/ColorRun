@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
     View showView;
-    ImageView ivShow_CreateShow,iv_search;
+    ImageView ivShow_CreateShow, iv_search;
     ShowAdapter mShowAdapter;
     ListView lvShowContent;
     List<ShowEntity> mShowList;
@@ -62,7 +62,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private Activity mActivity;
     Context context;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
-    int pageSize = 5;
+    int pageSize = 10;
     int currentPage = 1;
     List<ShowEntity> AllShowList = new ArrayList<ShowEntity>();
     LinearLayout no_network;
@@ -117,7 +117,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void findById() {
 //        initShow();
 //        new Thread(runnable).start();
-        iv_search = (ImageView)showView.findViewById(R.id.iv_search);
+        iv_search = (ImageView) showView.findViewById(R.id.iv_search);
         iv_search.setOnClickListener(this);
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
         ivShow_CreateShow = (ImageView) showView.findViewById(R.id.ivShow_CreateShow);
@@ -154,7 +154,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 }
                 break;
             case R.id.iv_search:
-                Utility.replace2DetailFragment(fm,new Show_search());
+                Utility.replace2DetailFragment(fm, new Show_search());
             default:
                 break;
         }
@@ -197,7 +197,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
                     lvShowContent.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);
-//                    swipeRefreshLayout.setLoading(false);
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

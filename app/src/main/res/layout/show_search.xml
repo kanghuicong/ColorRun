@@ -40,18 +40,18 @@
                 android:id="@+id/ed_search_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
                 android:background="@null"
-                android:textSize="16dp"
-                android:hint="请输入show的内容或用户ID" />
+                android:hint="请输入show的内容或用户ID"
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,23 +61,22 @@
             <LinearLayout
                 android:id="@+id/ll_show_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:padding="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="热门搜索"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <com.mengshitech.colorrun.view.MyGridView
                     android:id="@+id/gv_show_search"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.mengshitech.colorrun.view.MyGridView>
+                    android:layout_height="match_parent"></com.mengshitech.colorrun.view.MyGridView>
 
             </LinearLayout>
 
@@ -85,33 +84,30 @@
                 android:id="@+id/ll_show_search_nothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@mipmap/sad"/>
+                    android:background="@mipmap/sad" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="没有相关内容~"
-                android:textSize="16dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="没有相关内容~"
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <com.mengshitech.colorrun.view.MyListView
-                android:layout_marginTop="10dp"
                 android:id="@+id/lv_show_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:divider="#EFEFEF"
-                android:dividerHeight="10dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"/>
 
         </LinearLayout>
 

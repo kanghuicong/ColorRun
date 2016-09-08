@@ -72,6 +72,7 @@ public class Show_search extends Fragment {
         searchView = View.inflate(mActivity, R.layout.show_search, null);
 
         ButterKnife.inject(this, searchView);
+
         lvShowSearch.setOnItemClickListener(new ItemClickListener());
         return searchView;
     }
@@ -142,6 +143,7 @@ public class Show_search extends Fragment {
                         llShowSearch.setVisibility(View.GONE);
                         llShowSearchNothing.setVisibility(View.GONE);
                         lvShowSearch.setVisibility(View.VISIBLE);
+                        Log.i("showsearch","true");
                         mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getActivity(), getFragmentManager(), mShowList, lvShowSearch);
                         lvShowSearch.setAdapter(mShowAdapter);
                     } else {

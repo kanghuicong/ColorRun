@@ -70,7 +70,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public View initView() {
-
         context = getActivity();
         mActivity = getActivity();
         fm = getFragmentManager();
@@ -115,8 +114,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
 
     private void findById() {
-//        initShow();
-//        new Thread(runnable).start();
         iv_search = (ImageView)showView.findViewById(R.id.iv_search);
         iv_search.setOnClickListener(this);
         lvShowContent = (ListView) showView.findViewById(R.id.lvShowContent);
@@ -190,7 +187,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 swipeRefreshLayout.setRefreshing(false);
             } else {
                 try {
-
                     mShowList = JsonTools.getShowInfo("datas", result);
 
                     mShowAdapter = new ShowAdapter(mShowList.size(), getActivity(), getActivity(), getFragmentManager(), mShowList, lvShowContent);
@@ -243,7 +239,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-
             if (result.equals("timeout")) {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {

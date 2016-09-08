@@ -111,7 +111,6 @@ public class ShowAdapter extends BaseAdapter  {
         return mShowList.get(position);
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;

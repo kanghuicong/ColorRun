@@ -24,7 +24,6 @@ public class ShowDltailImage extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.show_detail_image);
 
         Intent intent=getIntent();

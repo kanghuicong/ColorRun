@@ -276,27 +276,66 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
 
                                                    user_telphone = enroll_number.getText().toString();
 
+                                                   //姓名
+                                                   Pattern p_name1 = Pattern.compile("^[\u4e00-\u9fa5]+$");
+                                                   Matcher m_name1 = p_name1.matcher(user_name.getText().toString());
+                                                   Pattern p_name2 = Pattern.compile("^[a-zA-Z]{3,7}$");
+                                                   Matcher m_name2 = p_name2.matcher(user_name.getText().toString());
 
-                                                   Pattern p_name = Pattern.compile("^[\u4e00-\u9fa5]+$");
-                                                   Matcher m_name = p_name.matcher(user_name.getText().toString());
-
+                                                   //身份证
                                                    Pattern p_card1 = Pattern.compile("^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$");
                                                    Matcher m_card1 = p_card1.matcher(card_number.getText().toString());
                                                    Pattern p_card2 = Pattern.compile("^[1-9]\\\\d{7}((0\\\\d)|(1[0-2]))(([0|1|2]\\\\d)|3[0-1])\\\\d{3}$");
                                                    Matcher m_card2 = p_card2.matcher(card_number.getText().toString());
+                                                   //护照
+                                                   Pattern p_card3 = Pattern.compile("/^[a-zA-Z]{5,17}$/");
+                                                   Matcher m_card3 = p_card3.matcher(card_number.getText().toString());
+                                                   Pattern p_card4 = Pattern.compile("/^[a-zA-Z0-9]{5,17}$/");
+                                                   Matcher m_card4 = p_card4.matcher(card_number.getText().toString());
+                                                   //港澳通行证
+                                                   Pattern p_card5 = Pattern.compile("/^[HMhm]{1}([0-9]{10}|[0-9]{8})$/");
+                                                   Matcher m_card5 = p_card5.matcher(card_number.getText().toString());
+                                                   //台湾通行证
+                                                   Pattern p_card6 = Pattern.compile("/^[0-9]{8}$/");
+                                                   Matcher m_card6 = p_card6.matcher(card_number.getText().toString());
+                                                   Pattern p_card7 = Pattern.compile("/^[0-9]{10}$/");
+                                                   Matcher m_card7 = p_card7.matcher(card_number.getText().toString());
 
                                                    if (!"".equals(user_name.getText().toString())){
-                                                       if (m_name.matches()) {
+                                                       if (m_name1.matches() || m_name2.matches()) {
                                                            if (!"请选择".equals(enroll_spinner_card.getSelectedItem().toString())) {
                                                                if(!"".equals(card_number.getText().toString())) {
-                                                                   if ("身份证".equals(enroll_spinner_card.getSelectedItem().toString())){
-                                                                       if (m_card1.matches()||m_card2.matches()){
-                                                                           AfterSpinnerCard();
-                                                                       }else {
-                                                                           Toast.makeText(context, "请输入正确的身份证号码！", Toast.LENGTH_SHORT).show();
-                                                                       }
-                                                                   }else {
-                                                                       AfterSpinnerCard();
+                                                                   switch (enroll_spinner_card.getSelectedItem().toString()){
+                                                                       case ("身份证"):
+                                                                           if (m_card1.matches() || m_card2.matches()){
+                                                                               AfterSpinnerCard();
+                                                                           }else {
+                                                                               Toast.makeText(context, "请输入正确的身份证号码！", Toast.LENGTH_SHORT).show();
+                                                                           }
+                                                                           break;
+                                                                       case ("护照"):
+//                                                                           if (m_card3.matches()||m_card4.matches()){
+                                                                               AfterSpinnerCard();
+//                                                                           }else {
+//                                                                               Toast.makeText(context, "请输入正确的护照号码！", Toast.LENGTH_SHORT).show();
+//                                                                           }
+                                                                           break;
+                                                                       case ("港澳居民身份证"):
+                                                                           if (m_card5.matches()){
+                                                                               AfterSpinnerCard();
+                                                                           }else {
+                                                                               Toast.makeText(context, "请输入正确的港澳居民身份证号码！", Toast.LENGTH_SHORT).show();
+                                                                           }
+                                                                           break;
+                                                                       case ("台胞证"):
+                                                                           if (m_card6.matches()||m_card7.matches()){
+                                                                               AfterSpinnerCard();
+                                                                           }else {
+                                                                               Toast.makeText(context, "请输入正确的台胞证号码！", Toast.LENGTH_SHORT).show();
+                                                                           }
+                                                                           break;
+                                                                       default:
+                                                                           break;
                                                                    }
                                                                } else {
                                                                    Toast.makeText(context, "请输入您的证件号码！", Toast.LENGTH_SHORT).show();

@@ -143,7 +143,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         mSwipeLayout.setOnRefreshListener(this);
 
 
-        new Thread(getLunBOimageRunnable).start();
+//        new Thread(getLunBOimageRunnable).start();
         mSwipeLayout.autoRefresh();
         new Thread(videoRunnable).start();
         if (ContentCommon.INTENT_STATE) {

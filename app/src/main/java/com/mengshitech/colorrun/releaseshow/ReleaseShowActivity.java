@@ -103,6 +103,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener, Te
                 count = listfile.size() + 1;
                 try {
                     compressfile = compressImage(listfile);
+
                     ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
                             ReleaseShowActivity.this, compressfile, count, bmp);
                     gridView.setAdapter(adapter);
@@ -380,6 +381,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener, Te
 //            listfile.add(imageFilePath);
             try {
                 compressfile = compressImage(listfile);
+                ContentCommon.ShowImageList=compressfile;
                 count = compressfile.size() + 1;
                 adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
                         compressfile, count, bmp);
@@ -389,13 +391,19 @@ public class ReleaseShowActivity extends Activity implements OnClickListener, Te
             }
 
 
-        } else if (resultCode == 001) {
+        } else if (resultCode == 001&&requestCode==001) {
             int postion = data.getIntExtra("postion", 1);
+
+            Log.e("postion", postion + "");
             Log.e("前", compressfile.size() + "");
             compressfile.remove(postion);
-//           ContentCommon.ShowImageList.remove(postion);
+
             ContentCommon.ShowImageList=compressfile;
+
+//            ContentCommon.ShowImageList.remove(postion);
+
             Log.e("后", compressfile.size() + "");
+
             count = compressfile.size() + 1;
             handler.sendEmptyMessage(0);
         }

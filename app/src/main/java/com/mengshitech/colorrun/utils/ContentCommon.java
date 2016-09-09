@@ -20,11 +20,11 @@ public class ContentCommon {
     public static final String path="http://121.43.172.150:8080/LeRun/";
 
 
-//    public static final String PATH="http://192.168.188.245:8080/LeRun/servlet/LeRunServlet";
+//    public static final String PATH="http://192.168.2.101:8080/LeRun/servlet/LeRunServlet";
 //
-//    public static final String ImagePath ="http://192.168.188.245:8080/LeRun/servlet/UploadServlet";
+//    public static final String ImagePath ="http://192.168.2.101:8080/LeRun/servlet/UploadServlet";
 //
-//    public static final String path="http://192.168.188.245:8080/LeRun/";
+//    public static final String path="http://192.168.2.101:8080/LeRun/";
 
 
     public static String login_state="0";
@@ -35,5 +35,7 @@ public class ContentCommon {
     public static int into_lerun_type = 0;
 
     public static ArrayList<String> ShowImageList=null;
+
+    public static int PermissionsState=0;
 
 }

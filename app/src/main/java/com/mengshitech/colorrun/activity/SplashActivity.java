@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
@@ -43,12 +44,14 @@ public class SplashActivity extends Activity {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(SplashActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA},
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION},
                         001);
             } else {
                 initView();
+                ContentCommon.PermissionsState=1;
             }
         } else {
+            ContentCommon.PermissionsState=1;
             initView();
         }
     }
@@ -119,18 +122,21 @@ public class SplashActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        doNext(requestCode, grantResults);
-    }
-
-    private void doNext(int requestCode, int[] grantResults) {
         if (requestCode == 001) {
+
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                 initView();
             } else {
-                // Permission Denied
+              Toast.makeText(SplashActivity.this,"获取权限失败,部分功能将无法使用",Toast.LENGTH_LONG).show();
+                initView();
             }
+
         }
+
     }
+
+
 
 
 }

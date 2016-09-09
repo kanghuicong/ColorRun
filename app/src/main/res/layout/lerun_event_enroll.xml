@@ -26,8 +26,7 @@
                 android:layout_marginTop="10dp"
                 android:text="U-Run2016吉林大学校园马拉松"
                 android:textColor="#000"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,20 +85,20 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et">
 
                     <EditText
                         android:id="@+id/et_enroll_name"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:singleLine="true"
+                        android:layout_marginLeft="10dp"
                         android:background="@null"
-                        android:maxLength="10">
-                    </EditText>
+                        android:maxLength="10"
+                        android:padding="2dp"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"></EditText>
 
                 </LinearLayout>
 
@@ -119,9 +118,9 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:text="请填写真实姓名，购买保险使用。"
-                    android:layout_marginRight="20dp"
                     android:textColor="#728ea3"
                     android:textSize="13sp" />
 
@@ -150,8 +149,8 @@
                     android:id="@+id/rg_enroll_sex"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -188,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2.5"
                     android:gravity="right|bottom"
-                    android:singleLine="true"
                     android:paddingRight="10dp"
+                    android:singleLine="true"
                     android:text="* 证件类型:"
                     android:textColor="#444444"
                     android:textSize="13sp" />
@@ -226,23 +225,23 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et">
 
 
-                <EditText
-                    android:id="@+id/et_card_number"
-                    android:paddingLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:layout_marginLeft="10dp"
-                    android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:maxLength="20"
-                    android:background="@null" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@null"
+                        android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:maxLength="20"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -258,8 +257,8 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:text="请填写真实证件号码，购买保险使用，允许输入数字及大写字母。"
                     android:textColor="#728ea3"
                     android:textSize="13sp" />
@@ -288,8 +287,8 @@
                     android:id="@+id/rg_enroll_size"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_weight="5"
                     android:layout_marginRight="15dp"
+                    android:layout_weight="5"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -402,21 +401,21 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et">
 
 
-                <EditText
-                    android:id="@+id/et_enroll_unit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:layout_marginLeft="10dp"
-                    android:maxLength="30"
-                    android:background="@null" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_enroll_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@null"
+                        android:maxLength="30"
+                        android:padding="2dp"
+                        android:singleLine="true" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -440,21 +439,21 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:background="@drawable/enroll_bg_et">
 
-                <EditText
-                    android:id="@+id/et_contact_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:background="@null" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_contact_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:padding="2dp"
+                        android:singleLine="true" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -470,8 +469,8 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
                     android:layout_marginRight="17dp"
+                    android:layout_weight="5"
                     android:text="请填写正确联系电话，以便我们与您取得联系。"
                     android:textColor="#728ea3"
                     android:textSize="13sp" />
@@ -530,12 +529,13 @@
                     android:text="* 活动价格:"
                     android:textColor="#444444"
                     android:textSize="13sp" />
+
                 <TextView
                     android:id="@+id/tv_price_explain"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="5"
                     android:gravity="top"
                     android:text="(所有人免费)"
                     android:textColor="#728ea3"
@@ -548,15 +548,14 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
-                    <com.mengshitech.colorrun.view.MyListView
-                        android:id="@+id/lv_enroll_listview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:transcriptMode="normal"
-                        android:background="@android:drawable/editbox_background_normal">
-                    </com.mengshitech.colorrun.view.MyListView>
+                <com.mengshitech.colorrun.view.MyListView
+                    android:id="@+id/lv_enroll_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:transcriptMode="normal"></com.mengshitech.colorrun.view.MyListView>
             </LinearLayout>
 
             <RadioButton
@@ -573,13 +572,13 @@
                 android:id="@+id/bt_enroll_agree"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/login_shape_bt"
                 android:text="立即报名"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
 
         </LinearLayout>
     </ScrollView>

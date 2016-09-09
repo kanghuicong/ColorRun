@@ -96,7 +96,6 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
         lerun_id = getArguments().getInt("lerun_id");
         order_id = getArguments().getString("order_id");
 
-        Log.e("order_id222",order_id+"");
 
         payment_name.setText("姓名：" + getArguments().getString("user_name"));
         payment_title.setText(getArguments().getString("lerun_title"));
@@ -168,11 +167,9 @@ public class AlipayFragment extends Fragment implements View.OnClickListener {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 
-                    Log.i("支付宝状态:", resultStatus + "");
                     if (TextUtils.equals(resultStatus, "9000")) {
 
                         payresult = payResult.getResult();
-                        Log.i("payresult", payresult + "");
                         new Thread(runnable).start();
                     } else {
                         // 判断resultStatus 为非"9000"则代表可能支付失败

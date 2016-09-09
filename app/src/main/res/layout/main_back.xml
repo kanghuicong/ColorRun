@@ -1,44 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_back_ll"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:orientation="vertical"
-    android:background="@mipmap/nav_bg"
-    android:id="@+id/title_tick">
+    android:background="@mipmap/nav_bg">
 
-    <RelativeLayout
-        android:id="@+id/title_back_ll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/nav_bg" >
 
-        <ImageView
-            android:id="@+id/title_back"
-            android:layout_marginLeft="5dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/btn_back" />
+    <ImageView
+        android:id="@+id/title_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:src="@mipmap/btn_back" />
 
-        <TextView
-            android:id="@+id/title_barr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="标题"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/title_barr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="标题"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/title_image"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"
-            android:src="@mipmap/friendcircle" />
-    </RelativeLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/title_image"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/friendcircle"
+        android:visibility="gone" />
+</RelativeLayout>

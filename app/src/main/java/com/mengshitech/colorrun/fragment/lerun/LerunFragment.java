@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 import android.app.Activity;
@@ -101,6 +103,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     private LinearLayout llContainer;
 
     private int mPreviousPos;
+    List<LunBoEntity> list = null;
+    VideoEntity videoEntity = null;
+    ExecutorService fixedThreadPool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,12 +128,14 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 //        lerunView.setFocusable(true);
 //        lerunView.setFocusableInTouchMode(true);
 //        lerunView.setOnKeyListener(backlistener);
-        Log.i("lerunView","lerunView");
+        Log.i("lerunView", "lerunView");
         return lerunView;
 
     }
 
     private void findById() {
+
+        fixedThreadPool = Executors.newFixedThreadPool(4);
 
         mSwipeLayout = new AutoSwipeRefreshLayout(mActivity);
         mSwipeLayout = (AutoSwipeRefreshLayout) lerunView.findViewById(R.id.id_swipe_ly);
@@ -188,8 +195,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         tvLeRunSignUp.setOnClickListener(this);
         Utility.changeRightDrawableSize(tvHotActivity, R.mipmap.hot_fire, 30, 30);
         Utility.changeRightDrawableSize(tvHotVideo, R.mipmap.hot_vido, 30, 30);
-
-
     }
 
     @Override
@@ -221,7 +226,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 break;
             case R.id.tvLeRunSignUp:
                 if (ContentCommon.login_state.equals("1")) {
-                    new Thread(getQrCodeRunnable).start();
+                    fixedThreadPool.execute(getQrCodeRunnable);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
@@ -265,9 +270,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             map.put("index", "0");
 
             String jsonString = HttpUtils.sendHttpClientPost(path, map, "utf-8");
-//            if(jsonString.equals("timeout")){
-//                mSwipeLayout.setRefreshing(false);
-//            }
             try {
                 List<LunBoEntity> result = JsonTools.getLunboImageInfo("datas", jsonString);
                 Message msg = new Message();
@@ -285,7 +287,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     Handler LunBOhandler = new Handler() {
 
         public void handleMessage(Message msg) {
-            List<LunBoEntity> list = (List<LunBoEntity>) msg.obj;
+            list = (List<LunBoEntity>) msg.obj;
             imgList = new ArrayList<ImageView>();
             for (int i = 0; i < list.size(); i++) {
                 LunBoEntity entity = list.get(i);
@@ -295,13 +297,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
                 imgList.add(img);
 
             }
-
-//            vpLeRunAd
-//                    .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
             initViewPager();
-//            mSwipeLayout.setRefreshing(false);
-
-
         }
     };
 
@@ -328,7 +324,6 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-            Log.i("主题信息:",""+result);
             if (result.equals("timeout")) {
 
                 mSwipeLayout.setRefreshing(false);
@@ -386,9 +381,9 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
             } else {
                 try {
                     List<VideoEntity> list = JsonTools.getVideoInfo(result);
-                    VideoEntity entity = list.get(0);
-                    Glide.with(mActivity).load(entity.getVideo_image()).into(hotImage);
-                    video_url = entity.getVideo_url();
+                    videoEntity = list.get(0);
+                    Glide.with(mActivity).load(videoEntity.getVideo_image()).into(hotImage);
+                    video_url = videoEntity.getVideo_url();
                     Log.i("video_url", video_url + "");
 //                    mSwipeLayout.setRefreshing(false);
 
@@ -425,38 +420,34 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
+
             try {
                 String qr_image = JsonTools.getDatas(result);
+                int state = JsonTools.getState("state", result);
 
-//                dialog = new QrcodeDialog(mActivity, R.layout.dialog_qrcode, R.style.dialog, new QrcodeDialog.QrcodeDialogListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        dialog.dismiss();
-//                    }
-//                }, qr_image);
-//                dialog.show();
-                Bundle bundle = new Bundle();
-                bundle.putString("qrcode_image", qr_image + "");
-                bundle.putInt("type", 1);
-                DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
+                if (state == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrcode_image", qr_image + "");
+                    bundle.putInt("type", 1);
+                    DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
 
-                displayQRcodeFragment.setArguments(bundle);
-                Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                    displayQRcodeFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrcode_image", qr_image + "");
+                    bundle.putInt("type", 6);
+                    DisplayQRcodeFragment displayQRcodeFragment = new DisplayQRcodeFragment();
+
+                    displayQRcodeFragment.setArguments(bundle);
+                    Utility.replace2DetailFragment(getFragmentManager(), displayQRcodeFragment);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     };
-
-    @Override
-    public void onRefresh() {
-
-
-
-        new Thread(getLeRunRunnable).start();
-
-
-    }
 
 
     private void Location() {
@@ -541,18 +532,14 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
     }
 
 
-
     //轮播
 
     public void initViewPager() {
-
-
 //        vpLeRunAd.setAdapter(new MyAdapter(context));// 给viewpager设置数据
         vpLeRunAd
                 .setAdapter(new LeRunVpAdapter(context, imgList, vpLeRunAd, AutoRunning));
         vpLeRunAd.setCurrentItem(Integer.MAX_VALUE / 2);
         vpLeRunAd.setCurrentItem(imgList.size() * 10000);
-
         // 设置滑动监听
         vpLeRunAd.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -606,7 +593,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         }
 
         // 延时2秒更新广告条的消息
-        mHandler.sendEmptyMessageDelayed(0,3000);
+        mHandler.sendEmptyMessageDelayed(0, 3000);
         vpLeRunAd.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -647,36 +634,11 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         ;
     };
 
-
-
-//    long mPressedTime = 0;
-//    private View.OnKeyListener backlistener = new View.OnKeyListener() {
-//        @Override
-//        public boolean onKey(View view, int i, KeyEvent keyEvent) {
-//            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-//                if (i == KeyEvent.KEYCODE_BACK) {  //表示按返回键 时的操作
-//                    long mNowTime = System.currentTimeMillis();
-//                    Log.i("1backmNowTime",mNowTime+"");
-//                    if ((mNowTime - mPressedTime) > 2000) {// 比较两次按键时间差
-//                        Toast.makeText(getActivity(),"再按一次退出程序", Toast.LENGTH_SHORT).show();
-//                        getFragmentManager().beginTransaction().addToBackStack(null).commit();
-//                        mPressedTime = mNowTime;
-//                        Log.i("1backmPressedTime",mNowTime+"");
-//                    }
-//                }
-//            }
-//            return false;
-//        }
-//    };
-//
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        lerunView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
-//        lerunView.setFocusableInTouchMode(true);
-//        lerunView.setOnKeyListener(backlistener);
-//        Log.i("backlistener","backlistener");
-//    }
-
+    @Override
+    public void onRefresh() {
+        if (list == null) fixedThreadPool.execute(getLunBOimageRunnable);
+        if (videoEntity == null) fixedThreadPool.execute(videoRunnable);
+        fixedThreadPool.execute(getLeRunRunnable);
+    }
 
 }

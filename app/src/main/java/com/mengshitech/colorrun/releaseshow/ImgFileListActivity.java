@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.utils.ContentCommon;
@@ -42,10 +43,21 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.imgfilelist);
         listView = (ListView) findViewById(R.id.listView1);
+        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-        Log.i("sdk",""+GetSDKVersion.getAndroidSDKVersion());
+                ActivityCompat.requestPermissions(ImgFileListActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA},
+                        001);
+            } else {
+                init();
+                ContentCommon.PermissionsState = 1;
+            }
+        } else {
+            ContentCommon.PermissionsState = 1;
+            init();
+        }
 
-        init();
 
     }
 
@@ -101,6 +113,24 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
             return super.onKeyDown(keyCode, event);
         }
 
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                init();
+            } else {
+                Toast.makeText(ImgFileListActivity.this, "获取权限失败", Toast.LENGTH_LONG).show();
+                finish();
+
+            }
+
+        }
 
     }
 

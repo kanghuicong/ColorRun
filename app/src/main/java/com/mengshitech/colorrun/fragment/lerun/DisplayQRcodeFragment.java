@@ -99,6 +99,15 @@ public class DisplayQRcodeFragment extends BaseFragment {
                 handler.sendEmptyMessageDelayed(0, 1000);
                 tv_state.setText("凭此二维码到现场签到！");
                 break;
+            case 6:
+                tv_state.setText("您的手机号暂未报名任何活动哦");
+                btn_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fm.popBackStack();
+                    }
+                });
+                break;
         }
     }
 

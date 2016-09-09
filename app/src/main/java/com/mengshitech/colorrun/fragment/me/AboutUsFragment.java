@@ -1,5 +1,7 @@
 package com.mengshitech.colorrun.fragment.me;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,7 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +30,7 @@ import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.customcontrols.UpdateDialog;
 import com.mengshitech.colorrun.fragment.lerun.LerunVideo;
 import com.mengshitech.colorrun.utils.ContentCommon;
+import com.mengshitech.colorrun.utils.GetSDKVersion;
 import com.mengshitech.colorrun.utils.GsonTools;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -51,11 +56,15 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
     UpdateDialog updateDialog;
     Context context;
     String update_url;
+    Activity activity;
+    private String sphone;
+    DialogUtility dialogUtility;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.rgMainBottom.setVisibility(View.GONE);
         context = getActivity();
+        activity = getActivity();
         me_version_view = View.inflate(getActivity(), R.layout.me_aboutus, null);
         MainBackUtility.MainBack(me_version_view, "关于我们", getFragmentManager());
         FindId();
@@ -89,7 +98,38 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                 Utility.replace2DetailFragment(getFragmentManager(), new AboutUsFeedBack());
                 break;
             case R.id.me_aboutus_connection:
-                DialogUtility.DialogConnection(context,ContentCommon.user_id);
+                dialogUtility = new DialogUtility();
+
+                dialogUtility.DialogConnection(context, ContentCommon.user_id, new DialogUtility.DialogLister() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Uri uri = Uri.parse("tel:" + sphone);
+                        Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+                            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                                ActivityCompat.requestPermissions(activity,
+                                        new String[]{Manifest.permission.CALL_PHONE},
+                                        001);
+                            } else {
+                                context.startActivity(intent);
+                            }
+                        } else {
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                                return;
+                            }
+                            context.startActivity(intent);
+                        }
+                    }
+                }, new DialogUtility.getPhone() {
+                    @Override
+                    public String phone(String phone) {
+                        sphone = phone;
+                        return null;
+                    }
+                });
                 break;
             case R.id.me_aboutus_agreement:
                 break;
@@ -104,7 +144,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "aboutus");
             map.put("index", "0");
-            map.put("version_number", getVersionCode(context)+"");
+            map.put("version_number", getVersionCode(context) + "");
 
             String result = HttpUtils.sendHttpClientPost(servlet, map, "utf-8");
             Message msg = new Message();
@@ -169,31 +209,45 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    private int getVersionCode(Context context)
-    {
+    private int getVersionCode(Context context) {
         int versionCode = 0;
-        try
-        {
+        try {
             // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
             versionCode = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e)
-        {
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return versionCode;
     }
-    private String getVersionName(Context context)
-    {
+
+    private String getVersionName(Context context) {
         String versionName = null;
-        try
-        {
+        try {
             // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
             versionName = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionName;
             int versionCode = context.getPackageManager().getPackageInfo("com.mengshitech.colorrun", 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e)
-        {
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return versionName;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Uri uri = Uri.parse("tel:" + sphone);
+                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+               startActivity(intent);
+            } else {
+                Toast.makeText(activity, "获取权限失败", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
+
     }
 }

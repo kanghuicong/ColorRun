@@ -53,6 +53,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * wschenyongyin
@@ -77,6 +80,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
     private Button btn_send;
     private EditText et_content;
     private LinearLayout footview;
+    private ExecutorService fixedThreadPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,9 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
     }
 
     private void FindId() {
+        //创建线程池
+        fixedThreadPool= Executors.newFixedThreadPool(3);
+
         history_title = (TextView) view.findViewById(R.id.tv_history_content_title);
         history_time = (TextView) view.findViewById(R.id.tv_history_content_time);
         history_content = (TextView) view.findViewById(R.id.tv_history_content);
@@ -111,8 +118,10 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
         footview = (LinearLayout) findViewById(R.id.footview);
         footview.setVisibility(View.GONE);
 
-        new Thread(lerunInfoRunnable).start();
-        new Thread(EvaluateRunnable).start();
+
+
+        fixedThreadPool.execute(lerunInfoRunnable);
+        fixedThreadPool.execute(EvaluateRunnable);
         pullSwipeRefreshLayout = new BottomPullSwipeRefreshLayout(HistoryContent.this);
         pullSwipeRefreshLayout = (BottomPullSwipeRefreshLayout)findViewById(R.id.bottomRefesh);
         pullSwipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
@@ -270,7 +279,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
         onRefresh = true;
         currentPage = 1;
 
-        new Thread(EvaluateRunnable).start();
+        fixedThreadPool.execute(EvaluateRunnable);
     }
 
     //上拉加载
@@ -279,7 +288,7 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
 
         currentPage = currentPage + 1;
         onload = true;
-        new Thread(EvaluateRunnable).start();
+        fixedThreadPool.execute(EvaluateRunnable);
     }
 
     @Override
@@ -289,7 +298,9 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
                 Toast.makeText(HistoryContent.this, "请输入评论内容...", Toast.LENGTH_SHORT).show();
             }else {
                 evaluate_content = et_content.getText().toString();
-                new Thread(evaluateRunnable).start();}
+                fixedThreadPool.execute(evaluateRunnable);
+            }
+
         } else{
             startActivity(new Intent(HistoryContent.this, LoginActivity.class));
             Toast.makeText(HistoryContent.this,"请先登录...",Toast.LENGTH_SHORT).show();
@@ -322,15 +333,12 @@ public class HistoryContent extends Activity implements SwipeRefreshLayout.OnRef
             String result = (String) msg.obj;
             try {
                 int state = JsonTools.getState("state", result);
-                Log.i("state","状态"+state);
                 if (state == 1) {
                     UserDao dao = new UserDao(HistoryContent.this);
                     UserEntiy modler =  dao.find(ContentCommon.user_id);
 
                     String time_now = DateUtils.getCurrentDate();
-                    Log.i("state2","状态"+state);
                     CommentEntity info = new CommentEntity();
-                    Log.i("state3","状态"+state);
                     info.setUser_name(modler.getUser_name());
                     info.setUser_header(modler.getUser_header());
                     info.setComment_time(time_now);

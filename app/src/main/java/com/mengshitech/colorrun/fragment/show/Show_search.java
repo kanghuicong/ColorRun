@@ -30,6 +30,7 @@ import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.adapter.ShowSearchGridAdapter;
 import com.mengshitech.colorrun.bean.SearchEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.dao.SearchDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -81,6 +84,9 @@ public class Show_search extends Fragment implements TextWatcher {
     @InjectView(R.id.ll_show_search_history)
     LinearLayout llShowSearchHistory;
 
+    ExecutorService signleThreadPool;
+    ProgressDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -89,11 +95,12 @@ public class Show_search extends Fragment implements TextWatcher {
         fm = getFragmentManager();
         searchView = View.inflate(mActivity, R.layout.show_search, null);
         ButterKnife.inject(this, searchView);
-
+        signleThreadPool= Executors.newSingleThreadExecutor();
+        progressDialog=ProgressDialog.show(context,"正在加载");
         edSearchContent.addTextChangedListener(this);
         lvShowSearch.setOnItemClickListener(new ItemClickListener());
         gvShowSearch.setOnItemClickListener(new MySearchHotItemLongClickListener());
-        new Thread(hotsearch_runnable).start();
+        signleThreadPool.execute(hotsearch_runnable);
         GetSearchHistory();
         GetClick();
         return searchView;
@@ -144,7 +151,8 @@ public class Show_search extends Fragment implements TextWatcher {
                 break;
             case R.id.bt_show_search:
                 search_content = edSearchContent.getText().toString();
-                new Thread(search_runnable).start();
+                progressDialog.show();
+                signleThreadPool.execute(search_runnable);
                 if (ContentCommon.user_id != null) {
                     SearchDao dao = new SearchDao(context);
                     dao.add(ContentCommon.user_id, search_content);
@@ -157,9 +165,10 @@ public class Show_search extends Fragment implements TextWatcher {
     private class MySearchHotItemLongClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            progressDialog.show();
             SearchEntity mSearchEntity = (SearchEntity) parent.getAdapter().getItem(position);
             search_content = mSearchEntity.getUser_search();
-            new Thread(search_runnable).start();
+            signleThreadPool.execute(search_runnable);
         }
     }
 
@@ -187,9 +196,10 @@ public class Show_search extends Fragment implements TextWatcher {
     public class MySearchHistoryItemLongClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            progressDialog.show();
             Map<String, String> map = mlist.get(position);
             search_content = map.get("content");
-            new Thread(search_runnable).start();
+            signleThreadPool.execute(search_runnable);
         }
     }
 
@@ -215,7 +225,9 @@ public class Show_search extends Fragment implements TextWatcher {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
+            progressDialog.dismiss();
             if (result.equals("timeout")) {
+
                 Toast.makeText(mActivity, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
@@ -235,6 +247,7 @@ public class Show_search extends Fragment implements TextWatcher {
                         lvShowSearch.setVisibility(View.GONE);
                         edSearchContent.setText("");
                     }
+
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

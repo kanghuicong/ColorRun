@@ -79,7 +79,7 @@ public class ShowDetailCommentAdpter extends BaseAdapter{
 
         String header_path = ContentCommon.path + mCommentEntity.getUser_header();
 
-        Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).error(R.mipmap.defaut_error_square).into(holder.ivUserHead);
+        Glide.with(mActivity).load(header_path).transform(new GlideCircleTransform(mActivity)).error(R.mipmap.default_avtar).into(holder.ivUserHead);
 
         return convertView;
     }

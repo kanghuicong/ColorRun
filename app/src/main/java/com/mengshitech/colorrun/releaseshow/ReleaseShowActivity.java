@@ -216,7 +216,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
                 showDailog();
             } else {
 
-                    //这个地方报错  下表越界
+                //这个地方报错  下表越界
 //                String image_path = compressfile.get(position);
 //                ShowMap show = new ShowMap(ReleaseShowActivity.this, image_path, frameLayout, linearLayout);
 //

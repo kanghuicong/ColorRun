@@ -66,6 +66,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,11 +115,14 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
     private String order_id;
     private ProgressDialog progressDialog;
 
+    private ExecutorService signleThreadPool;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         fragmentManager = getFragmentManager();
         progressDialog = ProgressDialog.show(context, "");
         activity = getActivity();
+        signleThreadPool= Executors.newSingleThreadExecutor();
         if (mRootView == null || mRootView.get() == null) {
 
             enroll_view = inflater.inflate(R.layout.lerun_event_enroll, null);
@@ -328,7 +333,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                         Log.i("charge_mode==2", "type==1");
                                         signin_type = "1";
                                         creatQRcode();
-                                        new Thread(uploadRunnable).start();
+                                        signleThreadPool.execute(uploadRunnable);
                                     }
                                 } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
                                     Toast.makeText(context, "只有承办方人员才可免费！", Toast.LENGTH_SHORT).show();
@@ -336,7 +341,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     creatQRcode();
                                     Log.i("charge_mode==2", "type==2");
                                     signin_type = "2";
-                                    new Thread(QrcodeRunnable).start();
+                                    signleThreadPool.execute(QrcodeRunnable);
                                 }
                             } else {
                                 creatQRcode();
@@ -344,13 +349,13 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     //全部免费
                                     case 1:
                                         signin_type = "2";
-                                        new Thread(QrcodeRunnable).start();
+                                        signleThreadPool.execute(QrcodeRunnable);
                                         Log.i("charge_mode==1", "type==1");
                                         break;
                                     //全部收费
                                     case 3:
                                         signin_type = "2";
-                                        new Thread(QrcodeRunnable).start();
+                                        signleThreadPool.execute(QrcodeRunnable);
                                         Log.i("charge_mode==3", "type==1");
                                         break;
                                     default:
@@ -400,9 +405,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 try {
                     Log.e("imagepath",imagepath);
                     ScuessImagePath = JsonTools.getUserLog(imagepath);
-
-                    Log.i("上传证件照imagepath", ScuessImagePath);
-                    new Thread(QrcodeRunnable).start();
+                    signleThreadPool.execute(QrcodeRunnable);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -435,12 +438,10 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 progressDialog.dismiss();
             } else {
                 try {
-                    Log.i("上传二维码imagepath", imagepath);
                     QRcodeImage = JsonTools.getUserLog(imagepath);
 
 
-
-                    new Thread(Mode1runnable).start();
+                    signleThreadPool.execute(Mode1runnable);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -455,7 +456,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
         @Override
         public void run() {
             order_id = RandomUtils.LerunOrderId();
-            Log.i("order_id2", order_id + "aa");
             String path = ContentCommon.PATH;
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "lerun");
@@ -494,7 +494,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                 Toast.makeText(context, "连接服务器超时", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    Log.i("报名", result + "sssssss");
                     int state = JsonTools.getState("state", result);
                     if (state == 1) {
                         //报名成功的操作
@@ -529,7 +528,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     bundle3.putInt("lerun_id", lerun_id);
                                     bundle3.putString("order_id", order_id);
 
-                                    Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                     AlipayFragment alipayFragment = new AlipayFragment();
                                     alipayFragment.setArguments(bundle3);
                                     Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);
@@ -545,7 +543,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                 bundle4.putString("user_telphone", user_telphone);
                                 bundle4.putInt("lerun_id", lerun_id);
                                 bundle4.putString("order_id", order_id);
-                                Log.i("1Payment", user_name.getText().toString() + enroll_name.getText().toString() + choose_price);
                                 AlipayFragment alipayFragment = new AlipayFragment();
                                 alipayFragment.setArguments(bundle4);
                                 Utility.replace2DetailFragment(getFragmentManager(), alipayFragment);

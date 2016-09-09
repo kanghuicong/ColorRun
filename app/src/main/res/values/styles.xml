@@ -44,6 +44,7 @@
         <item name="android:windowBackground">@color/white</item>
         <!-- 设置屏幕变暗 -->
         <item name="android:backgroundDimEnabled">true</item>
+
     </style>
 
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
@@ -58,6 +59,8 @@
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item><!-- 窗口样式Dialog -->
+
     </style>
 
     <!-- 全屏幕拉伸-->
@@ -89,5 +92,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+
+
 
 </resources>

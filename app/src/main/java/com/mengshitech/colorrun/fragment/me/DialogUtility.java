@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.dao.UserDao;
+import com.mengshitech.colorrun.utils.GetSDKVersion;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 
@@ -47,6 +49,14 @@ public class DialogUtility implements View.OnClickListener {
     static TextView tv_title;
     static Context Context;
     static Pattern number = Pattern.compile("[0-9]*");
+    DialogLister lister;
+    getPhone phonecalback;
+
+
+    public DialogUtility() {
+    }
+
+    ;
 
     //修改电话号码
     public static void DialogPhone(final Context context, final TextView tv_phone, final String user_id) {
@@ -363,7 +373,9 @@ public class DialogUtility implements View.OnClickListener {
     }
 
     //联系我们
-    public static void DialogConnection(final Context context, String id) {
+    public void DialogConnection(final Context context, String id, DialogLister lister, getPhone phone) {
+        this.lister = lister;
+        this.phonecalback = phone;
         LayoutInflater inflater = LayoutInflater.from(context);
         final Dialog dialog = new AlertDialog.Builder(context).create();
 
@@ -371,27 +383,12 @@ public class DialogUtility implements View.OnClickListener {
         final TextView tv_phone = (TextView) layout.findViewById(R.id.tv_connection_phone);
         final Button bt_connection = (Button) layout.findViewById(R.id.bt_connection);
         addDialog(dialog, layout);
+        String sphone = tv_phone.getText().toString();
 
-        bt_connection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String phone = tv_phone.getText().toString();
-                Uri uri = Uri.parse("tel:" + phone);
-                Intent intent = new Intent(Intent.ACTION_CALL, uri);
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                context.startActivity(intent);
-            }
-        });
-}
+        phonecalback.phone(sphone);
+
+        bt_connection.setOnClickListener(this);
+    }
 
     //添加窗口
     private static void addDialog(Dialog dialog, LinearLayout layout) {
@@ -444,6 +441,18 @@ public class DialogUtility implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-//        dialog.dismiss();
+        lister.onClick(v);
     }
+
+    public interface DialogLister {
+        public void onClick(View view);
+    }
+
+
+    //把电话号码回调出去
+    public interface getPhone {
+        public String phone(String phone);
+    }
+
+
 }

@@ -1,8 +1,10 @@
 package com.mengshitech.colorrun.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +14,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -29,6 +33,7 @@ import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
 import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.CompressImage;
+import com.mengshitech.colorrun.utils.GetSDKVersion;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -108,13 +113,22 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
                                         diaLog.dismiss();
                                         break;
                                     case R.id.btn_picture:
-                                        Intent intent = new Intent(Intent.ACTION_PICK
-                                        );
-                                        intent.setDataAndType(
-                                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 
-                                        startActivityForResult(intent, 103);
-                                        diaLog.dismiss();
+
+                                        if (GetSDKVersion.getAndroidSDKVersion() >= 23) {
+                                        if (ContextCompat.checkSelfPermission(UserLogActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                                            ActivityCompat.requestPermissions(UserLogActivity.this,
+                                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA},
+                                                    001);
+                                        } else {
+
+                                            choseImage();
+                                        }
+                                    } else {
+                                        choseImage();
+                                    }
+
                                         break;
                                     case R.id.btn_cancel:
                                         diaLog.dismiss();
@@ -292,6 +306,33 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
 
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 001) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                choseImage();
+            } else {
+                Toast.makeText(UserLogActivity.this, "获取权限失败", Toast.LENGTH_LONG).show();
+                finish();
+
+            }
+
+        }
+
+    }
+
+    public void choseImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK
+        );
+        intent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+
+        startActivityForResult(intent, 103);
+        diaLog.dismiss();
     }
 
 

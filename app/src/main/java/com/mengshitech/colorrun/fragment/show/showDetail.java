@@ -64,7 +64,6 @@ public class showDetail extends Activity implements View.OnClickListener {
     EditText et_show_comment;
     Button bt_show_comment;
     ListView lv_comment;
-
     ShowDetailGridViewAdapter gv_adapter;
     String show_id, comment_userid,comment_id;
     int comment_position;
@@ -86,7 +85,6 @@ public class showDetail extends Activity implements View.OnClickListener {
         new Thread(like_runnable).start();
         new Thread(comment_runnable).start();
     }
-
 
     private void GetData() {
         Intent intent = getIntent();

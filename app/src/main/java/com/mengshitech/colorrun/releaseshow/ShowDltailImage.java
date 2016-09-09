@@ -3,6 +3,7 @@ package com.mengshitech.colorrun.releaseshow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +29,8 @@ public class ShowDltailImage extends Activity implements View.OnClickListener{
 
         Intent intent=getIntent();
         postion=intent.getIntExtra("postion",1);
+
+        Log.i("showdltaile_postion",postion+"");
         image_path=intent.getStringExtra("image_path");
         findView();
     }

@@ -61,7 +61,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
     GridView gridView;
     // ArrayList<String> listfile = new ArrayList<String>();
     List<String> listfile = new ArrayList<String>();
-    List<String> compressfile = new ArrayList<String>();
+    ArrayList<String> compressfile = new ArrayList<String>();
     Bitmap bmp;
     int count;
     LinearLayout ll_send, ll_cancel;
@@ -100,6 +100,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
                 count = listfile.size() + 1;
                 try {
                     compressfile = compressImage(listfile);
+
                     ReleaseShowGridViewAdapter adapter = new ReleaseShowGridViewAdapter(
                             ReleaseShowActivity.this, compressfile, count, bmp);
                     gridView.setAdapter(adapter);
@@ -368,6 +369,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
 //            listfile.add(imageFilePath);
             try {
                 compressfile = compressImage(listfile);
+                ContentCommon.ShowImageList=compressfile;
                 count = compressfile.size() + 1;
                 adapter = new ReleaseShowGridViewAdapter(ReleaseShowActivity.this,
                         compressfile, count, bmp);
@@ -377,12 +379,16 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
             }
 
 
-        } else if (resultCode == 001) {
+        } else if (resultCode == 001&&requestCode==001) {
             int postion = data.getIntExtra("postion", 1);
+
+            Log.e("postion", postion + "");
             Log.e("前", compressfile.size() + "");
             compressfile.remove(postion);
             ContentCommon.ShowImageList.remove(postion);
+//            compressfile.remove(postion);
             Log.e("后", compressfile.size() + "");
+
             count = compressfile.size() + 1;
             handler.sendEmptyMessage(0);
         }
@@ -400,8 +406,8 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
 
     //对取回来的图片进行压缩
 
-    private List<String> compressImage(List<String> list) throws IOException {
-        List<String> imageList = new ArrayList<String>();
+    private ArrayList<String> compressImage(List<String> list) throws IOException {
+        ArrayList<String> imageList = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
             File file = new File(list.get(i));
             String compressimage = null;

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ReleaseShowGridViewAdapter;
 import com.mengshitech.colorrun.customcontrols.ChoseImageDiaLog;
@@ -20,6 +21,8 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.RandomUtils;
 import com.mengshitech.colorrun.utils.upload;
+
+import android.app.ActivityOptions;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -53,7 +56,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-public class ReleaseShowActivity extends Activity implements OnClickListener,TextWatcher {
+public class ReleaseShowActivity extends Activity implements OnClickListener, TextWatcher {
     private ChoseImageDiaLog dialog;
     int content_number = 250;
     int max_number = 280;
@@ -120,7 +123,6 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
     }
 
 
-
     public void showDailog() {
         dialog = new ChoseImageDiaLog(ReleaseShowActivity.this, R.layout.dialog_choseimage,
                 R.style.dialog, new ChoseImageDiaLog.LeaveMyDialogListener() {
@@ -151,6 +153,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
                                 MediaStore.EXTRA_OUTPUT,
                                 imageFileUri);// 告诉相机拍摄完毕输出图片到指定的Uri
                         startActivityForResult(it, 102);
+
                         dialog.dismiss();
                         break;
                     case R.id.btn_picture:
@@ -231,6 +234,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
                     intent.putExtra("postion", position);
 
                     startActivityForResult(intent, 001);
+
                 }
 
 
@@ -313,6 +317,10 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
                 progressDialog.dismiss();
             } else if (result.equals("1")) {
                 progressDialog.dismiss();
+                if (ContentCommon.ShowImageList != null) {
+                    ContentCommon.ShowImageList.clear();
+                }
+
                 finish();
             } else {
                 progressDialog.dismiss();
@@ -328,17 +336,17 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
             case R.id.ll_send:
                 content = et_text.getText().toString();
                 if (listfile != null && listfile.size() != 0 && content != null) {
-                    if (content.length()<content_number) {
+                    if (content.length() < content_number) {
                         progressDialog.show();
                         new Thread(runnable).start();
-                    }else {
+                    } else {
                         Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
                     }
                 } else if ((listfile == null || listfile.size() == 0) && content != null && !content.equals("")) {
-                    if (content.length()<content_number) {
+                    if (content.length() < content_number) {
                         success_imagePath = "";
                         new Thread(ReleaseShowRunnable).start();
-                    }else {
+                    } else {
                         Toast.makeText(this, "您输入的内容过长，无法发表...", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -363,6 +371,10 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("requestCode", requestCode + "");
+        Log.e("resultCode", resultCode + "");
+
         if (resultCode == Activity.RESULT_OK && requestCode == 102) {
 
             // Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
@@ -385,8 +397,11 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
             Log.e("postion", postion + "");
             Log.e("前", compressfile.size() + "");
             compressfile.remove(postion);
-            ContentCommon.ShowImageList.remove(postion);
-//            compressfile.remove(postion);
+
+            ContentCommon.ShowImageList=compressfile;
+
+//            ContentCommon.ShowImageList.remove(postion);
+
             Log.e("后", compressfile.size() + "");
 
             count = compressfile.size() + 1;
@@ -451,13 +466,15 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
+
     @Override
     public void afterTextChanged(Editable s) {
         int i = 1;
-        if (i==1) {
+        if (i == 1) {
             if (et_text.length() > content_number) {
                 Toast.makeText(this, "内容太长，无法发表...", Toast.LENGTH_SHORT).show();
             }
@@ -468,7 +485,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener,Tex
     public void onBackPressed() {
         super.onBackPressed();
         if (ContentCommon.ShowImageList != null) {
-            ContentCommon.ShowImageList .clear();
+            ContentCommon.ShowImageList.clear();
         }
     }
 }

@@ -67,7 +67,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     List<ShowEntity> AllShowList = new ArrayList<ShowEntity>();
     LinearLayout no_network;
 
-
     @Override
     public View initView() {
         context = getActivity();
@@ -76,17 +75,17 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         setRetainInstance(true);
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (showView == null) {
+//        if (showView == null) {
             showView = View.inflate(mActivity, R.layout.fragment_show, null);
             showView.setFocusable(true);
             showView.setFocusableInTouchMode(true);
             showView.setOnKeyListener(backlistener);
             findById();
-        }
-        ViewGroup parent = (ViewGroup) showView.getParent();
-        if (parent != null) {
-            parent.removeView(showView);
-        }
+//        }
+//        ViewGroup parent = (ViewGroup) showView.getParent();
+//        if (parent != null) {
+//            parent.removeView(showView);
+//        }
 
         lvShowContent.setOnItemClickListener(new ItemClickListener());
         return showView;
@@ -111,7 +110,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             getActivity().startActivity(intent);
         }
     }
-
 
     private void findById() {
 //        initShow();
@@ -259,8 +257,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     } else {
                         swipeRefreshLayout.setLoading(false);
                     }
-
-
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -294,13 +290,11 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onPause() {
         super.onPause();
         if (Receiver != null) {
-
             try {
                 mActivity.unregisterReceiver(Receiver);
             } catch (Exception e) {
                 // already unregistered
             }
-
         }
     }
 
@@ -311,6 +305,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
         mActivity.registerReceiver(Receiver, filter);
     }
+
 
     //双击退出
     long mPressedTime = 0;
@@ -330,5 +325,4 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             return false;
         }
     };
-
 }

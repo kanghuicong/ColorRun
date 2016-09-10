@@ -1,6 +1,7 @@
 package com.mengshitech.colorrun.fragment.show;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -59,7 +60,7 @@ import java.util.Map;
  */
 public class showDetail extends Activity implements View.OnClickListener {
     ImageView showdetail_hear, show_delete;
-    TextView showdetail_username, showdetail_content, showdetail_time, comment_text;
+    TextView showdetail_username, showdetail_content, showdetail_time, comment_text,show_report;
     GridView showdetail_image, gv_like;
     EditText et_show_comment;
     Button bt_show_comment;
@@ -112,6 +113,8 @@ public class showDetail extends Activity implements View.OnClickListener {
         }
         if (ContentCommon.user_id.equals(comment_userid)) {
             show_delete.setVisibility(View.VISIBLE);
+        }else {
+            show_report.setVisibility(View.VISIBLE);
         }
     }
 
@@ -125,6 +128,8 @@ public class showDetail extends Activity implements View.OnClickListener {
         ll_show_like = (LinearLayout) findViewById(R.id.ll_show_like);
         show_delete = (ImageView) findViewById(R.id.show_delete);
         show_delete.setOnClickListener(this);
+        show_report = (TextView)findViewById(R.id.show_report);
+        show_report.setOnClickListener(this);
         show_view = (View) findViewById(R.id.show_view);
         gv_like = (GridView) findViewById(R.id.gv_showdetail_image);
         lv_comment = (ListView) findViewById(R.id.lv_showdetail_comment);
@@ -154,6 +159,7 @@ public class showDetail extends Activity implements View.OnClickListener {
                     Toast.makeText(showDetail.this, "请先登录...", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            //删除show
             case R.id.show_delete:
                 AlertDialog.Builder builder_show = new AlertDialog.Builder(showDetail.this);
                 builder_show.setMessage("确定删除show?");
@@ -171,6 +177,23 @@ public class showDetail extends Activity implements View.OnClickListener {
                     }
                 });
                 builder_show.create().show();
+                break;
+            case R.id.show_report:
+                AlertDialog.Builder builder_report = new AlertDialog.Builder(showDetail.this);
+                builder_report.setMessage("确定举报该show?");
+                builder_report.setTitle("提示");
+                builder_report.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder_report.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder_report.create().show();
                 break;
             default:
                 break;

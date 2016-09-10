@@ -12,6 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -55,9 +56,18 @@
                         android:id="@+id/show_delete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:background="@mipmap/delete_grey"
                         android:visibility="gone" />
 
+                    <TextView
+                        android:id="@+id/show_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="举报"
+                        android:textSize="16sp"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
 

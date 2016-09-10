@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ShowEntity;
+import com.mengshitech.colorrun.fragment.me.PersonDetail;
 import com.mengshitech.colorrun.fragment.show.showDetail;
 import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
@@ -159,6 +160,7 @@ public class ShowAdapter extends BaseAdapter {
         } else {
             holder.show_content.setVisibility(View.GONE);
         }
+
         //发布show的时间
         String time_unit;
         time_unit = DateUtils.getDate(mShowEntity.getShow_time());
@@ -189,8 +191,6 @@ public class ShowAdapter extends BaseAdapter {
         //gridview图片
         glidviewImagelist = mShowEntity.getShow_image();
 
-
-
         if (glidviewImagelist == null || glidviewImagelist.equals("")) {
             holder.show_image.setVisibility(View.GONE);
             Log.e("glidviewHandler", "2");
@@ -218,16 +218,33 @@ public class ShowAdapter extends BaseAdapter {
                 return false; //不终止路由事件让父级控件处理事件
             }
         });
+        holder.user_header.setOnClickListener(new PersonListener(position));
         holder.show_like.setOnClickListener(new LikeListener(position));
         holder.show_share.setOnClickListener(new ShareListener(position));
         holder.show_comment.setOnClickListener(new CommentListener(position));
         return convertView;
     }
 
-    class LikeListener implements View.OnClickListener {
-
+    class PersonListener implements View.OnClickListener{
         private int position;
+        public PersonListener(int pos){
+            position = pos;
+        }
+        @Override
+        public void onClick(View v) {
+            ShowEntity showEntity = mShowList.get(position);
+            if ( !ContentCommon.user_id .equals(showEntity.getUser_id())  && ContentCommon.user_id !=null) {
+                Intent intent = new Intent(context, PersonDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", showEntity.getUser_id());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        }
+    }
 
+    class LikeListener implements View.OnClickListener {
+        private int position;
         public LikeListener(int pos) {
             position = pos;
         }

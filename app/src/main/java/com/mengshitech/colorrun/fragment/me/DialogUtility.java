@@ -453,6 +453,4 @@ public class DialogUtility implements View.OnClickListener {
     public interface getPhone {
         public String phone(String phone);
     }
-
-
 }

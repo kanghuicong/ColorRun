@@ -144,8 +144,8 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
 
 //        new Thread(getLunBOimageRunnable).start();
-        mSwipeLayout.autoRefresh();
-        new Thread(videoRunnable).start();
+//        mSwipeLayout.autoRefresh();
+
         if (ContentCommon.INTENT_STATE) {
 //            Toast.makeText(context,"网络状态:"+ContentCommon.INTENT_STATE,Toast.LENGTH_SHORT).show();
             mSwipeLayout.autoRefresh();
@@ -636,7 +636,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
 
     @Override
     public void onRefresh() {
-        if (list == null) fixedThreadPool.execute(getLunBOimageRunnable);
+        if (imgList == null) fixedThreadPool.execute(getLunBOimageRunnable);
         if (videoEntity == null) fixedThreadPool.execute(videoRunnable);
         fixedThreadPool.execute(getLeRunRunnable);
     }

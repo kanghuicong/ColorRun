@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Layout;
@@ -57,7 +58,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     ShowAdapter mShowAdapter;
     ListView lvShowContent;
     List<ShowEntity> mShowList;
-    private static ConnectivityManager connectivityManager;
+    private  ConnectivityManager connectivityManager;
     FragmentManager fm;
     private Activity mActivity;
     Context context;
@@ -203,7 +204,12 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+
+
+        Log.i("pageSize",pageSize+"");
+        pageSize=pageSize*currentPage;
         currentPage = 1;
+        Log.i("pageSize",pageSize+"");
         new Thread(runnable).start();
     }
 
@@ -276,6 +282,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             NetworkInfo wifiinfo = connectivityManager
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
+            Log.i("Receiver","true");
+
             if ((phoneinfo.isConnected()) || (wifiinfo.isConnected())) {
 
                 no_network.setVisibility(View.GONE);
@@ -285,17 +293,38 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
     };
 
+    private BroadcastReceiver RefreshfReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+
+            Log.i("success","true");
+            swipeRefreshLayout.autoRefresh();
+        }
+    };
 
     @Override
     public void onPause() {
         super.onPause();
+
+        Log.i("faile","true");
         if (Receiver != null) {
             try {
+                Log.i("faile2222222","true");
                 mActivity.unregisterReceiver(Receiver);
             } catch (Exception e) {
                 // already unregistered
             }
         }
+        if (RefreshfReceiver != null) {
+            try {
+                Log.i("faile333333","true");
+                mActivity.unregisterReceiver(RefreshfReceiver);
+            } catch (Exception e) {
+                // already unregistered
+            }
+        }
+
     }
 
     @Override
@@ -304,6 +333,16 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         IntentFilter filter = new IntentFilter();
         filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
         mActivity.registerReceiver(Receiver, filter);
+
+        IntentFilter filter2 = new IntentFilter();
+        filter2.addAction("refreshShow");
+//        Log.i("filter2",filter2+"1111");
+//        mActivity.registerReceiver(RefreshfReceiver, filter2);
+//        Log.i("res","sssssssssss");
+
+        LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(context);
+        broadcastManager.registerReceiver(RefreshfReceiver, filter2);
+
     }
 
 
@@ -325,4 +364,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             return false;
         }
     };
+
+
 }

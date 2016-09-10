@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,8 +114,10 @@ public class Show_search extends Fragment implements TextWatcher {
             mlist = new ArrayList<Map<String, String>>();
             SearchDao dao = new SearchDao(context);
             search_list = dao.find(ContentCommon.user_id);
-            if (search_list != null) {
+            Log.i("llShowSearchHistory",search_list+"1111111");
+            if (search_list.size()!=0) {
                 llShowSearchHistory.setVisibility(View.VISIBLE);
+                Log.i("llShowSearchHistory","llShowSearchHistory");
                 for (int i = 0; i < search_list.size(); i++) {
                     SearchEntity modler = search_list.get(i);
                     Map<String, String> map = new HashMap<String, String>();

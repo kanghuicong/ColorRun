@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -168,7 +169,7 @@ public class showDetail extends Activity implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new Thread(delete_show_runnable).start();
-                        finish();
+
                     }
                 });
                 builder_show.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -403,17 +404,17 @@ public class showDetail extends Activity implements View.OnClickListener {
 
         public void handleMessage(Message msg) {
             String result = (String) msg.obj;
-            try {
-                int state = JsonTools.getState("state",result);
-                if (state == 1) {
-                    Toast.makeText(showDetail.this, "删除成功！", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(showDetail.this, "删除失败！", Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            if (result.equals("1")) {
+                Toast.makeText(showDetail.this, "删除成功！", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent("refreshShow");
+                LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(showDetail.this);
+                broadcastManager.sendBroadcast(intent);
+                finish();
+            } else {
+                Toast.makeText(showDetail.this, "删除失败！", Toast.LENGTH_SHORT).show();
             }
+
         }
     };
 

@@ -102,6 +102,7 @@
         <activity android:name=".MainActivity"   android:screenOrientation="portrait" />
         <activity android:name=".fragment.history.HistoryContent" android:screenOrientation="portrait"/>
         <activity android:name=".activity.GuideActivity" />
+        <activity android:name=".fragment.me.PersonDetail"/>
         <activity android:name=".activity.UserLogActivity" android:screenOrientation="portrait"/>
         <activity android:name=".releaseshow.ReleaseShowActivity" android:screenOrientation="portrait"/>
         <activity android:name=".releaseshow.ImgFileListActivity" android:screenOrientation="portrait"/>

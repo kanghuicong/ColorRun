@@ -1,12 +1,17 @@
 package com.mengshitech.colorrun.fragment.me;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -48,6 +53,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         MainBackUtility.MainBack_Show(activity,myshowView, "我的show", getFragmentManager());
         findById();
         new Thread(runnable).start();
+        Log.i("myshow","5555555");
         lv_myshow.setOnItemClickListener(new ItemClickListener());
         return myshowView;
     }
@@ -137,7 +143,40 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
+        Log.i("myshow","44444444");
         new Thread(runnable).start();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("myshow","333333");
+        if (RefreshfReceiver != null) {
+            try {
+                mActivity.unregisterReceiver(RefreshfReceiver);
+            } catch (Exception e) {
+                // already unregistered
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i("myshow","222222");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("refreshShow");
+        LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(mActivity);
+        broadcastManager.registerReceiver(RefreshfReceiver, filter);
+    }
+
+    private BroadcastReceiver RefreshfReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            Log.i("myshow","1111111");
+            swipeRefreshLayout.autoRefresh();
+        }
+    };
 }
 

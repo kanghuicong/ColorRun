@@ -38,6 +38,7 @@ import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
 import com.mengshitech.colorrun.releaseshow.ReleaseShowActivity;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -47,6 +48,8 @@ import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +70,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     int currentPage = 1;
     List<ShowEntity> AllShowList = new ArrayList<ShowEntity>();
     LinearLayout no_network;
+    private ProgressDialog progressDialog;
 
     @Override
     public View initView() {
@@ -129,8 +133,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setColorSchemeColors(android.graphics.Color.parseColor("#87CEFA"));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadListener(this);
-
-        if (ContentCommon.INTENT_STATE) {
+        
+        if (ContentCommon.INTENT_STATE ) {
             no_network.setVisibility(View.GONE);
             swipeRefreshLayout.autoRefresh();
             lvShowContent.setVisibility(View.VISIBLE);
@@ -204,12 +208,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-
-
-        Log.i("pageSize",pageSize+"");
-        pageSize=pageSize*currentPage;
+        pageSize = pageSize*currentPage;
         currentPage = 1;
-        Log.i("pageSize",pageSize+"");
         new Thread(runnable).start();
     }
 
@@ -218,7 +218,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         currentPage = currentPage + 1;
         new Thread(loadrunnable).start();
     }
-
 
     Runnable loadrunnable = new Runnable() {
 
@@ -270,8 +269,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         }
     };
-
-
+    
     //当没有网络连接时将listview隐藏  并动态加入一个提示的TextView
     private BroadcastReceiver Receiver = new BroadcastReceiver() {
 
@@ -287,7 +285,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             if ((phoneinfo.isConnected()) || (wifiinfo.isConnected())) {
 
                 no_network.setVisibility(View.GONE);
-//                swipeRefreshLayout.autoRefresh();
                 lvShowContent.setVisibility(View.VISIBLE);
             }
         }
@@ -297,8 +294,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-
-            Log.i("success","true");
             swipeRefreshLayout.autoRefresh();
         }
     };
@@ -307,10 +302,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onPause() {
         super.onPause();
 
-        Log.i("faile","true");
         if (Receiver != null) {
             try {
-                Log.i("faile2222222","true");
                 mActivity.unregisterReceiver(Receiver);
             } catch (Exception e) {
                 // already unregistered
@@ -318,10 +311,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
         if (RefreshfReceiver != null) {
             try {
-                Log.i("faile333333","true");
                 mActivity.unregisterReceiver(RefreshfReceiver);
             } catch (Exception e) {
-                // already unregistered
+
             }
         }
 
@@ -336,13 +328,8 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         IntentFilter filter2 = new IntentFilter();
         filter2.addAction("refreshShow");
-//        Log.i("filter2",filter2+"1111");
-//        mActivity.registerReceiver(RefreshfReceiver, filter2);
-//        Log.i("res","sssssssssss");
-
         LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(context);
         broadcastManager.registerReceiver(RefreshfReceiver, filter2);
-
     }
 
 
@@ -364,6 +351,4 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             return false;
         }
     };
-
-
 }

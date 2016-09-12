@@ -35,6 +35,7 @@ import com.mengshitech.colorrun.adapter.ShowGridViewAdapter;
 import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.LikeEntity;
 import com.mengshitech.colorrun.bean.UserEntiy;
+import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.dao.UserDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.DateUtils;
@@ -76,6 +77,7 @@ public class showDetail extends Activity implements View.OnClickListener {
     List<CommentEntity> commentlist = new ArrayList<CommentEntity>();
     ShowDetailCommentAdpter lv_adapter;
     List<CommentEntity> list = new ArrayList<CommentEntity>();
+    private ProgressDialog progressDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -414,7 +416,6 @@ public class showDetail extends Activity implements View.OnClickListener {
             } else {
                 Toast.makeText(showDetail.this, "删除失败！", Toast.LENGTH_SHORT).show();
             }
-
         }
     };
 

@@ -36,6 +36,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -320,7 +321,9 @@ public class ReleaseShowActivity extends Activity implements OnClickListener, Te
                 if (ContentCommon.ShowImageList != null) {
                     ContentCommon.ShowImageList.clear();
                 }
-
+                Intent intent = new Intent("refreshShow");
+                LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(ReleaseShowActivity.this);
+                broadcastManager.sendBroadcast(intent);
                 finish();
             } else {
                 progressDialog.dismiss();

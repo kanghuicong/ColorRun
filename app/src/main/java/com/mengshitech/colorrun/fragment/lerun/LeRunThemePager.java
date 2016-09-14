@@ -2,6 +2,7 @@ package com.mengshitech.colorrun.fragment.lerun;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -28,6 +29,8 @@ public class LeRunThemePager extends BaseFragment {
         historyview = View.inflate(getActivity(), R.layout.lerun_theme, null);
         MainBackUtility.MainBack(historyview,"主题",getFragmentManager());
         ViewPager vp = (ViewPager) historyview.findViewById(R.id.viewPager);
+        final PagerTabStrip pagerTabStrip = (PagerTabStrip) historyview.findViewById(R.id.pts);
+        pagerTabStrip.setTabIndicatorColorResource(R.color.green);
         context = getActivity();
         fragmentList.add(new LeRunTheme(getActivity(),"pop"));
         fragmentList.add(new LeRunTheme(getActivity(),"color"));

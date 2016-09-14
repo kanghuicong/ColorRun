@@ -57,7 +57,7 @@ import org.json.JSONException;
 public class meFragment extends Fragment implements OnClickListener {
     View meView;
     LinearLayout llUserHead, llMyLeRun, llMyShow, llAboutUs, llCancel,llId;
-    ImageView ivUserHead;
+    ImageView ivUserHead,ivMyShow;
     FragmentManager fm;
     TextView tvUserName, tvUserID;
     private Activity mActivity;
@@ -72,8 +72,16 @@ public class meFragment extends Fragment implements OnClickListener {
         context = getActivity();
         initView();
         GetDate();
-
+        CheckState();
         return meView;
+    }
+
+    private void CheckState() {
+        if (ContentCommon.myshowstate .equals("1")){
+            ivMyShow.setVisibility(View.VISIBLE);
+        }else {
+            ivMyShow.setVisibility(View.GONE);
+        }
     }
 
     private void GetDate() {
@@ -113,7 +121,7 @@ public class meFragment extends Fragment implements OnClickListener {
         meView.setFocusableInTouchMode(true);
         meView.setOnKeyListener(backlistener);
 
-        llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
+
         llId = (LinearLayout)meView.findViewById(R.id.ll_me_id);
         ivUserHead = (ImageView) meView.findViewById(R.id.ivUserHead);
         tvUserName = (TextView) meView.findViewById(R.id.tvUserName);
@@ -121,15 +129,17 @@ public class meFragment extends Fragment implements OnClickListener {
 
 
         // 头像那一行
+        llUserHead = (LinearLayout) meView.findViewById(R.id.llUserHead);
         llUserHead.setOnClickListener(this);
-        llMyLeRun = (LinearLayout) meView.findViewById(R.id.llMyLeRun);
         // 我的乐跑那一行
+        llMyLeRun = (LinearLayout) meView.findViewById(R.id.llMyLeRun);
         llMyLeRun.setOnClickListener(this);
-        llMyShow = (LinearLayout) meView.findViewById(R.id.llMyShow);
         // 我的秀那一行
+        llMyShow = (LinearLayout) meView.findViewById(R.id.llMyShow);
         llMyShow.setOnClickListener(this);
-        llAboutUs = (LinearLayout) meView.findViewById(R.id.llAboutUs);
+        ivMyShow = (ImageView)meView.findViewById(R.id.ivMyShow);
         // 关于我们那一行
+        llAboutUs = (LinearLayout) meView.findViewById(R.id.llAboutUs);
         llAboutUs.setOnClickListener(this);
         //注销
         llCancel = (LinearLayout) meView.findViewById(R.id.llCancel);
@@ -164,6 +174,9 @@ public class meFragment extends Fragment implements OnClickListener {
             //我的show
             case R.id.llMyShow:
                 if (ContentCommon.login_state.equals("1")) {
+                    ContentCommon.myshowstate = "0";
+                    MainActivity.iv_bullet_red.setVisibility(View.GONE);
+                    ivMyShow.setVisibility(View.GONE);
                     Utility.replace2DetailFragment(fm, new myShowFragment());
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
@@ -177,7 +190,6 @@ public class meFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.llCancel:
                 if (ContentCommon.login_state.equals("1")) {
-//                    DialogUtility.DialogCancel(mActivity, ivUserHead, tvUserName, tvUserID);
                     LogOut();
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
@@ -237,8 +249,6 @@ public class meFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-
-
             refreshhandler.sendEmptyMessage(0);
         }
     };
@@ -248,7 +258,7 @@ public class meFragment extends Fragment implements OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-
+        CheckState();
         IntentFilter filter = new IntentFilter();
         filter.addAction("refresh");
         mActivity.registerReceiver(receiver, filter);
@@ -292,6 +302,7 @@ public class meFragment extends Fragment implements OnClickListener {
                         editor.putString("user_id","");
                         editor.commit();
                         ContentCommon.login_state="0";
+                        ContentCommon.MyshowList = null;
                         diaLog.dismiss();
                         break;
                     case R.id.btn_cancel:
@@ -331,7 +342,5 @@ public class meFragment extends Fragment implements OnClickListener {
             return false;
         }
     };
-
-
 
 }

@@ -14,10 +14,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
@@ -31,6 +33,7 @@ import com.mengshitech.colorrun.utils.MainBackUtility;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,7 @@ import java.util.Map;
 
 public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     View myshowView;
+    ImageView iv_bullet_red;
     ShowAdapter mShowAdapter;
     ListView lv_myshow;
     TextView myshow_text;
@@ -45,6 +49,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     FragmentManager fm;
     BottomPullSwipeRefreshLayout swipeRefreshLayout;
     private Activity activity;
+    List<String> list = new ArrayList<String>();
 
     @Override
     public View initView() {
@@ -53,7 +58,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         MainBackUtility.MainBack_Show(activity,myshowView, "我的show", getFragmentManager());
         findById();
         new Thread(runnable).start();
-        Log.i("myshow","5555555");
         lv_myshow.setOnItemClickListener(new ItemClickListener());
         return myshowView;
     }
@@ -62,6 +66,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
+
             Intent intent = new Intent(getActivity(), showDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
@@ -75,6 +80,20 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
             bundle.putString("show_image", mShowEntity.getShow_image());
             intent.putExtras(bundle);
             getActivity().startActivity(intent);
+            if (ContentCommon.MyshowStateList != null) {
+                for (int i = 0; i < ContentCommon.MyshowStateList.size(); i++) {
+                    if (mShowEntity.getShow_id().equals(ContentCommon.MyshowStateList.get(i))) {
+                        iv_bullet_red = (ImageView)view.findViewById(R.id.show_bullet_red);
+                        iv_bullet_red.setVisibility(View.GONE);
+                        ContentCommon.MyshowStateList.remove(i);
+                        if (ContentCommon.MyshowStateList.size() == 0) {
+                            ContentCommon.MyshowState = "0";
+                            ContentCommon.myshowstate = "0";
+                            MainActivity.iv_bullet_red.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -125,10 +144,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     if (mShowList == null || mShowList.equals("")) {
                         myshow_text.setVisibility(View.VISIBLE);
                     }
-
-//                    if (mShowList != null && !mShowList.equals("")) {
-//                        myshow_text.setVisibility(View.GONE);
-//                    }
                     mShowAdapter = new ShowAdapter(mShowList.size(),activity,getActivity(), getFragmentManager(), mShowList, lv_myshow);
                     lv_myshow.setAdapter(mShowAdapter);
                     swipeRefreshLayout.setRefreshing(false);
@@ -143,14 +158,12 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        Log.i("myshow","44444444");
         new Thread(runnable).start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.i("myshow","333333");
         if (RefreshfReceiver != null) {
             try {
                 mActivity.unregisterReceiver(RefreshfReceiver);
@@ -163,7 +176,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("myshow","222222");
         IntentFilter filter = new IntentFilter();
         filter.addAction("refreshShow");
         LocalBroadcastManager broadcastManager=LocalBroadcastManager.getInstance(mActivity);
@@ -174,7 +186,6 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            Log.i("myshow","1111111");
             swipeRefreshLayout.autoRefresh();
         }
     };

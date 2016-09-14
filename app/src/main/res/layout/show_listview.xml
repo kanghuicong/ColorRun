@@ -68,6 +68,16 @@
                         android:text="举报"
                         android:textSize="16sp"
                         android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/show_bullet_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@mipmap/bullet_red"
+                        android:visibility="gone"
+                        />
+
                 </LinearLayout>
 
 

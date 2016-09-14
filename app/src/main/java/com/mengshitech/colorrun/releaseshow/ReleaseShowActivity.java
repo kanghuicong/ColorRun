@@ -20,6 +20,7 @@ import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.RandomUtils;
+import com.mengshitech.colorrun.utils.StorageState;
 import com.mengshitech.colorrun.utils.upload;
 
 import android.app.ActivityOptions;
@@ -313,6 +314,7 @@ public class ReleaseShowActivity extends Activity implements OnClickListener, Te
             super.handleMessage(msg);
 
             String result = (String) msg.obj;
+            Log.i("ssssss",result+"-------");
             if (result.equals("timeout")) {
                 Toast.makeText(ReleaseShowActivity.this, "连接服务器超时", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();

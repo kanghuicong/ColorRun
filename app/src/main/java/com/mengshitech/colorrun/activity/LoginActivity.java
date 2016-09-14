@@ -28,6 +28,8 @@ import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.MainBackUtility;
+import com.mengshitech.colorrun.utils.StorageState;
+
 import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
@@ -175,7 +177,7 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
                         ContentCommon.user_id = userId;
                         editor.commit();
                         new Thread(user_runnable).start();
-
+                        StorageState.CheckConmentState();
                         break;
                     default:
                         break;

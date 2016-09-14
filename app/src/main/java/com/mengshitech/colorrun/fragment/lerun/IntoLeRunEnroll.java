@@ -372,6 +372,7 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                         Log.i("charge_mode==2", "type==1");
                                         signin_type = "1";
                                         creatQRcode();
+                                        progressDialog.show();
                                         signleThreadPool.execute(uploadRunnable);
                                     }
                                 } else if ("非承办方".equals(enroll_spinner_id.getSelectedItem().toString()) && choose_price == 0) {
@@ -388,14 +389,14 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
                                     //全部免费
                                     case 1:
                                         signin_type = "2";
+                                        progressDialog.show();
                                         signleThreadPool.execute(QrcodeRunnable);
-                                        Log.i("charge_mode==1", "type==1");
                                         break;
                                     //全部收费
                                     case 3:
                                         signin_type = "2";
+                                        progressDialog.show();
                                         signleThreadPool.execute(QrcodeRunnable);
-                                        Log.i("charge_mode==3", "type==1");
                                         break;
                                     default:
                                         break;
@@ -478,8 +479,6 @@ public class IntoLeRunEnroll extends Fragment implements View.OnClickListener {
             } else {
                 try {
                     QRcodeImage = JsonTools.getUserLog(imagepath);
-
-
                     signleThreadPool.execute(Mode1runnable);
                 } catch (JSONException e) {
                     e.printStackTrace();

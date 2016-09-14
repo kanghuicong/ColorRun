@@ -140,7 +140,7 @@ public class UserDao {
     public void delete_user (String user_id) {
         db = dbHelper.getWritableDatabase();
         db.execSQL("delete from user where user_id = ?" +
-                new Object[]{user_id});
+        new Object[]{user_id});
         Log.i("delete_user","delete_user");
         db.close();
     }

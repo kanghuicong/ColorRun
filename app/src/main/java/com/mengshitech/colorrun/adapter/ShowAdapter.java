@@ -83,6 +83,7 @@ public class ShowAdapter extends BaseAdapter {
         private TextView show_like;
         private TextView show_comment;
         private TextView show_share;
+        private ImageView show_bullet_red;
     }
 
     public ShowAdapter(int count, Context context, FragmentManager fm, List<ShowEntity> showList,
@@ -126,8 +127,6 @@ public class ShowAdapter extends BaseAdapter {
         mShowEntity = mShowList.get(position);
         holder = new ViewHolder();
         if (convertView == null) {
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            view = inflater.inflate(R.layout.show_listview, null);
             convertView = View.inflate(context, R.layout.show_listview, null);
             holder.user_header = (ImageView) convertView
                     .findViewById(R.id.im_show_userhear);
@@ -142,6 +141,7 @@ public class ShowAdapter extends BaseAdapter {
             holder.show_comment = (TextView) convertView.findViewById(R.id.im_show_comment);
             holder.show_like = (TextView) convertView.findViewById(R.id.tv_show_like);
             holder.show_share = (TextView) convertView.findViewById(R.id.im_show_share);
+            holder.show_bullet_red = (ImageView)convertView.findViewById(R.id.show_bullet_red);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -161,6 +161,18 @@ public class ShowAdapter extends BaseAdapter {
             holder.show_content.setVisibility(View.GONE);
         }
 
+        //判断是否有新的评论
+        if (ContentCommon.MyshowStateList != null) {
+            for (int i = 0; i < ContentCommon.MyshowStateList.size(); i++) {
+                if (ContentCommon.MyshowStateList.get(i).equals(mShowEntity.getShow_id())) {
+                    holder.show_bullet_red.setVisibility(View.VISIBLE);
+                    i = ContentCommon.MyshowStateList.size();
+                } else {
+                    holder.show_bullet_red.setVisibility(View.GONE);
+                }
+            }
+        }
+
         //发布show的时间
         String time_unit;
         time_unit = DateUtils.getDate(mShowEntity.getShow_time());
@@ -175,30 +187,23 @@ public class ShowAdapter extends BaseAdapter {
             holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         } else if (like_state.equals("1")) {
             Drawable drawable = context.getResources().getDrawable(R.mipmap.show_heart);
-
             holder.show_like.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-
         }
 
         //设置图片大小
         Drawable drawable_share = context.getResources().getDrawable(R.mipmap.show_share);
-//        drawable_share.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
         holder.show_share.setCompoundDrawablesWithIntrinsicBounds(drawable_share, null, null, null);
         Drawable drawable_comment = context.getResources().getDrawable(R.mipmap.show_comment);
-//        drawable_comment.setBounds(0, 0, 45, 45);//必须设置图片大小，否则不显示
         holder.show_comment.setCompoundDrawablesWithIntrinsicBounds(drawable_comment, null, null, null);
 
         //gridview图片
         glidviewImagelist = mShowEntity.getShow_image();
-
         if (glidviewImagelist == null || glidviewImagelist.equals("")) {
             holder.show_image.setVisibility(View.GONE);
             Log.e("glidviewHandler", "2");
         } else {
             holder.show_image.setVisibility(View.VISIBLE);
             try {
-//                    Log.i("Show_image", position + "");
-                Log.e("glidviewHandler", "3");
                 ImageList = JsonTools.getImageInfo(glidviewImagelist);
                 imagepath = new ArrayList<String>();
                 for (int i = 0; i < ImageList.size(); i++) {
@@ -211,6 +216,7 @@ public class ShowAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
         }
+
         //gridview空白部分点击事件
         holder.show_image.setOnTouchInvalidPositionListener(new EmptyGridView.OnTouchInvalidPositionListener() {
             @Override
@@ -218,6 +224,7 @@ public class ShowAdapter extends BaseAdapter {
                 return false; //不终止路由事件让父级控件处理事件
             }
         });
+
         holder.user_header.setOnClickListener(new PersonListener(position));
         holder.show_like.setOnClickListener(new LikeListener(position));
         holder.show_share.setOnClickListener(new ShareListener(position));

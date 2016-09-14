@@ -147,36 +147,51 @@
         android:layout_height="0.3dp"
         android:background="@color/ViewLine" />
 
-    <LinearLayout
-        android:id="@+id/llMyShow"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/me_myshow" />
-
-        <TextView
-            android:id="@+id/tvMyShow"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/llMyShow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="我的show"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/me_myshow" />
+
+            <TextView
+                android:id="@+id/tvMyShow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="我的show"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:src="@mipmap/next_arrow" />
+        </LinearLayout>
 
         <ImageView
+            android:id="@+id/ivMyShow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:src="@mipmap/next_arrow" />
-    </LinearLayout>
+            android:visibility="gone"
+            android:layout_gravity="right"
+            android:src="@mipmap/bullet_red" />
+    </FrameLayout>
+
+
 
     <View
         android:layout_width="match_parent"

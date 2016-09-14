@@ -114,10 +114,12 @@ public class showDetail extends Activity implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (ContentCommon.user_id.equals(comment_userid)) {
-            show_delete.setVisibility(View.VISIBLE);
-        }else {
-            show_report.setVisibility(View.VISIBLE);
+        if (ContentCommon.user_id != null) {
+            if (ContentCommon.user_id.equals(comment_userid)) {
+                show_delete.setVisibility(View.VISIBLE);
+            } else {
+                show_report.setVisibility(View.VISIBLE);
+            }
         }
     }
 

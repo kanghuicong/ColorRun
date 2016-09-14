@@ -57,7 +57,7 @@ import java.util.Map;
 
 public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
     View showView;
-    ImageView ivShow_CreateShow, iv_search;
+    ImageView ivShow_CreateShow, iv_search,iv_bullet_red;
     ShowAdapter mShowAdapter;
     ListView lvShowContent;
     List<ShowEntity> mShowList;
@@ -100,6 +100,9 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
+
+
+
             Intent intent = new Intent(getActivity(), showDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
@@ -113,6 +116,21 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             bundle.putString("show_image", mShowEntity.getShow_image());
             intent.putExtras(bundle);
             getActivity().startActivity(intent);
+
+            if (ContentCommon.MyshowStateList != null) {
+                for (int i = 0; i < ContentCommon.MyshowStateList.size(); i++) {
+                    if (mShowEntity.getShow_id().equals(ContentCommon.MyshowStateList.get(i))) {
+                        iv_bullet_red = (ImageView)view.findViewById(R.id.show_bullet_red);
+                        iv_bullet_red.setVisibility(View.GONE);
+                        ContentCommon.MyshowStateList.remove(i);
+                        if (ContentCommon.MyshowStateList.size() == 0) {
+                            ContentCommon.MyshowState = "0";
+                            ContentCommon.myshowstate = "0";
+                            MainActivity.iv_bullet_red.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -269,7 +287,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         }
     };
-    
+
     //当没有网络连接时将listview隐藏  并动态加入一个提示的TextView
     private BroadcastReceiver Receiver = new BroadcastReceiver() {
 
@@ -281,7 +299,6 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             Log.i("Receiver","true");
-
             if ((phoneinfo.isConnected()) || (wifiinfo.isConnected())) {
 
                 no_network.setVisibility(View.GONE);

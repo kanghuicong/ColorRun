@@ -3,6 +3,8 @@ package com.mengshitech.colorrun.utils;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import com.mengshitech.colorrun.bean.ShowEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,13 @@ public class ContentCommon {
     public static String user_name=null;
     public static Boolean INTENT_STATE=true;
     public static int into_lerun_type = 0;
-
+    public static int PermissionsState=0;
     public static ArrayList<String> ShowImageList=null;
 
-    public static int PermissionsState=0;
+    public static List<ShowEntity> MyshowList = null;
+    public static String MyshowState = "0";
+    public static String myshowstate = "0";
+    public static List<String> MyshowStateList=null;
+
 
 }

@@ -23,6 +23,8 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -46,7 +48,8 @@ import com.mengshitech.colorrun.utils.Utility;
 
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
-    public static RadioGroup rgMainBottom;
+    public static RadioGroup rgMain;
+    public static FrameLayout rgMainBottom;
     private static boolean isExit = false;// 定义一个变量，来标识是否退出
     private RadioButton rbMe, rbHistory, rbRun, rbShow;
     private FragmentManager fm;
@@ -65,6 +68,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private long mExitTime;
     private ConnectivityManager connectivityManager;
     private Fragment fg;    // fg记录当前的Fragment
+    public static ImageView iv_bullet_red;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +77,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         setContentView(R.layout.activity_main);
-
         initView();
     }
 
     private void initView() {
         initFragment();
-
-        rgMainBottom = (RadioGroup) findViewById(R.id.rgMainBottom);
-        rgMainBottom.check(R.id.rbRun);
+        rgMainBottom = (FrameLayout) findViewById(R.id.rgMainBottom);
+        rgMain = (RadioGroup) findViewById(R.id.rgMainbottom);
+        rgMain.check(R.id.rbRun);
         // 进入主页面，初始页面pager为乐跑
         rbRun = (RadioButton) findViewById(R.id.rbRun);
         // rb乐跑
@@ -91,11 +94,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         // rb历史
         rbMe = (RadioButton) findViewById(R.id.rbMe);
         // rb我的
+        iv_bullet_red = (ImageView)findViewById(R.id.iv_bullet_red);
+
         rbHistory.setOnClickListener(this);
         rbMe.setOnClickListener(this);
         rbRun.setOnClickListener(this);
         rbShow.setOnClickListener(this);
+        CheckState();
+    }
 
+    private void CheckState() {
+        if (ContentCommon.myshowstate.equals("1")){
+            iv_bullet_red.setVisibility(View.VISIBLE);
+        }else {
+            iv_bullet_red.setVisibility(View.GONE);
+        }
     }
 
     private void initFragment() {
@@ -185,9 +198,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
     // 动态注册广播
     protected void onResume() {
-
         super.onResume();
-
+        CheckState();
         IntentFilter filter = new IntentFilter();
         filter.addAction(connectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(broadcastReceiver, filter);

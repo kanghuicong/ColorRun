@@ -13,30 +13,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Layout;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.ShowAdapter;
-import com.mengshitech.colorrun.bean.CommentEntity;
 import com.mengshitech.colorrun.bean.ShowEntity;
-import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
@@ -48,14 +39,12 @@ import com.mengshitech.colorrun.utils.Utility;
 
 import org.json.JSONException;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
+public class ShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BottomPullSwipeRefreshLayout.OnLoadListener {
     View showView;
     ImageView ivShow_CreateShow, iv_search,iv_bullet_red;
     ShowAdapter mShowAdapter;
@@ -81,7 +70,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         connectivityManager = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
 //        if (showView == null) {
-            showView = View.inflate(mActivity, R.layout.fragment_show, null);
+            showView = View.inflate(mActivity, R.layout.show_fragment, null);
             showView.setFocusable(true);
             showView.setFocusableInTouchMode(true);
             showView.setOnKeyListener(backlistener);
@@ -103,7 +92,7 @@ public class showFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
 
 
-            Intent intent = new Intent(getActivity(), showDetail.class);
+            Intent intent = new Intent(getActivity(), ShowDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
             bundle.putString("comment_userid", mShowEntity.getUser_id());

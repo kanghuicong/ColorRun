@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.releaseshow.ReleaseShowActivity;
 
 /**

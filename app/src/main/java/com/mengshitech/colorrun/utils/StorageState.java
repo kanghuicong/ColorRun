@@ -84,14 +84,11 @@ public class StorageState {
                                 for (int j = 0; j < mShowList.size(); j++) {
                                     mShow = mShowList.get(j);
                                     if (Myshow.getShow_id().equals(mShow.getShow_id()) && Integer.valueOf(Myshow.getComment_num()) < Integer.valueOf(mShow.getComment_num())) {
-//                                    if (!mShow.getUser_id().equals(ContentCommon.user_id)) {
-                                        ContentCommon.MyshowState = "1";
-                                        ContentCommon.myshowstate = "1";
-                                        ContentCommon.MyshowStateList.add(Myshow.getShow_id());
-                                        Log.i("onStart_myshowstate",ContentCommon.myshowstate);
-                                        Log.i("onStart_MyshowState",ContentCommon.MyshowState);
-
-//                                    }
+                                        if (!mShow.getUser_id().equals(ContentCommon.user_id)) {
+                                            ContentCommon.MyshowState = "1";
+                                            ContentCommon.myshowstate = "1";
+                                            ContentCommon.MyshowStateList.add(Myshow.getShow_id());
+                                        }
                                     }
                                 }
                             }

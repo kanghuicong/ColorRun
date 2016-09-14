@@ -11,7 +11,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -25,7 +24,7 @@ import com.mengshitech.colorrun.adapter.ShowAdapter;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.fragment.BaseFragment;
-import com.mengshitech.colorrun.fragment.show.showDetail;
+import com.mengshitech.colorrun.fragment.show.ShowDetail;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
@@ -39,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MyShowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     View myshowView;
     ImageView iv_bullet_red;
     ShowAdapter mShowAdapter;
@@ -67,7 +66,7 @@ public class myShowFragment extends BaseFragment implements SwipeRefreshLayout.O
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
 
-            Intent intent = new Intent(getActivity(), showDetail.class);
+            Intent intent = new Intent(getActivity(), ShowDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
             bundle.putString("comment_userid", mShowEntity.getUser_id());

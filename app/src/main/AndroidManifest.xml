@@ -108,7 +108,7 @@
         <activity android:name=".releaseshow.ImgFileListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".releaseshow.ImgsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".releaseshow.ShowDltailImage" android:screenOrientation="portrait"/>
-        <activity android:name=".fragment.show.showDetail" android:screenOrientation="portrait"/>
+        <activity android:name=".fragment.show.ShowDetail" android:screenOrientation="portrait"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

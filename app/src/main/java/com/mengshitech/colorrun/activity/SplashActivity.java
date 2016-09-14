@@ -13,10 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
-
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.utils.ContentCommon;

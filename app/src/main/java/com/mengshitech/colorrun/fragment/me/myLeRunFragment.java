@@ -38,7 +38,7 @@ import java.util.Map;
  * 作者：wschenyongyin on 2016/8/2 19:11
  * 说明: 我的乐跑
  */
-public class myLeRunFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MyLeRunFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private int entry_number = 3;
     View mLeRunView;
     TextView mylerun_text;

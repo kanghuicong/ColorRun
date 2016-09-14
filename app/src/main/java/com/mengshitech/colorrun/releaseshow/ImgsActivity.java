@@ -8,11 +8,9 @@ import java.util.HashMap;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,11 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.activity.SpaceImageDetailActivity;
 import com.mengshitech.colorrun.fragment.lerun.ShowMap;
-import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
-import com.mengshitech.colorrun.utils.Utility;
 
 public class ImgsActivity extends Activity implements OnClickListener {
 

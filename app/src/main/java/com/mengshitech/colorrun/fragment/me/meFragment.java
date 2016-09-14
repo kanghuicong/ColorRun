@@ -6,16 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,28 +28,22 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.activity.LoginActivity;
-import com.mengshitech.colorrun.activity.RegisterPwd;
 import com.mengshitech.colorrun.bean.UserEntiy;
-import com.mengshitech.colorrun.customcontrols.AutoSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.LogOutDiaLog;
 import com.mengshitech.colorrun.dao.UserDao;
-import com.mengshitech.colorrun.fragment.lerun.IntoLeRunEnroll;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.Utility;
-import com.nostra13.universalimageloader.utils.L;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.json.JSONException;
 
 /**
  * atenklsy
  */
-public class meFragment extends Fragment implements OnClickListener {
+public class MeFragment extends Fragment implements OnClickListener {
     View meView;
     LinearLayout llUserHead, llMyLeRun, llMyShow, llAboutUs, llCancel,llId;
     ImageView ivUserHead,ivMyShow;
@@ -100,10 +89,8 @@ public class meFragment extends Fragment implements OnClickListener {
             }
 
         } else {
-            Log.i("用户姓名", modler.getUser_name() + "");
             tvUserName.setText(modler.getUser_name());
             tvUserID.setText(modler.getUser_id());
-            Log.i("tvUserID", modler.getUser_id());
             if (modler.getUser_header() != null) {
                 String header_path = ContentCommon.path + modler.getUser_header();
                 ContentCommon.user_log=header_path;
@@ -116,7 +103,7 @@ public class meFragment extends Fragment implements OnClickListener {
     }
 
     private void initView() {
-        meView = View.inflate(getActivity(), R.layout.fragment_me, null);
+        meView = View.inflate(getActivity(), R.layout.me_fragment, null);
         meView.setFocusable(true);//这个和下面的这个命令必须要设置了，才能监听back事件。
         meView.setFocusableInTouchMode(true);
         meView.setOnKeyListener(backlistener);
@@ -156,7 +143,7 @@ public class meFragment extends Fragment implements OnClickListener {
             case R.id.llUserHead:
                 //点击头像事件
                 if (ContentCommon.login_state.equals("1")) {
-                    Utility.replace2DetailFragment(fm, new myDetailFragment());
+                    Utility.replace2DetailFragment(fm, new MyDetailFragment());
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivity(intent);
@@ -165,7 +152,7 @@ public class meFragment extends Fragment implements OnClickListener {
             // 点击我的乐跑事件
             case R.id.llMyLeRun:
                 if (ContentCommon.login_state.equals("1")) {
-                    Utility.replace2DetailFragment(fm, new myLeRunFragment());
+                    Utility.replace2DetailFragment(fm, new MyLeRunFragment());
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
@@ -177,7 +164,7 @@ public class meFragment extends Fragment implements OnClickListener {
                     ContentCommon.myshowstate = "0";
                     MainActivity.iv_bullet_red.setVisibility(View.GONE);
                     ivMyShow.setVisibility(View.GONE);
-                    Utility.replace2DetailFragment(fm, new myShowFragment());
+                    Utility.replace2DetailFragment(fm, new MyShowFragment());
                 } else {
                     Intent intent = new Intent(mActivity, LoginActivity.class);
                     mActivity.startActivity(intent);
@@ -262,7 +249,6 @@ public class meFragment extends Fragment implements OnClickListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction("refresh");
         mActivity.registerReceiver(receiver, filter);
-        Log.i("onStart", "zhixingle");
     }
 
     //注销广播

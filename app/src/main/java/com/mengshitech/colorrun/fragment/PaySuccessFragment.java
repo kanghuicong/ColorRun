@@ -10,11 +10,8 @@ import android.widget.TextView;
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.fragment.me.MyLeRunFragmentInTo;
-import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
+import com.mengshitech.colorrun.fragment.me.MyLeRunFragment;
 import com.mengshitech.colorrun.utils.Utility;
-
-import org.w3c.dom.Text;
 
 /**
  * 作者：wschenyongyin on 2016/8/24 09:22
@@ -44,7 +41,7 @@ public class PaySuccessFragment extends BaseFragment{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            myLeRunFragment fragment=new myLeRunFragment();
+            MyLeRunFragment fragment=new MyLeRunFragment();
             getFragmentManager().popBackStack();
             Utility.replace2DetailFragment(fm,fragment);
 

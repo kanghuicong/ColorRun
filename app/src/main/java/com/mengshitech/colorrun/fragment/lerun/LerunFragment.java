@@ -1,8 +1,6 @@
 package com.mengshitech.colorrun.fragment.lerun;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +16,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +28,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -117,7 +112,7 @@ public class LerunFragment extends Fragment implements OnClickListener, SwipeRef
         ContentCommon.into_lerun_type = 0;
         MainActivity.rgMainBottom.setVisibility(View.VISIBLE);
         if (lerunView == null) {
-            lerunView = View.inflate(mActivity, R.layout.fragment_lerun, null);
+            lerunView = View.inflate(mActivity, R.layout.lerun_fragment, null);
             findById();
         }
 //        ViewGroup parent = (ViewGroup) lerunView.getParent();

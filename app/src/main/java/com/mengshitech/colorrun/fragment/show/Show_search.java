@@ -36,7 +36,6 @@ import com.mengshitech.colorrun.dao.SearchDao;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.view.MyListView;
 
 import org.json.JSONException;
 
@@ -179,7 +178,7 @@ public class Show_search extends Fragment implements TextWatcher {
     private  class ItemClickListener implements AdapterView.OnItemClickListener {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ShowEntity mShowEntity = (ShowEntity) parent.getAdapter().getItem(position);
-            Intent intent = new Intent(getActivity(), showDetail.class);
+            Intent intent = new Intent(getActivity(), ShowDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", mShowEntity.getShow_id());
             bundle.putString("comment_userid", mShowEntity.getUser_id());

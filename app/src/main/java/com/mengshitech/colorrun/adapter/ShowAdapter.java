@@ -3,20 +3,15 @@ package com.mengshitech.colorrun.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.util.ArrayMap;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.mengshitech.colorrun.R;
 import com.mengshitech.colorrun.bean.ShowEntity;
 import com.mengshitech.colorrun.fragment.me.PersonDetail;
-import com.mengshitech.colorrun.fragment.show.showDetail;
+import com.mengshitech.colorrun.fragment.show.ShowDetail;
 import com.mengshitech.colorrun.utils.DateUtils;
 import com.mengshitech.colorrun.utils.GlideCircleTransform;
 import com.mengshitech.colorrun.utils.HttpUtils;
@@ -35,17 +30,11 @@ import com.mengshitech.colorrun.utils.JsonTools;
 import com.mengshitech.colorrun.utils.JustifyText;
 import com.mengshitech.colorrun.utils.UtilsClick;
 import com.mengshitech.colorrun.view.EmptyGridView;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -200,7 +189,6 @@ public class ShowAdapter extends BaseAdapter {
         glidviewImagelist = mShowEntity.getShow_image();
         if (glidviewImagelist == null || glidviewImagelist.equals("")) {
             holder.show_image.setVisibility(View.GONE);
-            Log.e("glidviewHandler", "2");
         } else {
             holder.show_image.setVisibility(View.VISIBLE);
             try {
@@ -327,7 +315,7 @@ public class ShowAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             ShowEntity showEntity = mShowList.get(position);
-            Intent intent = new Intent(context, showDetail.class);
+            Intent intent = new Intent(context, ShowDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("show_id", showEntity.getShow_id());
             bundle.putString("comment_userid", showEntity.getUser_id());
@@ -360,7 +348,6 @@ public class ShowAdapter extends BaseAdapter {
             map.put("user_id", ContentCommon.user_id);
             map.put("like_userid", showEntity.getUser_id());
             map.put("show_id", showEntity.getShow_id());
-            Log.i("mShowEntitygetShow_id", showEntity.getShow_id());
 
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();

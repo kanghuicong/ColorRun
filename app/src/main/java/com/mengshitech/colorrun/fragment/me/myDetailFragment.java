@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * atenklsy
  */
-public class myDetailFragment extends BaseFragment implements View.OnClickListener{
+public class MyDetailFragment extends BaseFragment implements View.OnClickListener{
     View mDeatilView;
     FragmentManager fm;
     ImageView iv_head;

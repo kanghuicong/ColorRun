@@ -12,11 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -207,12 +204,10 @@ public class SpaceImageDetailActivity extends Activity {
 
 
     public void saveBitmap(Bitmap bm) {
-        Log.e("tag", "保存图片");
         String imageFilePath = Environment
                 .getExternalStorageDirectory()
                 .getAbsolutePath()
                 + "/" + RandomUtils.getRandomInt() + ".jpg";
-        Log.i("imageFilePath", imageFilePath);
         File f = new File(imageFilePath);
         if (f.exists()) {
             f.delete();

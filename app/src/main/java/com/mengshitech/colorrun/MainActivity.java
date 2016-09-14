@@ -15,8 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,11 +28,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.mengshitech.colorrun.fragment.history.HistoryFragment;
-import com.mengshitech.colorrun.fragment.lerun.DisplayQRcodeFragment;
 import com.mengshitech.colorrun.fragment.lerun.LerunFragment;
-import com.mengshitech.colorrun.fragment.me.meFragment;
-import com.mengshitech.colorrun.fragment.me.myLeRunFragment;
-import com.mengshitech.colorrun.fragment.show.showFragment;
+import com.mengshitech.colorrun.fragment.me.MeFragment;
+import com.mengshitech.colorrun.fragment.show.ShowFragment;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.Utility;
 
@@ -62,9 +58,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         }
     };
     private LerunFragment lerunFragment;
-    private showFragment mShowFragment;
+    private ShowFragment mShowFragment;
     private HistoryFragment mHistoryFragment;
-    private meFragment mMeFragment;
+    private MeFragment mMeFragment;
     private long mExitTime;
     private ConnectivityManager connectivityManager;
     private Fragment fg;    // fg记录当前的Fragment
@@ -134,7 +130,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.rbShow:
                 if (mShowFragment == null) {
-                    mShowFragment = new showFragment();
+                    mShowFragment = new ShowFragment();
                     transaction.add(R.id.flMain, mShowFragment);
                 } else {
                     transaction.show(mShowFragment);
@@ -150,7 +146,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.rbMe:
                 if (mMeFragment == null) {
-                    mMeFragment = new meFragment();
+                    mMeFragment = new MeFragment();
                     transaction.add(R.id.flMain, mMeFragment);
                 } else {
                     transaction.show(mMeFragment);

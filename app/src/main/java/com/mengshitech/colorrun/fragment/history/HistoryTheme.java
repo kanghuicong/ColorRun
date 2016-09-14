@@ -12,25 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 
 import com.mengshitech.colorrun.MainActivity;
 import com.mengshitech.colorrun.R;
-import com.mengshitech.colorrun.activity.LoginActivity;
 import com.mengshitech.colorrun.adapter.HistoryAdapter;
 import com.mengshitech.colorrun.bean.HistoryEntity;
 import com.mengshitech.colorrun.customcontrols.BottomPullSwipeRefreshLayout;
 import com.mengshitech.colorrun.customcontrols.ProgressDialog;
 import com.mengshitech.colorrun.fragment.BaseFragment;
-import com.mengshitech.colorrun.fragment.lerun.IntoLerunEvent;
-import com.mengshitech.colorrun.fragment.me.AboutUsFragment;
-import com.mengshitech.colorrun.fragment.me.meFragment;
 import com.mengshitech.colorrun.utils.HttpUtils;
 import com.mengshitech.colorrun.utils.ContentCommon;
 import com.mengshitech.colorrun.utils.JsonTools;
-import com.mengshitech.colorrun.utils.Utility;
 import com.mengshitech.colorrun.view.MyListView;
 
 import org.json.JSONException;

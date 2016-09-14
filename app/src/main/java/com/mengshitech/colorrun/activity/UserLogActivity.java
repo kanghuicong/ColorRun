@@ -18,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,8 +183,6 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
 //                        String datas = JsonTools.getDatas(result);
                         ScuessImagePath = JsonTools.getUserLog(result);
 //                        ScuessImagePath=list.get(0);
-
-                        Log.i("ScuessImagePath", ScuessImagePath + "ssss");
                         new Thread(updateRunable).start();
                     } else {
                         Toast.makeText(UserLogActivity.this, "图片上传失败", Toast.LENGTH_SHORT).show();
@@ -222,7 +219,6 @@ public class UserLogActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String result = (String) msg.obj;
-            Log.i("result", result + ":shsiss");
             if (result.equals("1")) {
                 Toast.makeText(UserLogActivity.this, "更改头像成功", Toast.LENGTH_SHORT).show();
                 UserDao dao = new UserDao(UserLogActivity.this);

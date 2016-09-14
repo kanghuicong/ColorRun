@@ -3,11 +3,9 @@ package com.mengshitech.colorrun.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
@@ -79,7 +77,6 @@ public class RegisterSuccess extends Activity {
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id", userid);
-            Log.i("Userid", "" + userid);
             map.put("index", "4");
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();

@@ -12,7 +12,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -193,7 +192,6 @@ public class LoginActivity extends Activity implements OnClickListener, TextWatc
             Map<String, String> map = new HashMap<String, String>();
             map.put("flag", "user");
             map.put("user_id", userId);
-            Log.i("Userid", "" + userId);
             map.put("index", "4");
             String result = HttpUtils.sendHttpClientPost(path, map, "utf-8");
             Message msg = new Message();

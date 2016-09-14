@@ -3,7 +3,6 @@ package com.mengshitech.colorrun.adapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,7 +46,6 @@ public class LeRunEventListviewAdapter extends BaseAdapter implements OnClickLis
     public Object getItem(int position) {
         LeRunEntity entity=lerunlist.get(position);
         //返回；lerun_id
-        Log.i("lerun_id+++",entity.getLerun_id()+"");
         return entity.getLerun_id();
     }
 
@@ -84,7 +82,6 @@ public class LeRunEventListviewAdapter extends BaseAdapter implements OnClickLis
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("lerun_id", entity.getLerun_id());
-                Log.i("获取lerun_id:", entity.getLerun_id()+"");
                 IntoLerunEvent mIntoLerunEvent = new IntoLerunEvent();
                 mIntoLerunEvent.setArguments(bundle);
                 Utility.replace2DetailFragment(mFragmentManagr, mIntoLerunEvent);
